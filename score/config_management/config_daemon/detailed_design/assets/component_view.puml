@@ -1,0 +1,50 @@
+@startuml
+
+skinparam nodesep 100
+skinparam ranksep 100
+
+component ConfigDaemon {
+  port "IPC" as ConfigDaemon_IPC_InternalConfigProvider_CS
+  portout "IPC" as ConfigDaemon_IPC_InternalConfigProvider
+  port "IPC" as ConfigDaemon_IPC_ConfigCalibration
+}
+
+component CalibrationServer {
+  portout "IPC" as CalibrationServer_IPC_InternalConfigProvider
+  portout "IPC" as CalibrationServer_IPC_ConfigCalibration
+}
+
+component App1 {
+  component ConfigProvider as CP1
+  port "IPC" as App1_IPC_InternalConfigProvider
+  CP1 -- App1_IPC_InternalConfigProvider
+}
+
+component App2 {
+  component ConfigProvider as CP2
+  port "IPC" as App2_IPC_InternalConfigProvider
+  CP2 -- App2_IPC_InternalConfigProvider
+}
+
+component App3 {
+  component ConfigProvider as CP3
+  port "IPC" as App3_IPC_InternalConfigProvider
+  CP3 -- App3_IPC_InternalConfigProvider
+}
+
+interface InternalConfigProvider
+interface InternalConfigProvider as ICP_CS
+interface ConfigCalibration
+
+ConfigDaemon_IPC_InternalConfigProvider_CS -up- ICP_CS
+ConfigDaemon_IPC_InternalConfigProvider -- InternalConfigProvider
+ConfigDaemon_IPC_ConfigCalibration -up- ConfigCalibration
+
+CalibrationServer_IPC_InternalConfigProvider -down-( ICP_CS
+CalibrationServer_IPC_ConfigCalibration -down-( ConfigCalibration
+
+App1_IPC_InternalConfigProvider -up-( InternalConfigProvider
+App2_IPC_InternalConfigProvider -up-( InternalConfigProvider
+App3_IPC_InternalConfigProvider -up-( InternalConfigProvider
+
+@enduml

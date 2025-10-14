@@ -1,0 +1,36 @@
+@startuml
+
+skinparam linetype ortho
+!$factory_details_level = 4
+!$config_daemon_details_level = 4
+
+!includesub ../assets/factory/factory.puml!IFactory
+!includesub ../assets/factory/factory.puml!Factory
+!includesub ../assets/app/config_daemon.puml!ConfigDaemon
+!includesub ../assets/services/internal_config_provider_service.puml!IInternalConfigProviderService
+!includesub ../assets/services/internal_config_provider_service.puml!InternalConfigProviderService
+!includesub ../assets/services/internal_config_provider_service_reactor.puml!InternalConfigProviderServiceReactor
+!includesub ../assets/services/internal_config_provider_service_reactor.puml!InternalConfigProviderServiceReactorImpl
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!IReadOnlyParameterSetCollection
+!includesub ../assets/enums.puml!InitialQualifierState
+!includesub ../assets/external_libs.puml!InternalConfigProviderSkeleton
+!includesub ../assets/external_libs.puml!ProvidedServiceBuilder
+!includesub ../assets/external_libs.puml!ProvidedServiceContainer
+' !includesub ../class_diagrams/config_daemon_provided_services_class_diagram_score_details.puml!ConfigDaemonProvidedServicesSCOREDetails
+
+IInternalConfigProviderService <|-- InternalConfigProviderService : implements
+InitialQualifierState <.. IInternalConfigProviderService : use
+InternalConfigProviderService o-- InitialQualifierState
+InternalConfigProviderSkeleton <|-- InternalConfigProviderService
+ProvidedServiceContainer o-up- InternalConfigProviderService
+
+InternalConfigProviderService *-left- InternalConfigProviderServiceReactorImpl
+InternalConfigProviderServiceReactor <|-- InternalConfigProviderServiceReactorImpl
+InternalConfigProviderServiceReactorImpl o-- IReadOnlyParameterSetCollection
+
+ProvidedServiceBuilder .left.> ProvidedServiceContainer : creates
+Factory .right.> ProvidedServiceBuilder : use
+ConfigDaemon *-left- IFactory
+ConfigDaemon *-- ProvidedServiceContainer
+
+@enduml

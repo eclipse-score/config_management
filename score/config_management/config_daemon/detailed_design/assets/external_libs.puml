@@ -1,0 +1,53 @@
+@startuml
+
+!startsub Logger
+package mw::log <<frame>> {
+    class Logger {
+    }
+
+}
+!endsub
+
+!startsub ByteVector
+package mw::diag <<frame>> {
+        ByteVector : score::cpp::pmr::vector<std::uint8_t>
+}
+!endsub
+
+!startsub MemoryResource
+class score::cpp::pmr::memory_resource{
+    + score::cpp::pmr::get_default_resource() : score::cpp::pmr::memory_resource*
+}
+!endsub
+
+!startsub InternalConfigProviderSkeleton
+package portinterfaces::internalconfigprovider::skeleton <<frame>> {
+    class InternalConfigProviderSkeleton <<generated>> {
+        This class is generated based on franca definition.
+    }
+}
+!endsub
+
+!startsub ProvidedServiceContainer
+package mw::service <<frame>> {
+    class ProvidedServiceContainer {
+    }
+}
+!endsub
+
+!startsub ConfigCalibrationSkeleton
+package ara <<frame>> {
+    class ConfigCalibrationSkeleton <<generated>> {
+        This class is generated based on franca definition.
+    }
+}
+!endsub
+
+!startsub ProvidedServiceBuilder
+package mw::service <<frame>> {
+    class ProvidedServiceBuilder {
+    }
+}
+!endsub
+
+@enduml

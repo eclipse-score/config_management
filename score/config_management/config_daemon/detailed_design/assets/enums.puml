@@ -1,0 +1,14 @@
+@startuml
+
+!startsub InitialQualifierState
+enum InitialQualifierState {
+    kUndefined
+    kQualifying
+    kInProgress
+    kUnqualified
+    kDefault
+    kQualified
+}
+!endsub
+
+@enduml

@@ -1,0 +1,108 @@
+@startuml
+
+participant main
+participant ConfigDaemon
+participant Factory
+participant PluginCollector
+participant InternalConfigProviderService
+' !includesub ../sequence_diagrams/startup_procedure_score_details.puml!ParticipantDetails
+participant "mw::com via IPC" as IPC
+participant ConfigProvider
+participant UserApp
+
+
+activate main
+create ConfigDaemon
+main -> ConfigDaemon : create
+ConfigDaemon --> main
+create Factory
+main -> Factory : create
+Factory --> main
+
+main -> ConfigDaemon : Initialize(context)
+activate ConfigDaemon
+ConfigDaemon -> Factory : CreatePluginCollector()
+activate Factory
+
+create PluginCollector
+Factory -> PluginCollector : create
+PluginCollector --> Factory
+Factory --> ConfigDaemon
+
+ConfigDaemon -> PluginCollector : CreatePlugins()
+activate PluginCollector
+
+loop For each PluginCreator : CreatePlugin()
+  PluginCollector -[hidden]-> PluginCollector : CreatePlugins()
+
+' !includesub ../sequence_diagrams/startup_procedure_score_details.puml!PluginsCreation
+
+end loop
+
+PluginCollector --> Factory
+Factory --> ConfigDaemon
+deactivate PluginCollector
+
+loop For each Plugin : Initialize()
+  ConfigDaemon -[hidden]-> ConfigDaemon : InitializePlugins()
+
+' !includesub ../sequence_diagrams/startup_procedure_score_details.puml!PluginsInitialization
+
+end loop
+
+ConfigDaemon -> Factory :CreateInternalConfigProviderService()
+create InternalConfigProviderService
+Factory -> InternalConfigProviderService : create
+InternalConfigProviderService --> Factory
+deactivate Factory
+deactivate ConfigDaemon
+
+main -> ConfigDaemon : Run()
+activate ConfigDaemon
+loop For each Plugin : Run()
+  ConfigDaemon -[hidden]-> ConfigDaemon : Plugin::Run()
+
+' !includesub ../sequence_diagrams/startup_procedure_score_details.puml!PluginsRun
+
+end loop
+
+activate UserApp
+create ConfigProvider
+UserApp -> ConfigProvider : create
+ConfigProvider --> UserApp
+deactivate UserApp
+
+activate ConfigProvider
+ConfigProvider -> IPC : InitiateServiceDiscovery
+activate IPC
+deactivate IPC
+deactivate ConfigProvider
+
+activate UserApp
+UserApp -> ConfigProvider : GetParameterSet()
+activate ConfigProvider
+UserApp <-- ConfigProvider : GetParameterSet:result.has_value() == false
+deactivate ConfigProvider
+deactivate UserApp
+
+ConfigDaemon -> InternalConfigProviderService : StartService()
+activate InternalConfigProviderService
+InternalConfigProviderService -> IPC : InternalConfigProviderSkeleton::OfferService()
+activate IPC
+activate ConfigProvider
+IPC -> ConfigProvider
+IPC --> InternalConfigProviderService
+InternalConfigProviderService --> ConfigDaemon
+ConfigProvider ->> ConfigProvider : SetupInternalConfigProvider
+deactivate IPC
+deactivate InternalConfigProviderService
+
+activate UserApp
+UserApp -> ConfigProvider : GetParameterAs()
+UserApp <-- ConfigProvider : GetParameterSet : result.has_value() == true
+deactivate ConfigProvider
+deactivate UserApp
+
+deactivate ConfigDaemon
+deactivate main
+@enduml

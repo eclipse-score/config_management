@@ -1,0 +1,15 @@
+@startuml
+
+!startsub IPlugin
+abstract class IPlugin {
+    + {abstract} Initialize() : ResultBlank
+    + {abstract} Deinitialize() : void
+    + {abstract} Run(parameterset_collection : std::shared_ptr<data_model::IParameterSetCollection>,\n\
+        cbk_send_last_updated_parameter_set : LastUpdatedParameterSetSender,\n\
+        cbk_update_initial_qualifier_state : InitialQualifierStateSender,\n\
+        stop_token : score::cpp::stop_token, \n\
+        fault_event_reporter :std::shared_ptr<fault_event_reporter::IFaultEventReporter> ) : std::int32_t
+}
+!endsub
+
+@enduml

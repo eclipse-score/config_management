@@ -1,0 +1,69 @@
+@startuml
+
+skinparam SequenceMessageAlignment center
+title ConfigDaemon Provided Services Initialization
+
+participant "mw::lifecycle" as lifecycle
+participant ConfigDaemon
+participant Factory
+participant "mw::service::ProvidedServiceBuilder" as ProvidedServiceBuilder
+participant "mw::service::ProvidedServiceContainer" as ProvidedServiceContainer
+participant InternalConfigProviderService
+participant "mw::com" as mw_com
+
+lifecycle -> ConfigDaemon : Initialize(context)
+activate ConfigDaemon
+ConfigDaemon -> Factory : CreateInternalConfigProviderService()
+activate Factory
+
+create ProvidedServiceBuilder
+Factory -> ProvidedServiceBuilder : create
+ProvidedServiceBuilder --> Factory
+Factory -> ProvidedServiceBuilder : With<InternalConfigProviderService>(service_reactor, preconstruct)
+activate ProvidedServiceBuilder
+
+create InternalConfigProviderService
+ProvidedServiceBuilder -> InternalConfigProviderService : create
+InternalConfigProviderService --> ProvidedServiceBuilder
+ProvidedServiceBuilder --> Factory
+deactivate ProvidedServiceBuilder
+Factory -> ProvidedServiceBuilder : GetServices()
+activate ProvidedServiceBuilder
+ProvidedServiceBuilder --> Factory : ProvidedServices
+deactivate ProvidedServiceBuilder
+
+create ProvidedServiceContainer
+Factory -> ProvidedServiceContainer : create
+ProvidedServiceContainer --> Factory
+Factory --> ConfigDaemon : ProvidedServiceContainer
+deactivate Factory
+ConfigDaemon --> lifecycle : ExitCodeSuccess
+deactivate ConfigDaemon
+
+lifecycle-> ConfigDaemon : Run(score::cpp::stop_token)
+activate ConfigDaemon
+ConfigDaemon -> ProvidedServiceContainer : StartServices()
+activate ProvidedServiceContainer
+ProvidedServiceContainer -> InternalConfigProviderService : StartService()
+activate InternalConfigProviderService
+InternalConfigProviderService -> mw_com : InternalConfigProviderSkeleton::OfferService()
+activate mw_com
+mw_com --> InternalConfigProviderService
+deactivate mw_com
+InternalConfigProviderService --> ProvidedServiceContainer
+ProvidedServiceContainer --> ConfigDaemon
+ConfigDaemon -> ConfigDaemon : score::concurrency::wait_until_stop_requested()
+ConfigDaemon -> ProvidedServiceContainer : StopServices()
+ProvidedServiceContainer -> InternalConfigProviderService : StopService()
+InternalConfigProviderService -> mw_com : InternalConfigProviderSkeleton::StopOfferService()
+activate mw_com
+mw_com --> InternalConfigProviderService
+deactivate mw_com
+InternalConfigProviderService --> ProvidedServiceContainer
+deactivate InternalConfigProviderService
+ProvidedServiceContainer --> ConfigDaemon
+deactivate ProvidedServiceContainer
+ConfigDaemon --> lifecycle : ExitCodeSuccess
+deactivate ConfigDaemon
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+
+enum InitialQualifierState{
+    kUndefined
+    kInProgress
+    kDefault
+    kQualifying
+    kUnqualified
+    kQualified
+}
+
+@enduml

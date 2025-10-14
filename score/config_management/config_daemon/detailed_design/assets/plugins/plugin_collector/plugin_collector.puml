@@ -1,0 +1,20 @@
+@startuml
+
+!startsub IPluginCollector
+class IPluginCollector{
+  + CreatePlugins(): std::vector<std::shared_ptr<IPlugin>>
+}
+!endsub
+
+!startsub PluginCollector
+class PluginCollector{
+  + CreatePlugins(): std::vector<std::shared_ptr<IPlugin>>
+  --
+  - plugin_creators_: std::vector<std::unique_ptr<IPluginCreator>>
+  - logger_: mw::log::Logger&
+  --
+  Note: Responsible for Plugins Creation
+}
+!endsub
+
+@enduml

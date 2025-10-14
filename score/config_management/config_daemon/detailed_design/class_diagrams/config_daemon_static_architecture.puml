@@ -1,0 +1,72 @@
+@startuml
+
+!includesub ../assets/app/config_daemon.puml!ConfigDaemon
+!includesub ../assets/param_set_mapping/param_set_mapping.puml!IParamSetMapping
+!includesub ../assets/factory/factory.puml!IFactory
+!includesub ../assets/app/config_daemon.puml!IConfigDaemon
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!IParameterSetCollection
+!includesub ../assets/plugins/plugin.puml!IPlugin
+!includesub ../assets/services/internal_config_provider_service.puml!InternalConfigProviderService
+!includesub ../assets/services/internal_config_provider_service_reactor.puml!InternalConfigProviderServiceReactorImpl
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!IReadOnlyParameterSetCollection
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSetCollection
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSet
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSetQualifier
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!Parameter
+!includesub ../assets/plugins/plugin_collector/plugin_collector.puml!PluginCollector
+
+' !includesub ../class_diagrams/config_daemon_static_architecture_score_details.puml!ConfigDaemonStaticArchitectureSCOREDetails
+
+!startsub ConfigDaemonStaticArchitecture
+
+title "ConfigDaemon static architecture"
+
+skinparam linetype ortho
+
+class "mw::service::ProvidedServiceContainer" as ProvidedServiceContainer
+class "mw::lifecycle::Application" as Application
+class "json::IJsonWriter" as IJsonWriter
+class PluginCollector
+
+ConfigDaemon o-left- IParamSetMapping
+ConfigDaemon o-right- IFactory
+
+Application <|-- IConfigDaemon
+
+ConfigDaemon *-- IParameterSetCollection
+ConfigDaemon *-- IPlugin
+PluginCollector -left-> IPlugin
+ConfigDaemon *-- ProvidedServiceContainer
+ConfigDaemon --> PluginCollector
+
+ProvidedServiceContainer o-- InternalConfigProviderService
+InternalConfigProviderService *-- InternalConfigProviderServiceReactorImpl
+InternalConfigProviderServiceReactorImpl o-- IReadOnlyParameterSetCollection
+
+ParameterSet o-- IJsonWriter
+ParameterSet o-- ParameterSetQualifier
+note as Note2 #LightSkyBlue
+    Idea: Insert() always entire ParameterSet to ParameterData.
+    Changes or insertions of a single Parameter is a capability of a ParameterSet.
+    Therefore provide a shared ptr to ParameterSet via Find(set_name) at WritableParameterData.
+
+    Synchronization is performed at the level of ParameterData using mutex_.
+end note
+Note2 .. ParameterSetCollection
+Note2 .. ParameterSet
+
+note as Note3 #LightSkyBlue
+    Server ParameterSet is writeable.
+    Client ParameterSet is readable.
+
+    There may be different class declarations for server and client.
+
+    A parameter is typed at runtime after json config is imported.
+    Before that, at build time, its type is not known and is therefore json::Any.
+end note
+Note3 .. ParameterSet
+Note3 .. Parameter
+
+!endsub
+
+@enduml

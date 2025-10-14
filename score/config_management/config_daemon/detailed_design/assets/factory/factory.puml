@@ -1,0 +1,44 @@
+@startuml
+
+!startsub IFactory
+abstract class IFactory {
+!if ($factory_details_level < 5)
+  + {abstract} CreateInternalConfigProviderService(\n\
+      read_only_parameter_data_interface : const std::shared_ptr<data_model::IParameterSetCollection>) : mw::service::ProvidedServiceContainer
+!endif
+!if ($factory_details_level < 4)
+  + {abstract} CreateLastUpdatedParameterSetSender(services : mw::service::ProvidedServiceContainer&) : LastUpdatedParameterSetSender
+  + {abstract} CreateInitialQualifierStateSender(services : mw::service::ProvidedServiceContainer&) : InitialQualifierStateSender
+  + {abstract} CreateParamSetMapping() : std::shared_ptr<IParamSetMapping>
+  + {abstract} CreateParameterSetCollection() : std::shared_ptr<data_model::IParameterSetCollection>
+  + {abstract} CreatePluginCollector() : std::unique_ptr<IPluginCollector>
+
+!endif
+  --
+  Responsibilities: This is interface of Factory class
+}
+!endsub
+
+!startsub Factory
+class Factory {
+!if ($factory_details_level < 5)
+  + CreateInternalConfigProviderService(\n\
+      read_only_parameter_data_interface : const std::shared_ptr<data_model::IParameterSetCollection>) : mw::service::ProvidedServiceContainer
+!endif
+!if ($factory_details_level < 4)
+  + CreateLastUpdatedParameterSetSender(services : mw::service::ProvidedServiceContainer&) : LastUpdatedParameterSetSender
+  + CreateInitialQualifierStateSender(services : mw::service::ProvidedServiceContainer&) : InitialQualifierStateSender
+  + CreateParamSetMapping() : std::shared_ptr<IParamSetMapping>
+  + CreateParameterSetCollection() : std::shared_ptr<data_model::IParameterSetCollection>
+  --
+  - json_helper_ : std::shared_ptr<common::IJsonHelper>
+  - hash_calculator_factory_ : std::shared_ptr<score::hash::IHashCalculatorFactory>
+!endif
+  --
+  Responsibilities: This class is responsible for creating all the necessary internal objects.
+}
+
+IFactory <|-- Factory
+!endsub
+
+@enduml

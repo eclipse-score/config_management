@@ -1,0 +1,26 @@
+@startuml
+
+!startsub IFaultEventProxy
+abstract class IFaultEventProxy {
+  + {abstract} ReportFaultId(fault_event_id : const FaultEventId, \n\
+      is_fault_present : const bool) : bool
+  --
+  Responsibilities: FaultEventReporter is responsible for reporting\n\
+   SW and HW DTC to Degradation handler.
+}
+!endsub
+
+!startsub FaultEventProxy
+class FaultEventProxy {
+  + FaultEventProxy(proxy : std::unique_ptr<AdaptiveProxy>&&)
+  + ReportFaultId(fault_event_id : const FaultEventId, \n\
+      is_fault_present : const bool) : bool
+  --
+  - proxy_ : std::unique_ptr<AdaptiveProxy>
+  - fault_event_mutex_ : std::mutex
+  - logger_ : mw::log::Logger&
+}
+IFaultEventProxy <|-down- FaultEventProxy
+!endsub
+
+@enduml

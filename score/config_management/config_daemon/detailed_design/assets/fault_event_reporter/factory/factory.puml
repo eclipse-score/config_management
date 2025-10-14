@@ -1,0 +1,19 @@
+@startuml
+
+!startsub IFactory
+abstract class IFactory {
+  + {abstract} CreateFaultEventProxy() : mw::service::ProxyFuture<std::unique_ptr<IFaultEventProxy>>
+  --
+  Responsibilities: Factory is responsible for creating fault event proxy
+}
+!endsub
+
+!startsub Factory
+class Factory {
+  + CreateFaultEventProxy() : mw::service::ProxyFuture<std::unique_ptr<IFaultEventProxy>>
+
+}
+IFactory <|-down- Factory
+!endsub
+
+@enduml

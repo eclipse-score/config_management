@@ -1,0 +1,34 @@
+@startuml
+
+!startsub IInternalConfigProviderService
+abstract class IInternalConfigProviderService{
+    + {abstract} SetInitialQualifierState(initial_qualifier_state : const InitialQualifierState) : void
+    + {abstract} SendLastUpdatedParameterSet(parameter_set_name: const std::string_view) : bool
+    --
+    Responsibility: This class is responsible to hold the latest InitialQualifierState as well
+    sending the last updated parameter set.
+}
+!endsub
+
+!startsub InternalConfigProviderService
+class InternalConfigProviderService{
+    + InternalConfigProviderService(
+    internal_config_provider_service_reactor : std::shared_ptr<InternalConfigProviderServiceReactor>,
+    token : InternalConfigProviderSkeleton::ConstructionToken&&)
+
+    + SetInitialQualifierState(initial_qualifier_state : const config_daemon::InitialQualifierState) : void
+    + SendLastUpdatedParameterSet(parameter_set_name : const std::string_view) : bool
+
+    + StartService() : void
+    + StopService() : void
+    --
+    - internal_config_provider_service_reactor_ : const std::shared_ptr<InternalConfigProviderServiceReactor>
+    - initial_qualifier_state_ : config_daemon::InitialQualifierState
+    --
+    Responsibility: Implementing the internal config provider service skeleton.
+}
+!endsub
+
+IInternalConfigProviderService <|.. InternalConfigProviderService
+
+@enduml

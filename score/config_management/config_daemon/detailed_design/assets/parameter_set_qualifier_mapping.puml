@@ -1,0 +1,46 @@
+@startuml
+
+skinparam nodesep 50
+
+class InitialQualifierState
+class ParameterSet
+class ParameterSetQualifier
+
+enum "InitialQualifierState: std::uint8_t" as InitialQualifierStateE {
+    \n\nkDefault\n\n
+    --
+    \n\nkUndefined\n\n
+    --
+    \n\nkInProgress\n\n
+    --
+    \n\nkQualifying\n\n
+    --
+    \n\nkUnqualified\n\n
+    --
+    \n\nkQualified\n\n
+}
+
+enum "ParameterSetQualifier: std::uint8_t" as ParameterSetQualifierE {
+    \n\n\nkDefault\n\n\n
+    --
+    \n\n\nkUnqualified\n\n\n
+    --
+    \n\n\nkQualified\n\n\n
+    --
+    \n\n\nkModified\n\n\n
+}
+
+InitialQualifierState -down-|> InitialQualifierStateE
+ParameterSet *-down- ParameterSetQualifier
+ParameterSetQualifier -down-|> ParameterSetQualifierE
+
+InitialQualifierStateE -[hidden]-> ParameterSetQualifierE : AASDASKDKASJDSDASKDKASJDKASJDKLAJSDKJASKDJ
+
+InitialQualifierStateE::kDefault .right.> ParameterSetQualifierE::kDefault : maps to
+InitialQualifierStateE::kUndefined .right.> ParameterSetQualifierE::kUnqualified : maps to
+InitialQualifierStateE::kInProgress .right.> ParameterSetQualifierE::kUnqualified : maps to
+InitialQualifierStateE::kQualifying .right.> ParameterSetQualifierE::kUnqualified : maps to
+InitialQualifierStateE::kUnqualified .right.> ParameterSetQualifierE::kUnqualified : maps to
+InitialQualifierStateE::kQualified .right.> ParameterSetQualifierE::kQualified : maps to
+
+@enduml

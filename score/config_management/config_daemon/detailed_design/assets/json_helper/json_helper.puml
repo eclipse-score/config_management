@@ -1,0 +1,33 @@
+@startuml
+
+!startsub IJsonHelper
+class IJsonHelper {
+  + {abstract} GetJsonParser() : std::shared_ptr<json::IJsonParser>
+  + {abstract} GetJsonWriter() : std::shared_ptr<json::IJsonWriter>
+  + {abstract} GetStandardFilesystem() : std::shared_ptr<filesystem::IStandardFilesystem>
+  + {abstract} GetFileFactory() : std::shared_ptr<filesystem::IFileFactory>
+  --
+  Responsibilities: This is interface of JsonHelper class
+}
+!endsub
+
+!startsub JsonHelper
+class JsonHelper {
+  + GetJsonParser() : std::shared_ptr<json::IJsonParser>
+  + GetJsonWriter() : std::shared_ptr<json::IJsonWriter>
+  + GetStandardFilesystem() : std::shared_ptr<filesystem::IStandardFilesystem>
+  + GetFileFactory() : std::shared_ptr<filesystem::IFileFactory>
+  --
+  - json_parser_ : std::shared_ptr<json::IJsonParser>
+  - json_writer_ : std::shared_ptr<json::IJsonWriter>
+  - standart_filesystem_ : std::shared_ptr<filesystem::IStandardFilesystem>
+  - file_factory_ : std::shared_ptr<filesystem::IFileFactory>
+  --
+  Responsibilities: The JsonHelper class should encapsulate\n\
+  all the business logicfor working with json files.
+}
+
+IJsonHelper <|-- JsonHelper
+!endsub
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+
+!startsub InternalConfigProviderServiceReactor
+abstract class InternalConfigProviderServiceReactor{
+    + {abstract} GetParameterSet(parameter_set_name : const std::string_view) : score::Result<score::cpp::pmr::string>
+    --
+    Responsibility: This class is interacting with ParameterSetCollection to retrieve data based on parameter_set_name.
+} 
+!endsub
+
+!startsub InternalConfigProviderServiceReactorImpl
+class InternalConfigProviderServiceReactorImpl{
+    + InternalConfigProviderServiceReactorImpl(
+    read_only_parameter_data_interface : std::shared_ptr<data_model::IReadOnlyParameterSetCollection>)
+    + GetParameterSet(parameter_set_name : const std::string_view) : score::Result<score::cpp::pmr::string>
+    --
+    - read_only_parameter_data_interface_ : const std::shared_ptr<data_model::IReadOnlyParameterSetCollection>
+}
+!endsub
+
+InternalConfigProviderServiceReactor <|.. InternalConfigProviderServiceReactorImpl
+
+@enduml

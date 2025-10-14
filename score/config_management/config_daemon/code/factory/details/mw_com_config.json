@@ -1,0 +1,61 @@
+{
+  "serviceTypes": [
+    {
+      "serviceTypeName": "/score/config_management/config_daemon/InternalConfigProviderService",
+      "version": {
+        "major": 1,
+        "minor": 0
+      },
+      "bindings": [
+        {
+          "binding": "SHM",
+          "serviceId": 3101,
+          "events": [
+            {
+              "eventName": "last_updated_parameterset",
+              "eventId": 1
+            }
+          ],
+            "fields": [
+            {
+              "fieldName": "initial_qualifier_state",
+              "fieldId": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "serviceInstances": [
+    {
+      "instanceSpecifier": "ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort",
+      "serviceTypeName": "/score/config_management/config_daemon/InternalConfigProviderService",
+      "version": {
+        "major": 1,
+        "minor": 0
+      },
+      "instances": [
+        {
+          "instanceId": 1,
+          "asil-level": "QM",
+          "binding": "SHM",
+          "events": [
+            {
+              "eventName": "last_updated_parameterset",
+              "eventId": 1,
+              "maxSamples": 2,
+              "maxSubscribers": 1
+            }
+          ],
+          "fields": [
+            {
+                "fieldName": "initial_qualifier_state",
+                "numberOfSampleSlots": 2,
+                "maxSubscribers": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

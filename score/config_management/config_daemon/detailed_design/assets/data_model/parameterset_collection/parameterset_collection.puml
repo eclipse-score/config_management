@@ -1,0 +1,87 @@
+@startuml
+
+!startsub IReadOnlyParameterSetCollection
+abstract class IReadOnlyParameterSetCollection {
+    + {abstract} GetParameterSet(set_name : const std::string) : Result<score::cpp::pmr::string>
+    + {abstract} GetParameterFromSet(set_name : const score::cpp::string_view,parameter_name : const score::cpp::string_view) : Result<json::Any>
+}
+!endsub
+
+!startsub IParameterSetCollection
+abstract class IParameterSetCollection {
+    + {abstract} Insert(set_name : const score::cpp::string_view , parameter_name : const score::cpp::string_view , parameter_value : json::Any&&) : ResultBlank
+    + {abstract} UpdateParameterSet(set_name : const score::cpp::string_view, set : const score::cpp::string_view) : ResultBlank
+    + {abstract} SetCalibratable(set_name : const score::cpp::string_view, is_calibratable : const bool) : bool
+    + {abstract} GetParameterSetQualifier(set_name : const score::cpp::string_view ) : 
+                score::Result<score::config_management::config_daemon::ParameterSetQualifier>
+    + {abstract} SetParameterSetQualifier(
+            set_name : const score::cpp::string_view ,
+            qualifier : const score::config_management::config_daemon::ParameterSetQualifier ): ResultBlank
+    --
+    Responsibility: This class encapsulates the collection of ParameterSets in detailed design.
+}
+IReadOnlyParameterSetCollection <|-down- IParameterSetCollection
+!endsub
+
+!startsub ParameterSetCollection
+class ParameterSetCollection {
+    + Insert(set_name : const score::cpp::string_view , parameter_name : const score::cpp::string_view , parameter_value : json::Any&&) : ResultBlank
+    + GetParameterSet(set_name : const std::string): Result<score::cpp::pmr::string>
+    + GetParameterFromSet(set_name : const score::cpp::string_view, parameter_name : const score::cpp::string_view) : Result<json::Any>
+    + UpdateParameterSet(set_name : const score::cpp::string_view, set : const score::cpp::string_view ) : ResultBlank
+    + SetCalibratable(set_name : const score::cpp::string_view , is_calibratable : const bool) : bool
+    + GetParameterSetQualifier(set_name : const score::cpp::string_view ) : 
+                score::Result<score::config_management::config_daemon::ParameterSetQualifier>
+    + SetParameterSetQualifier(
+            set_name : const score::cpp::string_view ,
+            qualifier : const score::config_management::config_daemon::ParameterSetQualifier ): ResultBlank
+    --
+    - mutex_ : mutable std::mutex
+    - parameter_sets_ : std::unordered_map<score::cpp::pmr::string, std::shared_ptr<ParameterSet>>
+}
+IParameterSetCollection <|-down- ParameterSetCollection
+ParameterSetCollection o-down- ParameterSet
+!endsub
+
+!startsub ParameterSet
+class ParameterSet {
+    + ParameterSet(json_writer : std::unique_ptr<json::IJsonWriter>)
+    + GetParameterSetAsString() : Result<score::cpp::pmr::string>
+    + Add(parameter_name : const score::cpp::string_view, parameter_value : json::Any&&) : ResultBlank
+    + Update(parameters : json::Object&&) : ResultBlank
+    + SetCalibratable(is_calibratable : const bool) : void
+    + SetQualifier(qualifier : const score::config_management::config_daemon::ParameterSetQualifier) : void
+    + GetQualifier() : score::config_management::config_daemon::ParameterSetQualifier
+    + GetParameter(parameter_name : const score::cpp::string_view) : Result<json::Any>
+    --
+    - data_ : std::unordered_map<score::cpp::pmr::string, Parameter>
+    - json_writer_ : std::unique_ptr<json::IJsonWriter>
+    - qualifier_ : score::config_management::config_daemon::ParameterSetQualifier
+    - is_calibratable_ : bool
+    --
+    Responsibility: This class encapsulates the idea of ParameterSet in detailed design
+}
+ParameterSet o-down- Parameter
+!endsub
+
+!startsub Parameter
+class Parameter{
+    + GetValue(): const json::Any&
+    + SetValue(value : json::Any&&): void
+    --
+    - value_ : json::Any
+    --
+    Responsibility: This class encapsulates the idea of Parameter in detailed design.
+}
+!endsub
+
+!startsub ParameterSetQualifier
+enum ParameterSetQualifier {
+    kUnqualified
+    kQualified
+    kDefault
+    kModified
+}
+!endsub
+
+@enduml

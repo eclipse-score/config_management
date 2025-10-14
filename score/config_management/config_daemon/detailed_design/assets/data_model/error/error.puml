@@ -1,0 +1,16 @@
+@startuml
+!startsub DataModelError
+enum DataModelError {
+    kParameterMissedError
+    kConvertingError
+    kParsingError
+    kParameterSetNotFound
+    kParametersNotFound
+    kParentParameterDataNotfound
+    kParameterSetNotCalibratable
+    kParameterAlreadyExists
+}
+!endsub
+
+@enduml
+
