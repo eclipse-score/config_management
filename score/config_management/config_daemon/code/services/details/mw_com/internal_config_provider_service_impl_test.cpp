@@ -156,7 +156,8 @@ TEST_F(InternalConfigProviderServiceMwComTest, CreateFailsWithInvalidInstanceSpe
 
     auto invalid_instance_specifier = invalid_specifier.value();
 
-    ASSERT_DEATH({ InternalConfigProviderService::Create(reactor_mock_, invalid_instance_specifier); }, "");
+    auto result = InternalConfigProviderService::Create(reactor_mock_, invalid_instance_specifier);
+    EXPECT_FALSE(result.has_value());
 }
 
 }  // namespace test

@@ -1,17 +1,21 @@
 @startuml
 
 !startsub IFactory
+namespace score::config_management::config_daemon::fault_event_reporter {
 abstract class IFactory {
   + {abstract} CreateFaultEventProxy() : mw::service::ProxyFuture<std::unique_ptr<IFaultEventProxy>>
   --
   Responsibilities: Factory is responsible for creating fault event proxy
 }
+}
 !endsub
 
 !startsub Factory
+namespace score::config_management::config_daemon::fault_event_reporter {
 class Factory {
   + CreateFaultEventProxy() : mw::service::ProxyFuture<std::unique_ptr<IFaultEventProxy>>
 
+}
 }
 IFactory <|-down- Factory
 !endsub

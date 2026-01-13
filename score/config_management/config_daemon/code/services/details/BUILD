@@ -26,7 +26,7 @@ COMMON_FEATURES = [
         features = COMMON_FEATURES,
         tags = ["FUSA"],
         visibility = [
-            "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
+            "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = dependencies,
     )
@@ -43,13 +43,13 @@ COMMON_FEATURES = [
             ],
             False,
             [
-                "@score-config_management//score/config_management/config_daemon/code/services",
-                "@score-baselibs//score/result",
+                "@score_config_management//score/config_management/config_daemon/code/services",
+                "@score_baselibs//score/result",
                 "@score_communication//score/mw/com",
-                "@score-config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
-                "@score-config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
-                "@score-config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
-                "@score-baselibs//score/mw/log",
+                "@score_config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
+                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
+                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+                "@score_baselibs//score/mw/log",
             ],
         ),
         (
@@ -64,12 +64,51 @@ COMMON_FEATURES = [
             ],
             True,
             [
-                "@score-config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
-                "@score-config_management//score/config_management/config_daemon/code:config_daemon_mock_bindings",
-                "@score-config_management//score/config_management/config_daemon/code/services",
-                "//platform/aas/sysfunc/common/ConfigProvider/code/parameter_set",
-                "@score-config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
-                "@score-config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
+                "@score_config_management//score/config_management/config_daemon/code/services",
+                "//score/config_management/config_provider/code/parameter_set",
+                "@score_config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
+                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+            ],
+        ),
+        (
+            "ara_impl",
+            [
+                "ara_com/internal_config_provider_service_impl.cpp",
+                "internal_config_provider_service_reactor_impl.cpp",
+            ],
+            [
+                "ara_com/internal_config_provider_service_impl.h",
+                "internal_config_provider_service_reactor_impl.h",
+            ],
+            False,
+            [
+                "@score_config_management//score/config_management/config_daemon/code/services",
+                "@score_baselibs//score/result",
+                "@score_communication//score/mw/com",
+                "@score_config_management//score/config_management/config_daemon/adaptive_model/binding:internal_config_provider",
+                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
+                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+                "@score_baselibs//score/mw/log",
+            ],
+        ),
+        (
+            "for_ara_unit_test",
+            [
+                "ara_com/internal_config_provider_service_impl.cpp",
+                "internal_config_provider_service_reactor_impl.cpp",
+            ],
+            [
+                "ara_com/internal_config_provider_service_impl.h",
+                "internal_config_provider_service_reactor_impl.h",
+            ],
+            True,
+            [
+                "//score/config_management/config_provider/code/parameter_set",
+                "@score_config_management//score/config_management/config_daemon/adaptive_model/binding:internal_config_provider_mock",
+                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
+                "@score_config_management//score/config_management/config_daemon/code/services",
+                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
             ],
         ),
     ]
@@ -85,9 +124,9 @@ common_srcs = [
 ]
 
 common_deps = [
-    "@score-baselibs//score/mw/log/test/console_logging_environment",
-    "@score-config_management//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
-    "@score-config_management//score/config_management/config_daemon/code/data_model/error",
+    #"@score_baselibs//score/mw/log/test/console_logging_environment",
+    "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+    "@score_config_management//score/config_management/config_daemon/code/data_model/error",
 ]
 
 [
@@ -100,7 +139,7 @@ common_deps = [
             "unit",
         ] + tag,
         visibility = [
-            "@score-config_management//score/config_management/config_daemon/code/services:__pkg__",
+            "@score_config_management//score/config_management/config_daemon/code/services:__pkg__",
         ],
         deps = common_deps + extra_deps,
     )
@@ -115,7 +154,16 @@ common_deps = [
                 "mw_com/internal_config_provider_service_impl_test.cpp",
             ],
             [":test_mw_com_config"],
-            ["@score-config_management//score/config_management/config_daemon/code/services/details:for_mw_unit_test"],
+            ["@score_config_management//score/config_management/config_daemon/code/services/details:for_mw_unit_test"],
+        ),
+        (
+            "unit_tests_ara_com",
+            ["ara_com"],
+            [
+                "ara_com/internal_config_provider_service_impl_test.cpp",
+            ],
+            [],
+            ["@score_config_management//score/config_management/config_daemon/code/services/details:for_ara_unit_test"],
         ),
     ]
 ]

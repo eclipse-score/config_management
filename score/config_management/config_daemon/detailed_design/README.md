@@ -1,66 +1,45 @@
-# Detailed Design of Application ConfigDaemon
+# Detailed Design of ConfigDaemon
 
 ## Table of Contents
 - [1. Introduction](#1-introduction)
 - [2. Description of Interfaces](#2-description-of-interfaces)
-  - [2.1 Application Interfaces](#21-application-interfaces)
-  - [2.2 IInternalConfigProvider](#22-internalconfigprovider)
-  - [2.3 ConfigCalibration](#23-configcalibration)
-- [3. Application Design](#3-application-design)
-  - [3.1. Parameter Data Model](#31-parameter-data-model)
-  - [3.2 ConfigProvider Library](#32-configprovider-library)
-- [4. Component Level Design](#4-component-level-design)
-- [5. Data storage architecture](#5-data-storage-architecture)
-- [6. Initialization Sequences](#6-initialization-sequences)
-  - [6.1. Constructing and runtime interaction of the ConfigDaemon provided services](#61-constructing-and-runtime-interaction-of-the-configdaemon-provided-services)
-- [7. InitialQualifierState](#7-initialqualifierstate)
-  - [7.1. Relation of InitialQualifierState and Parameter Set Qualifier](#71-relation-of-initialqualifierstate-and-parameter-set-qualifier)
-- [8. External dependencies](#8-external-dependencies)
+  - [2.1 Internal Process Communication Interfaces](#21-internal-process-communication-interfaces)
+  - [2.3 C++ Interfaces](#23-c--interfaces)
+- [3. Static Architecture](#3-static-architecture)
+  - [3.1 Central Database](#31-central-database)
+  - [3.2 IPC Interface](#32-ipc-interface)
+  - [3.3 Plugin Mechanism](#33-plugin-mechanism)
+  - [3.4 Shared Resources and Fault Event Reporter](#34-shared-resources-and-fault-event-reporter)
+- [4. Dynamic Architecture](#4-dynamic-architecture)
+  - [4.1 Execution Stages](#41-execution-stages)
+  - [4.2 IPC communication](#42-ipc-communication)
+- [5. External Dependencies](#5-external-dependencies)
 
 ## 1. Introduction
 
-ConfigDaemon application implements a unified interface for parameter accesses by user applications.
+Embedded software typically requires vehicle-specific configuration parameters, such as geometry and geographical region. `ConfigDaemon` application and [`ConfigProvider` library](../../score/static_reflection_with_serialization/ConfigProvider/detailed_design/README.md) together implement a configuration management approach that centralizes storage, verification, and updates, and provides configuration data to client applications.
 
-<!-- [More about SCORE specific usage](./README_SCORE.md#1-introduction) -->
+The diagram below demonstrates the composition principle of `ConfigDaemon` and User Adaptive Applications. The entire communication path between the business logic using a parameter and a parameter stored is encapsulated by `ConfigDaemon` and `ConfigProvider` library. Thus, a user is not directly confronted with the kind of IPC implementation or parameter representation and handling by the interface `IInternalConfigProvider`.
 
-[Table of Contents](#table-of-contents)
+<details>
+<summary>Click to expand SW component view</summary>
+
+<img src="./component_diagrams/svg/component_view.svg" alt="W component view" width="800">
+
+</details>
+
+The design uses a centralized on-target database for all parameters used in an ECU. Clients have read-only access to the database through a generic interface. This supports use cases that rely on flexible [runtime dependencies](./use_cases/README.md#go-for-runtime-dependencies-instead-of-compile-dependencies) rather than static, build-time bindings: an Adaptive Application can access parameters via a generic key–value interface. Compared with statically defined interfaces for each parameter (which must be resolved at build time), this approach reduces build time and avoids architecture model (e.g. FRANCA) changes and rebuilds when parameters change.
+
+Updates to the database are performed exclusively through plugins, which are extensible.
 
 ## 2. Description of Interfaces
 
-### 2.1 Application Interfaces
+### 2.1 Internal Process Communication Interfaces
 
-`ConfigDaemon` interacts with following applications according to the diagram below:
+All clients use the generic interface `InternalConfigProvider` to get or subscribe to parameters offered by `ConfigDaemon`.
+Find more in [Common InternalConfigProvider description](./README.md#32-ipc-interface).
 
-- `User Adaptive Application` to provide read access to parameter sets
-
-<!-- [More about plugin specific interfaces](./README_SCORE.md#21-plugins-interfaces) -->
-
-### 2.2 InternalConfigProvider
-
-The interface `InternalConfigProvider` provides read access to parameter sets for a `User Adaptive Application` in a generic manner using a key-value principle with `parameter_set_name` as a key and `parameter_set` as a returned value.
-
-See the [fidl](../adaptive_model/interfaces/InternalConfigProvider.fidl) file for the interface definition.
-
-`ConfigDaemon` exposes it via mw::com. Therefore, a proxy will be generated on the application side. The handling of this proxy shall be abstracted by the `ConfigProvider` library, which is part of a `User Adaptive Application`. Thus, an original user functionality should not come in direct contact with `InternalConfigProvider`, making its eventual changes easier to rollout.
-
-The class diagram below depict the relationship between the classes that are used in creating the `InternalConfigProvider` service:
-
-<details>
-<summary>Click to expand internal config provider service skeleton</summary>
-
-<img alt="internal config provider service skeleton" src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eclipse-score/baselibs/refs/heads/main/score/config_management/config_daemon/detailed_design/class_diagrams/generated/config_daemon_provided_services_class_diagram.puml">
-
-</details>
-<br>
-
-<!-- [More about SCORE specific usage](./README_SCORE.md#22-internalconfigprovider) -->
-
-### 2.3 ConfigCalibration
-
-The interface `ConfigCalibration` provides write access to parameter sets for a `User Adaptive Application` in a generic manner using a key-value principle with `parameter_set_name` as a key and `parameter_set` as a value.
-
-See the [fidl](../adaptive_model/interfaces/ConfigCalibration.fidl) file for the interface definition.
-
+The interface `ConfigCalibration` provides write access to parameter sets for a `User Adaptive Application` in a generic manner using a key-value principle with `parameter_set_name` as a key and `parameter_set` as a value. See the [fidl](../adaptive_model/interfaces/ConfigCalibration.fidl) file for the interface definition.
 `ConfigDaemon` exposes it via mw::com. Therefore, a proxy will be generated on the application side.
 
 The class diagram below depict the relationship between the classes that are used in creating the `ConfigCalibration` service:
@@ -68,181 +47,128 @@ The class diagram below depict the relationship between the classes that are use
 <details>
 <summary>Click to expand config calibration service skeleton</summary>
 
-![config calibration service skeleton](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/swh/safe-posix-platform/score/config_management/config_daemon/detailed_design/calibration/assets/calibration_plugin_class_diagram.uxf)
+<img alt="config calibration service skeleton" src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eclipse-score/baselibs/refs/heads/main/score/config_management/config_daemon/detailed_design/calibration/assets/calibration_plugin_class_diagram.puml">
 
 </details>
-<br>
 
+### 2.3 C++ Interfaces
+C++ interface usage of `ConfigDaemon` is summarized in Chapter [External dependencies](#7-external-dependencies).
 
-[Table of Contents](#table-of-contents)
+## 3. Static Architecture
 
-## 3. Application Design
+A general static overview of `ConfigDaemon`:
+The core application entry point is the class `ConfigDaemon`. It owns central data storage, offers generic interfaces to client applications, and manages plugins.
+It mainly consists of four parts:
 
-The `ConfigDaemon` application sets up a generic framework which can provide configuation data to `Adaptive Application`. As shown in the figure below, the application is responsible for:
+1. `Factory`: A factory pattern to improve testability.
 
-- provision of a main function and integration into the middleware application lifecycle,
-- instantiation of plugins,
-- instantiation of data model as `ParameterSetCollection`,
-- offering of the interface `InternalConfigProvider` for parameter access.
+2. `ParameterSetCollection`: Encapsulates the central database and stores `ParameterSet` instances as key–value pairs.
+
+3. `InternalConfigProviderService`: The generic service that client applications use to obtain read-only access to the `ParameterSetCollection`.
+
+4. `Plugin`: Components that update the `ParameterSetCollection` according to specific logic.
 
 <details>
-<summary>Click to expand CfgD static architecture</summary>
+<summary>ConfigDaemon Static Architecture</summary>
 
-<img alt="ConfigDaemon application" src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eclipse-score/baselibs/refs/heads/main/score/config_management/config_daemon/detailed_design/class_diagrams/generated/config_daemon_static_architecture.puml">
+<img src="./class_diagrams/generated/svg/config_daemon_sa.svg" alt="ConfigDaemon Static Architecture" width="1200">
 
 </details>
-<br>
 
-`ReadOnlyParameterSetCollection` is present as part of the interface of `IInternalConfigProvider`, offering notification registration support. `InternalConfigProvider` could gain an intelligence to decide which users are going to get notification support (user applications) and which not (tools).
+### 3.1 Central Database
 
-<!-- [More about SCORE specific design](./README_SCORE.md#3-application-design) -->
-
-### 3.1. Parameter Data Model
-
-The diagram mentioned above contains a description for the parameter data model represented by the class `ParameterSetCollection`. In a nutshell `ParameterSetCollection` is a map of maps, meaning that it has a map of `ParameterSet`s accessible by their names as keys, being in their turn a map of `Parameter`s accessible by name as well. As container std::unordered_map type is preferred because the order of elements is not important and average constant-time complexity is acceptable, thus this saves resources skipping unnecessary sorting of a (sorted) map. The usage of a map as data model for all the parameters implies the uniqueness of names for `ParameterSet`s and `Parameter`s. For a name as key a polymorphic memory resource score::cpp::pmr::string is used for the case if a customer memory pool (typically with a deterministic memory control) for string objects exists.
-
-<!-- [More about SCORE specific usage](./README_SCORE.md#31-parameter-data-model) -->
-
-`ParameterSetCollection` is a class responsible for storing parameters sets and it's the only way of getting and manipulating them. It inherits `IReadOnlyParameterSetCollection` interface used by clients and `IParameterSetCollection` inteface used by the plugin. The class usage is thread-safe, as every public method is protected by a mutex.
-
-Allowed operations on the `ParameterSetCollection` class:
-* Inserting new parameter to the parameter set
-* Inserting new parameter set
-* Updating parameter in parameter set
-* Reading whole parameter set as JSON string
-
-Internally parameter set is represented as `ParameterSet` class, but it's not exposed as a public interface and is only supposed to exist inside the `ParameterSetCollection` class.
-
-Parameter Data Model can sent errors as result of public methods which is described in `Error` class:
-* kParameterMissedError - "Parameter Missed error"
-* kConvertingError - "Converting error"
-* kParsingError - "Parsing error"
-* kParameterSetNotFound - "Parameter set not found"
-* kParametersNotFound - "Parameters not found"
-* kParentParameterDataNotfound - "Parent ParameterData not found"
-* kParameterSetNotCalibratable - "Parameter Set is not calibratable"
-* kParameterAlreadyExists - "Parameter with input name already exists"
-
-### 3.2 ConfigProvider Library
-
-A user application obtains a possibility to access parameters by invocation of a `ConfigProvider` library provided by `ConfigDaemon` as shown in the figure below. Its user facing part exposes a ParameterSet class with a public method GetParameterAs() to read a typed parameter as a part of a parameter set and a public method OnChange() for notifications on a related parameter set changed by `ConfigDaemon`.
-
-A connection to ConfigDaemon is established by means of `IInternalConfigProvider` interface as mentioned [above](./README.md#22-internalconfigprovider).
-
-<!-- [ConfigProvider Extended Details](./README_SCORE.md#34-configprovider-library) -->
-
-[Table of Contents](#table-of-contents)
-
-## 4. Component Level Design
-
-The diagram below demonstrates the composition principle of `ConfigDaemon` and `User Adaptive Application`s. The entire communication path between the business logic using a parameter and a parameter stored is encapsulated by `ConfigDaemon` and `ConfigProvider` library. Thus, a user is not directly confronted with the kind of IPC implementation or parameter representation and handling by the interface `IInternalConfigProvider`.
+`Parameter` represents a configuration value and contains its content.
+Some `Parameter` instances that are closely related are bundled into a `ParameterSet`. A `ParameterSet` is the smallest unit for reading or updating the central database. Each `ParameterSet` also contains a `ParameterSetQualifier`, which indicates the qualification status of the `ParameterSet`. `ParameterSetCollection` encapsulates the in-memory database and provides interfaces to read and update `ParameterSet` instances.
 
 <details>
-<summary>Click to expand SW component view</summary>
+<summary>ConfigDaemon DataBase Static Architecture</summary>
 
-<img alt="SW component view" src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eclipse-score/baselibs/refs/heads/main/score/config_management/config_daemon/detailed_design/assets/component_view.puml">
+<img src="./class_diagrams/generated/svg/config_daemon_data_base_sa.svg" alt="ConfigDaemon DataBase Static Architecture" width="800">
 
 </details>
-<br>
 
-[Table of Contents](#table-of-contents)
 
-## 5. Data storage architecture
+### 3.2 IPC Interface
 
-In `ConfigDaemon` a JSON format is used for the internal housekeeping of data.
+`InternalConfigProviderService` binds the underlying IPC technology (e.g. `mw::com`) with composition of class `InternalConfigProviderSkeleton`, which does static polymorphism to template class `mw::com::AsSkeleton` from `mw::com` library. It also owns `InternalConfigProviderServiceReactor`, which implements business logic to retrieve `ParameterSet` instances from the `ParameterSetCollection` via the `IReadOnlyParameterSetCollection` interface.
 
-The filesystem and JSON file handling tools are accessed via the `JsonHelper` class.
+Besides, `InternalConfigProviderService` also updates the `InitialQualifierState`, see [Details for InitialQualifierState](./plugins/coding/README.md#315-output-interfaces).
+The most critical state is `Qualified`, when `InitialQualifierState` assumes this value, applications consuming the data are allowed to assume parameters are safe to be used. As stated in our Safety Goal, we shall never provide corrupted or disqualified data when `InitialQualifierState`=`Qualified`
 
-<!-- [More about SCORE specific usage](./README_SCORE.md#4-data-storage-architecture) -->
-
-[Table of Contents](#table-of-contents)
-
-## 6. Initialization Sequences
-
-The following diagram represents the startup procedure for ConfigDaemon application and a user application consuming a parameter service. This design assumes a fixed order of application startup the way that ConfigDaemon application is always started prior to a user application. Doing so it is ensured that parameters are always available at the start of user application. It also implies the possibility to use a synchronous FindService() method for parameter service discovery.
-
-As user applications' business logic is abstracted from the parameter subscription procedure by the `ConfigProvider` library, it might try to access a parameter value before subscription. In this case `GetParameterAs()` access method would not be able to provide a value. Therefore a business logic has to check the result of `GetParameterAs()` to have a value, which is false if a parameter is not available (yet).
-
-All startup activities of `ConfigDaemon` are distributed over 2 phases. During the first phase, Construction of plugins and population of data model with parameters and their values take place. At this point of time it is ensured, that no data is requested from outside. This prevents race conditions and saves a synchronization effort. Having set up the data model completely the initialization is done. At the following second phase the `InternalConfigProvider` service is offered to provide access to the parameter data, as the data model is completely populated.
+`ConfigDaemon` uses `Factory` to create `InternalConfigProviderService` and manages it via `mw::service::ProvidedServiceContainer` (from the `mw::service` library). Client applications use `ConfigProvider` to obtain or subscribe to `ParameterSet` instances from `ConfigDaemon`.
 
 <details>
-<summary>Click to expand startup procedure</summary>
+<summary>InternalConfigProviderService Static Architecture</summary>
 
-<img alt="Startup procedure" src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eclipse-score/baselibs/refs/heads/main/score/config_management/config_daemon/detailed_design/sequence_diagrams/generated/startup_procedure.puml">
+<img src="./class_diagrams/generated/svg/config_daemon_icp_sa.svg" alt="InternalConfigProviderService Static Architecture" width="800">
 
 </details>
-<br>
 
-<!-- [More about SCORE specific usage](./README_SCORE.md#6-initialization-sequences) -->
 
-### 6.1. Constructing and runtime interaction of the ConfigDaemon provided services
+### 3.3 Plugin Mechanism
 
-The below sequence diagram show the interaction between the ConfigDaemon application, the mw::service and mw::com to construct and offer the ConfigDaemon provided services:
+`Plugin` components populate or modify the contents of the `ParameterSetCollection`. One `Plugin` is processing parameters of one kind, e.g. either coding parameters or calibration parameters.
+
+`ConfigDaemon` creates plugins indirectly: it uses `Factory` to instantiate a `PluginCollector`, which holds a collection of `PluginCreator` instances. The collectors trigger creators to instantiate the actual `Plugin` objects used by `ConfigDaemon`. This design simplifies adding or removing plugins by changing `PluginCollector` implementations.
+
+`ConfigDaemon` manages plugins through two primary APIs. During initialization, `ConfigDaemon` calls the `Initialize()` function of each plugin to instantiate internal components in a non-blocking manner. During runtime, `ConfigDaemon` calls the `Run()` function of each plugin, passing handles to the `ParameterSetCollection` and to `InternalConfigProviderService` so plugins can update the database and notify clients about parameter and qualifier changes.
 
 <details>
-<summary>Click to expand ConfigDaemon provided services initialization</summary>
+<summary>Plugin Static Architecture</summary>
 
-<img alt="ConfigDaemon provided services initialization" src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eclipse-score/baselibs/refs/heads/main/score/config_management/config_daemon/detailed_design/sequence_diagrams/config_daemon_provided_services_sequence_diagrams_initialization.puml">
+<img src="./class_diagrams/generated/svg/config_daemon_plugin_sa.svg" alt="Plugin Static Architecture" width="800">
 
 </details>
-<br>
 
-The below sequence diagram show the interaction between the ConfigDaemon application provided services and the component clients in the runtime:
+### 3.4 Shared Resources and Fault Event Reporter
+
+Sometimes `Plugin`s inside `ConfigDaemon` need to share some resource, for example proxy instance or service instance. In the current design of `ConfigDaemon`, these resources need to be instantiated by `ConfigDaemon` and distributed to `Plugin`s via parameters in `Run` function.
+
+`FaultEventReporter` is one of such resource. It is used to report Hw/Sw DTC to Degradation Handler via `FaultEventInterfaceRPort`. `FaultEventReporter` class takes care of managing the request from both plugins and forwards the request to `FaultEventProxy` class which in turn reports the DTC to Degradation Handler.
 
 <details>
-<summary>Click to expand ConfigDaemon provided services runtime interaction</summary>
+<summary>FaultEventReporter Static Architecture</summary>
 
-<img alt="ConfigDaemon provided services runtime interaction" src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eclipse-score/baselibs/refs/heads/main/score/config_management/config_daemon/detailed_design/sequence_diagrams/config_daemon_provided_services_sequence_diagrams_runtime_behaviour.puml">
+<img src="./class_diagrams/generated/svg/fault_event_reporter_sa.svg" alt="FaultEventReporter Static Architecture" width="800">
 
 </details>
-<br>
 
-[Table of Contents](#table-of-contents)
+## 4. Dynamic Architecture
 
-## 7. InitialQualifierState
+### 4.1 Execution Stages
 
-Possible states:
+`ConfigDaemon`'s lifetime can be divided into three stages.
 
-- Undefined
-- InProgress
-- Qualifying
-- Default
-- Unqualified
-- Qualified
-
-The most critical state is `Qualified`, when `InitialQualifierState` assumes this value, applications consuming the data are allowed to assume parameters are safe to be used. As stated in our `Safety Goal`, we shall never provide corrupted or disqualified data when `InitialQualifierState=Qualified`
-
-<!-- [Details for InitialQualifierState](./README_SCORE.md#7-initialqualifierstate) -->
-
-### 7.1. Relation of InitialQualifierState and Parameter Set Qualifier
-
-`InitialQualifierState` as an overall qualifier for coding data is mapped to the `ParameterSetQualifier`, which is contained in every single `ParameterSet`. Following diagram shows the mapping order in detail.
+1. During construction, the `main` function creates a `Factory` and passes it to the `ConfigDaemon` constructor. Inside the constructor, `ConfigDaemon` uses the factory to create the `ParameterSetCollection`.
+2. The `main` function then runs `ConfigDaemon` via the `LifecycleManager` by calling its `Initialize()` function. At this stage, `ConfigDaemon` creates plugins via the factory (as described in 3.3) and triggers non-blocking `Initialize()` calls on them. `ConfigDaemon` also creates and initializes `InternalConfigProviderService`.
+3. After successful initialization, `LifecycleManager` calls the `Run()` method of `ConfigDaemon` with a `stop_token` argument. `ConfigDaemon` executes the `Run()` functions of the plugins (created during initialization) sequentially and then offers `InternalConfigProviderService`. The process blocks indefinitely; `LifecycleManager` can unblock execution using the `stop_token` to enter shutdown sequence. Before returning to `main`, `ConfigDaemon` stops offering `InternalConfigProviderService` and calls the `Deinitialize()` function of the plugins.
 
 <details>
-<summary>Click to expand InitialQualifierState mapping to Parameter Set Qualifier</summary>
+<summary>Execution Sequence Diagram</summary>
 
-<img alt="ParameterSetQualifier mapping" src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/eclipse-score/baselibs/refs/heads/main/score/config_management/config_daemon/detailed_design/assets/parameter_set_qualifier_mapping.puml">
+<img src="./sequence_diagrams/generated/svg/execution_sequence_diagram.svg" alt="Execution Sequence Diagram" width="800">
 
 </details>
-<br>
 
-<!-- [Extended Details](./README_SCORE.md#71-relation-of-initialqualifierstate-and-parameter-set-qualifier) -->
 
-[Table of Contents](#table-of-contents)
+### 4.2 IPC communication
+A client application can request a `ParameterSet` with a timeout in a polling manner. `ConfigProvider` returns the cached value if available; otherwise, it uses the `InternalConfigProviderProxy` to perform IPC with `ConfigDaemon` and retrieve the desired `ParameterSet` from the database.
 
-## 8. External dependencies
+<details>
+<summary>InternalConfigProviderService Get Sequence Diagram</summary>
 
-|Dependency|Type|Components|Purpose|Analysis|
-|----------|----|----------|-------|----------|
-|//platform/aas/mw/log:log<br>|Static library|Multiple Classes|logging framework| QM usage only. |
-|//platform/aas/mw/service:service<br> //platform/aas/mw/service:factory<br> //platform/aas/mw/service:proxy_future<br> //platform/aas/mw/service/mw:com<br> //platform/aas/mw/service:provided_service_container<br> |Static library|Multiple Classes|framework for handling mw::com interface management| Used for service discovery, if not working as expected no communication will be established which will lead to safe state.|
-|@score-baselibs//score/result:result<br> |Static library|Multiple Classes|Enhance error handling with [result type](https://en.wikipedia.org/wiki/Result_type)| QM usage of error messages. Safety related usage in terms of data flow control is sufficiently verified by unit testing. |
-|@amp//:amp<br>|Static library|Multiple Classes|AMP extends the C++ Standard Library with modules that are not included in the C++ Standard Library or cannot be used due to embedded restrictions| Safety qualified libraries with ASIL usage. |
-|@score-baselibs//score/filesystem:filesystem<br>|Static lib  rary|Multiple Classes|Used to enable unit-testability of filesystem interactions and abstract low-level POSIX interactions | All (safety relevant) files are checksum protected. |
-|@score-baselibs//score/json:json<br> @score-baselibs//score/json:json_impl<br>|Static library|Multiple Classes|This library is used to load a JSON document from a file, and access elements from a JSON object. It also allows the use of a JSON parser to perform various attribute parsing operations | Wrapper around Vector (safe) vajson|
-|//platform/aas/mw/lifecycle:lifecycle<br>|Static library|Multiple Classes| This library provides application base class from which application developers shall subclass their own application.| Safety qualified library with ASIL usage. |
-|//score/language/safecpp/scoped_function:move_only_scoped_function |Static library|//score/config_management/config_daemon/code/app/details| Used for Plugin Deinitialization | QM usage only. |
+<img src="./sequence_diagrams/generated/svg/cfgd_icp_get_sequence_diagram.svg" alt="InternalConfigProviderService Get Sequence Diagram" width="800">
 
-<!-- [Extended Dependencies](./README_SCORE.md#8-external-dependencies) -->
+</details>
 
-[Table of Contents](#table-of-contents)
+A client application can also subscribe to a named `ParameterSet` with a callback. If a plugin at the `ConfigDaemon` side updates the `ParameterSet`, an IPC event is sent to `ConfigProvider`. Before invoking the registered callback, `ConfigProvider` instructs the `InternalConfigProviderProxy` to poll the updated `ParameterSet` and update its cache.
+
+<details>
+<summary>InternalConfigProviderService Get Sequence Diagram</summary>
+
+<img src="./sequence_diagrams/generated/svg/cfgd_icp_subscribe_sequence_diagram.svg" alt="InternalConfigProviderService Subscribe Sequence Diagram" width="800">
+
+</details>
+
+## 5. External Dependencies
+<!-- TODO: Update the score lib path -->

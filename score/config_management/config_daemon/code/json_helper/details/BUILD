@@ -25,12 +25,12 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
-        "//platform/aas/test/sysfunc/config_daemon/config_provider_app:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "@score_config_management//score:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/filesystem",
-        "@score-baselibs//score/json:json_impl",
-        "@score-config_management//score/config_management/config_daemon/code/json_helper",
+        "@score_baselibs//score/filesystem",
+        "@score_baselibs//score/json:json_impl",
+        "@score_config_management//score/config_management/config_daemon/code/json_helper",
     ],
 )

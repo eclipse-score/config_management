@@ -1,4 +1,4 @@
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 # Persistency library is a public interface for ConfigProvider users,
 # which can be optionally used for enabling caching of parameter sets to persistency
@@ -21,7 +21,7 @@ cc_library(
     tags = ["FFI"],
     visibility = ["//score/config_management/config_provider/code:__subpackages__"],
     deps = [
-        "//platform/aas/lib/filesystem",
+        "@score_baselibs//score/filesystem",
         "//platform/aas/mw/diag",
         "//score/config_management/config_provider/code/parameter_set",
     ],

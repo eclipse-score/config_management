@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_H
-#define CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_H
 
 #include "score/config_management/config_daemon/code/plugins/plugin.h"
 
@@ -42,4 +42,4 @@ class IPluginCollector
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_H

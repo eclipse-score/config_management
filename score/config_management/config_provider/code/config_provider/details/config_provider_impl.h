@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,11 +10,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_DETAILS_CONFIG_PROVIDER_IMPL_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_DETAILS_CONFIG_PROVIDER_IMPL_H
 
 #include "score/config_management/config_provider/code/config_provider/config_provider.h"
+#include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
 #include "score/config_management/config_provider/code/persistency/persistency.h"
 #include "score/config_management/config_provider/code/proxies/internal_config_provider.h"
@@ -22,7 +22,7 @@
 #include "score/memory/string_comparison_adaptor.h"
 #include "score/mw/log/logger.h"
 
-#include "platform/aas/lib/concurrency/condition_variable.h"
+#include "score/concurrency/condition_variable.h"
 #include "platform/aas/mw/service/proxy_future.h"
 
 #include <score/jthread.hpp>
@@ -79,6 +79,10 @@ class ConfigProviderImpl final : public ConfigProvider
     using ConfigProvider::GetInitialQualifierState;
     InitialQualifierState GetInitialQualifierState() noexcept override;
     InitialQualifierState GetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept override;
+
+    using ConfigProvider::GetInitialQualifierState;
+    InitialQualifierState GetInitialQualifierState(
+        const std::optional<std::chrono::milliseconds> timeout) noexcept override;
 
     /// @brief Checks if any ParameterSet updates is available and stimulate polling routine.
     ResultBlank CheckParameterSetUpdates() noexcept override;

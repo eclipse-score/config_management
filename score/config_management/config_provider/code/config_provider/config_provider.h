@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,11 +10,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_H
 
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
+
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
 
 #include "score/result/result.h"
@@ -51,9 +51,8 @@ class ConfigProvider
      * Gets the parameter set by the set's name
      */
     [[deprecated(
-        "SPP_DEPRECATION: This method should be called in conjunction with a timeout value instead.")]] virtual Result<std::
-                                                                                                                           shared_ptr<
-                                                                                                                               const ParameterSet>>
+        "SPP_DEPRECATION: This method should be called in "
+        "conjunction with a timeout value instead.")]] virtual Result<std::shared_ptr<const ParameterSet>>
     GetParameterSet(const score::cpp::string_view set_name) = 0;
     virtual Result<std::shared_ptr<const ParameterSet>> GetParameterSet(
         const score::cpp::string_view set_name,
@@ -73,7 +72,13 @@ class ConfigProvider
     [[deprecated(
         "SPP_DEPRECATION: This method should be called in conjunction with a timeout value instead.")]] virtual InitialQualifierState
     GetInitialQualifierState() noexcept = 0;
-    virtual InitialQualifierState GetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;
+    [[deprecated(
+        "SPP_DEPRECATION: This method should be called in conjunction with a timeout value instead.")]] virtual InitialQualifierState
+    GetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;
+
+    virtual InitialQualifierState GetInitialQualifierState(
+        const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;
+
     virtual bool WaitUntilConnected(const std::chrono::milliseconds timeout,
                                     const score::cpp::stop_token& stop_token) noexcept = 0;
     [[nodiscard]] virtual ResultBlank CheckParameterSetUpdates() noexcept = 0;

@@ -25,11 +25,11 @@ cc_library(
         "strict_warnings",
     ],
     tags = ["FFI"],
-    visibility = ["@score-config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
     deps = [
-        "@score-baselibs//score/json",
-        "@score-baselibs//score/result",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/json",
+        "@score_baselibs//score/result",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 

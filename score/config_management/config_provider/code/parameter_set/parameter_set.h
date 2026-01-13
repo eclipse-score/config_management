@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,11 +10,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PARAMETER_SET_PARAMETER_SET_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PARAMETER_SET_PARAMETER_SET_H
 
-#include "config_management/ConfigDaemon/code/data_model/parameter_set_qualifier.h"
+#include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
 #include "score/json/internal/model/any.h"
@@ -63,7 +62,7 @@ class ParameterSet final
     ParameterSet& operator=(const ParameterSet&) & noexcept = delete;
 
     bool ContainsSameContent(const ParameterSet& target_parameter_set) const;
-    score::Result<score::platform::config_daemon::ParameterSetQualifier> GetQualifier() const;
+    score::Result<score::config_management::config_daemon::ParameterSetQualifier> GetQualifier() const;
     /**
      * Gets the parameter from the set by the parameter's name
      */

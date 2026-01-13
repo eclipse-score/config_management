@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_DATA_MODEL_DETAILS_PARAMETER_IMPL_H
-#define CODE_DATA_MODEL_DETAILS_PARAMETER_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_IMPL_H
 
 #include "score/json/internal/model/any.h"
 
@@ -47,4 +47,4 @@ class Parameter
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_DATA_MODEL_DETAILS_PARAMETER_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_IMPL_H

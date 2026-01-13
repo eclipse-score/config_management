@@ -14,7 +14,7 @@ cc_library(
     tags = ["FFI"],
     visibility = ["//score/config_management/config_provider/code:__subpackages__"],
     deps = [
-        "@score-baselibs//score/result",
+        "@score_baselibs//score/result",
     ],
 )
 

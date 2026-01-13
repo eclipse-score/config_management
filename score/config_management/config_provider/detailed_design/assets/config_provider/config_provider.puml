@@ -1,35 +1,59 @@
 @startuml
 
 !startsub ConfigProvider
+namespace score::platform::config_provider {
 abstract class ConfigProvider {
+    + {abstract} GetParameterSet(\n\
+    set_name : const score::cpp::string_view) : Result<std::shared_ptr<const ParameterSet>>
     + {abstract} GetParameterSet(\n\
     set_name : const score::cpp::string_view,\n\
     timeout : const std::optional<std::chrono::milliseconds>) : Result<std::shared_ptr<const ParameterSet>>
+    + {abstract} GetParameterSetsByNameList(\n\
+    set_names : const score::cpp::pmr::vector<score::cpp::string_view>&,\n\
+    timeout : const std::optional<std::chrono::milliseconds>) : ParameterSetMap
     + {abstract} OnChangedInitialQualifierState(callback : InitialQualifierStateNotifierCallbackType&&) : ResultBlank
     + {abstract} OnChangedParameterSet(\n\
     set_name : const std::string&,\n\
     callback : OnChangedParameterSetCallback&&) : ResultBlank
-    + {abstract} GetInitialQualifierState(timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
+    + {abstract} OnChangedParameterSetCbk(\n\
+    set_name : std::string_view,\n\
+    callback : OnChangedParameterSetCallback&&) : ResultBlank
+    + {abstract} GetInitialQualifierState(\n\
+    timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     + {abstract} WaitUntilConnected(\n\
     timeout : const std::chrono::milliseconds,\n\
     stop_token : const score::cpp::stop_token&) : bool
     + {abstract} CheckParameterSetUpdates() : ResultBlank
     + {abstract} GetCachedParameterSetsCount() : std::size_t
+    + {abstract} GetInitialQualifierState() : InitialQualifierState
+    + {abstract} GetInitialQualifierState(\n\
+    timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     --
     Responsibility: This class is repsonsible for providing ParameterSet's and InitialQualifierState
+}
 }
 !endsub
 
 !startsub ConfigProviderImpl
+namespace score::platform::config_provider {
 class ConfigProviderImpl {
     + GetParameterSet(\n\
-    set_name : const score::cpp::string_view\n\
+    set_name : const score::cpp::string_view) : Result<std::shared_ptr<const ParameterSet>>
+    + GetParameterSet(\n\
+    set_name : const score::cpp::string_view,\n\
     timeout : const std::optional<std::chrono::milliseconds>) : Result<std::shared_ptr<const ParameterSet>>
+    + GetParameterSetsByNameList(\n\
+    set_names : const score::cpp::pmr::vector<score::cpp::string_view>&,\n\
+    timeout : const std::optional<std::chrono::milliseconds>) : ParameterSetMap
     + OnChangedInitialQualifierState(callback : InitialQualifierStateNotifierCallbackType&&) : ResultBlank
     + OnChangedParameterSet(\n\
     set_name : const std::string&,\n\
     callback : OnChangedParameterSetCallback&&) : ResultBlank
-    + GetInitialQualifierState(timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
+    + OnChangedParameterSetCbk(\n\
+    set_name : std::string_view,\n\
+    callback : OnChangedParameterSetCallback&&) : ResultBlank
+    + GetInitialQualifierState(\n\
+    timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     + CheckParameterSetUpdates() : ResultBlank
     + WaitUntilConnected(\n\
     timeout : const std::chrono::milliseconds,\n\
@@ -44,13 +68,15 @@ class ConfigProviderImpl {
     polling_cycle_interval : score::cpp::optional<std::chrono::milliseconds>,\n\
     callback : IsAvailableNotificationCallback,\n\
     persistency : score::cpp::pmr::unique_ptr<Persistency>)
+    + GetInitialQualifierState() : InitialQualifierState
+    + GetInitialQualifierState(timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     --
     - logger_ : mw::log::Logger&
     - parameter_sets_ : ParameterMap
     - initial_qualifier_state_ : InitialQualifierState
     - memory_resource_ : score::cpp::pmr::memory_resource* const
     - internal_config_provider_ : std::shared_ptr<IInternalConfigProvider>
-    - mutex_ : mutable std::mutex
+    - mutex_ : std::mutex
     - internal_config_provider_cv_ : concurrency::InterruptibleConditionalVariable
     - persistency_ : score::cpp::pmr::unique_ptr<Persistency>
     - client_handlers_ : ClientHandlersMap
@@ -58,6 +84,7 @@ class ConfigProviderImpl {
     - polling_cycle_interval_ : score::cpp::optional<std::chrono::milliseconds>
     - proxy_available_thread_ : score::cpp::optional<score::cpp::jthread>
     - stop_callback_ : score::cpp::optional<score::cpp::stop_callback>
+}
 }
 
 ConfigProvider <|-- ConfigProviderImpl

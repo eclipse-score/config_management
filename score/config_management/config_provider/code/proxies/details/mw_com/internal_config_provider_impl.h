@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,14 +10,13 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_IMPL_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_IMPL_H
 
-#include "config_management/ConfigDaemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
+#include "score/config_management/config_daemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
 #include "score/config_management/config_provider/code/proxies/internal_config_provider.h"
 
-#include "platform/aas/lib/concurrency/condition_variable.h"
+#include "score/concurrency/condition_variable.h"
 
 #include "score/json/i_json_parser.h"
 
@@ -40,8 +39,7 @@ namespace config_provider
 class InternalConfigProvider final : public IInternalConfigProvider
 {
   public:
-    using InternalMwComProxy = ::score::mw::com::AsProxy<score::platform::config_daemon::InternalConfigProviderInterface>;
-    using InitialQualifierStateType = score::platform::config_daemon::mw_com_icp_types::InitialQualifierState;
+    using InternalMwComProxy = ::score::mw::com::AsProxy<score::config_management::config_daemon::InternalConfigProviderInterface>;
 
     explicit InternalConfigProvider(std::unique_ptr<InternalMwComProxy> proxy);
 
@@ -84,7 +82,7 @@ class InternalConfigProvider final : public IInternalConfigProvider
     // We intentionally put the jthread as last member since this ensures that upon destruction of our class
     // we first wait for the jthread to finish prior to destroying any other member which it might still access.
     score::cpp::optional<score::cpp::jthread> polling_thread_;
-    mutable score::platform::config_daemon::mw_com_icp_types::InitialQualifierState initial_qualifier_state_;
+    mutable score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState initial_qualifier_state_;
 };
 
 }  // namespace config_provider

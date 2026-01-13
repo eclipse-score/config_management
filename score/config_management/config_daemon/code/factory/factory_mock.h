@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_FACTORY_FACTORY_MOCK_H
-#define CODE_FACTORY_FACTORY_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_MOCK_H
 
 #include "score/config_management/config_daemon/code/factory/factory.h"
 
@@ -35,17 +35,17 @@ class FactoryMock final : public IFactory
     FactoryMock& operator=(FactoryMock&&) = delete;
     FactoryMock& operator=(const FactoryMock&) = delete;
 
-    MOCK_METHOD(mw::service::ProvidedServiceContainer,
+    MOCK_METHOD(ProvidedServiceContainer,
                 CreateInternalConfigProviderService,
                 (const std::shared_ptr<data_model::IParameterSetCollection>),
                 (const, override));
     MOCK_METHOD(LastUpdatedParameterSetSender,
                 CreateLastUpdatedParameterSetSender,
-                (mw::service::ProvidedServiceContainer & services),
+                (ProvidedServiceContainer & services),
                 (override));
     MOCK_METHOD(InitialQualifierStateSender,
                 CreateInitialQualifierStateSender,
-                (mw::service::ProvidedServiceContainer & services),
+                (ProvidedServiceContainer & services),
                 (override));
 
     MOCK_METHOD(std::shared_ptr<data_model::IParameterSetCollection>,
@@ -65,4 +65,4 @@ class FactoryMock final : public IFactory
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_FACTORY_FACTORY_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_MOCK_H

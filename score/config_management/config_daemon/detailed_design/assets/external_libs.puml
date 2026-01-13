@@ -28,6 +28,13 @@ package portinterfaces::internalconfigprovider::skeleton <<frame>> {
 }
 !endsub
 
+!startsub IDiagnosticJobCollection
+package mw::diag <<frame>> {
+    class IDiagnosticJobCollection {
+    }
+}
+!endsub
+
 !startsub ProvidedServiceContainer
 package mw::service <<frame>> {
     class ProvidedServiceContainer {

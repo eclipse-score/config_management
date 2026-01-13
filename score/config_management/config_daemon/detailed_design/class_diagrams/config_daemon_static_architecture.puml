@@ -1,7 +1,7 @@
 @startuml
 
 !includesub ../assets/app/config_daemon.puml!ConfigDaemon
-!includesub ../assets/param_set_mapping/param_set_mapping.puml!IParamSetMapping
+!includesub ../assets/plugins/coding/param_set_mapping/param_set_mapping.puml!IParamSetMapping
 !includesub ../assets/factory/factory.puml!IFactory
 !includesub ../assets/app/config_daemon.puml!IConfigDaemon
 !includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!IParameterSetCollection
@@ -13,7 +13,13 @@
 !includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSet
 !includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSetQualifier
 !includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!Parameter
+!includesub ../assets/data_model/error/error.puml!DataModelError
+
+!includesub ../assets/plugins/plugin_collector/plugin_collector.puml!IPluginCollector
 !includesub ../assets/plugins/plugin_collector/plugin_collector.puml!PluginCollector
+
+!includesub ../assets/plugins/plugin_creator.puml!IPluginCreator
+!includesub ../assets/plugins/coding/plugin_creator/coding_plugin_creator.puml!CodingPluginCreator
 
 ' !includesub ../class_diagrams/config_daemon_static_architecture_score_details.puml!ConfigDaemonStaticArchitectureSCOREDetails
 

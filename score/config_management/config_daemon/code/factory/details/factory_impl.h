@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_FACTORY_DETAILS_FACTORY_IMPL_H
-#define CODE_FACTORY_DETAILS_FACTORY_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H
 
 #include "score/config_management/config_daemon/code/factory/factory.h"
 #include "score/config_management/config_daemon/code/json_helper/json_helper.h"
@@ -40,12 +40,10 @@ class Factory final : public IFactory
     Factory& operator=(Factory&&) = delete;
     Factory& operator=(const Factory&) = delete;
 
-    mw::service::ProvidedServiceContainer CreateInternalConfigProviderService(
+    ProvidedServiceContainer CreateInternalConfigProviderService(
         const std::shared_ptr<data_model::IParameterSetCollection> read_only_parameter_data_interface) const override;
-    LastUpdatedParameterSetSender CreateLastUpdatedParameterSetSender(
-        mw::service::ProvidedServiceContainer& services) override;
-    InitialQualifierStateSender CreateInitialQualifierStateSender(
-        mw::service::ProvidedServiceContainer& services) override;
+    LastUpdatedParameterSetSender CreateLastUpdatedParameterSetSender(ProvidedServiceContainer& services) override;
+    InitialQualifierStateSender CreateInitialQualifierStateSender(ProvidedServiceContainer& services) override;
 
     std::shared_ptr<data_model::IParameterSetCollection> CreateParameterSetCollection() const override;
     std::shared_ptr<fault_event_reporter::IFaultEventReporter> CreateFaultEventReporter() const override;
@@ -61,4 +59,4 @@ class Factory final : public IFactory
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_FACTORY_DETAILS_FACTORY_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H

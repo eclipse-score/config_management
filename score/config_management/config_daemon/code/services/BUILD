@@ -11,7 +11,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 COMMON_FEATURES = [
     "treat_warnings_as_errors",
@@ -29,11 +29,11 @@ cc_library(
     ],
     features = COMMON_FEATURES,
     tags = ["FUSA"],
-    visibility = ["@score-config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
     deps = [
-        "//platform/aas/mw/service:provided_service_container",
-        "@score-config_management//score/config_management/config_daemon/code/types/initial_qualifier_state",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_communication//score/mw/service:provided_service_container",
+        "@score_config_management//score/config_management/config_daemon/code/types/initial_qualifier_state",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -47,7 +47,7 @@ cc_library(
         "internal_config_provider_service_mock.h",
     ],
     features = COMMON_FEATURES,
-    visibility = ["@score-config_management//score/config_management/config_daemon/code:__subpackages__"],
+    visibility = ["@score_config_management//score/config_management/config_daemon/code:__subpackages__"],
     deps = [
         ":services",
         "@googletest//:gtest",
@@ -57,9 +57,10 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "@score-config_management//score/config_management/config_daemon/code/services/details:unit_tests_mw_com",
+        "@score_config_management//score/config_management/config_daemon/code/services/details:unit_tests_mw_com",
+        #"@score_config_management//score/config_management/config_daemon/code/services/details:unit_tests_mw_com",
     ],
-    visibility = ["@score-config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
 )
 
 cc_library(
@@ -69,11 +70,11 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/result",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -84,7 +85,7 @@ cc_library(
     hdrs = ["internal_config_provider_service_reactor_mock.h"],
     features = COMMON_FEATURES,
     visibility = [
-        "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         ":internal_config_provider_reactor",

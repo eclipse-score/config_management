@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
-#define CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
 
 #include "score/config_management/config_daemon/code/json_helper/json_helper.h"
 
@@ -55,4 +55,4 @@ class JsonHelper final : public IJsonHelper
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H

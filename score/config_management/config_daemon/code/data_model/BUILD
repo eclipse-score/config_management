@@ -11,7 +11,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 COMMON_FEATURES = [
     "treat_warnings_as_errors",
@@ -26,13 +26,13 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/json",
-        "@score-baselibs//score/result",
-        "@score-config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
-        "@score-config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+        "@score_baselibs//score/json",
+        "@score_baselibs//score/result",
+        "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
+        "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
     ],
 )
 
@@ -43,7 +43,7 @@ cc_library(
     hdrs = ["parameterset_collection_mock.h"],
     features = COMMON_FEATURES,
     visibility = [
-        "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         ":parameterset_collection",
@@ -57,15 +57,15 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "//platform/aas/sysfunc:__subpackages__",
+        "@score_config_management//score:__subpackages__",
     ],
 )
 
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "@score-config_management//score/config_management/config_daemon/code/data_model/details:unit_test",
-        "@score-config_management//score/config_management/config_daemon/code/data_model/error:unit_test",
+        "@score_config_management//score/config_management/config_daemon/code/data_model/details:unit_test",
+        "@score_config_management//score/config_management/config_daemon/code/data_model/error:unit_test",
     ],
-    visibility = ["@score-config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
 )

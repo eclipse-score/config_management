@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,7 +10,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #include "score/config_management/config_provider/code/persistency/details/persistency_empty.h"
 
 namespace score
@@ -32,7 +31,7 @@ void PersistencyImpl::CacheParameterSet(const ParameterMap&,
 
 void PersistencyImpl::ReadCachedParameterSets(ParameterMap&,
                                                score::cpp::pmr::memory_resource*,
-                                               std::unique_ptr<score::filesystem::Filesystem>) noexcept
+                                               const score::filesystem::Filesystem&) noexcept
 {
     logger_.LogDebug() << "Empty persistency is used, no caching would be read";
 }

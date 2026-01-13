@@ -63,7 +63,7 @@ class ParameterSetFixture : public ::testing::Test
 
 TEST_F(ParameterSetFixture, SetAndGetParameterSetQualifier)
 {
-    RecordProperty("Verifies", "22912892, 15804754, 15804755");
+    RecordProperty("Verifies", "22912892");
     RecordProperty("ASIL", "B");
     RecordProperty("Description", "Verifies that the parameter set qualifier can be set and read.");
     RecordProperty("TestType", "Requirements-based test");

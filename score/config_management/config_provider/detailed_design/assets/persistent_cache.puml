@@ -1,0 +1,104 @@
+@startuml PersistentCacheLifecycle
+title ConfigProvider Persistent Cache Lifecycle
+skinparam SequenceMessageAlignment left
+skinparam NoteBackgroundColor #E6F2FF
+skinparam BoxPadding 8
+
+actor User as UserBusinessLogic
+participant "PersistencyFactory" as PF
+participant "mw::per" as PER
+participant "ConfigProviderFactory" as CPF
+participant "Persistency" as PERS
+participant "InternalConfigProvider" as ICP
+participant "ConfigProviderImpl" as CP
+
+' (Pre-step outside factory) User obtains KVS handle
+UserBusinessLogic -> PER : OpenKeyValueStorage()
+PER --> UserBusinessLogic : Result<SharedHandle>
+UserBusinessLogic -> PF : Create(handle)
+PF --> UserBusinessLogic : PersistencyImpl (PERS)
+UserBusinessLogic -> CPF : CreateInternal(token, timeout, polling params, persistency)
+
+' Construction (inside CPF::CreateInternal)
+CPF -> CP : Construct(ConfigProviderImpl)
+CP -> PERS : ReadCachedParameterSets(parameter_sets_, fs)
+alt Flash counter changed
+  PERS -> PERS : InvalidateCachedParameterSets()
+else Unchanged
+  PERS -> PERS : Load cached sets (prefix "CfgP__") qualifier forced UNQUALIFIED
+end
+CPF -> ICP : InitiateServiceDiscovery()
+ICP --> CPF : ProxyContainer
+CPF -> CP : WaitUntilConnected(timeout) ' blocks until SetupInternalConfigProvider finishes
+CPF --> UserBusinessLogic : ConfigProvider
+
+note over CP
+SetupInternalConfigProvider thread: subscribe event, fetch & persist initial values,
+cache qualifier state, register callbacks, start polling routine, notify availability.
+end note
+
+' SetupInternalConfigProvider
+CP -> ICP : TrySubscribeToLastUpdatedParameterSetEvent(stop_token, handler)
+ICP --> CP : bool
+alt subscription success
+  CP -> ICP : (implicit) LastUpdatedParameterSet event callbacks enabled
+  CP -> ICP : FetchInitialParameterSetValuesFrom() ' iterates existing persisted names
+  ICP --> CP : ParameterMap(updated values)
+  CP -> PERS : WriteInitialParameterSetValuesToPersistentCache(sync=false per set)
+  CP -> PERS : SyncToStorage()
+  CP -> ICP : GetInitialQualifierState(timeout)
+  ICP --> CP : InitialQualifierState
+  CP -> CP : CacheInitialQualifierState()
+  CP -> CP : RegisterCallbacksForPersistedParameterSetNames()
+  CP -> ICP : StartParameterSetUpdatePollingRoutine(max_samples, interval)
+  CP -> UserBusinessLogic : IsAvailableNotificationCallback()
+else subscription failure
+  CP -> CP : Abort setup (no polling started)
+end
+
+loop Polling routine (inside ICP)
+  ICP -> ICP : CheckParameterSetUpdates()
+  alt update detected
+    ICP -> CP : LastUpdatedParameterSetReceiveHandler(set_name)
+    CP -> ICP : GetParameterSet(set_name, timeout)
+    ICP --> CP : Result<json::Any>
+    alt success
+      CP -> CP : Construct ParameterSet
+      CP -> PERS : CacheParameterSet(set_name, set, sync=true)
+      CP -> CP : InsertOrAssign cache
+      CP -> UserBusinessLogic : OnChangedParameterSetCallback(shared_ptr<const ParameterSet>) (if registered)
+    else error
+      CP -> CP : Log error
+    end
+  else no update
+    ICP -> ICP : wait interval
+  end
+end
+
+' Manual multi-get path
+UserBusinessLogic -> CP : GetParameterSetsByNameList(names, timeout)
+CP -> ICP : GetParameterSet(name, timeout) (loop miss only)
+ICP --> CP : Result<json::Any>
+CP -> PERS : CacheParameterSet(name,set,sync=false)
+CP -> CP : Add to local map
+CP -> PERS : SyncToStorage() (after loop)
+CP --> UserBusinessLogic : ParameterSetMap
+
+' Single get path
+UserBusinessLogic -> CP : GetParameterSet(name, timeout)
+CP -> ICP : GetParameterSet(name, timeout)
+ICP --> CP : Result<json::Any>
+CP -> PERS : CacheParameterSet(name,set,sync=true)
+CP -> CP : Insert cache & register handler
+CP --> UserBusinessLogic : Result<shared_ptr<const ParameterSet>>
+
+' User registers for change notifications
+UserBusinessLogic -> CP : OnChangedParameterSet(name, callback)
+CP -> CP : RegisterUpdateHandlerForParameterSetName(name)
+CP --> UserBusinessLogic : ResultBlank
+
+note over CP, UserBusinessLogic #ccffcc
+Persistent cache initialized; updates via event + polling thread.
+end note
+
+@enduml

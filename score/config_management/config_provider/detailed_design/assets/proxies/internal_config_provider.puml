@@ -1,6 +1,7 @@
 @startuml
 
 !startsub IInternalConfigProvider
+namespace score::platform::config_provider {
 abstract class IInternalConfigProvider {
     + {abstract} GetParameterSet(\n\
     set_name : const score::cpp::string_view,\n\
@@ -8,7 +9,8 @@ abstract class IInternalConfigProvider {
     + {abstract} TrySubscribeToLastUpdatedParameterSetEvent(\n\
     stop_token : const score::cpp::stop_token&,\n\
     callback : OnChangedParameterSetCallback&&) : bool
-    + {abstract} GetInitialQualifierState(timeout : const std::chrono::milliseconds) : InitialQualifierState
+    + {abstract} GetInitialQualifierState(\n\
+    timeout : const std::chrono::milliseconds) : InitialQualifierState
     + {abstract} StartParameterSetUpdatePollingRoutine(\n\
     max_samples_limit : score::cpp::optional<std::size_t>,\n\
     polling_cycle_interval : score::cpp::optional<std::chrono::milliseconds>) : void
@@ -16,10 +18,12 @@ abstract class IInternalConfigProvider {
     + {abstract} CheckParameterSetUpdates() : void
     --
     Responsibilities: This class wraps communication with external service InternalConfigProvider
-}       
+}
+}
 !endsub
 
 !startsub InternalConfigProvider
+namespace score::platform::config_provider {
 class InternalConfigProvider {
     + InternalConfigProvider(proxy : std::unique_ptr<AdaptiveProxy>)
     + GetParameterSet(\n\
@@ -43,8 +47,9 @@ class InternalConfigProvider {
     - polling_cycle_interval_ : std::chrono::milliseconds
     - polling_routine_cv_ : concurrency::InterruptibleConditionalVariable
     - last_updated_parameter_set_names_ : score::cpp::pmr::unordered_set<std::string>
-    - mutex_ : mutable std::mutex
+    - mutex_ : std::mutex
     - polling_thread_ : score::cpp::optional<score::cpp::jthread>
+}
 }
 
 IInternalConfigProvider <|-- InternalConfigProvider

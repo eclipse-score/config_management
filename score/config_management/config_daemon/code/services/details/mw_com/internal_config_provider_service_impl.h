@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_SERVICES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_SERVICE_IMPL_H
-#define CODE_SERVICES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_SERVICE_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_SERVICE_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_SERVICE_IMPL_H
 
 #include "score/mw/log/logger.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces/read_only_parameterset_collection.h"
@@ -56,4 +56,4 @@ class InternalConfigProviderService final : public IInternalConfigProviderServic
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_SERVICES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_SERVICE_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_SERVICE_IMPL_H

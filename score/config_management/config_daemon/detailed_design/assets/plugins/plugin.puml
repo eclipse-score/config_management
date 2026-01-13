@@ -1,6 +1,7 @@
 @startuml
 
 !startsub IPlugin
+namespace score::config_management::config_daemon {
 abstract class IPlugin {
     + {abstract} Initialize() : ResultBlank
     + {abstract} Deinitialize() : void
@@ -9,6 +10,7 @@ abstract class IPlugin {
         cbk_update_initial_qualifier_state : InitialQualifierStateSender,\n\
         stop_token : score::cpp::stop_token, \n\
         fault_event_reporter :std::shared_ptr<fault_event_reporter::IFaultEventReporter> ) : std::int32_t
+}
 }
 !endsub
 

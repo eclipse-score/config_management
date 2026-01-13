@@ -1,0 +1,13 @@
+@startuml
+
+!startsub IPluginCreator
+namespace score::config_management::config_daemon {
+abstract class IPluginCreator {
+    + {abstract} CreatePlugin() : std::shared_ptr<IPlugin>
+    --
+    Responsibility: This interface is responsible for creating plugins.
+}
+}
+!endsub
+
+@enduml

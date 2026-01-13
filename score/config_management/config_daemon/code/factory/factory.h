@@ -11,15 +11,14 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_FACTORY_FACTORY_H
-#define CODE_FACTORY_FACTORY_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_H
 
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
+#include "score/config_management/config_daemon/code/factory/service_container_selector.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter.h"
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/plugin_collector.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service.h"
-
-#include "platform/aas/mw/service/provided_service_container.h"
 
 #include <score/memory.hpp>
 #include <memory>
@@ -42,12 +41,10 @@ class IFactory
     IFactory& operator=(IFactory&&) = delete;
     IFactory& operator=(const IFactory&) = delete;
 
-    virtual mw::service::ProvidedServiceContainer CreateInternalConfigProviderService(
+    virtual ProvidedServiceContainer CreateInternalConfigProviderService(
         const std::shared_ptr<data_model::IParameterSetCollection> read_only_parameter_data_interface) const = 0;
-    virtual LastUpdatedParameterSetSender CreateLastUpdatedParameterSetSender(
-        mw::service::ProvidedServiceContainer& services) = 0;
-    virtual InitialQualifierStateSender CreateInitialQualifierStateSender(
-        mw::service::ProvidedServiceContainer& services) = 0;
+    virtual LastUpdatedParameterSetSender CreateLastUpdatedParameterSetSender(ProvidedServiceContainer& services) = 0;
+    virtual InitialQualifierStateSender CreateInitialQualifierStateSender(ProvidedServiceContainer& services) = 0;
 
     virtual std::shared_ptr<data_model::IParameterSetCollection> CreateParameterSetCollection() const = 0;
 
@@ -59,4 +56,4 @@ class IFactory
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_FACTORY_FACTORY_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_H

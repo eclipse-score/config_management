@@ -1,4 +1,4 @@
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 cc_library(
     name = "internal_config_provider",
@@ -11,13 +11,13 @@ cc_library(
     ],
     tags = ["FUSA"],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
-        "@score-baselibs//score/json",
+        "@score_baselibs//score/json",
         "//score/config_management/config_provider/code/config_provider:initial_qualifier_state_types",
         "//score/config_management/config_provider/code/config_provider/error",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -30,7 +30,7 @@ cc_library(
         "strict_warnings",
     ],
     visibility = [
-        "//visibility:public", # platform_only
+        "//visibility:public",  # platform_only
     ],
     deps = [
         ":internal_config_provider",

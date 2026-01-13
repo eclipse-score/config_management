@@ -1,49 +1,55 @@
 @startuml
 
 !startsub IReadOnlyParameterSetCollection
+namespace score::config_management::config_daemon::data_model {
 abstract class IReadOnlyParameterSetCollection {
     + {abstract} GetParameterSet(set_name : const std::string) : Result<score::cpp::pmr::string>
     + {abstract} GetParameterFromSet(set_name : const score::cpp::string_view,parameter_name : const score::cpp::string_view) : Result<json::Any>
 }
+}
 !endsub
 
 !startsub IParameterSetCollection
+namespace score::config_management::config_daemon::data_model {
 abstract class IParameterSetCollection {
     + {abstract} Insert(set_name : const score::cpp::string_view , parameter_name : const score::cpp::string_view , parameter_value : json::Any&&) : ResultBlank
     + {abstract} UpdateParameterSet(set_name : const score::cpp::string_view, set : const score::cpp::string_view) : ResultBlank
     + {abstract} SetCalibratable(set_name : const score::cpp::string_view, is_calibratable : const bool) : bool
-    + {abstract} GetParameterSetQualifier(set_name : const score::cpp::string_view ) : 
-                score::Result<score::config_management::config_daemon::ParameterSetQualifier>
-    + {abstract} SetParameterSetQualifier(
-            set_name : const score::cpp::string_view ,
-            qualifier : const score::config_management::config_daemon::ParameterSetQualifier ): ResultBlank
+    + {abstract} GetParameterSetQualifier(set_name : const score::cpp::string_view ) : score::Result<score::config_management::config_daemon::ParameterSetQualifier>
+    + {abstract} SetParameterSetQualifier(\n\
+            set_name : const score::cpp::string_view,\n\
+            qualifier : const score::config_management::config_daemon::ParameterSetQualifier): ResultBlank
     --
     Responsibility: This class encapsulates the collection of ParameterSets in detailed design.
 }
-IReadOnlyParameterSetCollection <|-down- IParameterSetCollection
+}
 !endsub
+IReadOnlyParameterSetCollection <|-down- IParameterSetCollection
 
 !startsub ParameterSetCollection
+namespace score::config_management::config_daemon::data_model {
+
 class ParameterSetCollection {
     + Insert(set_name : const score::cpp::string_view , parameter_name : const score::cpp::string_view , parameter_value : json::Any&&) : ResultBlank
     + GetParameterSet(set_name : const std::string): Result<score::cpp::pmr::string>
     + GetParameterFromSet(set_name : const score::cpp::string_view, parameter_name : const score::cpp::string_view) : Result<json::Any>
     + UpdateParameterSet(set_name : const score::cpp::string_view, set : const score::cpp::string_view ) : ResultBlank
     + SetCalibratable(set_name : const score::cpp::string_view , is_calibratable : const bool) : bool
-    + GetParameterSetQualifier(set_name : const score::cpp::string_view ) : 
-                score::Result<score::config_management::config_daemon::ParameterSetQualifier>
-    + SetParameterSetQualifier(
-            set_name : const score::cpp::string_view ,
+    + GetParameterSetQualifier(set_name : const score::cpp::string_view ) : score::Result<score::config_management::config_daemon::ParameterSetQualifier>
+    + SetParameterSetQualifier(\n\
+            set_name : const score::cpp::string_view ,\n\
             qualifier : const score::config_management::config_daemon::ParameterSetQualifier ): ResultBlank
     --
-    - mutex_ : mutable std::mutex
+    - mutex_ : std::mutex
     - parameter_sets_ : std::unordered_map<score::cpp::pmr::string, std::shared_ptr<ParameterSet>>
 }
-IParameterSetCollection <|-down- ParameterSetCollection
 ParameterSetCollection o-down- ParameterSet
+}
+IParameterSetCollection <|-down- ParameterSetCollection
 !endsub
 
 !startsub ParameterSet
+namespace score::config_management::config_daemon::data_model {
 class ParameterSet {
     + ParameterSet(json_writer : std::unique_ptr<json::IJsonWriter>)
     + GetParameterSetAsString() : Result<score::cpp::pmr::string>
@@ -62,9 +68,12 @@ class ParameterSet {
     Responsibility: This class encapsulates the idea of ParameterSet in detailed design
 }
 ParameterSet o-down- Parameter
+}
+ParameterSet o-down- score::config_management::config_daemon::ParameterSetQualifier
 !endsub
 
 !startsub Parameter
+namespace score::config_management::config_daemon::data_model {
 class Parameter{
     + GetValue(): const json::Any&
     + SetValue(value : json::Any&&): void
@@ -73,14 +82,17 @@ class Parameter{
     --
     Responsibility: This class encapsulates the idea of Parameter in detailed design.
 }
+}
 !endsub
 
 !startsub ParameterSetQualifier
+namespace score::config_management::config_daemon {
 enum ParameterSetQualifier {
     kUnqualified
     kQualified
     kDefault
     kModified
+}
 }
 !endsub
 

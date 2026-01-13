@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,7 +10,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
 
 #include "score/json/json_writer.h"
@@ -168,7 +167,7 @@ score::Result<std::string> ParameterSet::ConvertJsonToString(const score::json::
     return write_result.value();
 }
 
-score::Result<score::platform::config_daemon::ParameterSetQualifier> ParameterSet::GetQualifier() const
+score::Result<score::config_management::config_daemon::ParameterSetQualifier> ParameterSet::GetQualifier() const
 {
     // Acquiring set Object
     const auto& set_result = set_json_.As<score::json::Object>();
@@ -190,9 +189,9 @@ score::Result<score::platform::config_daemon::ParameterSetQualifier> ParameterSe
     if (value_result.has_value() == true)
     {
         const std::uint8_t qualifier = value_result.value();
-        if (qualifier <= score::cpp::to_underlying(score::platform::config_daemon::ParameterSetQualifier::kModified))
+        if (qualifier <= score::cpp::to_underlying(score::config_management::config_daemon::ParameterSetQualifier::kModified))
         {
-            return static_cast<score::platform::config_daemon::ParameterSetQualifier>(qualifier);
+            return static_cast<score::config_management::config_daemon::ParameterSetQualifier>(qualifier);
         }
     }
     return MakeUnexpected(ConfigProviderError::kValueCastingError);

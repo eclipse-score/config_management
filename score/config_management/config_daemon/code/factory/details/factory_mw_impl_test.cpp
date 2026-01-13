@@ -65,27 +65,29 @@ class TestFactoryMwImpl : public ::testing::Test
 TEST_F(TestFactoryMwImpl, Destruction)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_daemon::Factory()");
-    RecordProperty("Description", "Verify that Factory instances can be destroyed safely");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::~Factory");
+    RecordProperty("Description", "Verify that Factory instances can be destroyed safely without throwing.");
 
     std::unique_ptr<IFactory> factory_base = std::make_unique<Factory>();
-    factory_base.reset();
+    EXPECT_NO_THROW(factory_base.reset());
 
     auto factory_impl = std::make_unique<Factory>();
-    factory_impl.reset();
+    EXPECT_NO_THROW(factory_impl.reset());
 
-    {
+    EXPECT_NO_THROW([]() {
         Factory factory;
         score::cpp::ignore = factory;
-    }
+    }());
 }
 
 TEST_F(TestFactoryMwImpl, CreateInternalConfigProviderServiceSuccess)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "Factory::CreateInternalConfigProviderService()");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::CreateInternalConfigProviderService()");
     RecordProperty("Description", "Ensure a valid InternalConfigProviderService is created");
 
     const auto parameter_data = std::make_shared<data_model::ParameterSetCollection>();
@@ -102,13 +104,14 @@ TEST_F(TestFactoryMwImpl, CreateInternalConfigProviderServiceSuccess)
     RecordProperty("Result", "CreateInternalConfigProviderServiceSuccess Passed");
 }
 
-TEST_F(TestFactoryMwImpl, CreateInternalConfigProviderServiceFail)
+TEST_F(TestFactoryMwImpl, CreateInternalConfigProviderService_InvalidParameterData)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "Factory::CreateInternalConfigProviderService()");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::CreateInternalConfigProviderService()");
     RecordProperty("Description",
-                   "Verify service is created, but invalid parameter data leads to failure when accessed");
+                   "Verify that service creation succeeds, but accessing an invalid parameter set fails as expected.");
 
     const auto parameter_data = std::make_shared<data_model::ParameterSetCollection>();
     auto result = parameter_data->UpdateParameterSet("InvalidSet", "not-a-json");
@@ -220,8 +223,9 @@ TEST_F(TestFactoryMwImpl, CreateInitialQualifierStateSenderFail)
 TEST_F(TestFactoryMwImpl, CreateParameterSetCollection)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "Factory::CreateParameterSetCollection()");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::CreateParameterSetCollection()");
     RecordProperty("Description", "Ensure valid ParameterSetCollection is created");
 
     const auto parameter_data = unit_->CreateParameterSetCollection();
@@ -232,8 +236,9 @@ TEST_F(TestFactoryMwImpl, CreateParameterSetCollection)
 TEST_F(TestFactoryMwImpl, CreatePluginCollector)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "Factory::CreatePluginCollector()");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::CreatePluginCollector()");
     RecordProperty("Description", "Ensure valid PluginCollector is created");
 
     const auto plugin_collector = unit_->CreatePluginCollector();

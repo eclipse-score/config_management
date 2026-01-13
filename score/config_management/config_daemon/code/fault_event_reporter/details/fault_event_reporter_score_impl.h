@@ -1,5 +1,17 @@
-#ifndef SCORE_SYSFUNC_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_DETAILS_FAULT_EVENT_REPORTER_SCORE_IMPL_H
-#define SCORE_SYSFUNC_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_DETAILS_FAULT_EVENT_REPORTER_SCORE_IMPL_H
+// *******************************************************************************
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the
+// terms of the Apache License Version 2.0 which is available at
+// https://www.apache.org/licenses/LICENSE-2.0
+//
+// SPDX-License-Identifier: Apache-2.0
+// *******************************************************************************
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_DETAILS_FAULT_EVENT_REPORTER_SCORE_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_DETAILS_FAULT_EVENT_REPORTER_SCORE_IMPL_H
 
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter.h"
 
@@ -32,4 +44,4 @@ class FaultEventReporter : public IFaultEventReporter
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_SYSFUNC_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_DETAILS_FAULT_EVENT_REPORTER_SCORE_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_DETAILS_FAULT_EVENT_REPORTER_SCORE_IMPL_H

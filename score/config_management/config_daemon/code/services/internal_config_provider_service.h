@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
-#define CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
 
 #include "platform/aas/mw/service/provided_service.h"
 #include "score/config_management/config_daemon/code/types/initial_qualifier_state/initial_qualifier_state.h"
@@ -43,4 +43,4 @@ class IInternalConfigProviderService : public ::score::mw::service::ProvidedServ
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H

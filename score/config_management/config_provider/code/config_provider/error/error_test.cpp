@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,7 +10,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
 #include <gtest/gtest.h>
@@ -32,11 +31,13 @@ TEST(ConfigProviderErrorTest, CanConvertToString)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::MakeError");
-    RecordProperty("ASIL", "QM");
+    RecordProperty("Verifies", "::score::platform::config_provider::MakeError()");
     RecordProperty(
         "Description",
         "This test verifies that all possible error types are covered with a corresponding error text message.");
+    // Given all possible PersistencyError values
+    // When MakeError is called
+    // Then the correct message is returned
     TestMessage(ConfigProviderError::kParsingFailed, "JSON parsing failed");
     TestMessage(ConfigProviderError::kObjectCastingError, "Failed to cast JSON to object instance.");
     TestMessage(ConfigProviderError::kParameterNotFound, "Parameter name was not found in JSON");

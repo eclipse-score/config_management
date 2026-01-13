@@ -1,14 +1,15 @@
 @startuml
 
 !startsub ConfigProviderFactory
+namespace score::platform::config_provider {
 class ConfigProviderFactory {
     + Create(\n\
     token : score::cpp::stop_token,\n\
     timeout : std::chrono::milliseconds,\n\
     max_samples_limit : score::cpp::optional<std::size_t>,\n\
     polling_cycle_interval : score::cpp::optional<std::chrono::milliseconds>,\n\
-    score::cpp::pmr::memory_resource* const memory_resource : score::cpp::pmr::memory_resource* const,\n\
-    callback : IsAvailableNotificationCallback&&) : score::cpp::pmr::unique_ptr<ConfigProvider> 
+    memory_resource : score::cpp::pmr::memory_resource* const,\n\
+    callback : IsAvailableNotificationCallback&&) : score::cpp::pmr::unique_ptr<ConfigProvider>
     + Create(\n\
     token : score::cpp::stop_token,\n\
     persistency : score::cpp::pmr::unique_ptr<Persistency>,\n\
@@ -30,6 +31,7 @@ class ConfigProviderFactory {
     - logger_ : mw::log::Logger&
     --
     Responsibility: This class is responsible to create ConfigProvider class
+}
 }
 !endsub
 

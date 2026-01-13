@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_SERVICES_DETAILS_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_IMPL_H
-#define CODE_SERVICES_DETAILS_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_DETAILS_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_DETAILS_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_IMPL_H
 
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces/read_only_parameterset_collection.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service_reactor.h"
@@ -39,4 +39,4 @@ class InternalConfigProviderServiceReactorImpl final : public InternalConfigProv
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_SERVICES_DETAILS_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_DETAILS_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_IMPL_H

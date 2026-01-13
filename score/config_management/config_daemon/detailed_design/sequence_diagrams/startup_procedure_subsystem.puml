@@ -1,0 +1,178 @@
+@startuml
+
+participant LifeCycleManager
+participant BasicSecurity
+participant SoftwareIdProvider
+participant SoftwareIdProviderService
+participant SecureEcuMode
+participant VinIdCertService
+participant SecureFeatureRegistryService
+participant CryptoService
+participant SWUP
+participant ProgIdService
+participant SvkCafIdProxy
+participant "mw::com via IPC" as IPC
+participant SvkCafIdService
+participant "mw::service::ProxyNeeds<>" as ProxyNeeds
+participant InternalConfigProviderService
+participant ConfigDaemon
+participant VehicleIdentificationNumber
+participant VehicleProfileChecksum
+participant "IPBASIS:VCM" as IPBASIS
+
+note over ProxyNeeds  #Orange
+mw::service::ProxyNeeds<>
+--
+mw::service::Optional<IProgIdProxy>,
+mw::service::Optional<ISoftwareIdProviderProxy>,
+mw::service::Optional<IVINProxy>,
+mw::service::Optional<IVPCProxy>,
+mw::service::Optional<IVinIdCertProxy>,
+mw::service::Optional<ISecureEcuModeProxy>,
+mw::service::Optional<ISecureFeatureRegistryProxy>,
+mw::service::Optional<ICryptoProxy>,
+end note
+
+activate IPBASIS
+create VehicleIdentificationNumber
+IPBASIS -> VehicleIdentificationNumber : create
+activate VehicleIdentificationNumber
+create VehicleProfileChecksum
+IPBASIS -> VehicleProfileChecksum : create
+activate VehicleProfileChecksum
+deactivate IPBASIS
+
+VehicleIdentificationNumber -> IPC : OfferService()
+deactivate VehicleIdentificationNumber
+
+VehicleProfileChecksum -> IPC : OfferService()
+deactivate VehicleProfileChecksum
+
+activate LifeCycleManager
+create SoftwareIdProvider
+LifeCycleManager -> SoftwareIdProvider : create
+create BasicSecurity
+LifeCycleManager -> BasicSecurity : create
+create SWUP
+LifeCycleManager -> SWUP : create
+create ConfigDaemon
+LifeCycleManager -> ConfigDaemon : create
+LifeCycleManager -> ConfigDaemon : ConfigDaemon::Initialize()
+activate ConfigDaemon
+create InternalConfigProviderService
+ConfigDaemon -> InternalConfigProviderService : create
+deactivate ConfigDaemon
+
+activate SoftwareIdProvider
+create SoftwareIdProviderService
+SoftwareIdProvider -> SoftwareIdProviderService : create
+deactivate SoftwareIdProvider
+activate SoftwareIdProviderService
+SoftwareIdProviderService -> IPC : OfferService()
+deactivate SoftwareIdProviderService
+
+LifeCycleManager -> ConfigDaemon : ConfigDaemon::Run()
+activate ConfigDaemon
+create ProxyNeeds
+ConfigDaemon -> ProxyNeeds : create
+deactivate LifeCycleManager
+
+activate SWUP
+create ProgIdService
+SWUP -> ProgIdService : create
+activate ProgIdService
+note right of ProgIdService #LightBlue
+SWUP is not blocked by CAF-ID (optional proxy)and
+can offer ProgId without deadlock
+end note
+ProgIdService -> IPC : OfferService()
+
+deactivate ProgIdService
+deactivate SWUP
+
+activate BasicSecurity
+
+create SecureEcuMode
+BasicSecurity -> SecureEcuMode : create
+activate SecureEcuMode
+SecureEcuMode -> IPC : OfferService()
+deactivate SecureEcuMode
+
+create VinIdCertService
+BasicSecurity -> VinIdCertService : create
+activate VinIdCertService
+VinIdCertService -> IPC : OfferService()
+deactivate VinIdCertService
+
+ConfigDaemon -> ConfigDaemon : WaitForProxies
+note right of ConfigDaemon #LightBlue
+BUS-VIN, BUS-VPC are likely to be available before
+SecureEcuMode, VinIdCert and ProgId.
+end note
+note right of ConfigDaemon #LightBlue
+The availability of SecureFeatureRegistryProxy and CryptoProxy
+are not necessary before the CheckQualify.
+end note
+note right of ConfigDaemon #LightBlue
+ProgId, SecureEcuMode are prerequisites for initial check.
+This check determines which data to load in data model.
+end note
+
+ProxyNeeds -> IPC : FindService()
+activate ProxyNeeds
+ProxyNeeds -> ConfigDaemon : Proxy.hasValue() == true
+deactivate ProxyNeeds
+ConfigDaemon -> IPC : attribute.get()
+IPC --> ConfigDaemon
+deactivate ConfigDaemon
+
+create SecureFeatureRegistryService
+BasicSecurity -> SecureFeatureRegistryService : create
+activate SecureFeatureRegistryService
+SecureFeatureRegistryService -> IPC : OfferService()
+deactivate SecureFeatureRegistryService
+
+IPC --> ConfigDaemon
+activate ConfigDaemon
+ConfigDaemon -> ConfigDaemon : CheckQualify
+ConfigDaemon -> IPC : GetActivationStatus(kDisableSigCheckSfaId)
+
+create CryptoService
+BasicSecurity -> CryptoService : create
+activate CryptoService
+CryptoService -> IPC : OfferService()
+deactivate CryptoService
+IPC --> ConfigDaemon
+ConfigDaemon -> IPC : VerifyNcdSignature(keyuid, raw_ncd, signature, cps)
+deactivate BasicSecurity
+deactivate ConfigDaemon
+
+activate SWUP
+create SvkCafIdProxy
+SWUP -> SvkCafIdProxy : create
+deactivate SWUP
+
+activate SvkCafIdProxy
+SvkCafIdProxy -> IPC : FindService()
+
+activate ConfigDaemon
+ConfigDaemon -> ConfigDaemon : LoadCodingData
+create SvkCafIdService
+ConfigDaemon -> SvkCafIdService : create
+deactivate ConfigDaemon
+activate SvkCafIdService
+SvkCafIdService -> IPC : OfferService()
+deactivate SvkCafIdService
+
+IPC --> SvkCafIdProxy
+deactivate SvkCafIdProxy
+
+activate InternalConfigProviderService
+InternalConfigProviderService -> IPC : OfferService()
+note right of InternalConfigProviderService #LightBlue
+InternalConfigProviderService is offered only after
+qualification process is finished
+end note
+deactivate InternalConfigProviderService
+
+@enduml

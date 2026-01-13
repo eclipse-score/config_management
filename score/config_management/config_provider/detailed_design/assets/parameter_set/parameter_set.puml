@@ -1,22 +1,28 @@
 @startuml
 
 !startsub ParameterSet
+namespace score::platform::config_provider {
 class ParameterSet {
-    + ParameterSet(set_json : score::json::Any, memory_resource : score::cpp::pmr::memory_resource* const)
+    + ParameterSet(set_json : score::json::Any,\n\
+     memory_resource : score::cpp::pmr::memory_resource* const)
     + ContainsSameContent(target_parameter_set : const ParameterSet&) : bool
-    + GetQualifier() : score::Result<score::platform::config_daemon::ParameterSetQualifier>
+    + GetQualifier() : score::Result<score::config_management::config_daemon::ParameterSetQualifier>
     + GetParameterAs(parameter_name : const score::cpp::string_view&) : score::Result<T>
-    + GetParameterAs(parameter_name : const score::cpp::string_view&) : score::Result<Array<typename T::value_type>>
-    + GetParameterAs(parameter_name : const score::cpp::string_view&) : score::Result<TwoDimensionalArray<typename T::value_type::value_type>>
+    + GetParameterAs(\n\
+    parameter_name : const score::cpp::string_view&) : score::Result<Array<typename T::value_type>>
+    + GetParameterAs(\n\
+    parameter_name : const score::cpp::string_view&) : score::Result<TwoDimensionalArray<typename T::value_type::value_type>>
     + FormatAsKeyValuePairs() : score::Result<std::string>
     + GetParametersAsString() : score::Result<std::string>
-    + GetParameterAsJsonAny(parameter_name : const score::cpp::string_view&) : score::Result<std::reference_wrapper<const score::json::Any>>
+    + GetParameterAsJsonAny(\n\
+    parameter_name : const score::cpp::string_view&) : Result<std::reference_wrapper<const json::Any>>
     --
     - logger_ : mw::log::Logger&
     - set_json_ : score::json::Any
     - memory_resource_ : score::cpp::pmr::memory_resource* const
     --
     Responsibility: This class is responsible for storing Parameter's data
+}
 }
 !endsub
 

@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_DATA_MODEL_DETAILS_COMMON_H
-#define CODE_DATA_MODEL_DETAILS_COMMON_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_COMMON_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_COMMON_H
 
 #include <score/string.hpp>
 #include <score/string_view.hpp>
@@ -33,4 +33,4 @@ score::cpp::pmr::string AsString(const score::cpp::string_view s) noexcept;
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_DATA_MODEL_DETAILS_COMMON_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_COMMON_H

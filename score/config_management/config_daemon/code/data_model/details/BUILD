@@ -34,16 +34,16 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
-        "//platform/aas/test/sysfunc/config_daemon:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "@score_config_management//score:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/json",
-        "@score-baselibs//score/mw/log",
-        "@score-config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
-        "@score-config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
-        "@score-config_management//score/config_management/config_daemon/code/data_model/error",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/json",
+        "@score_baselibs//score/mw/log",
+        "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
+        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "@score_config_management//score/config_management/config_daemon/code/data_model/error",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -55,10 +55,10 @@ cc_test(
     ],
     features = COMMON_FEATURES,
     tags = ["unit"],
-    visibility = ["@score-config_management//score/config_management/config_daemon/code/data_model:__pkg__"],
+    visibility = ["@score_config_management//score/config_management/config_daemon/code/data_model:__pkg__"],
     deps = [
         ":parameterset_collection_impl",
-        "@score-baselibs//score/json:mock",
+        "@score_baselibs//score/json:mock",
         "@googletest//:gtest_main",
     ],
 )

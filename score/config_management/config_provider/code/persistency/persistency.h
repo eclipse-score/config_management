@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,11 +10,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_H
 
-#include "platform/aas/lib/filesystem/filesystem.h"
+#include "score/filesystem/filesystem.h"
 #include "score/result/result.h"
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
 
@@ -55,7 +54,7 @@ class Persistency
     ///
     virtual void ReadCachedParameterSets(ParameterMap& cached_parameter_sets,
                                          score::cpp::pmr::memory_resource* memory_resource,
-                                         std::unique_ptr<score::filesystem::Filesystem> filesystem) noexcept = 0;
+                                         const score::filesystem::Filesystem& filesystem) noexcept = 0;
 
     /// @brief Cache a parameter set into the persistency cluster
     ///

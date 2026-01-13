@@ -1,4 +1,4 @@
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 cc_library(
     name = "initial_qualifier_state_types",
@@ -13,7 +13,7 @@ cc_library(
     visibility = [
         "//visibility:public",
     ],
-    deps = ["@score-baselibs//score/language/futurecpp"],
+    deps = ["@score_baselibs//score/language/futurecpp"],
 )
 
 cc_library(
@@ -32,7 +32,7 @@ cc_library(
     deps = [
         ":initial_qualifier_state_types",
         "//score/config_management/config_provider/code/parameter_set",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -52,7 +52,7 @@ cc_library(
         ":config_provider",
         "//score/config_management/config_provider/code/parameter_set",
         "@googletest//:gtest",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 

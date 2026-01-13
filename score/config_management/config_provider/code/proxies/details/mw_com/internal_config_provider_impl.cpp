@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,11 +10,10 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #include "score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
-#include "platform/aas/lib/concurrency/future/interruptible_promise.h"
+#include "score/concurrency/future/interruptible_promise.h"
 #include "score/json/json_parser.h"
 
 #include <sstream>
@@ -32,7 +31,7 @@ constexpr std::size_t kDefaultMaxSamplesLimit{500U};
 constexpr std::chrono::seconds kDefaultPollingCycleInterval{5U};
 
 /* KW_SUPPRESS_START:MISRA.LINKAGE.EXTERN: false positive */
-InitialQualifierState Convert(const score::platform::config_daemon::mw_com_icp_types::InitialQualifierState value)
+InitialQualifierState Convert(const score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState value)
 {
     // Suppress "AUTOSAR C++14 M6-4-5" and "AUTOSAR C++14 M6-4-3", The rule states: An unconditional throw or break
     // statement shall terminate every nonempty switch-clause." and "A switch statement shall be a well-formed
@@ -43,22 +42,22 @@ InitialQualifierState Convert(const score::platform::config_daemon::mw_com_icp_t
     switch (value)
     {
         // coverity[autosar_cpp14_m6_4_5_violation] Return will terminate this switch clause
-        case score::platform::config_daemon::mw_com_icp_types::InitialQualifierState::kDefault:
+        case score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState::kDefault:
             return InitialQualifierState::kDefault;
         // coverity[autosar_cpp14_m6_4_5_violation] Return will terminate this switch clause
-        case score::platform::config_daemon::mw_com_icp_types::InitialQualifierState::kInProgress:
+        case score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState::kInProgress:
             return InitialQualifierState::kInProgress;
         // coverity[autosar_cpp14_m6_4_5_violation] Return will terminate this switch clause
-        case score::platform::config_daemon::mw_com_icp_types::InitialQualifierState::kQualified:
+        case score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState::kQualified:
             return InitialQualifierState::kQualified;
         // coverity[autosar_cpp14_m6_4_5_violation] Return will terminate this switch clause
-        case score::platform::config_daemon::mw_com_icp_types::InitialQualifierState::kQualifying:
+        case score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState::kQualifying:
             return InitialQualifierState::kQualifying;
         // coverity[autosar_cpp14_m6_4_5_violation] Return will terminate this switch clause
-        case score::platform::config_daemon::mw_com_icp_types::InitialQualifierState::kUnqualified:
+        case score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState::kUnqualified:
             return InitialQualifierState::kUnqualified;
         // coverity[autosar_cpp14_m6_4_5_violation] Return will terminate this switch clause
-        case score::platform::config_daemon::mw_com_icp_types::InitialQualifierState::kUndefined:
+        case score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState::kUndefined:
             return InitialQualifierState::kUndefined;
         // coverity[autosar_cpp14_m6_4_5_violation] Return will terminate this switch clause
         default:
@@ -143,8 +142,8 @@ InitialQualifierState InternalConfigProvider::GetInitialQualifierState(const std
     lock.unlock();
 
     const auto value_converted = Convert(initial_qualifier_state_);
-    logger_.LogInfo() << "InternalConfigProvider::" << __func__
-                      << ": InitialQualifierState: " << static_cast<std::underlying_type_t<InitialQualifierState>>(value_converted);
+    logger_.LogInfo() << "InternalConfigProvider::" << __func__ << ": InitialQualifierState: "
+                      << static_cast<std::underlying_type_t<InitialQualifierState>>(value_converted);
     return value_converted;
 }
 

@@ -1,4 +1,4 @@
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 cc_library(
     name = "error",
@@ -15,11 +15,11 @@ cc_library(
     ],
     tags = ["FUSA"],
     visibility = [
-        "//platform/aas/pas/calibration_server/code:__subpackages__",
+        
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/result",
+        "@score_baselibs//score/result",
     ],
 )
 

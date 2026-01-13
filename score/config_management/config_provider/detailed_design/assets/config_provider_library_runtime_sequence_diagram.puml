@@ -1,7 +1,7 @@
 @startuml
 
 skinparam SequenceMessageAlignment center
-title ConfigProvider library runtime 
+title ConfigProvider library runtime
 
 group ConfigProvider Library
 participant AdaptiveApplication
@@ -57,7 +57,7 @@ alt Parameter set key found
     activate InternalConfigProviderImpl
     InternalConfigProviderImpl-> mwCom : proxy_->GetParameterSet(set_name: score::cpp::string_view)
     activate mwCom
-    InternalConfigProviderImpl <-- mwCom : ParameterSet& 
+    InternalConfigProviderImpl <-- mwCom : ParameterSet&
     deactivate mwCom
     ConfigProvider <-- InternalConfigProviderImpl : ParameterSet&
     deactivate InternalConfigProviderImpl
@@ -67,12 +67,12 @@ alt Parameter set key found
     deactivate AdaptiveApplication
 
 else else
-end 
+end
 
 ConfigProvider --> InternalConfigProviderImpl
 InternalConfigProviderImpl --> mwCom
 mwCom --> : void
-<-- AdaptiveApplication 
+<-- AdaptiveApplication
 
 end group
 

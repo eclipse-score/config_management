@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
-#define CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
 
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
 
@@ -59,4 +59,4 @@ class ParameterSetCollectionMock final : public IParameterSetCollection
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H

@@ -1,64 +1,80 @@
- @startuml
+@startuml
 
 skinparam SequenceMessageAlignment center
-title ConfigProvider library initialization 
+title ConfigProvider library initialization
 
 participant AdaptiveApplication
-
--> AdaptiveApplication : Initialize()
-activate AdaptiveApplication
-create ConfigProvider
 participant ProxyFactory
 participant "mw::service" as mwService
-AdaptiveApplication -> ConfigProvider : <<ConfigProvider()>> 
+participant "mw::com" as mwCom
+participant "KeyValueStorage" as KVS <<external>>
+
+AdaptiveApplication -> AdaptiveApplication : Initialize()
+activate AdaptiveApplication
+
+create ConfigProvider
+AdaptiveApplication -> ConfigProvider : ConfigProvider()
+
 activate ConfigProvider
-ConfigProvider -> ProxyFactory : ProxyFactory::Create()
+
+ConfigProvider -> ProxyFactory : Create(proxies)
 activate ProxyFactory
-ProxyFactory --> ConfigProvider : proxies = mw::service::ProxyNeeds::Create<InternalConfigProviderStrategy>
+ProxyFactory --> ConfigProvider : proxies = ProxyNeeds::Create<InternalConfigProviderStrategy>()
 deactivate ProxyFactory
 
 ConfigProvider -> mwService : WaitForMandatoryProxies(token)
 activate mwService
 mwService -> mwCom : FindService()
 activate mwCom
-mwCom --> mwService : void
+mwCom --> mwService : ok
 deactivate mwCom
-
-create InternalConfigProviderImpl
-mwService -> InternalConfigProviderImpl : <<InternalConfigProviderImpl(\nproxy: std::unique_ptr<AdaptiveProxy>,  \ntimeout: const std::chrono::nanoseconds)>>
-participant "mw::com" as mwCom
-
-mwService --> ConfigProvider : Container = ProxyContainer<ProxySpec...>
+mwService --> ConfigProvider : ProxyContainer<ProxySpec...>
 deactivate mwService
 
 ConfigProvider -> mwService : proxies.Get<InternalConfigProvider>()
 activate mwService
-mwService --> ConfigProvider : std::unique_ptr<InternalConfigProvider> internal_config_provider_proxy_
+mwService --> ConfigProvider : internal_config_provider_proxy_
 deactivate mwService
 
-ConfigProvider -> InternalConfigProviderImpl : TrySubscribeToLastUpdatedParameterSetEvent(stop_token: const score::cpp::stop_token&, callback: score::cpp::callback<void(score::cpp::string_view)>)
+create InternalConfigProviderImpl
+ConfigProvider -> InternalConfigProviderImpl : InternalConfigProviderImpl(\n  proxy, timeout\n)
+
+ConfigProvider -> InternalConfigProviderImpl : TrySubscribeToLastUpdatedParameterSetEvent(\n  stop_token, callback\n)
 activate InternalConfigProviderImpl
-InternalConfigProviderImpl -> mwCom : proxy_->LastUpdatedParameterSet.SetReceiveHandler(callback)
+InternalConfigProviderImpl -> mwCom : SetReceiveHandler(callback)
 activate mwCom
-mwCom --> InternalConfigProviderImpl : void
+mwCom --> InternalConfigProviderImpl : ok
 deactivate mwCom
-InternalConfigProviderImpl -> mwCom: proxy_->LastUpdatedParameterSet.Subscribe(mw::com::EventCacheUpdatePolicy::kNewestN, 1)
+
+InternalConfigProviderImpl -> mwCom : Subscribe(kNewestN, 1)
 activate mwCom
-mwCom --> InternalConfigProviderImpl : void
+mwCom --> InternalConfigProviderImpl : ok
 deactivate mwCom
-InternalConfigProviderImpl --> ConfigProvider : bool
+InternalConfigProviderImpl --> ConfigProvider : subscribed
 deactivate InternalConfigProviderImpl
 
-ConfigProvider --> AdaptiveApplication
+ConfigProvider --> AdaptiveApplication : init complete
+
+create PersistencyFactory
+ConfigProvider -> PersistencyFactory : Create(handle, memory_resource)
+PersistencyFactory -> KVS : Open(storage_specifier)
+activate KVS
+KVS --> PersistencyFactory : SharedHandle
+deactivate KVS
+PersistencyFactory --> ConfigProvider : PersistencyImpl
+
+ConfigProvider -> PersistencyImpl : ReadCachedParameterSets(...)
+PersistencyImpl -> KVS : GetAllKeys()
+KVS --> PersistencyImpl : keys
+PersistencyImpl --> ConfigProvider : cached sets
+
+ConfigProvider --> AdaptiveApplication : ready
 deactivate ConfigProvider
 
+AdaptiveApplication -> ConfigProvider : OnChangedParameterSet(\n  set_name, callback\n)
+activate ConfigProvider
+ConfigProvider -> ConfigProvider : register handler
+ConfigProvider --> AdaptiveApplication : registered
+deactivate ConfigProvider
 
-AdaptiveApplication -> ConfigProvider:  OnChangedParameterSet(set_name: score::cpp::string_view, \nscore::cpp::callback<void(ParameterSet&)>)
-activate ConfigProvider
-ConfigProvider -> ConfigProvider : client_handlers[set_name] = this_parameter_set_update_callback
-activate ConfigProvider
-deactivate ConfigProvider
-ConfigProvider --> AdaptiveApplication : void
-deactivate ConfigProvider
-<-- AdaptiveApplication 
 @enduml

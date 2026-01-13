@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,7 +10,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #include "score/config_management/config_provider/code/persistency/details/persistency_empty.h"
 #include <gtest/gtest.h>
 
@@ -40,11 +39,12 @@ TEST_F(PersistencyImplTest, Test_ReadCachedParameterSets)
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::platform::config_provider::PersistencyImpl::ReadCachedParameterSets()");
-    RecordProperty("Description",
-                   "This test verifies that ReadCachedParameterSets is called when there is no cached values.");
+    RecordProperty("Description", "This test verifies that ReadCachedParameterSets is called without exceptions.");
 
+    // Given there is no cached values
     ParameterMap cached_parameter_set;
-    sut_->ReadCachedParameterSets(cached_parameter_set, score::cpp::pmr::get_default_resource(), nullptr);
+    score::filesystem::Filesystem filesystem = score::filesystem::FilesystemFactory{}.CreateInstance();
+    sut_->ReadCachedParameterSets(cached_parameter_set, score::cpp::pmr::get_default_resource(), filesystem);
 }
 
 TEST_F(PersistencyImplTest, Test_CacheParameterSet)
@@ -53,10 +53,12 @@ TEST_F(PersistencyImplTest, Test_CacheParameterSet)
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::platform::config_provider::PersistencyImpl::CacheParameterSet()");
-    RecordProperty("Description", "This test verifies that CacheParameterSet is called with no caching performed.");
+    RecordProperty("Description", "This test verifies that CacheParameterSet is called without exceptions.");
 
+    // Given there is no content to be cached
     ParameterMap cached_parameter_set;
-    sut_->CacheParameterSet(cached_parameter_set, "", nullptr, false);
+    // Then CacheParameterSet would execute without exceptions
+    EXPECT_NO_THROW(sut_->CacheParameterSet(cached_parameter_set, "", nullptr, false));
 }
 
 TEST_F(PersistencyImplTest, Test_SyncToStorage)
@@ -65,9 +67,11 @@ TEST_F(PersistencyImplTest, Test_SyncToStorage)
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::platform::config_provider::PersistencyImpl::SyncToStorage()");
-    RecordProperty("Description", "This test verifies that SyncToStorage is called with no caching performed.");
+    RecordProperty("Description", "This test verifies that SyncToStorage is called without exceptions.");
 
-    sut_->SyncToStorage();
+    // Given an existing persistency
+    // Then SyncToStorage would execute without exceptions
+    EXPECT_NO_THROW(sut_->SyncToStorage());
 }
 
 }  // namespace

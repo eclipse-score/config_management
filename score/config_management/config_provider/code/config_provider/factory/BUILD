@@ -1,4 +1,4 @@
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 [
     cc_library(
@@ -13,18 +13,28 @@ load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and
         ],
         tags = ["FUSA"],
         visibility = [
-            "//platform/aas/pas/calibration_server/code:__subpackages__",
-            "//config_management/ConfigDaemon/test:__subpackages__",
+            
+            "@score_config_management//score/config_management/config_daemon/test:__subpackages__",
             "//score/config_management/config_provider:__subpackages__",
         ],
         deps = [
-            "@score-baselibs//score/mw/log",
-            "//platform/aas/mw/service:factory",
+            "@score_baselibs//score/mw/log",
+            "@score_communication//score/mw/service:factory",
             "//score/config_management/config_provider/code/config_provider/details",
             "//score/config_management/config_provider/code/persistency/details:persistency_empty",
         ] + dep,
     )
     for name, test_only, srcs, hdrs, dep in [
+        (
+            "_socal_r20_11",
+            False,
+            ["factory_socal_r20_11.cpp"],
+            ["factory_socal_r20_11.h"],
+            [
+                "//score/config_management/config_provider/code/proxies/details:internal_config_provider_impl_ara_com",
+                "@score_communication//score/mw/service/mw:mw_socal_r20_11",
+            ],
+        ),
         (
             "_mw_com",
             False,
@@ -32,7 +42,17 @@ load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and
             ["factory_mw_com.h"],
             [
                 "//score/config_management/config_provider/code/proxies/details:internal_config_provider_impl_mw_com",
-                "//platform/aas/mw/service/backend/mw_com:single_instantiation_strategy",
+                "@score_communication//score/mw/service/backend/mw_com:single_instantiation_strategy",
+            ],
+        ),
+        (
+            "_socal_r20_11_for_unit_tests",
+            True,
+            ["factory_socal_r20_11.cpp"],
+            ["factory_socal_r20_11.h"],
+            [
+                "//score/config_management/config_provider/code/proxies/details:internal_config_provider_impl_for_ara_com_unit_tests",
+                "@score_communication//score/mw/service/mw:mw_test",
             ],
         ),
         (
@@ -42,7 +62,7 @@ load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and
             ["factory_mw_com.h"],
             [
                 "//score/config_management/config_provider/code/proxies/details:internal_config_provider_impl_for_mw_com_unit_tests",
-                "//platform/aas/mw/service/backend/mw_com:single_instantiation_strategy",
+                "@score_communication//score/mw/service/backend/mw_com:single_instantiation_strategy",
             ],
         ),
     ]

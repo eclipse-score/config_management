@@ -26,12 +26,12 @@
         ],
         tags = ["FUSA"],
         visibility = [
-            "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
+            "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
-            "@score-baselibs//score/mw/log",
-            "@score-config_management//score/config_management/config_daemon/code/plugins:plugin",
-            "@score-config_management//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
+            "@score_baselibs//score/mw/log",
+            "@score_config_management//score/config_management/config_daemon/code/plugins:plugin",
+            "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
         ] + dependencies,
     )
     for name, testonly, dependencies in [
@@ -39,15 +39,15 @@
             "details",
             False,
             [
-                "@score-config_management//score/config_management/config_daemon/code/plugins:plugin_creator",
+                "@score_config_management//score/config_management/config_daemon/code/plugins:plugin_creator",
             ],
         ),
         (
             "details_for_unit_test",
             True,
             [
-                "@score-config_management//score/config_management/config_daemon/code/plugins:mock",
-                "@score-config_management//score/config_management/config_daemon/code/plugins:plugin_creator_mock",
+                "@score_config_management//score/config_management/config_daemon/code/plugins:mock",
+                "@score_config_management//score/config_management/config_daemon/code/plugins:plugin_creator_mock",
             ],
         ),
     ]
@@ -62,9 +62,9 @@ cc_test(
         "additional_warnings",
     ],
     tags = ["unit"],
-    visibility = ["@score-config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
     deps = [
         ":details_for_unit_test",
-        "@score-baselibs//score/mw/log/test/console_logging_environment",
+        #"@score_baselibs//score/mw/log/test/console_logging_environment",
     ],
 )

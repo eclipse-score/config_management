@@ -1,33 +1,29 @@
 @startuml
 
 !startsub IConfigDaemon
+namespace score::config_management::config_daemon {
 abstract class IConfigDaemon {
+}
 }
 !endsub
 
 !startsub ConfigDaemon
+namespace score::config_management::config_daemon {
 class ConfigDaemon {
-!if ($config_daemon_details_level < 2)
   + ConfigDaemon(factory : std::unique_ptr<IFactory>)
   + Initialize(context : const ApplicationContext&) : std::int32_t
   + Run(token : const score::cpp::stop_token&) : std::int32_t
-!endif
   --
-!if ($config_daemon_details_level < 3)
   - logger_ : mw::log::Logger&
   - parameterset_collection_ : std::shared_ptr<data_model::IParameterSetCollection>
-  - parameter_set_mapping_ : std::shared_ptr<IParamSetMapping>
-!endif
-!if ($config_daemon_details_level < 5)
   - provided_services_container_ : mw::service::ProvidedServiceContainer
   - factory_ : std::unique_ptr<IFactory>
   - plugins_ : std::vector<std::shared_ptr<IPlugin>>
-!endif
+  - fault_event_reporter_ : std::shared_ptr<fault_event_reporter::IFaultEventReporter>
   --
   Responsibilities: This is the main class of ConfigDaemon application.
 }
-
-IConfigDaemon <|-- ConfigDaemon
+}
 !endsub
 
 @enduml

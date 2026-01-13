@@ -11,7 +11,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@safe_posix_platform@score-baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "internal_config_provider_type",
@@ -22,10 +22,11 @@ cc_library(
         "internal_config_provider_type.h",
     ],
     features = COMPILER_WARNING_FEATURES,
+    tags = ["FUSA"],
     visibility = [
-        "@score-config_management//score/config_management/config_daemon/code:__subpackages__",
-        "@score-config_management//score/config_management/config_daemon/test:__subpackages__",
-        "//platform/aas/sysfunc/common/ConfigProvider:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/test:__subpackages__",
+        "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
         "@score_communication//score/mw/com",

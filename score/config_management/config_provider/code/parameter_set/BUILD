@@ -1,4 +1,4 @@
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 COMMON_FEATURES = [
     "treat_warnings_as_errors",
@@ -16,9 +16,9 @@ cc_library(
         "//visibility:public",
     ],
     deps = [
-        "@score-baselibs//score/json",
-        "@score-baselibs//score/mw/log",
-        "//config_management/ConfigDaemon/code/data_model:parameter_set_qualifier",
+        "@score_baselibs//score/json",
+        "@score_baselibs//score/mw/log",
+        "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "//score/config_management/config_provider/code/config_provider/error",
     ],
 )
@@ -35,7 +35,7 @@ cc_test(
     ],
     deps = [
         ":parameter_set",
-        "//config_management/ConfigDaemon/code/data_model:parameter_set_qualifier",
+        "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "//score/config_management/config_provider/code/config_provider:config_provider_mock",
         "@googletest//:gtest_main",
     ],

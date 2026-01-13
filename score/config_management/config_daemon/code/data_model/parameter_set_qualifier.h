@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_DATA_MODEL_PARAMETER_SET_QUALIFIER_H
-#define CODE_DATA_MODEL_PARAMETER_SET_QUALIFIER_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_QUALIFIER_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_QUALIFIER_H
 
 #include <cstdint>
 
@@ -34,4 +34,4 @@ enum class ParameterSetQualifier : std::uint8_t
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_DATA_MODEL_PARAMETER_SET_QUALIFIER_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_QUALIFIER_H

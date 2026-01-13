@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,7 +10,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_MOCK_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_MOCK_H
 
@@ -32,7 +31,7 @@ class PersistencyMock : public Persistency
                 ReadCachedParameterSets,
                 (ParameterMap & cached_parameter_sets,
                  score::cpp::pmr::memory_resource* memory_resource,
-                 std::unique_ptr<score::filesystem::Filesystem>),
+                 const score::filesystem::Filesystem&),
                 (noexcept, override));
 
     MOCK_METHOD(void,

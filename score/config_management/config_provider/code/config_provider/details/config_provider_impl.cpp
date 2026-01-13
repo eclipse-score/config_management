@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,12 +10,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #include "score/config_management/config_provider/code/config_provider/details/config_provider_impl.h"
-#include "platform/aas/lib/concurrency/future/interruptible_promise.h"
+#include "score/concurrency/future/interruptible_promise.h"
 #include "score/json/json_parser.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
+#include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
 #include <score/memory.hpp>
 #include <score/memory_resource.hpp>
 #include <score/utility.hpp>
@@ -42,7 +42,40 @@ std::string GetParameterSetValue(mw::log::Logger& logger, const ParameterSet& pa
     }
     return "";
 }
+
+InitialQualifierState ConvertInitialQualifierStateToInitialQualifierState(InitialQualifierState initial_qualifier_state)
+{
+    InitialQualifierState result = InitialQualifierState::kUndefined;
+
+    switch (initial_qualifier_state)
+    {
+        case InitialQualifierState::kDefault:
+            result = InitialQualifierState::kDefault;
+            break;
+        case InitialQualifierState::kInProgress:
+            result = InitialQualifierState::kInProgress;
+            break;
+        case InitialQualifierState::kQualified:
+            result = InitialQualifierState::kQualified;
+            break;
+        case InitialQualifierState::kUnqualified:
+            result = InitialQualifierState::kUnqualified;
+            break;
+        case InitialQualifierState::kQualifying:
+            result = InitialQualifierState::kQualifying;
+            break;
+        case InitialQualifierState::kUndefined:
+            result = InitialQualifierState::kUndefined;
+            break;
+        default:
+            result = InitialQualifierState::kUndefined;
+            break;
+    }
+
+    return result;
+}
 }  // namespace
+
 ConfigProviderImpl::ConfigProviderImpl(
     mw::service::ProxyFuture<std::unique_ptr<IInternalConfigProvider>> internal_config_provider_future,
     score::cpp::stop_token user_stop_token,
@@ -66,10 +99,7 @@ ConfigProviderImpl::ConfigProviderImpl(
 {
     logger_.LogDebug() << __func__;
     const score::filesystem::FilesystemFactory filesystem_factory{};  // LCOV_EXCL_LINE optimized by compiler
-    persistency_->ReadCachedParameterSets(
-        parameter_sets_,
-        memory_resource,
-        std::make_unique<score::filesystem::Filesystem>(filesystem_factory.CreateInstance()));
+    persistency_->ReadCachedParameterSets(parameter_sets_, memory_resource, filesystem_factory.CreateInstance());
 
     score::cpp::ignore = proxy_available_thread_.emplace(
         [this](const score::cpp::stop_token jthread_stop_token,
@@ -178,11 +208,12 @@ void ConfigProviderImpl::CacheInitialQualifierState(const InitialQualifierState 
     // the operands contain binary operators"
     // Rationale: This is false positive, operands of a logical || are already parenthesized.
     // coverity[autosar_cpp14_a5_2_6_violation]
-    if ((initial_qualifier_state == InitialQualifierState::kQualified) || (initial_qualifier_state == InitialQualifierState::kUnqualified) ||
+    if ((initial_qualifier_state == InitialQualifierState::kQualified) ||
+        (initial_qualifier_state == InitialQualifierState::kUnqualified) ||
         (initial_qualifier_state == InitialQualifierState::kDefault))
     {
-        logger_.LogInfo() << __func__
-                          << ": Caching the final state:" << static_cast<std::underlying_type_t<InitialQualifierState>>(initial_qualifier_state);
+        logger_.LogInfo() << __func__ << ": Caching the final state:"
+                          << static_cast<std::underlying_type_t<InitialQualifierState>>(initial_qualifier_state);
         initial_qualifier_state_ = initial_qualifier_state;
     }
     else
@@ -247,7 +278,8 @@ ParameterSetMap ConfigProviderImpl::GetParameterSetsByNameList(const score::cpp:
                                                                const std::optional<std::chrono::milliseconds> timeout)
 {
     const auto actual_timeout = timeout.value_or(kDefaultResponseTimeout);
-    ParameterSetMap parameter_set_map{};
+    // Ensure the result map uses the same memory resource to avoid default-heap allocations
+    ParameterSetMap parameter_set_map{ParameterSetMap::allocator_type{memory_resource_}};
     {
         for (const auto& set_name : set_names)
         {
@@ -333,12 +365,19 @@ ResultBlank ConfigProviderImpl::OnChangedInitialQualifierState(InitialQualifierS
 
 InitialQualifierState ConfigProviderImpl::GetInitialQualifierState() noexcept
 {
-    return GetInitialQualifierState(std::nullopt);
+    return ConvertInitialQualifierStateToInitialQualifierState(GetInitialQualifierState(std::nullopt));
 }
 
 InitialQualifierState ConfigProviderImpl::GetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept
 {
-    logger_.LogDebug() << __func__ << ": InitialQualifierState:" << static_cast<std::underlying_type_t<InitialQualifierState>>(initial_qualifier_state_);
+    return ConvertInitialQualifierStateToInitialQualifierState(GetInitialQualifierState(timeout));
+}
+
+InitialQualifierState ConfigProviderImpl::GetInitialQualifierState(
+    const std::optional<std::chrono::milliseconds> timeout) noexcept
+{
+    logger_.LogDebug() << __func__ << ": InitialQualifierState:"
+                       << static_cast<std::underlying_type_t<InitialQualifierState>>(initial_qualifier_state_);
     if (initial_qualifier_state_ != InitialQualifierState::kUndefined)
     {
         logger_.LogInfo() << __func__ << ": Providing the cached state:"

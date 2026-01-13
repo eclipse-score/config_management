@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_MOCK_H
-#define CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_MOCK_H
 
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service_reactor.h"
 
@@ -46,4 +46,4 @@ class InternalConfigProviderServiceReactorMock : public InternalConfigProviderSe
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_REACTOR_MOCK_H

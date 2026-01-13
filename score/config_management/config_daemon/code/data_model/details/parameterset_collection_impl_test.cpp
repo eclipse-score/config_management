@@ -20,7 +20,10 @@
 #include <score/vector.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <pthread.h>
+#include <future>
 #include <memory>
+#include <mutex>
 #include <thread>
 
 namespace score
@@ -227,8 +230,6 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterSetFailDueToInvalidFormatFo
     RecordProperty(
         "Description",
         "Verifies that UpdateParameterSet method will return an error for parameter set data with invalid format");
-
-    json::JsonParser parser{};
     auto update_result = parameter_data_->UpdateParameterSet(set_name_for_update_tests_, "[");
     ASSERT_FALSE(update_result.has_value());
     ASSERT_EQ(update_result.error().UserMessage(), "Can't parse input set data as json format");
@@ -244,8 +245,6 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterSetFailDueToInputSetDataNot
     RecordProperty("Description",
                    "Verifies that UpdateParameterSet method will return an error for parameter set data with JSON list "
                    "instead of an object");
-
-    json::JsonParser parser{};
     std::string valid_json_but_not_object_format = R"(
         [1,2,4]
     )";
@@ -266,8 +265,6 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterSucceed)
     RecordProperty("Description",
                    "Verifies that UpdateParameterSet method will update the parameter set without an error and "
                    "GetParameterSet will return an updated value");
-
-    json::JsonParser parser{};
     score::cpp::pmr::string expected_string_value = R"({
     "parameters": {
         "parameter_name": [
@@ -278,8 +275,6 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterSucceed)
     },
     "qualifier": 0
 })";
-
-    std::string json_data{"[1,2,3]"};
     std::string valid_set_object = R"({
         "parameter_name" : [3,4,5]
     })";
@@ -357,10 +352,10 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterShallFailForUnCalibratableP
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies",
                    "::score::config_management::config_daemon::data_model::ParameterSetCollection::UpdateParameterSet");
-    RecordProperty("Description",
-                   "Verifies that UpdateParameterSet method will return an error for uncalibratable parameter set");
-
-    json::JsonParser parser{};
+    RecordProperty(
+        "Description",
+        "Sets the target parameter set to non-calibratable, attempts an update with valid input, expects the update "
+        "to fail with kParameterSetNotCalibratable, and verifies the parameter set remains unchanged.");
     score::cpp::pmr::string expected_string_value = R"({
     "parameters": {
         "parameter_name": [
@@ -399,7 +394,6 @@ TEST_F(ParameterSetCollectionFixture, SetCalibratable_Fail_NoParameterSet)
 
     auto set_calibratable_result = parameter_data_->SetCalibratable("not_existing", false);
     EXPECT_FALSE(set_calibratable_result);
-    // update parameter set with valid input data
 }
 
 TEST_F(ParameterSetCollectionFixture, UpdateParameterFailedDueToParametersNotFound)
@@ -412,9 +406,6 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterFailedDueToParametersNotFou
     RecordProperty(
         "Description",
         "Testing that UpdateParameterSet should return error if input set data contains not found parameters");
-
-    json::JsonParser parser{};
-    std::string json_data{"[1,2,3]"};
 
     std::string valid_set_object = R"({
         "parameter_name": [3,4,5],
@@ -436,20 +427,7 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterSucceedInMultiThreadingUse)
                    "Testing that UpdateParameterSet can update parameter set with input json parsable data without "
                    "data race when it's used concurrently");
 
-    std::vector<std::thread> threads;
-    json::JsonParser parser{};
-
-    score::cpp::pmr::string expected_string_value_by_thread2 = R"({
-    "parameters": {
-        "parameter_name": [
-            5,
-            6,
-            7,
-            8
-        ]
-    },
-    "qualifier": 0
-})";
+    constexpr int kIterations = 1000;
 
     score::cpp::pmr::string expected_string_value_by_thread1 = R"({
     "parameters": {
@@ -463,41 +441,77 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterSucceedInMultiThreadingUse)
     "qualifier": 0
 })";
 
-    std::string json_data{"[1,2,3]"};
+    score::cpp::pmr::string expected_string_value_by_thread2 = R"({
+    "parameters": {
+        "parameter_name": [
+            5,
+            6,
+            7,
+            8
+        ]
+    },
+    "qualifier": 0
+})";
 
-    // update parameters in seperate thread
-    std::thread thread1([this]() {
-        std::string valid_set_object = R"({
-            "parameter_name" : [9,10,11,12]
-        })";
-        auto update_result = parameter_data_->UpdateParameterSet(set_name_for_update_tests_, valid_set_object);
-        ASSERT_TRUE(update_result.has_value());
+    pthread_barrier_t start_barrier;
+    ASSERT_EQ(pthread_barrier_init(&start_barrier, nullptr, 2), 0);
+
+    std::promise<bool> promise1;
+    std::promise<bool> promise2;
+    auto future1 = promise1.get_future();
+    auto future2 = promise2.get_future();
+
+    std::thread thread1([&]() {
+        pthread_barrier_wait(&start_barrier);
+
+        for (int i = 0; i < kIterations; ++i)
+        {
+            std::string valid_set_object = R"({
+                "parameter_name" : [9,10,11,12]
+            })";
+            auto result = parameter_data_->UpdateParameterSet(set_name_for_update_tests_, valid_set_object);
+            if (!result.has_value())
+            {
+                promise1.set_value(false);
+                return;
+            }
+            std::this_thread::yield();
+        }
+        promise1.set_value(true);
     });
-    threads.push_back(std::move(thread1));
 
-    // update parameters in seperate thread
-    std::thread thread2([this]() {
-        std::string valid_set_object = R"({
-            "parameter_name" : [5,6,7,8]
-        })";
-        auto update_result = parameter_data_->UpdateParameterSet(set_name_for_update_tests_, valid_set_object);
-        ASSERT_TRUE(update_result.has_value());
+    std::thread thread2([&]() {
+        pthread_barrier_wait(&start_barrier);
+
+        for (int i = 0; i < kIterations; ++i)
+        {
+            std::string valid_set_object = R"({
+                "parameter_name" : [5,6,7,8]
+            })";
+            auto result = parameter_data_->UpdateParameterSet(set_name_for_update_tests_, valid_set_object);
+            if (!result.has_value())
+            {
+                promise2.set_value(false);
+                return;
+            }
+            std::this_thread::yield();
+        }
+        promise2.set_value(true);
     });
-    threads.push_back(std::move(thread2));
 
-    for (auto& thread : threads)
-    {
-        thread.join();
-    }
+    thread1.join();
+    thread2.join();
 
-    // check if parameter set updated with the target values successfully without data race
-    // check if the parameter values have the values were updated with last thread
+    pthread_barrier_destroy(&start_barrier);
+
+    ASSERT_TRUE(future1.get());
+    ASSERT_TRUE(future2.get());
+
     auto result = parameter_data_->GetParameterSet(set_name_for_update_tests_);
-    EXPECT_TRUE(result.has_value());
-    // check if the data is not corrupted when it's updated by two threads as the same time
-    // by checking that the updated value is equal to data updated by first thread or second one
-    EXPECT_TRUE((expected_string_value_by_thread1 == result.value()) ||
-                (expected_string_value_by_thread2 == result.value()));
+    ASSERT_TRUE(result.has_value());
+
+    EXPECT_TRUE((result.value() == expected_string_value_by_thread1) ||
+                (result.value() == expected_string_value_by_thread2));
 }
 
 TEST_F(ParameterSetCollectionFixture, SetParameterSetQualifier_Success)

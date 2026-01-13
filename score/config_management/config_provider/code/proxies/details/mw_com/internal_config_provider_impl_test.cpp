@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,13 +10,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #include "score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl.h"
-#include "config_management/ConfigDaemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
+#include "score/config_management/config_daemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
 
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
-#include "platform/aas/lib/concurrency/notification.h"
+#include "score/concurrency/notification.h"
 
 #include "score/mw/com/runtime.h"
 #include "score/mw/com/runtime_configuration.h"
@@ -40,8 +39,8 @@ namespace
 const std::chrono::milliseconds kZeroTimeout{0};
 
 const std::string kICPSpecifier{"ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppRPort"};
-using MwComSkeleton = score::platform::config_daemon::InternalConfigProviderSkeleton;
-using MwComNcdType = score::platform::config_daemon::mw_com_icp_types::InitialQualifierState;
+using MwComSkeleton = score::config_management::config_daemon::InternalConfigProviderSkeleton;
+using MwComInitialQualifierStateType = score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState;
 
 class InternalConfigProviderTest : public ::testing::Test
 {
@@ -55,7 +54,7 @@ class InternalConfigProviderTest : public ::testing::Test
         mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton_ = CreateService();
-        skeleton_->initial_qualifier_state.Update(MwComNcdType::kUndefined);
+        skeleton_->initial_qualifier_state.Update(MwComInitialQualifierStateType::kUndefined);
         score::cpp::ignore = skeleton_->OfferService();
         auto proxy = CreateProxy();
         // proxy_mock_ = proxy.get();
@@ -101,7 +100,6 @@ TEST_F(InternalConfigProviderTest, CanConstructWithMWComProxy)
     RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::platform::config_provider::InternalConfigProvider::InternalConfigProvider()");
-    RecordProperty("ASIL", "QM");
     RecordProperty("Description", "This test verifies a successful creation of InternalConfigProvider.");
     // Given a constructed adaptive proxy of our InternalConfigProvider interface
     // When constructing our IInternalConfigProvider implementation with it
@@ -111,7 +109,7 @@ TEST_F(InternalConfigProviderTest, CanConstructWithMWComProxy)
 
 class InternalConfigProviderGetInitialQualifierStatePassTest
     : public InternalConfigProviderTest,
-      public ::testing::WithParamInterface<std::tuple<MwComNcdType, InitialQualifierState>>
+      public ::testing::WithParamInterface<std::tuple<MwComInitialQualifierStateType, InitialQualifierState>>
 {
 };
 
@@ -122,11 +120,14 @@ TEST_P(InternalConfigProviderGetInitialQualifierStatePassTest, GetInitialQualifi
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("ASIL", "B");
-    RecordProperty("Description", "This test check the GetInitialQualifierState would get expected parameter value successfully");
+    RecordProperty("Description",
+                   "11397333: This test makes sure InternalConfigProvider can get InitialQualifierState through a "
+                   "method GetInitialQualifierState.");
 
+    // Given the InitialQualifierState is provided
     skeleton_->initial_qualifier_state.Update(std::get<0>(GetParam()));
     const auto result = unit_->GetInitialQualifierState(kZeroTimeout);
-
+    // Then GetInitialQualifierState can get this value
     EXPECT_EQ(result, std::get<1>(GetParam()));
 }
 
@@ -134,13 +135,14 @@ INSTANTIATE_TEST_SUITE_P(
     GetInitialQualifierStatePass,
     InternalConfigProviderGetInitialQualifierStatePassTest,
     testing::Values(
-        std::make_tuple(MwComNcdType::kDefault, InitialQualifierState::kDefault),
-        std::make_tuple(MwComNcdType::kInProgress, InitialQualifierState::kInProgress),
-        std::make_tuple(MwComNcdType::kQualified, InitialQualifierState::kQualified),
-        std::make_tuple(MwComNcdType::kQualifying, InitialQualifierState::kQualifying),
-        std::make_tuple(MwComNcdType::kUnqualified, InitialQualifierState::kUnqualified),
-        std::make_tuple(MwComNcdType::kUndefined, InitialQualifierState::kUndefined),
-        std::make_tuple(static_cast<MwComNcdType>(std::numeric_limits<std::underlying_type_t<MwComNcdType>>::max()),
+        std::make_tuple(MwComInitialQualifierStateType::kDefault, InitialQualifierState::kDefault),
+        std::make_tuple(MwComInitialQualifierStateType::kInProgress, InitialQualifierState::kInProgress),
+        std::make_tuple(MwComInitialQualifierStateType::kQualified, InitialQualifierState::kQualified),
+        std::make_tuple(MwComInitialQualifierStateType::kQualifying, InitialQualifierState::kQualifying),
+        std::make_tuple(MwComInitialQualifierStateType::kUnqualified, InitialQualifierState::kUnqualified),
+        std::make_tuple(MwComInitialQualifierStateType::kUndefined, InitialQualifierState::kUndefined),
+        std::make_tuple(static_cast<MwComInitialQualifierStateType>(
+                            std::numeric_limits<std::underlying_type_t<MwComInitialQualifierStateType>>::max()),
                         InitialQualifierState::kUndefined)));
 
 }  // namespace

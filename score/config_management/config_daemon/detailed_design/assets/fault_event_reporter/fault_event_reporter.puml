@@ -1,6 +1,7 @@
 @startuml
 
 !startsub IFaultEventReporter
+namespace score::config_management::config_daemon::fault_event_reporter {
 abstract class IFaultEventReporter {
   + {abstract} Initialize() : void
   + {abstract} Report(fault_event_id : const  std::uint8_t,\n\
@@ -9,22 +10,35 @@ abstract class IFaultEventReporter {
   Responsibilities: FaultEventReporter is responsible for coordinating\n\
    request from calibration and coding plugin to report SW/HW DTC to Degradation handler.
 }
+}
 !endsub
 
 !startsub FaultEventReporter
+namespace score::config_management::config_daemon::fault_event_reporter {
 class FaultEventReporter {
   + FaultEventReporter(factory : std::unique_ptr<IFactory> )
   + Initialize() : void
   + Report(fault_event_id : const  std::uint8_t,\n\
       is_fault_present : const bool) : bool
   --
-  - proxy_ : std::unique_ptr<AdaptiveProxy>
+  - fault_event_proxy_ : std::shared_ptr<IFaultEventProxy>
   - fault_event_proxy_fut_ : mw::service::ProxyFuture<std::unique_ptr<IFaultEventProxy>>
   - fault_event_mutex_ : std::mutex
   - factory_ : std::unique_ptr<IFactory>
   - logger_ : mw::log::Logger&
 }
+}
 IFaultEventReporter <|-down- FaultEventReporter
+!endsub
+
+!startsub FaultEventId
+namespace score::config_management::config_daemon::fault_event_reporter {
+enum FaultEventId{
+    kCodingPluginHwError
+    kCodingPluginSwError
+    kCalibrationPluginSwError
+}
+}
 !endsub
 
 @enduml

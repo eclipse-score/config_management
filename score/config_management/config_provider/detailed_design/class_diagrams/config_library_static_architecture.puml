@@ -2,15 +2,16 @@
 
 !startsub ConfigProviderLibrary
 
-!includesub config_management/ConfigDaemon/detailed_design/assets/external_libs.puml!Logger
-!includesub config_management/ConfigDaemon/detailed_design/assets/external_libs.puml!MemoryResource
-!includesub config_management/ConfigDaemon/detailed_design/assets/external_libs.puml!ProxyNeedsFactory
-!includesub config_management/ConfigDaemon/detailed_design/assets/external_libs.puml!ProxyNeeds
-!includesub config_management/ConfigDaemon/detailed_design/assets/external_libs.puml!AdaptiveImmediateInstantiationStrategy
+!includesub score/config_management/config_daemon/detailed_design/assets/external_libs.puml!Logger
+!includesub score/config_management/config_daemon/detailed_design/assets/external_libs.puml!MemoryResource
+!includesub score/config_management/config_daemon/detailed_design/assets/plugins/coding/external_libs.puml!ProxyNeedsFactory
+!includesub score/config_management/config_daemon/detailed_design/assets/plugins/coding/external_libs.puml!ProxyNeeds
+!includesub score/config_management/config_daemon/detailed_design/assets/plugins/coding/external_libs.puml!AdaptiveImmediateInstantiationStrategy
 !includesub score/config_management/ConfigProvider/detailed_design/assets/config_provider/factory/config_provider_factory.puml!ConfigProviderFactory
-!includesub config_management/ConfigDaemon/detailed_design/assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSet
-!includesub config_management/ConfigDaemon/detailed_design/assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSetQualifier
+!includesub score/config_management/config_daemon/detailed_design/assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSet
+!includesub score/config_management/config_daemon/detailed_design/assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSetQualifier
 !includesub score/config_management/ConfigProvider/detailed_design/assets/config_provider/error/error.puml!ConfigProviderError
+!includesub score/config_management/ConfigProvider/detailed_design/assets/config_provider/initial_qualifier_state_types.puml!InitialQualifierState
 
 package "ConfigProvider" <<frame>> {
     !includesub score/config_management/ConfigProvider/detailed_design/assets/config_provider/config_provider.puml!ConfigProvider
@@ -22,6 +23,7 @@ package "Persistency" <<frame>> {
     !includesub score/config_management/ConfigProvider/detailed_design/assets/persistency/persistency.puml!Persistency
     !includesub score/config_management/ConfigProvider/detailed_design/assets/persistency/persistency.puml!PersistencyImpl
     !includesub score/config_management/ConfigProvider/detailed_design/assets/persistency/persistency.puml!PersistencyImpl
+    !includesub score/config_management/ConfigProvider/detailed_design/assets/persistency/error/error.puml!PersistencyError
 }
 
 package "InternalConfigProvider_proxy" <<frame>> {
@@ -33,7 +35,14 @@ package "InternalConfigProvider_proxy" <<frame>> {
 
 package "Persistency" <<Persistency>> {
     Persistency <|-right- PersistencyImpl
-    PersistencyFactory .down. Persistency
+    Persistency <|-right- PersistencyImpl
+    PersistencyImpl <-down- PersistencyFactory : construct
+    PersistencyImpl <-down- PersistencyFactory : construct
+    PersistencyImpl ..> PersistencyError : report
+    class KeyValueStorage <<external>> #LightGray {
+        Responsibility: External mw::per key/value storage API used by PersistencyImpl
+    }
+    PersistencyImpl *-- KeyValueStorage : uses
 }
 
 package "InternalConfigProvider_proxy" <<InternalConfigProvider_proxy>> {
@@ -65,7 +74,8 @@ ConfigProviderFactory --> AdaptiveImmediateInstantiationStrategy
 ConfigProviderFactory --> score::cpp::pmr::memory_resource : Use
 ParameterSet o-- ParameterSetQualifier
 ParameterSet ..> ConfigProviderError
-Logger <.up. ConfigProvider.ConfigProvider : Use
+InitialQualifierState ..> PersistencyError
+ConfigProvider.ConfigProvider .up.> Logger : Use
 
 note right of ParameterSet #LightSkyBlue
     ConfigProviderImpl creates a ParameterSet as a business

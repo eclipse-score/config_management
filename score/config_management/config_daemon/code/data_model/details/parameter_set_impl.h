@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
-#define CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
 
 #include "score/config_management/config_daemon/code/data_model/details/parameter_impl.h"
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
@@ -71,4 +71,4 @@ class ParameterSet final
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H

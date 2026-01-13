@@ -58,13 +58,12 @@ For current moment Persistent Parameter Cache can't be used as there are no impl
 
 |Dependency|Type|Components|Purpose|
 |----------|----|----------|-------|
-|//config_management/ConfigDaemon/code/data_model:parameter_set_qualifier|Static library|multiple|qualification of parameters|
-|//platform/aas/mw/log|Static library|multiple|logging framework|
-|//platform/aas/mw/service|Static library|multiple|framework for handling mw::com service discovery|
-|//platform/aas/mw/storage/key_value_storage|Optional static library|multiple|abstraction for usage of mw::per key-value storage|
-|//platform/aas/lib/json|Static library|multiple|framework allowing to use json parser and to perform various attribute parsing and writing operations|
-|//platform/aas/lib/result|Static library|multiple|Enhance error handling with [result type](https://en.wikipedia.org/wiki/Result_type)|
-|//platform/aas/lib/concurrency:interruptible_wait|Static library|WaitForWrapperImpl class|Used to conditionally waits for stop_requested on token stop_source or expired timeout|
-|@amp|Static library|Multiple class|AMP extends the C++ Standard Library with modules that are not included in the C++ Standard Library or cannot be used due to embedded restrictions|
-|//platform/aas/lib/json|Static library|Multiple class|This library is to load a JSON document from a file, and accessing elements from a JSON object|
-|//platform/aas/lib/concurrency:condition_variable|Static library|InternalConfigProvider class|This library is used as an extension of std::condition_variable_any with support to get woken up via score::cpp::stop_token. [Refer InterruptibleConditionalVariableBasic for more info](broken_link_g/swh/ddad_platform/blob/master/aas/lib/concurrency/condition_variable.h)|
+|//score/config_management/config_daemon/code/data_model:parameter_set_qualifier|Static library|//score/config_management/ConfigProvider/code/parameter_set:parameter_set|Qualification of parameters|
+|//platform/aas/mw/log:log|Static library|multiple|Logging framework|
+|//platform/aas/mw/service|Static library|multiple|Framework for handling mw::com service discovery|
+|//platform/aas/mw/storage/key_value_storage|Optional static library|multiple|Wrapper around mw::per KVS used to persists cached parameter sets|
+|@score_baselibs//score/json:json|Static library|multiple|Framework allowing to use json parser and to perform various attribute parsing and writing operations|
+|@score_baselibs//score/result:result|Static library|multiple|Enhance error handling with [result type](https://en.wikipedia.org/wiki/Result_type)|
+|@score_baselibs//score/concurrency:interruptible_wait|Static library|WaitForWrapperImpl class|Used to conditionally waits for stop_requested on token stop_source or expired timeout|
+|@amp//:amp|Static library|Multiple class|AMP extends the C++ Standard Library with modules that are not included in the C++ Standard Library or cannot be used due to embedded restrictions|
+|@score_baselibs//score/concurrency:condition_variable|Static library|//score/config_management/ConfigProvider/code/proxies/details:internal_config_provider_impl_mw_com|This library is used as an extension of std::condition_variable_any with support to get woken up via score::cpp::stop_token. [Refer InterruptibleConditionalVariableBasic for more info](broken_link_g/swh/ddad_platform/blob/master/aas/lib/concurrency/condition_variable.h)|

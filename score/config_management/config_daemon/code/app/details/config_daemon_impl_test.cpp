@@ -1,3 +1,15 @@
+// *******************************************************************************
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the
+// terms of the Apache License Version 2.0 which is available at
+// https://www.apache.org/licenses/LICENSE-2.0
+//
+// SPDX-License-Identifier: Apache-2.0
+// *******************************************************************************
 #include "score/config_management/config_daemon/code/app/details/config_daemon_impl.h"
 #include "score/os/errno.h"
 #include "score/result/result.h"
@@ -65,9 +77,14 @@ class ConfigDaemonFixture : public ::testing::Test
         second_plugin_mock_ = std::make_shared<score::config_management::config_daemon::PluginMock>();
         plugin_collector_mock_ = std::make_unique<PluginCollectorMock>();
 
+#ifdef SCORE_BUILD
+        provided_services_container_mock_ = ProvidedServiceContainer{};
+        provided_services_container_mock_->SetNumServices(1);
+#else
         score::mw::service::ProvidedServices<mw::service::ProvidedServiceBuilder::DecoratorType> services{};
         services.Add<InternalConfigProviderServiceMock>();
         provided_services_container_mock_ = std::move(services);
+#endif
     }
 
     void TearDown() override {}
@@ -81,7 +98,7 @@ class ConfigDaemonFixture : public ::testing::Test
     std::shared_ptr<score::config_management::config_daemon::PluginMock> first_plugin_mock_;
     std::shared_ptr<score::config_management::config_daemon::PluginMock> second_plugin_mock_;
     std::unique_ptr<score::config_management::config_daemon::ConfigDaemon> config_daemon_app_;
-    std::optional<mw::service::ProvidedServiceContainer> provided_services_container_mock_;
+    std::optional<ProvidedServiceContainer> provided_services_container_mock_;
     std::unique_ptr<PluginCollectorMock> plugin_collector_mock_;
 };
 
@@ -180,7 +197,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToCreateInternalConfigProviderS
     // Given the factory failed to create RawDataStorage
     FactoryDefaultSetup();
     EXPECT_CALL(*factory_mock_, CreateInternalConfigProviderService(_)).Times(1).WillOnce(Invoke([](auto&&) {
-        return mw::service::ProvidedServiceContainer{};
+        return ProvidedServiceContainer{};
     }));
     ;
     config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
@@ -265,9 +282,10 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToCreatePluginCollector)
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToSetupPlugins)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
-    RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Initialize()");
+    RecordProperty("TestType", "Requirements-based test");
+    RecordProperty("DerivationTechnique", "Analysis of requirements");
+    RecordProperty("Verifies", "14351696");
+    RecordProperty("ASIL", "B");
     RecordProperty("Description",
                    "This test ensures that Initialize would fail, when one of Plugin cannot be initialized");
 

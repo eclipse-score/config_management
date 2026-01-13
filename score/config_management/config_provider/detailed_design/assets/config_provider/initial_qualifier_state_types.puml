@@ -1,6 +1,7 @@
 @startuml
 
 !startsub InitialQualifierState
+namespace score::platform::config_provider {
 enum InitialQualifierState {
     kUndefined,
     kInProgress,
@@ -8,6 +9,20 @@ enum InitialQualifierState {
     kQualifying,
     kUnqualified,
     kQualified
+}
+}
+!endsub
+
+!startsub InitialQualifierState
+namespace score::platform::config_provider {
+enum InitialQualifierState {
+    kUndefined,
+    kInProgress,
+    kDefault,
+    kQualifying,
+    kUnqualified,
+    kQualified
+}
 }
 !endsub
 

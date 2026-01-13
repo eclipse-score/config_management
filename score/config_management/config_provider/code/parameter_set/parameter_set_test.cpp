@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025 Contributors to the Eclipse Foundation
+// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,7 +10,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
 #include "score/json/json_parser.h"
 
@@ -24,6 +23,39 @@ namespace config_provider
 {
 namespace test
 {
+// -------------------------------------------------------------
+// Compile-time public API regression coverage (parameter_set.h)
+// * Unused helper referencing every public ParameterSet symbol (incl. templates).
+// * Build fails if a public signature is removed or changed.
+// * Update: add one trivial usage per newly added public method or alias.
+// * Migration (add → deprecate → remove): add new symbol; add usage here; run
+//   spp_promote_test; deprecate old; wait release window; remove old + usage.
+// * Reviewer non‑breaking steps:
+//     1. Run spp_promote_test for downstream usages.
+//     2. Add new method beside old; include BOTH in coverage.
+//     3. After migration, drop old usage + method.
+//     4. If downstream remains, keep old method/usage unchanged.
+// -------------------------------------------------------------
+namespace
+{
+[[maybe_unused]] void CoverParameterSetAPI()
+{
+    using namespace score::platform::config_provider;
+    score::json::Any dummy_json;  // empty JSON -> exercise error paths
+    ParameterSet ps(std::move(dummy_json));
+    ps.ContainsSameContent(ps);
+    ps.GetQualifier();
+    ps.FormatAsKeyValuePairs();
+    ps.GetParametersAsString();
+    score::cpp::string_view param_name{"regression_param"};
+    ps.GetParameterAsJsonAny(param_name);
+    // Template calls (compile only)
+    ps.GetParameterAs<int>(param_name);
+    ps.GetParameterAs<ParameterSet::Array<int>>(param_name);
+    ps.GetParameterAs<ParameterSet::TwoDimensionalArray<int>>(param_name);
+}
+}  // namespace
+
 std::string GenerateDummyJsonString()
 {
     return R"(
@@ -105,11 +137,12 @@ TEST(ParameterQualifierTest, GetQualifierTest_Unqualified)
     RecordProperty("Priority", "3");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
-    RecordProperty("Description", "Verifies that the parameter set qualifier is unqualified.");
+    RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is unqualified.");
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
 
     json::JsonParser json_parser{};
+    // Given the parameter set qualifier is unqualified
     const auto* str = R"(
     {
         "parameters": {
@@ -119,10 +152,10 @@ TEST(ParameterQualifierTest, GetQualifierTest_Unqualified)
     }
     )";
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(str).value())};
-
     auto result = parameter_set.GetQualifier();
     ASSERT_TRUE(result.has_value());
-    EXPECT_EQ(result.value(), score::platform::config_daemon::ParameterSetQualifier::kUnqualified);
+    // Then expect GetQualifier would retrieve unqualified
+    EXPECT_EQ(result.value(), score::config_management::config_daemon::ParameterSetQualifier::kUnqualified);
 }
 
 TEST(ParameterQualifierTest, GetQualifierTest_Qualified)
@@ -130,11 +163,12 @@ TEST(ParameterQualifierTest, GetQualifierTest_Qualified)
     RecordProperty("Priority", "3");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
-    RecordProperty("Description", "Verifies that the parameter set qualifier is qualified.");
+    RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is qualified.");
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
 
     json::JsonParser json_parser{};
+    // Given the parameter set qualifier is qualified
     const auto* str = R"(
     {
         "parameters": {
@@ -146,8 +180,9 @@ TEST(ParameterQualifierTest, GetQualifierTest_Qualified)
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(str).value())};
 
     auto result = parameter_set.GetQualifier();
+    // Then expect GetQualifier would retrieve qualified
     ASSERT_TRUE(result.has_value());
-    EXPECT_EQ(result.value(), score::platform::config_daemon::ParameterSetQualifier::kQualified);
+    EXPECT_EQ(result.value(), score::config_management::config_daemon::ParameterSetQualifier::kQualified);
 }
 
 TEST(ParameterQualifierTest, GetQualifierTest_Default)
@@ -155,11 +190,12 @@ TEST(ParameterQualifierTest, GetQualifierTest_Default)
     RecordProperty("Priority", "3");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
-    RecordProperty("Description", "Verifies that the parameter set qualifier is default.");
+    RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is default.");
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
 
     json::JsonParser json_parser{};
+    // Given the parameter set qualifier is default
     const auto* str = R"(
     {
         "parameters": {
@@ -171,8 +207,9 @@ TEST(ParameterQualifierTest, GetQualifierTest_Default)
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(str).value())};
 
     auto result = parameter_set.GetQualifier();
+    // Then expect GetQualifier would retrieve default
     ASSERT_TRUE(result.has_value());
-    EXPECT_EQ(result.value(), score::platform::config_daemon::ParameterSetQualifier::kDefault);
+    EXPECT_EQ(result.value(), score::config_management::config_daemon::ParameterSetQualifier::kDefault);
 }
 
 TEST(ParameterQualifierTest, GetQualifierTest_Modified)
@@ -180,10 +217,11 @@ TEST(ParameterQualifierTest, GetQualifierTest_Modified)
     RecordProperty("Priority", "3");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
-    RecordProperty("Description", "Verifies that the parameter set qualifier is modified.");
+    RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is modified.");
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     json::JsonParser json_parser{};
+    // Given the parameter set qualifier is modified
     const auto* str = R"(
     {
         "parameters": {
@@ -195,20 +233,22 @@ TEST(ParameterQualifierTest, GetQualifierTest_Modified)
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(str).value())};
 
     auto result = parameter_set.GetQualifier();
+    // Then expect GetQualifier would retrieve modified
     ASSERT_TRUE(result.has_value());
-    EXPECT_EQ(result.value(), score::platform::config_daemon::ParameterSetQualifier::kModified);
+    EXPECT_EQ(result.value(), score::config_management::config_daemon::ParameterSetQualifier::kModified);
 }
 
 TEST(ParameterQualifierTest, GetQualifierTest_Invalid)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("ASIL", "B");
     RecordProperty("Description",
                    "Tests behaviour when int representation of qualifier isn't represented by any enum value.");
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetQualifiers()");
 
     json::JsonParser json_parser{};
+    // Given the parameter set qualifier is an invalid integer
     const auto* str = R"(
     {
         "parameters": {
@@ -220,6 +260,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Invalid)
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(str).value())};
 
     auto result = parameter_set.GetQualifier();
+    // Then expect GetQualifier would return error
     ASSERT_FALSE(result.has_value());
     EXPECT_EQ(result.error(), ConfigProviderError::kValueCastingError);
 }
@@ -227,11 +268,13 @@ TEST(ParameterQualifierTest, GetQualifierTest_Invalid)
 TEST(ParameterQualifierTest, GetQualifierTest_WrongJsonType)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("Description", "Tests error handling when qualifier isn't an interger.");
+    RecordProperty("Description", "Tests error handling when qualifier isn't an integer.");
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetQualifiers()");
 
     json::JsonParser json_parser{};
+    // Given the parameter set qualifier is of wrong json type
     const auto* str = R"(
     {
         "parameters": {
@@ -243,6 +286,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_WrongJsonType)
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(str).value())};
 
     auto result = parameter_set.GetQualifier();
+    // Then expect GetQualifier would return error
     ASSERT_FALSE(result.has_value());
 }
 
@@ -252,12 +296,15 @@ TEST(ParameterQualifierTest, GetQualifierTest_NotAnObject)
     RecordProperty("Description", "Tests error handling when the root json isn't a JSON object.");
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetQualifiers()");
 
     json::JsonParser json_parser{};
     score::json::Any set_json{false};
+    // Given the parameter set is not a JSON object
     ParameterSet parameter_set{std::move(set_json)};
 
     auto result = parameter_set.GetQualifier();
+    // Then expect GetQualifier would return error kObjectCastingError
     ASSERT_FALSE(result.has_value());
     EXPECT_EQ(result.error(), ConfigProviderError::kObjectCastingError);
 }
@@ -268,8 +315,10 @@ TEST(ParameterQualifierTest, GetQualifierTest_NoQualifier)
     RecordProperty("Description", "Tests error handling when the json is missing the qualifier.");
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetQualifiers()");
 
     json::JsonParser json_parser{};
+    // Given the parameter set is missing the qualifier
     const auto* str = R"(
     {
         "parameters": {
@@ -281,6 +330,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_NoQualifier)
 
     auto result = parameter_set.GetQualifier();
     ASSERT_FALSE(result.has_value());
+    // Then expect GetQualifier would return error kParsingFailed
     EXPECT_EQ(result.error(), ConfigProviderError::kParsingFailed);
 }
 
@@ -289,13 +339,15 @@ TEST(SimpleParameterSetTest, GetParameter_SetObjectCastingError)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameters");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameters()");
     RecordProperty(
         "Description",
         "This test verifies ContainsSameContent failed due to SetObjectCastingError for GetParameters method");
-
+    // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
+    // this only has "foo")
     score::json::Any set_json{false};
     ParameterSet parameter_set{std::move(set_json)};
+    // Then expect ContainsSameContent would return false due to SetObjectCastingError
     auto result = parameter_set.ContainsSameContent(parameter_set);
     EXPECT_EQ(result, false);
 }
@@ -306,12 +358,14 @@ TEST(SimpleParameterSetTest, ConstructionWithParamJson)
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
-    RecordProperty("Description", "This test verifies success work of GetParameterAs function");
+    RecordProperty("Description", "This test verifies successful operation of GetParameterAs function");
 
     json::JsonParser json_parser{};
     auto string = GenerateDummyParameterSetJsonString();
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(string).value())};
+    // Given the parameter set contains a parameter named "parameter_name" with integer value 55
     auto num = parameter_set.GetParameterAs<int>("parameter_name");
+    // Then expect GetParameterAs would retrieve the integer value 55
     ASSERT_TRUE(num.has_value());
     EXPECT_EQ(num.value(), 55);
 }
@@ -324,7 +378,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsPass)
     RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::FormatAsKeyValuePairs()");
     RecordProperty("Description", "This test verifies error handling in the FormatAsKeyValuePairs function.");
 
-    // Mock JSON input with a set object
+    // Given the json format parameter set contains various parameters
     const auto* const json_input_string = R"({
     "parameters": {
         "alg_abort_ccm_offset_distance": 100,
@@ -346,7 +400,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsPass)
     }
     })";
 
-    std::string parameter_set_expected_formated_string = R"({
+    std::string parameter_set_expected_formatted_string = R"({
     "alg_abort_ccm_offset_distance": 100,
     "alg_abort_ccm_offset_duration": 3.22199988,
     "alg_abort_distance_countries": [
@@ -386,18 +440,19 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsPass)
     json::JsonParser json_parser{};
     ParameterSet parameter_set_input{std::move(json_parser.FromBuffer(json_input_string).value())};
 
-    parameter_set_expected_formated_string.erase(
+    parameter_set_expected_formatted_string.erase(
         std::remove_if(
-            parameter_set_expected_formated_string.begin(), parameter_set_expected_formated_string.end(), ::isspace),
-        parameter_set_expected_formated_string.cend());
-    // Call the FormatAsKeyValuePairs function and check the result
-    auto parameter_set_output_formated_string{parameter_set_input.FormatAsKeyValuePairs().value()};
-    parameter_set_output_formated_string.erase(
+            parameter_set_expected_formatted_string.begin(), parameter_set_expected_formatted_string.end(), ::isspace),
+        parameter_set_expected_formatted_string.cend());
+    // When calling FormatAsKeyValuePairs
+    auto parameter_set_output_formatted_string{parameter_set_input.FormatAsKeyValuePairs().value()};
+    parameter_set_output_formatted_string.erase(
         std::remove_if(
-            parameter_set_output_formated_string.begin(), parameter_set_output_formated_string.end(), ::isspace),
-        parameter_set_output_formated_string.cend());
-
-    EXPECT_EQ(parameter_set_output_formated_string, parameter_set_expected_formated_string);
+            parameter_set_output_formatted_string.begin(), parameter_set_output_formatted_string.end(), ::isspace),
+        parameter_set_output_formatted_string.cend());
+    // Then expect a standardized key-value string representation with sorted keys and consistent formatting which
+    // matches the expected formatted string
+    EXPECT_EQ(parameter_set_output_formatted_string, parameter_set_expected_formatted_string);
 }
 
 TEST(ParameterSetFormatTest, FormatAsKeyValuePairsInvalidJsonFormat)
@@ -410,12 +465,12 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsInvalidJsonFormat)
         "Description",
         "This test verifies error handling in the FormatAsKeyValuePairs function when invalid json format is used.");
 
-    // Mock JSON input with a set object
+    // Given the parameter set with invalid json format
     const auto* const json_input = R"("live")";
     json::JsonParser json_parser{};
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(json_input).value())};
 
-    // Call the FormatAsKeyValuePairs function and check the result
+    // Expect the FormatAsKeyValuePairs function to return an ObjectCastingError
     auto result = parameter_set.FormatAsKeyValuePairs();
 
     EXPECT_EQ(static_cast<ConfigProviderError>(*result.error()), ConfigProviderError::kObjectCastingError);
@@ -431,7 +486,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsParametersKeywordNotFound)
         "Description",
         "This test verifies error handling in the FormatAsKeyValuePairs function when parameters keyword is missing.");
 
-    // Mock JSON input with a set object
+    // Given the json format parameter set which do not contain "parameters" keyword
     const auto* const json_input = R"({
     "not_parameters": {
         "alg_abort_ccm_offset_distance": 100,
@@ -452,7 +507,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsParametersKeywordNotFound)
     json::JsonParser json_parser{};
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(json_input).value())};
 
-    // Call the FormatAsKeyValuePairs function and check the result
+    // Then expect the FormatAsKeyValuePairs function to return a ParsingFailed error
     auto result = parameter_set.FormatAsKeyValuePairs();
     EXPECT_EQ(static_cast<ConfigProviderError>(*result.error()), ConfigProviderError::kParsingFailed);
 }
@@ -465,15 +520,19 @@ TEST(SimpleParameterSetTest, GetParametersAsString)
     RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
     RecordProperty("Description",
                    "This test verifies success of conversion of parameters data from parameter set to string");
-
+    // Given a parameter set contains simple parameters
     json::JsonParser json_parser{};
     auto complete_json = GenerateDummySimpleParameterSetJsonString();
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(complete_json).value())};
+    auto parameter_get_from_parameter_set = parameter_set.GetParametersAsString().value();
+    parameter_get_from_parameter_set.erase(
+        std::remove_if(parameter_get_from_parameter_set.begin(), parameter_get_from_parameter_set.end(), ::isspace),
+        parameter_get_from_parameter_set.cend());
+
+    // Then expect GetParametersAsString would retrieve the correct parameter in parameter set
     auto parameters = GenerateDummySimpleOfParametersJsonString();
     parameters.erase(std::remove_if(parameters.begin(), parameters.end(), ::isspace), parameters.cend());
-    auto result = parameter_set.GetParametersAsString().value();
-    result.erase(std::remove_if(result.begin(), result.end(), ::isspace), result.cend());
-    EXPECT_EQ(result, parameters);
+    EXPECT_EQ(parameter_get_from_parameter_set, parameters);
 }
 
 TEST(SimpleParameterSetTest, GetParametersAsString_ObjectCastingError)
@@ -485,9 +544,11 @@ TEST(SimpleParameterSetTest, GetParametersAsString_ObjectCastingError)
     RecordProperty(
         "Description",
         "This test verifies success of SetObjectCasting error handling for FromParameterSetJsonString method");
-
+    // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
+    // this only has no keyword)
     score::json::Any invalid_json{false};
     ParameterSet parameter_set{std::move(invalid_json)};
+    // Then expect GetParametersAsString would return object casting error
     auto result = parameter_set.GetParametersAsString().error();
     EXPECT_EQ(result, ConfigProviderError::kObjectCastingError);
 }
@@ -500,10 +561,13 @@ TEST(SimpleParameterSetTest, GetParametersAsString_ParsingFailed)
     RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
     RecordProperty("Description", "This test verifies GetParametersAsString method failed due to parsing failure");
 
+    // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
+    // this only has "foo")
     score::json::Object obj{};
     obj["foo"] = score::json::Any{true};
     score::json::Any set_json{std::move(obj)};
     ParameterSet parameter_set{std::move(set_json)};
+    // Then expect GetParametersAsString would return parsing failed error
     auto result = parameter_set.GetParametersAsString().error();
     EXPECT_EQ(result, ConfigProviderError::kParsingFailed);
 }
@@ -517,13 +581,15 @@ TEST(SimpleParameterSetTest, GetParametersAsString_ConvertJsonToStringFailed)
     RecordProperty("Description",
                    "This test verifies GetParametersAsString method failed due to passing a JSON object with empty "
                    "parameter values");
-
+    // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
+    // this only has empty content)
     std::string text = R"(
     {
         "parameters": ""
     })";
     json::JsonParser json_parser{};
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(text).value())};
+    // Then expect GetParametersAsString would return object casting error
     auto result = parameter_set.GetParametersAsString().error();
     EXPECT_EQ(result, ConfigProviderError::kObjectCastingError);
 }
@@ -536,10 +602,12 @@ TEST(SimpleParameterSetTest, GetParameterAs_ObjectCastingError)
     RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
     RecordProperty("Description",
                    "This test verifies success of SetObjectCasting error handling for GetParameterAs method");
-
+    // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
+    // this only has no keyword)
     score::json::Any set_json{false};
     ParameterSet parameter_set{std::move(set_json)};
     auto result = parameter_set.GetParameterAs<int>("foo").error();
+    // Then expect GetParameterAs would return object casting error
     EXPECT_EQ(result, ConfigProviderError::kObjectCastingError);
 }
 
@@ -548,13 +616,16 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParsingFailed)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAs()");
     RecordProperty("Description", "This test verifies error handling for GetParameterAs method");
 
+    // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
+    // this only has "foo")
     score::json::Object obj{};
     obj["foo"] = score::json::Any{true};
     score::json::Any set_json{std::move(obj)};
     ParameterSet parameter_set{std::move(set_json)};
+    // Then expect GetParameterAs would return parsing failed error when retrieving parameter as integer
     auto result = parameter_set.GetParameterAs<int>("foo").error();
     EXPECT_EQ(result, ConfigProviderError::kParsingFailed);
 }
@@ -659,7 +730,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesAsDecimal)
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -678,7 +749,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesAsInteger)
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -696,7 +767,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesCompareIntegerAn
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when "
@@ -716,7 +787,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesBigInFloatType)
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description", "This test verifies success of GetParameterAs method with big float number");
     json::JsonParser json_parser{};
@@ -729,7 +800,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesAsDecimalFo
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -762,7 +833,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesAsIntegerFo
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -795,7 +866,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesWithMixedIn
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -828,7 +899,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsTwoDimensionalArray_FloatTy
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -870,7 +941,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsTwoDimensionalArray_FloatTy
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -913,7 +984,7 @@ TYPED_TEST(FloatTypedParameterSetTest,
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "score::platform::config_provider::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -958,12 +1029,13 @@ TEST_F(ParameterSetTest, TestContainsSameContent)
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("ASIL", "QM");
     RecordProperty("Verifies", "32231979");
-    RecordProperty("Description",
-                   "This test checks if current ParameterSet contains the same parameters content as the newly "
-                   "received ParameterSet."
-                   "This function would return true if the newly received ParameterSet has the same parameters "
-                   "content, regardless of its qualifier."
-                   "Otherwise, this function would return false.");
+    RecordProperty(
+        "Description",
+        "32231979: This test checks if current ParameterSet contains the same parameters content as the newly "
+        "received ParameterSet."
+        "This function would return true if the newly received ParameterSet has the same parameters "
+        "content, regardless of its qualifier."
+        "Otherwise, this function would return false.");
 
     json::JsonParser json_parser{};
     const auto* content_v1_qualifier_v1 = R"(
@@ -1040,7 +1112,9 @@ TEST_F(ParameterSetTest, TestContainsSameContent)
     {
     }
     )";
-
+    // Given multiple ParameterSet instances with different content and qualifier combinations
+    // When calling ContainsSameContent method to compare them
+    // Then expect the correct boolean result based on content comparison
     ParameterSet ps_content_v1_qualifier_v1{std::move(json_parser.FromBuffer(content_v1_qualifier_v1).value())};
     ParameterSet ps_content_v1_qualifier_v2{std::move(json_parser.FromBuffer(content_v1_qualifier_v2).value())};
     ParameterSet ps_content_v2_qualifier_v1{std::move(json_parser.FromBuffer(content_v2_qualifier_v1).value())};
@@ -1082,11 +1156,13 @@ TEST_F(ParameterSetTest, GetParameterAs_String)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::sysfunc::config_daemon::ConfigDaemon::GetParameterAs()");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies success of GetParameterAs method with string type");
 
+    // Given the parameter "string" is of type string
     auto result = GetParameterSet().GetParameterAs<std::string>("string");
 
+    // Then expect getting exact content correctly when trying to get it as string
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result.value(), std::string("foo"));
 }
@@ -1096,11 +1172,13 @@ TEST_F(ParameterSetTest, GetParameterAsArray_String)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::sysfunc::config_daemon::ConfigDaemon::GetParameterAs()");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies success of GetParameterAsArray method with string type");
 
+    // Given the parameter "array_string" is of type array of strings
     auto result = GetParameterSet().GetParameterAs<ParameterSet::Array<std::string>>("array_string");
     ASSERT_TRUE(result.has_value());
+    // Then expect getting exact content correctly when trying to get it as array of strings
     const auto expected = ParameterSet::Array<std::string>{"a", "b"};
     EXPECT_EQ(result.value(), expected);
 }
@@ -1110,15 +1188,17 @@ TEST_F(ParameterSetTest, GetParameterAsTwoDimensionalArray_String)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::sysfunc::config_daemon::ConfigDaemon::GetParameterAs()");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description",
                    "This test verifies success of GetParameterAsTwoDimensionalArray method with string type");
 
+    // Given the parameter "array2d_string" is of type two dimensional array of strings
     auto result = GetParameterSet().GetParameterAs<ParameterSet::TwoDimensionalArray<std::string>>("array2d_string");
     ASSERT_TRUE(result.has_value());
     ParameterSet::Array<std::string> first{"a", "b"};
     ParameterSet::Array<std::string> second{"c", "d"};
     ParameterSet::TwoDimensionalArray<std::string> expected_twodim{first, second};
+    // Then expect getting exact content correctly when trying to get it as two dimensional array of strings
     ASSERT_EQ(expected_twodim.size(), result.value().size());
     EXPECT_EQ(result.value(), expected_twodim);
 }
@@ -1128,15 +1208,17 @@ TEST_F(ParameterSetTest, GetParameterAsTwoDimensionalArray_Bool)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::sysfunc::config_daemon::ConfigDaemon::GetParameterAs()");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description",
                    "This test verifies success of GetParameterAsTwoDimensionalArray method with bool type");
 
+    // Given the parameter "array2d_bool" is of type two dimensional array of bools
     auto result = GetParameterSet().GetParameterAs<ParameterSet::TwoDimensionalArray<bool>>("array2d_bool");
     ASSERT_TRUE(result.has_value());
     ParameterSet::Array<bool> first{true, false};
     ParameterSet::Array<bool> second{false, true};
     ParameterSet::TwoDimensionalArray<bool> expected_twodim{first, second};
+    // Then expect getting exact content correctly when trying to get it as two dimensional array of bools
     ASSERT_EQ(expected_twodim.size(), result.value().size());
     EXPECT_EQ(result.value(), expected_twodim);
 }
@@ -1146,42 +1228,56 @@ TEST_F(ParameterSetTest, GetParameterAs_ValueCastingError)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::sysfunc::config_daemon::ConfigDaemon::GetParameterAs()");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies success of ValueCasting error handling");
 
     // GetParameterAs
+    // Given the parameter "string" is of type string
     auto result = GetParameterSet().GetParameterAs<int>("string");
     ASSERT_FALSE(result.has_value());
+    // Then expect ValueCasting error when trying to get it as int
     EXPECT_EQ(result.error(), ConfigProviderError::kValueCastingError);
 
     auto result_string_as_float = GetParameterSet().GetParameterAs<float>("string");
     ASSERT_FALSE(result_string_as_float.has_value());
+    // Then expect ValueCasting error when trying to get it as float
     EXPECT_EQ(result_string_as_float.error(), ConfigProviderError::kValueCastingError);
 
     auto result_string_as_double = GetParameterSet().GetParameterAs<double>("string");
     ASSERT_FALSE(result_string_as_double.has_value());
+    // Then expect ValueCasting error when trying to get it as double
     EXPECT_EQ(result_string_as_double.error(), ConfigProviderError::kValueCastingError);
 
     // GetParameterAsArray
+    // Given the parameter "array_string" is of type array of strings
     auto result1 = GetParameterSet().GetParameterAs<ParameterSet::Array<int>>("array_string");
     ASSERT_FALSE(result1.has_value());
+    // Then expect ValueCasting error when trying to get it as Array<int>
     EXPECT_EQ(result1.error(), ConfigProviderError::kValueCastingError);
 
+    // Given the parameter "float_as_decimal" is of type float
     auto result2 = GetParameterSet().GetParameterAs<ParameterSet::Array<int>>("float_as_decimal");
     ASSERT_FALSE(result2.has_value());
+    // Then expect ValueCasting error when trying to get it as Array<int>
     EXPECT_EQ(result2.error(), ConfigProviderError::kValueCastingError);
 
     // GetParameterAsTwoDimensionalArray
+    // Given the parameter "array2d_string" is of type two dimensional array of strings
     auto result3 = GetParameterSet().GetParameterAs<ParameterSet::TwoDimensionalArray<int>>("array2d_string");
     ASSERT_FALSE(result3.has_value());
+    // Then expect ValueCasting error when trying to get it as TwoDimensionalArray<int>
     EXPECT_EQ(result3.error(), ConfigProviderError::kValueCastingError);
 
+    // Given the parameter "float_as_decimal" is of type float
     auto result4 = GetParameterSet().GetParameterAs<ParameterSet::TwoDimensionalArray<int>>("float_as_decimal");
     ASSERT_FALSE(result4.has_value());
+    // Then expect ValueCasting error when trying to get it as TwoDimensionalArray<int>
     EXPECT_EQ(result4.error(), ConfigProviderError::kValueCastingError);
 
+    // Given the parameter "array_string" is of type array of strings
     auto result5 = GetParameterSet().GetParameterAs<ParameterSet::TwoDimensionalArray<int>>("array_string");
     ASSERT_FALSE(result5.has_value());
+    // Then expect ValueCasting error when trying to get it as TwoDimensionalArray<int>
     EXPECT_EQ(result5.error(), ConfigProviderError::kValueCastingError);
 }
 
@@ -1190,21 +1286,25 @@ TEST_F(ParameterSetTest, GetParameterAs_ParameterNotFoundError)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::sysfunc::config_daemon::ConfigDaemon::GetParameterAs()");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies success of ParameterNotFound error handling");
 
+    // Given the parameter "foo" does not exist
     auto result = GetParameterSet().GetParameterAs<int>("foo");
     ASSERT_FALSE(result.has_value());
+    // Then expect ParameterNotFound error
     EXPECT_EQ(result.error(), ConfigProviderError::kParameterNotFound);
 
-    // GetParameterAsArray
+    // Given the parameter "foo" does not exist
     auto result1 = GetParameterSet().GetParameterAs<ParameterSet::Array<int>>("foo");
     ASSERT_FALSE(result1.has_value());
+    // Then expect ParameterNotFound error
     EXPECT_EQ(result1.error(), ConfigProviderError::kParameterNotFound);
 
-    // GetParameterAsTwoDimensionalArray
+    // Given the parameter "foo" does not exist
     auto result2 = GetParameterSet().GetParameterAs<ParameterSet::TwoDimensionalArray<int>>("foo");
     ASSERT_FALSE(result2.has_value());
+    // Then expect ParameterNotFound error
     EXPECT_EQ(result2.error(), ConfigProviderError::kParameterNotFound);
 }
 
@@ -1213,9 +1313,10 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParametersNotAnObject)
     RecordProperty("Priority", "3");
     RecordProperty("Description", "Tests error handling when parameters isn't a JSON object.");
     RecordProperty("TestType", "Fault injection test");
-    RecordProperty("Verifies", "::score::platform::sysfunc::config_daemon::ConfigDaemon::GetParameterAs()");
+    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
 
+    // Given the parameters is not an JSON object
     std::string text = R"(
     {
         "parameters": 5,
@@ -1224,6 +1325,7 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParametersNotAnObject)
     json::JsonParser json_parser{};
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(text).value())};
     auto result = parameter_set.GetParameterAs<bool>("parameter").error();
+    // Then expect ObjectCasting error
     EXPECT_EQ(result, ConfigProviderError::kObjectCastingError);
 }
 
@@ -1231,3 +1333,13 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParametersNotAnObject)
 }  // namespace config_provider
 }  // namespace config_management
 }  // namespace score
+
+// Explicit template instantiations to catch signature regressions
+template score::Result<int> score::platform::config_provider::ParameterSet::GetParameterAs<int>(
+    const score::cpp::string_view&) const;
+template score::Result<score::platform::config_provider::ParameterSet::Array<int>>
+score::platform::config_provider::ParameterSet::GetParameterAs<score::platform::config_provider::ParameterSet::Array<int>>(
+    const score::cpp::string_view&) const;
+template score::Result<score::platform::config_provider::ParameterSet::TwoDimensionalArray<int>>
+score::platform::config_provider::ParameterSet::GetParameterAs<
+    score::platform::config_provider::ParameterSet::TwoDimensionalArray<int>>(const score::cpp::string_view&) const;

@@ -1,7 +1,7 @@
 {
   "serviceTypes": [
     {
-      "serviceTypeName": "/score/config_management/ConfigDaemon/InternalConfigProviderService",
+      "serviceTypeName": "/score/config_management/config_daemon/InternalConfigProviderService",
       "version": {
         "major": 1,
         "minor": 0
@@ -29,7 +29,7 @@
   "serviceInstances": [
     {
       "instanceSpecifier": "ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppRPort",
-      "serviceTypeName": "/score/config_management/ConfigDaemon/InternalConfigProviderService",
+      "serviceTypeName": "/score/config_management/config_daemon/InternalConfigProviderService",
       "version": {
         "major": 1,
         "minor": 0

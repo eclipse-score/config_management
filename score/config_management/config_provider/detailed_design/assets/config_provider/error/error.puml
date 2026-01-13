@@ -1,6 +1,7 @@
 @startuml
 
 !startsub ConfigProviderError
+namespace score::platform::config_provider {
 enum ConfigProviderError {
     kParsingFailed
     kObjectCastingError
@@ -15,6 +16,7 @@ enum ConfigProviderError {
     kMethodNotSupported
     kFailedToSubscribe
     kParameterSetNotFound
+}
 }
 !endsub
 

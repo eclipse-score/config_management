@@ -1,4 +1,4 @@
-load("@score-baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 # Variables
 COMMON_FEATURES = [
@@ -21,13 +21,13 @@ cc_library(
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
-        "@score-baselibs//score/mw/log",
-        "//platform/aas/mw/service:proxy_future",
+        "@score_baselibs//score/mw/log",
+        "@score_communication//score/mw/service:proxy_future",
         "//score/config_management/config_provider/code/config_provider",
         "//score/config_management/config_provider/code/config_provider/error",
         "//score/config_management/config_provider/code/persistency",
         "//score/config_management/config_provider/code/proxies:internal_config_provider",
-        "@score-baselibs//score/language/futurecpp",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -43,8 +43,8 @@ cc_test(
     ],
     deps = [
         ":details",
-        "//platform/aas/lib/concurrency:notification",
-        "@score-baselibs//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/concurrency:notification",
+        #"@score_baselibs//score/mw/log/test/console_logging_environment",
         "//score/config_management/config_provider/code/config_provider/error",
         "//score/config_management/config_provider/code/persistency:mock",
         "//score/config_management/config_provider/code/persistency/error",

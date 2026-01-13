@@ -1,7 +1,8 @@
 @startuml
 
 !startsub IJsonHelper
-class IJsonHelper {
+namespace score::config_management::config_daemon::common {
+abstract class IJsonHelper {
   + {abstract} GetJsonParser() : std::shared_ptr<json::IJsonParser>
   + {abstract} GetJsonWriter() : std::shared_ptr<json::IJsonWriter>
   + {abstract} GetStandardFilesystem() : std::shared_ptr<filesystem::IStandardFilesystem>
@@ -9,9 +10,11 @@ class IJsonHelper {
   --
   Responsibilities: This is interface of JsonHelper class
 }
+}
 !endsub
 
 !startsub JsonHelper
+namespace score::config_management::config_daemon::common {
 class JsonHelper {
   + GetJsonParser() : std::shared_ptr<json::IJsonParser>
   + GetJsonWriter() : std::shared_ptr<json::IJsonWriter>
@@ -26,8 +29,8 @@ class JsonHelper {
   Responsibilities: The JsonHelper class should encapsulate\n\
   all the business logicfor working with json files.
 }
-
 IJsonHelper <|-- JsonHelper
+}
 !endsub
 
 @enduml

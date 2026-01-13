@@ -1,42 +1,73 @@
 @startuml
 
+title ConfigProvider ParameterSet Retrieval
 skinparam SequenceMessageAlignment center
-title ConfigProvider ParameterSet
+skinparam NoteBackgroundColor #E6F2FF
 
 actor UserApp
-participant ParameterSet
-participant JsonLib
+participant "ParameterSet" as PS
 
-rnote over UserApp, ParameterSet
-T is:
-- PrimitiveType   (int, bool, float etc)
-- Array    (score::cpp::pmr::vector<PrimitiveType>)
-- TwoDimensionalArray  (score::cpp::pmr::vector< score::cpp::pmr::vector<PrimitiveType> >)
+rnote over UserApp, PS
+Template T categories:
+- PrimitiveType (int, bool, float, etc.)
+- Array = score::cpp::pmr::vector<PrimitiveType>
+- TwoDimensionalArray = score::cpp::pmr::vector< score::cpp::pmr::vector<PrimitiveType> >
+Error paths return Unexpected(ConfigProviderError)
+Floating point conversion may fallback via int -> float/double cast.
 endrnote
 
-UserApp -> ParameterSet : GetParameterAs<T>(parameter_name)
-activate ParameterSet
+UserApp -> PS : GetParameterAs<T>(parameter_name)
+activate PS
 alt T is PrimitiveType
-    ParameterSet -> ParameterSet : GetParameterAsJsonAny(parameter_name)
-    activate ParameterSet
-    ParameterSet <-- ParameterSet : json::Any
-    deactivate ParameterSet
-    ParameterSet -> JsonLib : json::Any.As<PrimitiveType>()
-    activate JsonLib
-    ParameterSet <-- JsonLib : PrimitiveType
-    deactivate JsonLib
-else T is Array [Array = score::cpp::pmr::vector<PrimitiveType>]
-    ParameterSet -> ParameterSet : GetParameterAsArray<PrimitiveType>(parameter_name)
-    activate ParameterSet
-    ParameterSet <-- ParameterSet : Array
-    deactivate ParameterSet
-else T is TwoDimensionalArray [TwoDimensionalArray = score::cpp::pmr::vector< score::cpp::pmr::vector<PrimitiveType> >]
-    ParameterSet -> ParameterSet : GetParameterAsTwoDimensionalArray<PrimitiveType>(parameter_name)
-    activate ParameterSet
-    ParameterSet <-- ParameterSet : TwoDimensionalArray
-    deactivate ParameterSet
+    PS -> PS : GetParameterAsJsonAny(name)
+    PS <-- PS : Result<ref json::Any>
+    alt json::Any success
+        PS -> PS : ConvertJsonAnyToType<PrimitiveType>()
+        PS <-- PS : PrimitiveType | Unexpected
+    else error
+        PS <-- PS : Unexpected(error)
+    end
+else T is Array
+    PS -> PS : GetParameterAsJsonAny(name)
+    PS <-- PS : Result<ref json::Any>
+    alt json::Any success
+        PS -> PS : value.As<json::List>()
+        PS <-- PS : Result<json::List>
+        alt list success
+            PS -> PS : ConvertJsonListToAmpVector<PrimitiveType>()
+            PS <-- PS : Array<PrimitiveType> | Unexpected
+        else list error
+            PS <-- PS : Unexpected(ValueCastingError)
+        end
+    else json error
+        PS <-- PS : Unexpected(error)
+    end
+else T is TwoDimensionalArray
+    PS -> PS : GetParameterAsJsonAny(name)
+    PS <-- PS : Result<ref json::Any>
+    alt json::Any success
+        PS -> PS : outer.As<json::List>()
+        PS <-- PS : Result<json::List>
+        alt outer list success
+            loop each outer element
+                PS -> PS : inner.As<json::List>()
+                PS <-- PS : Result<json::List>
+                alt inner list success
+                    PS -> PS : ConvertJsonListToAmpVector<PrimitiveType>()
+                    PS <-- PS : Array<PrimitiveType> | Unexpected
+                else inner list error
+                    PS <-- PS : Unexpected(ValueCastingError)
+                end
+            end
+            PS <-- PS : TwoDimensionalArray<PrimitiveType>
+        else outer list error
+            PS <-- PS : Unexpected(ValueCastingError)
+        end
+    else json error
+        PS <-- PS : Unexpected(error)
+    end
 end
-UserApp <-- ParameterSet : Result<T>
-deactivate ParameterSet
+UserApp <-- PS : Result<T>
+deactivate PS
 
 @enduml

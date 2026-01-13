@@ -1,0 +1,78 @@
+@startuml PollingMode
+title ConfigProvider Polling Mode Behavior
+skinparam SequenceMessageAlignment left
+skinparam NoteBackgroundColor #E6F2FF
+skinparam BoxPadding 8
+
+actor User as UserBusinessLogic
+participant "ConfigProviderFactory" as CPF
+participant "InternalConfigProvider" as ICP
+participant "ConfigProviderImpl" as CP
+
+' Factory creates provider (with polling params)
+CPF -> CP : Construct(ConfigProviderImpl)
+CP -> CPF : (returns instance)
+CPF -> ICP : InitiateServiceDiscovery()
+ICP --> CPF : ProxyContainer
+CPF -> CP : WaitUntilConnected(timeout)
+CPF --> UserBusinessLogic : ConfigProvider
+
+note over CP
+SetupInternalConfigProvider thread subscribes to event, fetches & persists initial sets,
+caches qualifier state, registers handlers then starts polling routine.
+end note
+
+CP -> ICP : TrySubscribeToLastUpdatedParameterSetEvent(stop_token, handler)
+ICP --> CP : bool
+alt subscription success
+  CP -> ICP : FetchInitialParameterSetValuesFrom()
+  ICP --> CP : ParameterMap
+  CP -> CP : WriteInitialParameterSetValuesToPersistentCache()
+  CP -> CP : CacheInitialQualifierState(GetInitialQualifierState())
+  CP -> CP : RegisterCallbacksForPersistedParameterSetNames()
+  CP -> ICP : StartParameterSetUpdatePollingRoutine(max_samples, interval)
+  CP -> UserBusinessLogic : IsAvailableNotificationCallback()
+else subscription failure
+  CP -> CP : Abort setup (no polling routine)
+end
+
+' User retrieves cached set
+UserBusinessLogic -> CP : GetParameterSet(name, timeout?)
+CP --> UserBusinessLogic : Result<shared_ptr<const ParameterSet>>
+
+loop Polling routine (inside ICP)
+  ICP -> ICP : CheckParameterSetUpdates()
+  alt update detected
+    ICP -> CP : LastUpdatedParameterSetReceiveHandler(set_name)
+    CP -> ICP : GetParameterSet(set_name, timeout)
+    ICP --> CP : Result<json::Any>
+    alt success
+      CP -> CP : Construct ParameterSet + Cache & Persist(sync=true)
+      CP -> UserBusinessLogic : OnChangedParameterSetCallback(shared_ptr<const ParameterSet>) (if registered)
+    else error
+      CP -> CP : Log error
+    end
+  else none
+    ICP -> ICP : wait interval
+  end
+end
+
+' Manual stimulation (user forces check)
+UserBusinessLogic -> CP : CheckParameterSetUpdates()
+CP -> ICP : CheckParameterSetUpdates()
+ICP --> CP : (updates processed asynchronously via handler)
+
+' User subscribes for notifications
+UserBusinessLogic -> CP : OnChangedParameterSet(name, callback)
+CP -> CP : RegisterUpdateHandlerForParameterSetName(name)
+CP --> UserBusinessLogic : ResultBlank
+
+' Obtain cached InitialQualifierState
+UserBusinessLogic -> CP : GetInitialQualifierState(timeout?)
+CP --> UserBusinessLogic : InitialQualifierState
+
+note over CP, ICP #ccffcc
+Polling routine always active after successful subscription.
+end note
+
+@enduml

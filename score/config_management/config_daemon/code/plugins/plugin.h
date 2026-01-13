@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_PLUGINS_PLUGIN_H
-#define CODE_PLUGINS_PLUGIN_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_H
 
 #include "score/result/result.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
@@ -51,4 +51,4 @@ class IPlugin
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_PLUGINS_PLUGIN_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_H

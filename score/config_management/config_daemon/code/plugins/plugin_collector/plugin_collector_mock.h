@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_MOCK_H
-#define CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_MOCK_H
 
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/plugin_collector.h"
 
@@ -37,4 +37,4 @@ class PluginCollectorMock final : public IPluginCollector
 }  // namespace config_management
 }  // namespace score
 
-#endif  // CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_COLLECTOR_PLUGIN_COLLECTOR_MOCK_H

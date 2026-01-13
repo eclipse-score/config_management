@@ -1,5 +1,6 @@
 @startuml
 !startsub DataModelError
+namespace score::config_management::config_daemon::data_model {
 enum DataModelError {
     kParameterMissedError
     kConvertingError
@@ -10,7 +11,7 @@ enum DataModelError {
     kParameterSetNotCalibratable
     kParameterAlreadyExists
 }
+}
 !endsub
 
 @enduml
-
