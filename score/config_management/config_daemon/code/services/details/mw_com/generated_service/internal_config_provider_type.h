@@ -14,7 +14,7 @@
 #ifndef CODE_SERVICES_DETAILS_MW_COM_GENERATED_SERVICE_INTERNAL_CONFIG_PROVIDER_TYPE_H
 #define CODE_SERVICES_DETAILS_MW_COM_GENERATED_SERVICE_INTERNAL_CONFIG_PROVIDER_TYPE_H
 
-#include "platform/aas/mw/com/types.h"
+#include "score/mw/com/types.h"
 
 #include <cstdint>
 

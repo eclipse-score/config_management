@@ -17,8 +17,8 @@
 
 #include "score/json/json_parser.h"
 
-#include "platform/aas/mw/com/runtime.h"
-#include "platform/aas/mw/com/runtime_configuration.h"
+#include "score/mw/com/runtime.h"
+#include "score/mw/com/runtime_configuration.h"
 
 #include <gtest/gtest.h>
 

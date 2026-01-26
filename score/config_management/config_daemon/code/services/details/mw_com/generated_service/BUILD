@@ -28,6 +28,6 @@ cc_library(
         "//platform/aas/sysfunc/common/ConfigProvider:__subpackages__",
     ],
     deps = [
-        "//platform/aas/mw/com",
+        "@score_communication//score/mw/com",
     ],
 )

@@ -45,7 +45,7 @@ COMMON_FEATURES = [
             [
                 "@score-config_management//score/config_management/config_daemon/code/services",
                 "@score-baselibs//score/result",
-                "//platform/aas/mw/com",
+                "@score_communication//score/mw/com",
                 "@score-config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
                 "@score-config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
                 "@score-config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
