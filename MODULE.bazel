@@ -58,10 +58,18 @@ bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2")
 bazel_dep(name = "score_docs_as_code", version = "2.2.0")
 
 # s-core base libs
-bazel_dep(name = "score_baselibs", version = "0.2.2")
+bazel_dep(name = "score_baselibs", version = "0.2.3")
 
 # s-core communication
 bazel_dep(name = "score_communication", version = "0.1.2")
+
+# s-core lifecycle
+bazel_dep(name = "score_lifecycle_health", version = "0.0.1")
+git_override(
+   module_name = "score_lifecycle_health",
+   remote = "https://github.com/eclipse-score/lifecycle.git",
+   branch = "main",
+)
 
 # TRLC dependency for requirements traceability
 bazel_dep(name = "trlc", version = "0.0.0")
