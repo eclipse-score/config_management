@@ -48,7 +48,6 @@ class ConfigProviderMock final : public ConfigProvider
                 (const score::cpp::pmr::vector<std::string_view>& set_names,
                  const std::optional<std::chrono::milliseconds> timeout),
                 (override));
-    MOCK_METHOD(ResultBlank, OnChangedInitialQualifierState, (InitialQualifierStateNotifierCallbackType&&), (noexcept, override));
     MOCK_METHOD(ResultBlank,
                 OnChangedParameterSet,
                 (const std::string& set_name, OnChangedParameterSetCallback&& callback),
@@ -57,8 +56,6 @@ class ConfigProviderMock final : public ConfigProvider
                 OnChangedParameterSetCbk,
                 (std::string_view set_name, OnChangedParameterSetCallback&& callback),
                 (noexcept, override));
-    MOCK_METHOD(InitialQualifierState, DeprecatedMethodToGetInitialQualifierState, (), (noexcept, override));
-    MOCK_METHOD(InitialQualifierState, DeprecatedMethodToGetInitialQualifierState, (const std::optional<std::chrono::milliseconds> timeout), (noexcept, override));
     MOCK_METHOD(InitialQualifierState,
                 GetInitialQualifierState,
                 (const std::optional<std::chrono::milliseconds> timeout),

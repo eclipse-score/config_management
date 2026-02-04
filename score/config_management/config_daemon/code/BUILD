@@ -50,7 +50,7 @@ cc_test(
         "@score_lifecycle_health//src/lifecycle_client_lib:lifecycle_mock",
         "@score_config_management//score/config_management/config_daemon/code/app/details:app_for_unit_test",
     ] + select({
-        ":is_score_variant": ["@score_config_management//score/config_management/config_daemon/code/factory/details:stub_factory_for_unit_test"],
+        ":is_score_variant": ["@score_config_management//score/config_management/config_daemon/code/factory/details:mw_factory_for_unit_test"],
         "//conditions:default": ["@score_config_management//score/config_management/config_daemon/code/factory/details:ara_factory_for_unit_test"],
     }),
 )

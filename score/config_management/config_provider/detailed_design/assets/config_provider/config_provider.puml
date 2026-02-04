@@ -25,8 +25,8 @@ abstract class ConfigProvider {
     stop_token : const score::cpp::stop_token&) : bool
     + {abstract} CheckParameterSetUpdates() : ResultBlank
     + {abstract} GetCachedParameterSetsCount() : std::size_t
-    + {abstract} DeprecatedMethodToGetInitialQualifierState() : InitialQualifierState
-    + {abstract} DeprecatedMethodToGetInitialQualifierState(\n\
+    + {abstract} GetInitialQualifierState() : InitialQualifierState
+    + {abstract} GetInitialQualifierState(\n\
     timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     --
     Responsibility: This class is repsonsible for providing ParameterSet's and InitialQualifierState
@@ -68,8 +68,8 @@ class ConfigProviderImpl {
     polling_cycle_interval : score::cpp::optional<std::chrono::milliseconds>,\n\
     callback : IsAvailableNotificationCallback,\n\
     persistency : score::cpp::pmr::unique_ptr<Persistency>)
-    + DeprecatedMethodToGetInitialQualifierState() : InitialQualifierState
-    + DeprecatedMethodToGetInitialQualifierState(timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
+    + GetInitialQualifierState() : InitialQualifierState
+    + GetInitialQualifierState(timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     --
     - logger_ : mw::log::Logger&
     - parameter_sets_ : ParameterMap

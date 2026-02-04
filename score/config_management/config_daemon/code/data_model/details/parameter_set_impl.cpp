@@ -82,7 +82,7 @@ ResultBlank ParameterSet::Update(json::Object&& parameters)
                 data_[parameter_name].SetValue(std::move(param.second));
                 logger_.LogInfo() << __func__ << "parameter with name:" << parameter_name << "updated";
             }
-            return score::cpp::blank{};
+            return ResultBlank{};
         }
         else
         {

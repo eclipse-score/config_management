@@ -62,20 +62,11 @@ class ConfigProvider
     virtual ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                        const std::optional<std::chrono::milliseconds> timeout) = 0;
 
-    virtual ResultBlank OnChangedInitialQualifierState(InitialQualifierStateNotifierCallbackType&& callback) noexcept = 0;
-
     virtual ResultBlank OnChangedParameterSet(const std::string& set_name,
                                               OnChangedParameterSetCallback&& callback) noexcept = 0;
 
     virtual ResultBlank OnChangedParameterSetCbk(std::string_view set_name,
                                                  OnChangedParameterSetCallback&& callback) noexcept = 0;
-
-    [[deprecated(
-        "SPP_DEPRECATION: This method should be called in conjunction with a timeout value instead.")]] virtual InitialQualifierState
-    DeprecatedMethodToGetInitialQualifierState() noexcept = 0;
-    [[deprecated(
-        "SPP_DEPRECATION: This method should be called in conjunction with a timeout value instead.")]] virtual InitialQualifierState
-    DeprecatedMethodToGetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;
 
     virtual InitialQualifierState GetInitialQualifierState(
         const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;

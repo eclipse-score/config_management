@@ -26,7 +26,7 @@ namespace config_daemon
 namespace data_model
 {
 
-score::cpp::pmr::string AsString(const score::cpp::string_view s) noexcept;
+score::cpp::pmr::string AsString(score::cpp::string_view s);
 
 }  // namespace data_model
 }  // namespace config_daemon

@@ -59,7 +59,7 @@ ResultBlank ParameterSetCollection::Insert(const score::cpp::string_view set_nam
     return parameter_set->Add(parameter_name, std::move(parameter_value));
 }
 
-Result<score::cpp::pmr::string> ParameterSetCollection::GetParameterSet(const std::string set_name) const
+Result<score::cpp::pmr::string> ParameterSetCollection::GetParameterSet(const std::string_view set_name) const
 {
     const std::lock_guard<std::mutex> lock{mutex_};
 
@@ -84,7 +84,7 @@ Result<json::Any> ParameterSetCollection::GetParameterFromSet(const score::cpp::
     return MakeUnexpected<json::Any>(parameter_set.error());
 }
 
-Result<std::shared_ptr<ParameterSet>> ParameterSetCollection::Find(const score::cpp::string_view set_name) const noexcept
+Result<std::shared_ptr<ParameterSet>> ParameterSetCollection::Find(const std::string_view set_name) const noexcept
 {
     logger_.LogDebug() << "ParameterSetCollection::" << __func__;
 

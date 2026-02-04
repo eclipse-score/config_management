@@ -35,17 +35,17 @@ class FactoryMock final : public IFactory
     FactoryMock& operator=(FactoryMock&&) = delete;
     FactoryMock& operator=(const FactoryMock&) = delete;
 
-    MOCK_METHOD(ProvidedServiceContainer,
+    MOCK_METHOD(mw::service::ProvidedServiceContainer,
                 CreateInternalConfigProviderService,
                 (const std::shared_ptr<data_model::IParameterSetCollection>),
                 (const, override));
     MOCK_METHOD(LastUpdatedParameterSetSender,
                 CreateLastUpdatedParameterSetSender,
-                (ProvidedServiceContainer & services),
+                (mw::service::ProvidedServiceContainer & services),
                 (override));
     MOCK_METHOD(InitialQualifierStateSender,
                 CreateInitialQualifierStateSender,
-                (ProvidedServiceContainer & services),
+                (mw::service::ProvidedServiceContainer & services),
                 (override));
 
     MOCK_METHOD(std::shared_ptr<data_model::IParameterSetCollection>,

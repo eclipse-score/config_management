@@ -54,7 +54,7 @@ class ConfigDaemon final : public IConfigDaemon
     std::unique_ptr<IFactory> factory_;
     std::shared_ptr<data_model::IParameterSetCollection> parameterset_collection_;
     std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter_;
-    ProvidedServiceContainer provided_services_container_;
+    mw::service::ProvidedServiceContainer provided_services_container_;
     std::vector<std::shared_ptr<IPlugin>> plugins_;
 };
 

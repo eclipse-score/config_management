@@ -39,7 +39,7 @@ using ::testing::_;
 
 score::ResultBlank Ok()
 {
-    return score::ResultBlank{score::Blank{}};
+    return score::ResultBlank{};
 }
 
 score::ResultBlank Err()

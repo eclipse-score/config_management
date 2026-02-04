@@ -68,7 +68,7 @@ CP -> CP : RegisterUpdateHandlerForParameterSetName(name)
 CP --> UserBusinessLogic : ResultBlank
 
 ' Obtain cached InitialQualifierState
-UserBusinessLogic -> CP : DeprecatedMethodToGetInitialQualifierState(timeout?)
+UserBusinessLogic -> CP : GetInitialQualifierState(timeout?)
 CP --> UserBusinessLogic : InitialQualifierState
 
 note over CP, ICP #ccffcc

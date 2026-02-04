@@ -66,22 +66,12 @@ class ConfigProviderImpl final : public ConfigProvider
 
     ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                const std::optional<std::chrono::milliseconds> timeout) override;
-    /**
-     * Set callback for InitialQualifierState change notification
-     */
-    ResultBlank OnChangedInitialQualifierState(InitialQualifierStateNotifierCallbackType&& callback) noexcept override;
-
     ResultBlank OnChangedParameterSet(const std::string& set_name,
                                       OnChangedParameterSetCallback&& callback) noexcept override;
 
     ResultBlank OnChangedParameterSetCbk(std::string_view set_name,
                                          OnChangedParameterSetCallback&& callback) noexcept override;
 
-    using ConfigProvider::DeprecatedMethodToGetInitialQualifierState;
-    InitialQualifierState DeprecatedMethodToGetInitialQualifierState() noexcept override;
-    InitialQualifierState DeprecatedMethodToGetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept override;
-
-    using ConfigProvider::GetInitialQualifierState;
     InitialQualifierState GetInitialQualifierState(
         const std::optional<std::chrono::milliseconds> timeout) noexcept override;
 

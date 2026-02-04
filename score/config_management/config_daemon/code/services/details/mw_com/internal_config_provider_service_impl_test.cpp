@@ -29,7 +29,9 @@ namespace test
 {
 
 const auto kICPServiceInstanceSpecifierName =
-    score::mw::com::InstanceSpecifier::Create("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort").value();
+    score::mw::com::InstanceSpecifier::Create(
+        std::string("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort"))
+        .value();
 
 class InternalConfigProviderServiceMwComTest : public ::testing::Test
 {
@@ -150,7 +152,7 @@ TEST_F(InternalConfigProviderServiceMwComTest, CreateFailsWithInvalidInstanceSpe
     RecordProperty("Description",
                    "This test ensures ICP service creation aborts when provided with an invalid instance specifier.");
 
-    auto invalid_specifier = score::mw::com::InstanceSpecifier::Create("Invalid/Service/Path");
+    auto invalid_specifier = score::mw::com::InstanceSpecifier::Create(std::string("Invalid/Service/Path"));
 
     ASSERT_TRUE(invalid_specifier.has_value()) << "InstanceSpecifier::Create unexpectedly returned nullopt";
 

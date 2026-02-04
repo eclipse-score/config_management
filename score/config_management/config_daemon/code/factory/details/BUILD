@@ -25,6 +25,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
             "treat_warnings_as_errors",
             "additional_warnings",
             "strict_warnings",
+            "strict_warnings_no_error",
         ],
         tags = ["FFI"],
         visibility = visibility,
@@ -55,16 +56,6 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
                 "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl",
             ],
         ),
-        (
-            "stub_factory",
-            ["factory_stub_impl.cpp"],
-            False,
-            [
-                "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
-            ],
-            [
-            ],
-        ),
         
         (
             "mw_factory_for_unit_test",
@@ -79,16 +70,6 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_builder",
                 "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_decorator",
-            ],
-        ),
-        (
-            "stub_factory_for_unit_test",
-            ["factory_stub_impl.cpp"],
-            True,
-            [
-                "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
-            ],
-            [
             ],
         ),
     ]
@@ -109,14 +90,11 @@ filegroup(
             "treat_warnings_as_errors",
             "additional_warnings",
             "strict_warnings",
+            "strict_warnings_no_error",
         ],
         tags = [
             "unit",
         ] + tag,
-        target_compatible_with = select({
-            "@score_config_management//score/config_management/config_daemon/code:is_score_variant": ["@platforms//:incompatible"],
-            "//conditions:default": [],
-        }),
         visibility = [
             "@score_config_management//score/config_management/config_daemon/code/factory:__pkg__",
         ],

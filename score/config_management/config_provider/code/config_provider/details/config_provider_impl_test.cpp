@@ -226,15 +226,16 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_EmptyPersistenc
         "Description",
         "32232080: This test checks if qualification of the Parameter Sets has not finished and persistent-caching is "
         "disabled, no Parameter Set will be provided to the user application."
-        "14351548: This test checks that ConfigProvider get Undefined InitialQualifierState when there is no update from "
+        "14351548: This test checks that ConfigProvider get Undefined InitialQualifierState when there is no update "
+        "from "
         "ConfigDaemon application."
         "32231893: This test checks that ConfigProvider cannot fetch data from persistent-caching if no persistency "
         "object for the cache is provided during creation of the ConfigProvider.");
     // Given a ConfigProvider instance which is blocked waiting for its proxy to become available
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
 
-    // Then DeprecatedMethodToGetInitialQualifierState() would return Undefined InitialQualifierState
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then GetInitialQualifierState() would return Undefined InitialQualifierState
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error and cannot fetch from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
@@ -257,7 +258,8 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_EmptyPersistency
         "Description",
         "32232080: This test checks if qualification of the Parameter Sets has not finished and persistent-caching is "
         "disabled, no Parameter Set will be provided to the user application."
-        "14351548: This test checks that ConfigProvider get Undefined InitialQualifierState when there is no update from "
+        "14351548: This test checks that ConfigProvider get Undefined InitialQualifierState when there is no update "
+        "from "
         "ConfigDaemon application."
         "32231893: This test checks that ConfigProvider cannot fetch data from persistent-caching if no persistency "
         "object for the cache is provided during creation of the ConfigProvider.");
@@ -266,8 +268,8 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_EmptyPersistency
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
     FailProxySearch();
 
-    // Then DeprecatedMethodToGetInitialQualifierState() would return Undefined InitialQualifierState
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then GetInitialQualifierState() would return Undefined InitialQualifierState
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error and cannot fetch from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
@@ -431,8 +433,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency)
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
     });
-    // Then DeprecatedMethodToGetInitialQualifierState() would return Undefined InitialQualifierState
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then GetInitialQualifierState() would return Undefined InitialQualifierState
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
@@ -446,8 +448,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency)
     // Given the proxy searching thread found the proxy
     BlockUntilProxyIsReady(stop_source_.get_token());
 
-    // Then DeprecatedMethodToGetInitialQualifierState() would return Qualified InitialQualifierState
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kQualified);
+    // Then GetInitialQualifierState() would return Qualified InitialQualifierState
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kQualified);
     // Then GetParameterSet() would return correct ParameterSet from proxy
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -467,7 +469,7 @@ TEST_F(ConfigProviderTest, InitialQualifierState_InitiallyNotAvailableFromProxy_
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
     RecordProperty("Description",
                    "This test checks the scenario when NCD state was initially not available in proxy, but could be "
                    "received later by a request");
@@ -475,13 +477,13 @@ TEST_F(ConfigProviderTest, InitialQualifierState_InitiallyNotAvailableFromProxy_
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
     });
-    // Then DeprecatedMethodToGetInitialQualifierState() would return Undefined InitialQualifierState before proxy is available
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then GetInitialQualifierState() would return Undefined InitialQualifierState before proxy is available
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     SetUpProxyButProxyCouldNotProvideInitialQualifierStateOnFirstRequest();
     // Given the proxy searching thread found the proxy
     BlockUntilProxyIsReady(stop_source_.get_token());
-    // Then DeprecatedMethodToGetInitialQualifierState() would return updated InitialQualifierState after proxy is available
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kQualified);
+    // Then GetInitialQualifierState() would return updated InitialQualifierState after proxy is available
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kQualified);
 }
 
 TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_EmptyPersistency)
@@ -489,7 +491,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
     RecordProperty(
         "Description",
         "This test checks the scenario when the client waits for the proxy to be available and the persistency is "
@@ -500,7 +502,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
         UnblockMakeProxyAvailable();
     });
 
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     EXPECT_TRUE(
@@ -511,8 +513,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kUnqualified);
     BlockUntilProxyIsReady(stop_source_.get_token());
 
-    // Then DeprecatedMethodToGetInitialQualifierState returns unqualified state from proxy
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUnqualified);
+    // Then GetInitialQualifierState returns unqualified state from proxy
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUnqualified);
     // Then GetParameterSet returns unqualified parameter set
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -614,8 +616,8 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_Persistency)
     // When ConfigProvider is created with proxy search blocked
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
 
-    // Then DeprecatedMethodToGetInitialQualifierState returns undefined (proxy not available)
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then GetInitialQualifierState returns undefined (proxy not available)
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet returns cached parameter set from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -649,8 +651,8 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_Persistency)
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
     FailProxySearch();
 
-    // Then DeprecatedMethodToGetInitialQualifierState returns undefined (proxy not available)
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then GetInitialQualifierState returns undefined (proxy not available)
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet returns cached parameter set from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -802,8 +804,9 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
         UnblockMakeProxyAvailable();
     });
 
-    // Then DeprecatedMethodToGetInitialQualifierState returns undefined initially
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then GetInitialQualifierState returns undefined initially
+
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet returns cached parameter set from persistency before proxy
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -822,8 +825,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
     BlockUntilProxyIsReady(stop_source_.get_token());
 
     // When proxy becomes available
-    // Then DeprecatedMethodToGetInitialQualifierState returns qualified
-    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kQualified);
+    // Then GetInitialQualifierState returns qualified
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kQualified);
     // Then GetParameterSet returns updated parameter set from proxy
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -1364,21 +1367,6 @@ TEST_F(ConfigProviderTest, WaitUntilConnected_StopRequested)
     client_thread.join();
 }
 
-TEST_F(ConfigProviderTest, Test_OnChangedInitialQualifierState)
-{
-    RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
-    RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::OnChangedInitialQualifierState()");
-    RecordProperty("Description", "This test verifies checks the call to OnChangedInitialQualifierState() does nothing.");
-
-    // Given a ConfigProvider instance with proxy not ready
-    auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
-
-    // Expect calling OnChangedInitialQualifierState does nothing
-    config_provider->OnChangedInitialQualifierState(nullptr);
-}
-
 TEST_F(ConfigProviderTest, Test_FailedFetchInitialParameterSetValuesFrom)
 {
     RecordProperty("Priority", "3");
@@ -1694,7 +1682,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider1)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies",
                    "::score::config_management::config_provider::ConfigProviderImpl::CheckParameterSetUpdates(), "
-                   "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState(), "
                    "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSet(), "
                    "::score::config_management::config_provider::ConfigProviderImpl::IsAwaitingProxyConnection(), "
                    "::score::config_management::config_provider::ConfigProviderImpl::WaitUntilConnected()");
@@ -1733,7 +1721,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider1)
     auto get_initial_qualifier_state_done = std::async(std::launch::async, [&]() {
         get_initial_qualifier_state_ready.set_value();
         ready.wait();
-        return config_provider->DeprecatedMethodToGetInitialQualifierState(std::nullopt);
+        return config_provider->GetInitialQualifierState(std::nullopt);
     });
 
     auto get_parameter_set_done = std::async(std::launch::async, [&]() {
@@ -1748,8 +1736,8 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider1)
     is_awaiting_proxy_ready.get_future().wait();
     wait_until_connected_ready.get_future().wait();
 
-    // When DeprecatedMethodToGetInitialQualifierState, GetParameterSet, CheckParameterSetUpdates, IsAwaitingProxyConnection and WaitUntilConnected
-    // are called concurrently
+    // When GetInitialQualifierState, GetParameterSet, CheckParameterSetUpdates, IsAwaitingProxyConnection and
+    // WaitUntilConnected are called concurrently
     go.set_value();
     auto initial_qualifier_state = get_initial_qualifier_state_done.get();
     auto parameter_set = get_parameter_set_done.get();
@@ -1772,7 +1760,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider2)
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies",
-                   "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState(), "
                    "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSet(), ");
     RecordProperty(
         "Description",
@@ -1789,7 +1777,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider2)
     auto get_initial_qualifier_state_done = std::async(std::launch::async, [&]() {
         get_initial_qualifier_state_ready.set_value();
         ready.wait();
-        return config_provider->DeprecatedMethodToGetInitialQualifierState(std::nullopt);
+        return config_provider->GetInitialQualifierState(std::nullopt);
     });
 
     auto callback_done = std::async(std::launch::async, [&]() {
@@ -1808,7 +1796,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider2)
     get_parameter_set_ready.get_future().wait();
     callback_ready.get_future().wait();
 
-    // Given DeprecatedMethodToGetInitialQualifierState, GetParameterSet and client callback are called concurrently
+    // Given GetInitialQualifierState, GetParameterSet and client callback are called concurrently
     go.set_value();
     auto initial_qualifier_state = get_initial_qualifier_state_done.get();
     auto parameter_set = get_parameter_set_done.get();
@@ -1948,45 +1936,6 @@ TEST_P(RepeatableConfigProviderTest, TestSharedClientHandlers)
 }
 
 INSTANTIATE_TEST_SUITE_P(RepeatTenTimes, RepeatableConfigProviderTest, ::testing::Range(0, 10));
-
-class ConfigProviderConvertInitialQualifierStateToInitialQualifierStatePassTest
-    : public ConfigProviderTest,
-      public ::testing::WithParamInterface<std::tuple<InitialQualifierState, InitialQualifierState>>
-{
-};
-TEST_P(ConfigProviderConvertInitialQualifierStateToInitialQualifierStatePassTest, ConvertInitialQualifierStateToInitialQualifierStatePassTest)
-{
-    RecordProperty("Priority", "3");
-    RecordProperty("TestType", "Interface test");
-    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState()");
-    RecordProperty("Description", "This test check that DeprecatedMethodToGetInitialQualifierState() would get expected value successfully");
-    // Given the CfgP is created and proxy is created and ready as well
-    auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
-        UnblockMakeProxyAvailable();
-    });
-
-    // icp_mock calls GetInitialQualifierState
-    SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, std::get<1>(GetParam()));
-    BlockUntilProxyIsReady(stop_source_.get_token());
-
-    // When CfgP calls DeprecatedMethodToGetInitialQualifierState
-    const auto initial_qualifier_state = config_provider->DeprecatedMethodToGetInitialQualifierState();
-
-    // Then for each respsone from icp_mock->GetInitialQualifierState,
-    // it should match with the corresponding InitialQualifierState value
-    EXPECT_EQ(initial_qualifier_state, std::get<0>(GetParam()));
-}
-
-INSTANTIATE_TEST_SUITE_P(ConvertInitialQualifierStateToInitialQualifierStatePassTest,
-                         ConfigProviderConvertInitialQualifierStateToInitialQualifierStatePassTest,
-                         testing::Values(std::make_tuple(InitialQualifierState::kDefault, InitialQualifierState::kDefault),
-                                         std::make_tuple(InitialQualifierState::kInProgress, InitialQualifierState::kInProgress),
-                                         std::make_tuple(InitialQualifierState::kQualified, InitialQualifierState::kQualified),
-                                         std::make_tuple(InitialQualifierState::kQualifying, InitialQualifierState::kQualifying),
-                                         std::make_tuple(InitialQualifierState::kUnqualified, InitialQualifierState::kUnqualified),
-                                         std::make_tuple(InitialQualifierState::kUndefined, InitialQualifierState::kUndefined),
-                                         std::make_tuple(InitialQualifierState::kUndefined, static_cast<InitialQualifierState>(7))));
 // -------------------------------------------------------------
 // Compile-time public API regression coverage (config_provider.h)
 // * Unused helper referencing every public ConfigProvider API.
@@ -2014,7 +1963,6 @@ namespace
     std::optional<std::chrono::milliseconds> timeout{50};
     score::cpp::pmr::vector<std::string_view> set_names;
     OnChangedParameterSetCallback cb;
-    InitialQualifierStateNotifierCallbackType ncd_cb;
     std::string set_name_str{"regression_set"};
     std::string_view set_name_std_view{set_name_str};
     score::cpp::stop_token stop_token;
@@ -2031,11 +1979,10 @@ namespace
     {
         provider->GetParameterSet(set_name, timeout);
         provider->GetParameterSetsByNameList(set_names, timeout);
-        provider->OnChangedInitialQualifierState(std::move(ncd_cb));
         provider->OnChangedParameterSet(set_name_str, std::move(cb));
         provider->OnChangedParameterSetCbk(set_name_std_view, std::move(cb));
         provider->OnChangedParameterSetCbk(set_name_str, std::move(cb));
-        provider->DeprecatedMethodToGetInitialQualifierState(timeout);
+        provider->GetInitialQualifierState(timeout);
         provider->WaitUntilConnected(std::chrono::milliseconds{10}, stop_token);
         (void)provider->CheckParameterSetUpdates();
         provider->GetCachedParameterSetsCount();
