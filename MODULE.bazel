@@ -16,7 +16,7 @@ module(
 )
 
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
-bazel_dep(name = "rules_python", version = "1.4.1")
+bazel_dep(name = "rules_python", version = "1.5.1")
 
 PYTHON_VERSION = "3.12"
 
@@ -28,13 +28,13 @@ python.toolchain(
 use_repo(python)
 
 # Add GoogleTest dependency
-bazel_dep(name = "googletest", version = "1.17.0.bcr.1")
+bazel_dep(name = "googletest", version = "1.17.0.bcr.2")
 
 # Rust rules for Bazel
-bazel_dep(name = "rules_rust", version = "0.63.0")
+bazel_dep(name = "rules_rust", version = "0.67.0")
 
 # C/C++ rules for Bazel
-bazel_dep(name = "rules_cc", version = "0.2.1")
+bazel_dep(name = "rules_cc", version = "0.2.14")
 
 # LLVM Toolchains Rules - host configuration
 bazel_dep(name = "toolchains_llvm", version = "1.4.0")
@@ -50,21 +50,44 @@ use_repo(llvm, "llvm_toolchain_llvm")
 register_toolchains("@llvm_toolchain//:all")
 
 # tooling
-bazel_dep(name = "score_tooling", version = "1.0.4")
-bazel_dep(name = "aspect_rules_lint", version = "1.5.3")
+bazel_dep(name = "score_tooling", version = "1.0.5")
+bazel_dep(name = "aspect_rules_lint", version = "1.13.0")
 bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2")
 
 #docs-as-code
-bazel_dep(name = "score_docs_as_code", version = "2.2.0")
+bazel_dep(name = "score_docs_as_code", version = "2.3.0")
 
 # s-core base libs
 bazel_dep(name = "score_baselibs", version = "0.2.3")
+# Override necessary until result_of_t fix is released.
+git_override(
+   module_name = "score_baselibs",
+   remote = "https://github.com/eclipse-score/baselibs.git",
+   branch = "main",
+)
 
 # s-core communication
 bazel_dep(name = "score_communication", version = "0.1.2")
+# Override necessary until S-CORE release 0.6 update,
+# which shall expose mw::service stub.
+git_override(
+   module_name = "score_communication",
+   remote = "https://github.com/eclipse-score/communication.git",
+   branch = "main",
+)
 
-# s-core lifecycle
+bazel_dep(name = "score_logging", version = "0.0.4")
+# Override necessary until release 0.0.5 fixes current issues.
+git_override(
+   module_name = "score_logging",
+   remote = "https://github.com/eclipse-score/inc_mw_log.git",
+   branch = "main",
+)
+
 bazel_dep(name = "score_lifecycle_health", version = "0.0.1")
+# Override necessary because there's no oficial release yet.
+# See:
+# https://github.com/eclipse-score/lifecycle/issues/35
 git_override(
    module_name = "score_lifecycle_health",
    remote = "https://github.com/eclipse-score/lifecycle.git",
