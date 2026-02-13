@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -71,7 +71,7 @@ bool ParameterSet::ContainsSameContent(const ParameterSet& target_parameter_set)
 }
 
 Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParameterAsJsonAny(
-    const score::cpp::string_view& parameter_name) const
+    const std::string_view& parameter_name) const
 {
     // Acquiring set Object
     const auto& set_result = set_json_.As<score::json::Object>();

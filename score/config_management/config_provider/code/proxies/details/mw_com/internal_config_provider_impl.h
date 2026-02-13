@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -28,6 +28,7 @@
 
 #include <chrono>
 #include <mutex>
+#include <string_view>
 
 namespace score
 {
@@ -49,7 +50,7 @@ class InternalConfigProvider final : public IInternalConfigProvider
     InternalConfigProvider& operator=(InternalConfigProvider&&) = delete;
     ~InternalConfigProvider() noexcept override;
 
-    Result<json::Any> GetParameterSet(const score::cpp::string_view set_name,
+    Result<json::Any> GetParameterSet(const std::string_view set_name,
                                       const std::chrono::milliseconds timeout) const override;
     bool TrySubscribeToLastUpdatedParameterSetEvent(const score::cpp::stop_token& stop_token,
                                                     OnChangedParameterSetCallback&& callback) override;

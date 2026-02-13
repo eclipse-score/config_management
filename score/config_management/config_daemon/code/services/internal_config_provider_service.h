@@ -14,7 +14,7 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
 
-#include "platform/aas/mw/service/provided_service.h"
+#include "score/mw/service/provided_service.h"
 #include "score/config_management/config_daemon/code/types/initial_qualifier_state/initial_qualifier_state.h"
 #include <score/callback.hpp>
 #include <string>

@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -23,6 +23,7 @@
 #include <score/stop_token.hpp>
 #include <score/unordered_map.hpp>
 #include <optional>
+#include <string_view>
 
 namespace score
 {
@@ -53,12 +54,12 @@ class ConfigProvider
     [[deprecated(
         "SPP_DEPRECATION: This method should be called in "
         "conjunction with a timeout value instead.")]] virtual Result<std::shared_ptr<const ParameterSet>>
-    GetParameterSet(const score::cpp::string_view set_name) = 0;
+    GetParameterSet(const std::string_view set_name) = 0;
     virtual Result<std::shared_ptr<const ParameterSet>> GetParameterSet(
-        const score::cpp::string_view set_name,
+        const std::string_view set_name,
         const std::optional<std::chrono::milliseconds> timeout) = 0;
 
-    virtual ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<score::cpp::string_view>& set_names,
+    virtual ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                        const std::optional<std::chrono::milliseconds> timeout) = 0;
 
     virtual ResultBlank OnChangedInitialQualifierState(InitialQualifierStateNotifierCallbackType&& callback) noexcept = 0;
@@ -71,10 +72,10 @@ class ConfigProvider
 
     [[deprecated(
         "SPP_DEPRECATION: This method should be called in conjunction with a timeout value instead.")]] virtual InitialQualifierState
-    GetInitialQualifierState() noexcept = 0;
+    DeprecatedMethodToGetInitialQualifierState() noexcept = 0;
     [[deprecated(
         "SPP_DEPRECATION: This method should be called in conjunction with a timeout value instead.")]] virtual InitialQualifierState
-    GetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;
+    DeprecatedMethodToGetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;
 
     virtual InitialQualifierState GetInitialQualifierState(
         const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;

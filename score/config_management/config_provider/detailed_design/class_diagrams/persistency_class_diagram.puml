@@ -1,0 +1,15 @@
+@startuml
+
+!includesub ../assets/config_provider/config_provider.puml!ConfigProvider
+!includesub ../assets/config_provider/config_provider.puml!ConfigProviderImpl
+' !includesub ../assets/config_provider/initial_qualifier_state_types.puml!InitialQualifierState
+' !includesub ../assets/parameter_set/parameter_set.puml!ParameterSet
+
+!includesub ../assets/persistency/persistency.puml!Persistency
+!includesub ../assets/persistency/persistency.puml!PersistencyImpl
+!includesub ../assets/persistency/persistency.puml!PersistencyImpl
+
+Adaptive_Application *-down- ConfigProvider
+ConfigProviderImpl *-- Persistency
+
+@enduml

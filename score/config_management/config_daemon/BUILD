@@ -13,14 +13,7 @@
 
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 load("@score_baselibs//score/quality/clang_tidy:extra_checks.bzl", "clang_tidy_extra_checks")
-
-
-
-
-
-
-
-
+load(":custom.bzl", "load_custom_targets")
 
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
@@ -29,7 +22,6 @@ cc_unit_test_suites_for_host_and_qnx(
     ],
     visibility = ["@score_config_management//score:__pkg__"],
 )
-
 
 clang_tidy_extra_checks(
     name = "clang_tidy_extra_checks",
@@ -41,3 +33,5 @@ clang_tidy_extra_checks(
         "spp_code_style_check_type_names",
     ],
 )
+
+load_custom_targets()

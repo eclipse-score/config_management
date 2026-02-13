@@ -1,0 +1,65 @@
+@startuml proxy_runtime_updates
+title Runtime Updates After Proxy is Connected to ConfigDaemon
+
+participant "PollingThread" as PollingThread
+participant "InternalConfigProviderProxy" as ICP
+participant "ARA::COM" as CD
+participant "ConfigProviderImpl" as CPImpl
+participant "Persistency" as Persist
+participant "KVS" as KVS
+participant "ClientApplication" as App
+
+note over PollingThread, ICP: Polling thread running (interval: 5 seconds default)
+
+== Periodic Update Detection ==
+
+loop Every polling_cycle_interval
+    PollingThread -> PollingThread: Wake up (timer or on-demand trigger)
+    PollingThread -> ICP: GetNewSamples(LastUpdatedParameterSet)
+    ICP -> CD: mw::com GetNewSamples
+    CD --> ICP: ["SetA", "SetB"]
+    ICP --> PollingThread: Updated parameter set names
+
+    loop For each updated set name
+        PollingThread -> CPImpl: LastUpdatedParameterSetReceiveHandler(set_name)
+
+        == Step 1: Fetch Updated ParameterSet ==
+
+        CPImpl -> ICP: GetParameterSet(set_name, timeout)
+        ICP -> CD: mw::com GetParameterSet
+        CD --> ICP: Updated ParameterSet (JSON + qualifier)
+        ICP --> CPImpl: ParameterSet
+
+        == Step 2: Write to Persistency ==
+
+        CPImpl -> Persist: CacheParameterSet(param_set, sync=true)
+
+        alt ParameterSet is kQualified
+            Persist -> Persist: NeedToPersist() returns true
+            Persist -> Persist: ContainsSameContent() check
+
+            alt Content changed
+                Persist -> KVS: set("CfgP__SetName", JSON)
+                note over KVS: Immediate sync (sync_to_storage=true)
+            else Content unchanged
+                note over Persist: Skip write - content identical
+            end
+        else ParameterSet not kQualified
+            note over Persist: Skip - only qualified sets persisted
+        end
+
+        == Step 3: Update In-Memory Cache ==
+
+        CPImpl -> CPImpl: Update parameter_sets_[set_name]
+        note over CPImpl: Atomically replace shared_ptr\nThread-safe update
+
+        == Step 4: Notify Application Callbacks ==
+
+        alt Client registered callback for this set
+            CPImpl -> App: OnChangedParameterSet callback(set_name)
+            note over App: Application processes update
+        end
+    end
+end
+
+@enduml

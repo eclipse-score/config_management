@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -40,14 +40,12 @@ class ConfigProviderErrorDomain final : public score::result::ErrorDomain
     /* KW_SUPPRESS_END:AUTOSAR.MEMB.VIRTUAL.FINAL */
     {
         using std::string_view_literals::operator""sv;
-        // Suppress "AUTOSAR C++14 M6-4-3" rule finding. This rule declares: "A switch statement shall be
-        // a well-formed switch statement".
+        // Suppress "AUTOSAR C++14 M6-4-3" rule finding.
         // Rationale: False positive, this switch statement is well-formed.
         // coverity[autosar_cpp14_m6_4_3_violation]
         switch (code)
         {
-            // Suppress "AUTOSAR C++14 M6-4-5" rule finding. This rule declares: "An unconditional throw
-            // or break statement shall terminate every non-empty switch-clause".
+            // Suppress "AUTOSAR C++14 M6-4-5" rule finding.
             // Rationale: The return statements are used in each case and do not need break statements.
             // coverity[autosar_cpp14_m6_4_5_violation]
             case score::cpp::to_underlying(ConfigProviderError::kParsingFailed):

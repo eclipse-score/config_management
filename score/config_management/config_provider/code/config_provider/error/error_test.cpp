@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -31,7 +31,7 @@ TEST(ConfigProviderErrorTest, CanConvertToString)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::MakeError()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::MakeError()");
     RecordProperty(
         "Description",
         "This test verifies that all possible error types are covered with a corresponding error text message.");

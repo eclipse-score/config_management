@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -177,7 +177,7 @@ void ConfigProviderImpl::SetupInternalConfigProvider(std::shared_ptr<IInternalCo
                                                      const score::cpp::stop_token& stop_token)
 {
     if (not(internal_config_provider->TrySubscribeToLastUpdatedParameterSetEvent(
-            stop_token, [this](const score::cpp::string_view set) {
+            stop_token, [this](const std::string_view set) {
                 this->LastUpdatedParameterSetReceiveHandler(set);
             })))
     {
@@ -223,121 +223,144 @@ void ConfigProviderImpl::CacheInitialQualifierState(const InitialQualifierState 
     }
 }
 
-Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(const score::cpp::string_view set_name)
+Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(const std::string_view set_name)
 {
     return GetParameterSet(set_name, std::nullopt);
 }
 
 Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(
-    const score::cpp::string_view set_name,
+    const std::string_view set_name,
     const std::optional<std::chrono::milliseconds> timeout)
 {
     const auto actual_timeout = timeout.value_or(kDefaultResponseTimeout);
 
-    std::lock_guard<std::mutex> lock{mutex_};
-    const auto it =
-        std::find_if(parameter_sets_.begin(), parameter_sets_.end(), [&set_name](const auto& param_set_pair) noexcept {
-            return score::cpp::string_view{param_set_pair.first} == set_name;
-        });
-
-    if (it != parameter_sets_.end())
+    std::shared_ptr<IInternalConfigProvider> internal_config_provider_local;
     {
-        logger_.LogDebug() << __func__ << " [" << set_name
-                           << "]: value: " << GetParameterSetValue(logger_, *it->second);
-        return {it->second};
-    }
+        std::lock_guard<std::mutex> lock{mutex_};
+        const auto it = std::find_if(
+            parameter_sets_.begin(), parameter_sets_.end(), [&set_name](const auto& param_set_pair) noexcept {
+                return std::string_view{param_set_pair.first} == set_name;
+            });
 
-    if (internal_config_provider_ == nullptr)
-    {
-        logger_.LogError() << __func__ << "Proxy is not ready";
-        return MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready");
+        if (it != parameter_sets_.end())
+        {
+            logger_.LogDebug() << __func__ << " [" << set_name
+                               << "]: value: " << GetParameterSetValue(logger_, *it->second);
+            return {it->second};
+        }
+
+        if (internal_config_provider_ == nullptr)
+        {
+            logger_.LogError() << __func__ << "Proxy is not ready";
+            return MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready");
+        }
+
+        // Copy the shared_ptr to use outside the lock
+        internal_config_provider_local = internal_config_provider_;
     }
 
     const auto param_set =
-        GetParameterSetFromInternalConfigProvider(set_name, *internal_config_provider_, actual_timeout);
+        GetParameterSetFromInternalConfigProvider(set_name, *internal_config_provider_local, actual_timeout);
     if (not param_set.has_value())
     {
         return param_set;
     }
 
-    logger_.LogInfo() << __func__ << " [" << set_name << "]: Adding new parameter set to cache as "
-                      << parameter_sets_.size() << " element";
     logger_.LogDebug() << __func__ << " [" << set_name
                        << "]: New parameter set with value: " << GetParameterSetValue(logger_, *param_set.value());
     score::cpp::pmr::string param_set_key{set_name.data(), set_name.size(), memory_resource_};
-    persistency_->CacheParameterSet(parameter_sets_, param_set_key, param_set.value(), true);
-    score::cpp::ignore = parameter_sets_.try_emplace(param_set_key, param_set.value());
-    // Register update handler to keep this newly cached parameter set up-to-date.
-    // We ignore returned value because we always pass empty callback here which
-    // can't trigger error branch inside RegisterUpdateHandlerForParameterSet method
-    score::cpp::ignore = RegisterUpdateHandlerForParameterSetName(param_set_key, {});
+
+    {
+
+        std::lock_guard<std::mutex> lock{mutex_};
+        logger_.LogInfo() << __func__ << " [" << set_name << "]: Adding new parameter set to cache as "
+                          << parameter_sets_.size() << " element";
+        persistency_->CacheParameterSet(parameter_sets_, param_set_key, param_set.value(), true);
+        score::cpp::ignore = parameter_sets_.try_emplace(param_set_key, param_set.value());
+        // Register update handler to keep this newly cached parameter set up-to-date.
+        // We ignore returned value because we always pass empty callback here which
+        // can't trigger error branch inside RegisterUpdateHandlerForParameterSet method
+        score::cpp::ignore = RegisterUpdateHandlerForParameterSetName(param_set_key, {});
+    }
     return param_set;
 }
 
-ParameterSetMap ConfigProviderImpl::GetParameterSetsByNameList(const score::cpp::pmr::vector<score::cpp::string_view>& set_names,
+ParameterSetMap ConfigProviderImpl::GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                                const std::optional<std::chrono::milliseconds> timeout)
 {
     const auto actual_timeout = timeout.value_or(kDefaultResponseTimeout);
     // Ensure the result map uses the same memory resource to avoid default-heap allocations
     ParameterSetMap parameter_set_map{ParameterSetMap::allocator_type{memory_resource_}};
+
+    // Collect missing set names and cached sets under lock
+    std::vector<score::cpp::pmr::string> missing_set_names;
+    std::shared_ptr<IInternalConfigProvider> internal_config_provider_local;
     {
+        std::lock_guard<std::mutex> lock{mutex_};
+        internal_config_provider_local = internal_config_provider_;
         for (const auto& set_name : set_names)
         {
-            std::lock_guard<std::mutex> lock{mutex_};
-            // Always use score::cpp::pmr::string as key for parameter_sets_ and parameter_set_map
             score::cpp::pmr::string set_name_key{set_name.data(), set_name.size(), memory_resource_};
             const auto it = std::find_if(
                 parameter_sets_.begin(), parameter_sets_.end(), [&set_name_key](const auto& param_set_pair) noexcept {
                     return param_set_pair.first == set_name_key;
                 });
-
             if (it != parameter_sets_.end())
             {
                 logger_.LogDebug() << __func__ << " [" << set_name
                                    << "]: cached value: " << GetParameterSetValue(logger_, *it->second);
                 score::cpp::ignore = parameter_set_map.try_emplace(set_name_key, it->second);
-                continue;
             }
-            if (internal_config_provider_ == nullptr)
+            else
             {
-                logger_.LogDebug() << __func__ << " [" << set_name << "]: Proxy is not ready";
-                score::cpp::ignore = parameter_set_map.try_emplace(
-                    set_name_key, MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready"));
-                continue;
+                missing_set_names.push_back(set_name_key);
             }
-
-            const auto param_set =
-                GetParameterSetFromInternalConfigProvider(set_name, *internal_config_provider_, actual_timeout);
-            if (not param_set.has_value())
-            {
-                logger_.LogError() << __func__ << " [" << set_name
-                                   << "]: Failed to get parameter set from internal config provider: "
-                                   << param_set.error();
-                score::cpp::ignore = parameter_set_map.try_emplace(
-                    set_name_key,
-                    MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found"));
-                continue;
-            }
-
-            score::cpp::pmr::string param_set_key{set_name.data(), set_name.size(), memory_resource_};
-            score::cpp::ignore = parameter_set_map.try_emplace(set_name_key, param_set.value());
-            logger_.LogDebug() << __func__ << " [" << set_name << "]: New parameter set with value: "
-                               << GetParameterSetValue(logger_, *param_set.value());
-            persistency_->CacheParameterSet(parameter_sets_, param_set_key, param_set.value(), false);
-            score::cpp::ignore = parameter_sets_.try_emplace(param_set_key, param_set.value());
-            // Register update handler to keep this newly cached parameter set up-to-date.
-            // We ignore returned value because we always pass empty callback here which
-            // can't trigger error branch inside RegisterUpdateHandlerForParameterSet method
-            score::cpp::ignore = RegisterUpdateHandlerForParameterSetName(param_set_key, {});
         }
-        persistency_->SyncToStorage();
     }
 
+    // Handle missing sets (error or fetch from proxy)
+    for (const auto& set_name_key : missing_set_names)
+    {
+        if (!internal_config_provider_local)
+        {
+            logger_.LogDebug() << __func__ << " [" << set_name_key << "]: Proxy is not ready";
+            score::cpp::ignore = parameter_set_map.try_emplace(
+                set_name_key, MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready"));
+            continue;
+        }
+
+        auto param_set =
+            GetParameterSetFromInternalConfigProvider(set_name_key, *internal_config_provider_local, actual_timeout);
+        if (param_set.has_value())
+        {
+            logger_.LogDebug() << __func__ << " [" << set_name_key << "]: New parameter set with value: "
+                               << GetParameterSetValue(logger_, *param_set.value());
+            score::cpp::ignore = parameter_set_map.try_emplace(set_name_key, param_set.value());
+            {
+                std::lock_guard<std::mutex> lock{mutex_};
+                persistency_->CacheParameterSet(parameter_sets_, set_name_key, param_set.value(), false);
+                score::cpp::ignore = parameter_sets_.try_emplace(set_name_key, param_set.value());
+                // Register update handler to keep this newly cached parameter set up-to-date.
+                // We ignore returned value because we always pass empty callback here which
+                // can't trigger error branch inside RegisterUpdateHandlerForParameterSet method
+                score::cpp::ignore = RegisterUpdateHandlerForParameterSetName(set_name_key, {});
+            }
+        }
+        else
+        {
+            logger_.LogError() << __func__ << " [" << set_name_key
+                               << "]: Failed to get parameter set from internal config provider: " << param_set.error();
+            score::cpp::ignore = parameter_set_map.try_emplace(
+                set_name_key, MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found"));
+        }
+    }
+
+    persistency_->SyncToStorage();
     return parameter_set_map;
 }
 
 Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSetFromInternalConfigProvider(
-    const score::cpp::string_view set_name,
+    const std::string_view set_name,
     const IInternalConfigProvider& internal_config_provider,
     const std::chrono::milliseconds timeout)
 {
@@ -363,12 +386,12 @@ ResultBlank ConfigProviderImpl::OnChangedInitialQualifierState(InitialQualifierS
                           "ConfigProviderImpl::OnChangedInitialQualifierState() is no longer supported");
 }
 
-InitialQualifierState ConfigProviderImpl::GetInitialQualifierState() noexcept
+InitialQualifierState ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState() noexcept
 {
     return ConvertInitialQualifierStateToInitialQualifierState(GetInitialQualifierState(std::nullopt));
 }
 
-InitialQualifierState ConfigProviderImpl::GetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept
+InitialQualifierState ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept
 {
     return ConvertInitialQualifierStateToInitialQualifierState(GetInitialQualifierState(timeout));
 }
@@ -407,7 +430,7 @@ std::size_t ConfigProviderImpl::GetCachedParameterSetsCount() const noexcept
     return parameter_sets_.size();
 }
 
-void ConfigProviderImpl::LastUpdatedParameterSetReceiveHandler(const score::cpp::string_view set_name)
+void ConfigProviderImpl::LastUpdatedParameterSetReceiveHandler(const std::string_view set_name)
 {
     logger_.LogDebug() << __func__ << " [" << set_name << "]";
     std::lock_guard<std::mutex> lock{mutex_};
@@ -474,7 +497,7 @@ ResultBlank ConfigProviderImpl::OnChangedParameterSetCbk(std::string_view set_na
     return OnChangedParameterSet(std::string{set_name}, std::move(callback));
 }
 
-ResultBlank ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName(const score::cpp::string_view set_name,
+ResultBlank ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
                                                                          OnChangedParameterSetCallback&& callback)
 {
     // NOTE: we assume here that `mutex_` got already acquired by the caller!

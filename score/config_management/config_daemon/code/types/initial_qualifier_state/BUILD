@@ -11,6 +11,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 COMMON_FEATURES = [
     "treat_warnings_as_errors",
     "strict_warnings",

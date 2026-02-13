@@ -11,7 +11,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
+load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load(":custom.bzl", "load_custom_test_suites")
 
 COMMON_FEATURES = [
     "treat_warnings_as_errors",
@@ -72,8 +74,7 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "@score_config_management//score/config_management/config_daemon/code/factory/details:unit_test_ara_com",
-        #"@score_config_management//score/config_management/config_daemon/code/factory/details:unit_test_mw_com",
-    ],
+        "@score_config_management//score/config_management/config_daemon/code/factory/details:unit_test_mw_com",
+    ] + load_custom_test_suites(),
     visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
 )

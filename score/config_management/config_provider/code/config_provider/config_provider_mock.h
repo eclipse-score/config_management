@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -18,6 +18,7 @@
 #include "score/result/result.h"
 
 #include <score/memory.hpp>
+#include <string_view>
 
 #include <gmock/gmock.h>
 
@@ -36,15 +37,15 @@ class ConfigProviderMock final : public ConfigProvider
 
     MOCK_METHOD(Result<std::shared_ptr<const ParameterSet>>,
                 GetParameterSet,
-                (const score::cpp::string_view set_name),
+                (const std::string_view set_name),
                 (override));
     MOCK_METHOD(Result<std::shared_ptr<const ParameterSet>>,
                 GetParameterSet,
-                (const score::cpp::string_view set_name, const std::optional<std::chrono::milliseconds> timeout),
+                (const std::string_view set_name, const std::optional<std::chrono::milliseconds> timeout),
                 (override));
     MOCK_METHOD(ParameterSetMap,
                 GetParameterSetsByNameList,
-                (const score::cpp::pmr::vector<score::cpp::string_view>& set_names,
+                (const score::cpp::pmr::vector<std::string_view>& set_names,
                  const std::optional<std::chrono::milliseconds> timeout),
                 (override));
     MOCK_METHOD(ResultBlank, OnChangedInitialQualifierState, (InitialQualifierStateNotifierCallbackType&&), (noexcept, override));
@@ -56,8 +57,8 @@ class ConfigProviderMock final : public ConfigProvider
                 OnChangedParameterSetCbk,
                 (std::string_view set_name, OnChangedParameterSetCallback&& callback),
                 (noexcept, override));
-    MOCK_METHOD(InitialQualifierState, GetInitialQualifierState, (), (noexcept, override));
-    MOCK_METHOD(InitialQualifierState, GetInitialQualifierState, (const std::optional<std::chrono::milliseconds> timeout), (noexcept, override));
+    MOCK_METHOD(InitialQualifierState, DeprecatedMethodToGetInitialQualifierState, (), (noexcept, override));
+    MOCK_METHOD(InitialQualifierState, DeprecatedMethodToGetInitialQualifierState, (const std::optional<std::chrono::milliseconds> timeout), (noexcept, override));
     MOCK_METHOD(InitialQualifierState,
                 GetInitialQualifierState,
                 (const std::optional<std::chrono::milliseconds> timeout),

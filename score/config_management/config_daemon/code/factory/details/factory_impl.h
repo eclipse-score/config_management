@@ -17,8 +17,6 @@
 #include "score/config_management/config_daemon/code/factory/factory.h"
 #include "score/config_management/config_daemon/code/json_helper/json_helper.h"
 
-#include "score/hash/code/core/factory/i_hash_calculator_factory.h"
-
 #include <score/memory.hpp>
 #include <memory>
 
@@ -52,7 +50,6 @@ class Factory final : public IFactory
 
   private:
     std::shared_ptr<common::IJsonHelper> json_helper_;
-    std::shared_ptr<score::hash::IHashCalculatorFactory> hash_calculator_factory_;
 };
 
 }  // namespace config_daemon

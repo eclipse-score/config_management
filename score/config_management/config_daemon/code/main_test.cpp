@@ -14,9 +14,9 @@
 #include "score/config_management/config_daemon/code/app/config_daemon.h"
 
 #include "score/mwcoreinitwrapper/mocklib/mwcoreinitializer_mock.hpp"
-#include "platform/aas/mw/lifecycle/test/ut/mocks/applicationcontextmock.h"
-#include "platform/aas/mw/lifecycle/test/ut/mocks/mwlifecyclemanagermock.h"
-#include "platform/aas/mw/lifecycle/test/ut/mocks/lifecyclemanagermock.h"
+#include "src/lifecycle_client_lib/include/test/ut/mocks/applicationcontextmock.h"
+#include "src/lifecycle_client_lib/include/test/ut/mocks/mwlifecyclemanagermock.h"
+#include "src/lifecycle_client_lib/include/test/ut/mocks/lifecyclemanagermock.h"
 
 #include <sys/wait.h>
 #include <unistd.h>

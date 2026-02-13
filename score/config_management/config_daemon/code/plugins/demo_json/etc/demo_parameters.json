@@ -1,0 +1,69 @@
+{
+  "parameterSets": {
+    "paramSet1": {
+      "parameters": {
+        "param1": {
+          "initValue": 10
+        },
+        "param2": {
+          "initValue": [181, 182, -180.0]
+        },
+        "param3": {
+          "initValue": [[1, 2], [3, 4], [5, 6]]
+        },
+        "param4": {
+          "initValue": 5.5
+        }
+      }
+    },
+    "paramSet2": {
+      "parameters": {
+        "param5": {
+          "initValue": 20
+        },
+        "param6": {
+          "initValue": [4, 5, 6]
+        }
+      }
+    },
+    "paramSet3": {
+      "parameters": {
+        "param7": {
+          "initValue": 1
+        }
+      }
+    },
+    "paramSet4": {
+      "parameters": {
+        "param8": {
+          "initValue": 0
+        }
+      }
+    },
+    "paramSet5": {
+      "parameters": {
+        "param9": {
+          "initValue": 10
+        }
+      }
+    },
+    "paramSet6": {
+      "parameters": {
+        "param10": {
+          "initValue": -10.3
+        }
+      }
+    },
+    "paramSet7": {
+      "parameters": {
+        "param11": {
+          "initValue": 10
+        },
+        "param12": {
+          "initValue": 10.45
+        }
+      }
+    }
+  },
+  "version": "1.0.0"
+}

@@ -17,6 +17,8 @@
 #include "score/config_management/config_daemon/code/plugins/plugin.h"
 
 #include <gmock/gmock.h>
+#include <cstdint>
+#include <memory>
 
 namespace score
 {

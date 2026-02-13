@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -23,13 +23,14 @@
 #include "score/mw/log/logger.h"
 
 #include "score/concurrency/condition_variable.h"
-#include "platform/aas/mw/service/proxy_future.h"
+#include "score/mw/service/proxy_future.h"
 
 #include <score/jthread.hpp>
 #include <score/memory.hpp>
 #include <score/memory_resource.hpp>
 #include <score/optional.hpp>
 #include <score/unordered_map.hpp>
+#include <string_view>
 
 namespace score
 {
@@ -57,13 +58,13 @@ class ConfigProviderImpl final : public ConfigProvider
      * Gets the parameter set by the set's name
      */
     using ConfigProvider::GetParameterSet;
-    Result<std::shared_ptr<const ParameterSet>> GetParameterSet(const score::cpp::string_view set_name) override;
+    Result<std::shared_ptr<const ParameterSet>> GetParameterSet(const std::string_view set_name) override;
 
     Result<std::shared_ptr<const ParameterSet>> GetParameterSet(
-        const score::cpp::string_view set_name,
+        const std::string_view set_name,
         const std::optional<std::chrono::milliseconds> timeout) override;
 
-    ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<score::cpp::string_view>& set_names,
+    ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                const std::optional<std::chrono::milliseconds> timeout) override;
     /**
      * Set callback for InitialQualifierState change notification
@@ -76,9 +77,9 @@ class ConfigProviderImpl final : public ConfigProvider
     ResultBlank OnChangedParameterSetCbk(std::string_view set_name,
                                          OnChangedParameterSetCallback&& callback) noexcept override;
 
-    using ConfigProvider::GetInitialQualifierState;
-    InitialQualifierState GetInitialQualifierState() noexcept override;
-    InitialQualifierState GetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept override;
+    using ConfigProvider::DeprecatedMethodToGetInitialQualifierState;
+    InitialQualifierState DeprecatedMethodToGetInitialQualifierState() noexcept override;
+    InitialQualifierState DeprecatedMethodToGetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept override;
 
     using ConfigProvider::GetInitialQualifierState;
     InitialQualifierState GetInitialQualifierState(
@@ -108,13 +109,13 @@ class ConfigProviderImpl final : public ConfigProvider
                                      IsAvailableNotificationCallback is_available_notification_callback,
                                      const score::cpp::stop_token& stop_token);
     void CacheInitialQualifierState(const InitialQualifierState initial_qualifier_state) noexcept;
-    void LastUpdatedParameterSetReceiveHandler(const score::cpp::string_view set_name);
+    void LastUpdatedParameterSetReceiveHandler(const std::string_view set_name);
     Result<std::shared_ptr<const ParameterSet>> GetParameterSetFromInternalConfigProvider(
-        const score::cpp::string_view set_name,
+        const std::string_view set_name,
         const IInternalConfigProvider& internal_config_provider,
         const std::chrono::milliseconds timeout);
     ParameterMap FetchInitialParameterSetValuesFrom(const IInternalConfigProvider& internal_config_provider);
-    ResultBlank RegisterUpdateHandlerForParameterSetName(const score::cpp::string_view set_name,
+    ResultBlank RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
                                                          OnChangedParameterSetCallback&& callback);
     void RegisterCallbacksForPersistedParameterSetNames();
     void WriteInitialParameterSetValuesToPersistentCache(ParameterMap updated_parameter_sets);

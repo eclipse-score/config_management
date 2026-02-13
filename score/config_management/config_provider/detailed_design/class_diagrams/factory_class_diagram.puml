@@ -1,0 +1,21 @@
+@startuml
+
+!includesub ../assets/config_provider/factory/config_provider_factory.puml!ConfigProviderFactory
+!includesub ../assets/persistency/factory/persistency_factory.puml!PersistencyFactory
+' !includesub ../assets/parameter_set/parameter_set.puml!ParameterSet
+' !includesub ../assets/config_provider/initial_qualifier_state_types.puml!InitialQualifierState
+!includesub ../assets/config_provider/config_provider.puml!ConfigProvider
+!includesub ../assets/persistency/persistency.puml!Persistency
+
+Adaptive_Application -down-> PersistencyFactory
+PersistencyFactory -down-> Persistency: create
+
+Adaptive_Application -down-> ConfigProviderFactory
+ConfigProviderFactory -down-> ConfigProvider: create
+ConfigProvider .left.> Persistency
+Adaptive_Application *-down- ConfigProvider
+
+' ConfigProvider ..> ParameterSet: get
+' ConfigProvider ..> InitialQualifierState: get
+
+@enduml

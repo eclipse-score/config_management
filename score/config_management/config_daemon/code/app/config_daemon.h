@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -13,7 +13,7 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_CONFIG_DAEMON_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_CONFIG_DAEMON_H
 
-#include "platform/aas/mw/lifecycle/application.h"
+#include "src/lifecycle_client_lib/include/application.h"
 
 namespace score
 {

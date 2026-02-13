@@ -29,7 +29,7 @@ More details about these methods, as well as about the Persistent caching, can b
 Example:
 
 ```c++
-score::platform::config_provider::ConfigProviderFactory config_provider_factory;
+score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
 bool callback_is_called_upon_found{false};
 IsAvailableNotificationCallback callback{
     [&callback_is_called_upon_found]() noexcept { callback_is_called_upon_found = true; }};
@@ -126,7 +126,46 @@ Overview of persistent caching sequences can be found [here](https://www.plantum
 
 #### Enable caching
 
-It is not possible to use caching, as there are no impementation for data storage.
+To enable persistent caching, follow these steps:
+
+Create instance of Persistency by its own factory class located at `score/config_management/ConfigProvider/code/persistency/factory/persistency_factory.h`
+with method `PersistencyFactory::Create<KeyValueStorageType>(handle, memory_resource)`, where:
+
+- KeyValueStorageType: in 99% it will be an `mw::per::KeyValueStorage`, but due to application-specific dependency it needs to be supplied on user side
+- handle: a valid handle to mw::per::KeyValueStorage(return value of mw::per::OpenKeyValueStorage call)
+- memory_resource: std::pmr::memory_resource provided by user.
+
+Create instance of ConfigProvider by its own factory class located at `score/config_management/ConfigProvider/code/config_provider/factory/factory.h`
+with one of the following methods:
+
+- `ConfigProviderFactory::Create(token, persistency, memory_resource, callback)`
+- `ConfigProviderFactory::Create(token, persistency, max_samples_limit, polling_cycle_interval, callback)`
+
+Where:
+
+- token: stop token provided by user.
+- persistency: Persistency instance created via `PersistencyFactory::Create<KeyValueStorageType>(handle, memory_resource)` method.
+- memory_resource: std::pmr::memory_resource provided by user.
+- callback: will be called when the ConfigProvider service is created and becomes available.
+- max_samples_limit: Maximum number of ParameterSets which can be retrieved from `ConfigDaemon` during one cycle of PollingRoutine.
+- polling_cycle_interval: Time interval between PollingRoutine cycles in milliseconds.
+
+Example:
+
+```c++
+    score::config_management::config_provider::PersistencyFactory persistency_factory;
+    const auto kvs_is = ::mw::core::InstanceSpecifier{KeyValueStorageRPort};
+    auto kvs_handle = ::mw::per::OpenKeyValueStorage(kvs_is);
+    auto persistency = persistency_factory.Create<mw::per::KeyValueStorage>(
+        kvs_handle, score::cpp::pmr::get_default_resource());
+
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
+    bool callback_is_called_upon_found{false};
+    IsAvailableNotificationCallback callback{
+        [&callback_is_called_upon_found]() noexcept { callback_is_called_upon_found = true; }};
+    auto config_provider = config_provider_factory.Create<Port>(
+        {}, std::move(persistency), score::cpp::pmr::get_default_resource(), std::move(callback));
+```
 
 #### ParameterSet Access
 

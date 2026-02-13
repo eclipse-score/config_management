@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -156,7 +156,7 @@ class ConfigProviderTest : public ::testing::Test
         EXPECT_CALL(*icp_mock_,
                     GetParameterSet(StringViewCompare(set_name), ConfigProviderImpl::kDefaultResponseTimeout))
             .WillRepeatedly(
-                Invoke([&content](const score::cpp::string_view, const std::chrono::milliseconds) -> Result<json::Any> {
+                Invoke([&content](const std::string_view, const std::chrono::milliseconds) -> Result<json::Any> {
                     if (content.has_value())
                     {
                         auto temp = content.value().CloneByValue();
@@ -233,8 +233,8 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_EmptyPersistenc
     // Given a ConfigProvider instance which is blocked waiting for its proxy to become available
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
 
-    // Then GetInitialQualifierState() would return Undefined InitialQualifierState
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then DeprecatedMethodToGetInitialQualifierState() would return Undefined InitialQualifierState
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error and cannot fetch from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
@@ -266,8 +266,8 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_EmptyPersistency
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
     FailProxySearch();
 
-    // Then GetInitialQualifierState() would return Undefined InitialQualifierState
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then DeprecatedMethodToGetInitialQualifierState() would return Undefined InitialQualifierState
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error and cannot fetch from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
@@ -284,8 +284,8 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_DestroyRightAway_NoPersistency)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies",
-                   "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::~ConfigProviderImpl()");
+                   "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::~ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test verifies that a ConfigProviderImpl instance can get destroyed directly after its "
                    "creation even though it might internally still be waiting for the proxy to become available.");
@@ -308,8 +308,8 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_DestroyAfterWait_NoPersistency)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies",
-                   "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::~ConfigProviderImpl()");
+                   "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::~ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test verifies that a ConfigProviderImpl instance can get destroyed after waiting a certain "
                    "amount of time even though it is internally still waiting for the proxy to become available.");
@@ -334,7 +334,7 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_RequestStop_NoPersistency)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test verifies that a user can cancel ConfigProviderImpl's internal logic which waits "
                    "until its proxy became available.");
@@ -370,7 +370,7 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientWait_EmptyPersistency)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test checks the scenario when the client waits for the proxy to be available and the "
                    "searching thread is blocked, the client thread would be blocked as well.");
@@ -392,7 +392,7 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientWait_EmptyPersistency)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test checks the scenario when the client waits for the proxy to be available and the "
                    "searching thread failed to find a thread, the client thread would be blocked.");
@@ -431,8 +431,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency)
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
     });
-    // Then GetInitialQualifierState() would return Undefined InitialQualifierState
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then DeprecatedMethodToGetInitialQualifierState() would return Undefined InitialQualifierState
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
@@ -446,8 +446,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency)
     // Given the proxy searching thread found the proxy
     BlockUntilProxyIsReady(stop_source_.get_token());
 
-    // Then GetInitialQualifierState() would return Qualified InitialQualifierState
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kQualified);
+    // Then DeprecatedMethodToGetInitialQualifierState() would return Qualified InitialQualifierState
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kQualified);
     // Then GetParameterSet() would return correct ParameterSet from proxy
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -462,12 +462,12 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency)
     EXPECT_TRUE(config_provider->CheckParameterSetUpdates().has_value());
 }
 
-TEST_F(ConfigProviderTest, InitialQualifierStateWasInitiallyNotAvailableFromProxy_ClientWait_EmptyPersistency)
+TEST_F(ConfigProviderTest, InitialQualifierState_InitiallyNotAvailableFromProxy_ClientWait_EmptyPersistency)
 {
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState()");
     RecordProperty("Description",
                    "This test checks the scenario when NCD state was initially not available in proxy, but could be "
                    "received later by a request");
@@ -475,13 +475,13 @@ TEST_F(ConfigProviderTest, InitialQualifierStateWasInitiallyNotAvailableFromProx
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
     });
-    // Then GetInitialQualifierState() would return Undefined InitialQualifierState before proxy is available
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then DeprecatedMethodToGetInitialQualifierState() would return Undefined InitialQualifierState before proxy is available
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
     SetUpProxyButProxyCouldNotProvideInitialQualifierStateOnFirstRequest();
     // Given the proxy searching thread found the proxy
     BlockUntilProxyIsReady(stop_source_.get_token());
-    // Then GetInitialQualifierState() would return updated InitialQualifierState after proxy is available
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kQualified);
+    // Then DeprecatedMethodToGetInitialQualifierState() would return updated InitialQualifierState after proxy is available
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kQualified);
 }
 
 TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_EmptyPersistency)
@@ -489,7 +489,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState()");
     RecordProperty(
         "Description",
         "This test checks the scenario when the client waits for the proxy to be available and the persistency is "
@@ -500,7 +500,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
         UnblockMakeProxyAvailable();
     });
 
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUndefined);
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     EXPECT_TRUE(
@@ -511,8 +511,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kUnqualified);
     BlockUntilProxyIsReady(stop_source_.get_token());
 
-    // Then GetInitialQualifierState returns unqualified state from proxy
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUnqualified);
+    // Then DeprecatedMethodToGetInitialQualifierState returns unqualified state from proxy
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUnqualified);
     // Then GetParameterSet returns unqualified parameter set
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -532,7 +532,7 @@ TEST_F(ConfigProviderTest, InitialQualifierStateWasInitiallyNotAvailableFromProx
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
     RecordProperty(
         "Description",
         "This test checks the scenario when initialQualifierState was initially not available in proxy, but could be "
@@ -556,7 +556,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButInitialQualifierStateIsUnqual
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
     RecordProperty(
         "Description",
         "This test checks the scenario when the client waits for the proxy to be available and the persistency is "
@@ -614,8 +614,8 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_Persistency)
     // When ConfigProvider is created with proxy search blocked
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
 
-    // Then GetInitialQualifierState returns undefined (proxy not available)
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then DeprecatedMethodToGetInitialQualifierState returns undefined (proxy not available)
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
     // Then GetParameterSet returns cached parameter set from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -649,8 +649,8 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_Persistency)
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
     FailProxySearch();
 
-    // Then GetInitialQualifierState returns undefined (proxy not available)
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then DeprecatedMethodToGetInitialQualifierState returns undefined (proxy not available)
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
     // Then GetParameterSet returns cached parameter set from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -669,7 +669,7 @@ TEST_F(ConfigProviderTest, SubscribeBeforeGettingDataFromProxy)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test ensures that during construction stage, the ConfigProvider would subscribe to the "
                    "LastUpdatedParameterSetEvent "
@@ -703,7 +703,7 @@ TEST_F(ConfigProviderTest, FailedToSubscribe)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty(
         "Description",
         "This test verifies that during construction stage, when the ConfigProvider failed to subscribe to the "
@@ -743,7 +743,7 @@ TEST_F(ConfigProviderTest, SubscribeWithEmptyCallback)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test checks the branch when the subscription is success but no callback is provided for "
                    "notification purpose during construction stage.");
@@ -802,8 +802,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
         UnblockMakeProxyAvailable();
     });
 
-    // Then GetInitialQualifierState returns undefined initially
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kUndefined);
+    // Then DeprecatedMethodToGetInitialQualifierState returns undefined initially
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kUndefined);
     // Then GetParameterSet returns cached parameter set from persistency before proxy
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -822,8 +822,8 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
     BlockUntilProxyIsReady(stop_source_.get_token());
 
     // When proxy becomes available
-    // Then GetInitialQualifierState returns qualified
-    EXPECT_EQ(config_provider->GetInitialQualifierState(), InitialQualifierState::kQualified);
+    // Then DeprecatedMethodToGetInitialQualifierState returns qualified
+    EXPECT_EQ(config_provider->DeprecatedMethodToGetInitialQualifierState(), InitialQualifierState::kQualified);
     // Then GetParameterSet returns updated parameter set from proxy
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
@@ -843,7 +843,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandler)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test verifies receive callback is triggered when"
                    "'set_name' parameter set is updated during the construction stage of ConfigProviderImpl");
@@ -878,7 +878,7 @@ TEST_F(ConfigProviderTest, Success_UserCallbackOverridesEmptyCallback)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Verification of the control flow and data flow");
     RecordProperty("Verifies",
-                   "::score::platform::config_provider::ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName()");
+                   "::score::config_management::config_provider::ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName()");
     RecordProperty("Description",
                    "This test verifies that the user provided callback is overriding the empty internal callback and "
                    "is called when an update is received.");
@@ -915,7 +915,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledFo
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test verifies that the receive callback is triggered"
                    "successfully in case a proper update callback for a ParameterSet is not yet registered");
@@ -1032,7 +1032,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledTw
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test verifies success of calling receive callback twice if two "
                    "parameter_sets are updated during construction stage of ConfigProviderImpl");
@@ -1101,7 +1101,7 @@ TEST_F(ConfigProviderTest, LastUpdatedParameterSetReceiveHandlerFailedToGetParam
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test verifies failure of calling user received if returned "
                    "parameter_set is not valid json");
@@ -1138,7 +1138,7 @@ TEST_F(ConfigProviderTest, DuplicateSetParameterSetCallbackFails)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::OnChangedParameterSet()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::OnChangedParameterSet()");
     RecordProperty(
         "Description",
         "This test verifies failure of calling OnChangedParameterSet() twice with the same parameter_set_name");
@@ -1168,7 +1168,7 @@ TEST_F(ConfigProviderTest, DuplicateSetParameterSetCallbackFailsOnChangedParamet
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::OnChangedParameterSetCbk()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::OnChangedParameterSetCbk()");
     RecordProperty("Description",
                    "This test verifies failure of calling OnChangedParameterSetCbk() with an empty callback");
 
@@ -1197,7 +1197,7 @@ TEST_F(ConfigProviderTest, CallOnChangedParameterSetCbkWithEmptyCallback)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::OnChangedParameterSetCbk()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::OnChangedParameterSetCbk()");
     RecordProperty(
         "Description",
         "This test verifies failure of calling OnChangedParameterSetCbk() twice with the same parameter_set_name");
@@ -1217,7 +1217,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency_Wro
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::GetParameterSet()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSet()");
     RecordProperty("ASIL", "QM");
     RecordProperty(
         "Description",
@@ -1306,7 +1306,7 @@ TEST_F(ConfigProviderTest, WaitUntilConnected_success)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::WaitUntilConnected()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::WaitUntilConnected()");
     RecordProperty("Description",
                    "This test checks the scenario when InternalConfigProvider proxy is found, WaitUntilConnected would"
                    "not be blocked and return true.");
@@ -1326,7 +1326,7 @@ TEST_F(ConfigProviderTest, WaitUntilConnected_timeout)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::WaitUntilConnected()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::WaitUntilConnected()");
     RecordProperty(
         "Description",
         "This test checks the scenario when InternalConfigProvider proxy is not found, WaitUntilConnected would"
@@ -1344,7 +1344,7 @@ TEST_F(ConfigProviderTest, WaitUntilConnected_StopRequested)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::WaitUntilConnected()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::WaitUntilConnected()");
     RecordProperty("Description",
                    "This test checks the scenario when proxy is not found and stop token is triggered before timeout,"
                    "WaitUntilConnected would not block.");
@@ -1369,7 +1369,7 @@ TEST_F(ConfigProviderTest, Test_OnChangedInitialQualifierState)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::OnChangedInitialQualifierState()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::OnChangedInitialQualifierState()");
     RecordProperty("Description", "This test verifies checks the call to OnChangedInitialQualifierState() does nothing.");
 
     // Given a ConfigProvider instance with proxy not ready
@@ -1384,7 +1384,7 @@ TEST_F(ConfigProviderTest, Test_FailedFetchInitialParameterSetValuesFrom)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test checks the case when internal config provider fails to get parameter sets during "
                    "execution of FetchInitialParameterSetValuesFrom at the construction stage of ConfigProviderImpl.");
@@ -1405,7 +1405,7 @@ TEST_F(ConfigProviderTest, Test_FailLastUpdatedParameterSetReceiveHandler)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description", "This test checks the case when unregistered parameter set gets updated.");
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
@@ -1423,7 +1423,7 @@ TEST_F(ConfigProviderTest, Test_FailLastUpdatedParameterSetReceiveHandler)
     ASSERT_NE(registered_on_changed_parameter_set_callback_, nullptr);
     // When the registered_on_changed_parameter_set_callback_ is called with not registered name
     // Then GetParameterSet function would not triggered
-    EXPECT_CALL(*icp_mock_, GetParameterSet(score::cpp::string_view(parameter_set_name_), _)).Times(0);
+    EXPECT_CALL(*icp_mock_, GetParameterSet(std::string_view(parameter_set_name_), _)).Times(0);
     registered_on_changed_parameter_set_callback_(parameter_set_name_);
 }
 
@@ -1432,7 +1432,7 @@ TEST_F(ConfigProviderTest, LastUpdatedParameterSetFailedGetParameterSet)
     RecordProperty("Priority", "3");
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::ConfigProviderImpl()");
     RecordProperty("Description",
                    "This test verifies failure of calling receive callback twice if "
                    "parameter set is failed to fetch from internal config provider during the construction stage of "
@@ -1452,7 +1452,7 @@ TEST_F(ConfigProviderTest, LastUpdatedParameterSetFailedGetParameterSet)
     ASSERT_NE(registered_on_changed_parameter_set_callback_, nullptr);
     // When the registered_on_changed_parameter_set_callback_ is called with registered name
     // Then GetParameterSet function would be triggered with this name
-    EXPECT_CALL(*icp_mock_, GetParameterSet(score::cpp::string_view(parameter_set_name_), _))
+    EXPECT_CALL(*icp_mock_, GetParameterSet(std::string_view(parameter_set_name_), _))
         .WillOnce(Return(ByMove(MakeUnexpected(ConfigProviderError::kProxyReturnedNoResult))));
     registered_on_changed_parameter_set_callback_(parameter_set_name_);
 }
@@ -1462,12 +1462,12 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_ProxyNotReady)
     RecordProperty("Priority", "3");
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::GetParameterSetsByNameList()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSetsByNameList()");
     RecordProperty("Description",
                    "This test verifies that the GetParameterSetsByNameList gets errors when proxy is not ready.");
     // Given a ConfigProvider instance with proxy not ready
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
-    score::cpp::pmr::vector<score::cpp::string_view> set_names{"set1", "set2"};
+    score::cpp::pmr::vector<std::string_view> set_names{"set1", "set2"};
     // When GetParameterSetsByNameList is called
     auto result = config_provider->GetParameterSetsByNameList(set_names, std::nullopt);
     // Then each result should be an error indicating proxy is not ready
@@ -1484,7 +1484,7 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_WithProxy)
     RecordProperty("Priority", "3");
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::GetParameterSetsByNameList()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSetsByNameList()");
     RecordProperty(
         "Description",
         "This test verifies that GetParameterSetsByNameList would gets cached value if cached value is available. "
@@ -1510,7 +1510,7 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_WithProxy)
         .WillOnce(
             Return(ByMove(MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found"))));
 
-    score::cpp::pmr::vector<score::cpp::string_view> set_names{score::cpp::string_view(parameter_set_name_), "missing_set", "new_set"};
+    score::cpp::pmr::vector<std::string_view> set_names{std::string_view(parameter_set_name_), "missing_set", "new_set"};
     // When GetParameterSetsByNameList is called
     auto result = config_provider->GetParameterSetsByNameList(set_names, std::nullopt);
     // Then it would get cached value for "parameter_set_name_"
@@ -1536,6 +1536,153 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_WithProxy)
     EXPECT_EQ(result.at("new_set").value()->GetParameterAs<std::uint32_t>("parameter_name").value(), 123);
 }
 
+TEST_F(ConfigProviderTest, GetParameterSetsByNameList_ConcurrentAccess)
+{
+    RecordProperty("Priority", "3");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSetsByNameList()");
+    RecordProperty("Description",
+                   "This test verifies thread-safety of GetParameterSetsByNameList by starting threads simultaneously "
+                   "and checking final state.");
+
+    SetUpPersistency();
+    SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
+    auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
+        UnblockMakeProxyAvailable();
+    });
+    BlockUntilProxyIsReady(stop_source_.get_token());
+
+    auto json_result = json::JsonParser{}.FromBuffer(R"({"parameters":{"parameter_name":123},"qualifier":1})");
+    EXPECT_CALL(*icp_mock_, GetParameterSet(StringViewCompare("new_set"), _))
+        .WillRepeatedly(Invoke([](const std::string_view, const std::chrono::milliseconds) {
+            return json::JsonParser{}.FromBuffer(R"({"parameters":{"parameter_name":123},"qualifier":1})");
+        }));
+    EXPECT_CALL(*icp_mock_, GetParameterSet(StringViewCompare("missing_set"), _))
+        .WillRepeatedly(Invoke([](const std::string_view, const std::chrono::milliseconds) {
+            return MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found");
+        }));
+
+    score::cpp::pmr::vector<std::string_view> set_names{std::string_view(parameter_set_name_), "missing_set", "new_set"};
+
+    constexpr size_t kThreadCount = 3;
+    std::vector<std::thread> threads;
+    std::vector<ParameterSetMap> results(kThreadCount);
+
+    // Coordination primitives
+    std::mutex start_mutex;
+    std::condition_variable start_cv;
+    bool start = false;
+
+    for (size_t i = 0; i < kThreadCount; ++i)
+    {
+        threads.emplace_back([&, i]() {
+            // Wait for the start signal
+            {
+                std::unique_lock<std::mutex> lk(start_mutex);
+                start_cv.wait(lk, [&]() {
+                    return start;
+                });
+            }
+            results[i] = config_provider->GetParameterSetsByNameList(set_names, std::nullopt);
+        });
+    }
+
+    // Signal all threads to start at the same time
+    {
+        std::lock_guard<std::mutex> lk(start_mutex);
+        start = true;
+    }
+    start_cv.notify_all();
+
+    for (auto& t : threads)
+    {
+        t.join();
+    }
+
+    // Final assertion: check all results after threads have finished
+    for (const auto& result : results)
+    {
+        ASSERT_EQ(result.size(), 3);
+
+        EXPECT_TRUE(result.at(score::cpp::pmr::string(parameter_set_name_)).has_value());
+        EXPECT_EQ(result.at(score::cpp::pmr::string(parameter_set_name_))
+                      .value()
+                      ->GetParameterAs<std::uint32_t>(parameter_name_)
+                      .value(),
+                  parameter_content_from_proxy_);
+        EXPECT_EQ(result.at(score::cpp::pmr::string(parameter_set_name_)).value()->GetQualifier().value(),
+                  parameter_qualifier_from_proxy_);
+
+        EXPECT_FALSE(result.at("missing_set").has_value());
+        EXPECT_EQ(result.at("missing_set").error(),
+                  MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found").error());
+
+        EXPECT_TRUE(result.at("new_set").has_value());
+        EXPECT_EQ(result.at("new_set").value()->GetParameterAs<std::uint32_t>("parameter_name").value(), 123);
+    }
+}
+
+TEST_F(ConfigProviderTest, GetParameterSet_ConcurrentAccess)
+{
+    RecordProperty("Priority", "3");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSet()");
+    RecordProperty("Description",
+                   "This test verifies thread-safety of GetParameterSet by starting threads simultaneously and "
+                   "checking final state.");
+
+    SetUpPersistency();
+    SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
+    auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
+        UnblockMakeProxyAvailable();
+    });
+    BlockUntilProxyIsReady(stop_source_.get_token());
+
+    constexpr size_t kThreadCount = 3;
+    std::vector<std::thread> threads;
+    std::vector<Result<std::shared_ptr<const ParameterSet>>> results(kThreadCount);
+
+    // Coordination primitives
+    std::mutex start_mutex;
+    std::condition_variable start_cv;
+    bool start = false;
+
+    for (size_t i = 0; i < kThreadCount; ++i)
+    {
+        threads.emplace_back([&, i]() {
+            // Wait for the start signal
+            {
+                std::unique_lock<std::mutex> lk(start_mutex);
+                start_cv.wait(lk, [&]() {
+                    return start;
+                });
+            }
+            results[i] = config_provider->GetParameterSet(parameter_set_name_, std::nullopt);
+        });
+    }
+
+    // Signal all threads to start at the same time
+    {
+        std::lock_guard<std::mutex> lk(start_mutex);
+        start = true;
+    }
+    start_cv.notify_all();
+
+    for (auto& t : threads)
+    {
+        t.join();
+    }
+
+    // Final assertion: check all results after threads have finished
+    for (const auto& result : results)
+    {
+        ASSERT_TRUE(result.has_value());
+        EXPECT_EQ(result.value()->GetParameterAs<std::uint32_t>(parameter_name_).value(),
+                  parameter_content_from_proxy_);
+        EXPECT_EQ(result.value()->GetQualifier().value(), parameter_qualifier_from_proxy_);
+    }
+}
+
 class RepeatableConfigProviderTest : public ConfigProviderTest, public ::testing::WithParamInterface<int>
 {
 };
@@ -1546,11 +1693,11 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider1)
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies",
-                   "::score::platform::config_provider::ConfigProviderImpl::CheckParameterSetUpdates(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::GetInitialQualifierState(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::GetParameterSet(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::IsAwaitingProxyConnection(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::WaitUntilConnected()");
+                   "::score::config_management::config_provider::ConfigProviderImpl::CheckParameterSetUpdates(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSet(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::IsAwaitingProxyConnection(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::WaitUntilConnected()");
     RecordProperty(
         "Description",
         "This test verifies that there would be no race condition while accessing `internal_config_provider_`");
@@ -1586,7 +1733,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider1)
     auto get_initial_qualifier_state_done = std::async(std::launch::async, [&]() {
         get_initial_qualifier_state_ready.set_value();
         ready.wait();
-        return config_provider->GetInitialQualifierState(std::nullopt);
+        return config_provider->DeprecatedMethodToGetInitialQualifierState(std::nullopt);
     });
 
     auto get_parameter_set_done = std::async(std::launch::async, [&]() {
@@ -1601,7 +1748,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider1)
     is_awaiting_proxy_ready.get_future().wait();
     wait_until_connected_ready.get_future().wait();
 
-    // When GetInitialQualifierState, GetParameterSet, CheckParameterSetUpdates, IsAwaitingProxyConnection and WaitUntilConnected
+    // When DeprecatedMethodToGetInitialQualifierState, GetParameterSet, CheckParameterSetUpdates, IsAwaitingProxyConnection and WaitUntilConnected
     // are called concurrently
     go.set_value();
     auto initial_qualifier_state = get_initial_qualifier_state_done.get();
@@ -1625,8 +1772,8 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider2)
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies",
-                   "::score::platform::config_provider::ConfigProviderImpl::GetInitialQualifierState(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::GetParameterSet(), ");
+                   "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSet(), ");
     RecordProperty(
         "Description",
         "This test verifies that there would be no race condition while accessing `internal_config_provider_`");
@@ -1642,7 +1789,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider2)
     auto get_initial_qualifier_state_done = std::async(std::launch::async, [&]() {
         get_initial_qualifier_state_ready.set_value();
         ready.wait();
-        return config_provider->GetInitialQualifierState(std::nullopt);
+        return config_provider->DeprecatedMethodToGetInitialQualifierState(std::nullopt);
     });
 
     auto callback_done = std::async(std::launch::async, [&]() {
@@ -1661,7 +1808,7 @@ TEST_P(RepeatableConfigProviderTest, TestSharedInternalConfigProvider2)
     get_parameter_set_ready.get_future().wait();
     callback_ready.get_future().wait();
 
-    // Given GetInitialQualifierState, GetParameterSet and client callback are called concurrently
+    // Given DeprecatedMethodToGetInitialQualifierState, GetParameterSet and client callback are called concurrently
     go.set_value();
     auto initial_qualifier_state = get_initial_qualifier_state_done.get();
     auto parameter_set = get_parameter_set_done.get();
@@ -1678,8 +1825,8 @@ TEST_P(RepeatableConfigProviderTest, TestSharedParameterSet)
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies",
-                   "::score::platform::config_provider::ConfigProviderImpl::GetCachedParameterSetsCount(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::GetParameterSet()");
+                   "::score::config_management::config_provider::ConfigProviderImpl::GetCachedParameterSetsCount(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSet()");
     RecordProperty("Description",
                    "This test verifies that there would be no race condition while accessing `parameter_sets_`");
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kQualified);
@@ -1741,8 +1888,8 @@ TEST_P(RepeatableConfigProviderTest, TestSharedClientHandlers)
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies",
-                   "::score::platform::config_provider::ConfigProviderImpl::OnChangedParameterSet(), "
-                   "::score::platform::config_provider::ConfigProviderImpl::GetParameterSet()");
+                   "::score::config_management::config_provider::ConfigProviderImpl::OnChangedParameterSet(), "
+                   "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSet()");
     RecordProperty("Description",
                    "This test verifies that there would be no race condition with shared data client_handlers_");
     // Given a ConfigProvider instance with proxy ready
@@ -1812,8 +1959,8 @@ TEST_P(ConfigProviderConvertInitialQualifierStateToInitialQualifierStatePassTest
     RecordProperty("Priority", "3");
     RecordProperty("TestType", "Interface test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
-    RecordProperty("Description", "This test check that GetInitialQualifierState() would get expected value successfully");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState()");
+    RecordProperty("Description", "This test check that DeprecatedMethodToGetInitialQualifierState() would get expected value successfully");
     // Given the CfgP is created and proxy is created and ready as well
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
@@ -1823,8 +1970,8 @@ TEST_P(ConfigProviderConvertInitialQualifierStateToInitialQualifierStatePassTest
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, std::get<1>(GetParam()));
     BlockUntilProxyIsReady(stop_source_.get_token());
 
-    // When CfgP calls GetInitialQualifierState
-    const auto initial_qualifier_state = config_provider->GetInitialQualifierState();
+    // When CfgP calls DeprecatedMethodToGetInitialQualifierState
+    const auto initial_qualifier_state = config_provider->DeprecatedMethodToGetInitialQualifierState();
 
     // Then for each respsone from icp_mock->GetInitialQualifierState,
     // it should match with the corresponding InitialQualifierState value
@@ -1861,11 +2008,11 @@ namespace
 {
 [[maybe_unused]] void CoverConfigProviderAPI()
 {
-    using namespace score::platform::config_provider;
+    using namespace score::config_management::config_provider;
     ConfigProvider* provider = nullptr;
-    score::cpp::string_view set_name{"regression_set"};
+    std::string_view set_name{"regression_set"};
     std::optional<std::chrono::milliseconds> timeout{50};
-    score::cpp::pmr::vector<score::cpp::string_view> set_names;
+    score::cpp::pmr::vector<std::string_view> set_names;
     OnChangedParameterSetCallback cb;
     InitialQualifierStateNotifierCallbackType ncd_cb;
     std::string set_name_str{"regression_set"};
@@ -1888,7 +2035,7 @@ namespace
         provider->OnChangedParameterSet(set_name_str, std::move(cb));
         provider->OnChangedParameterSetCbk(set_name_std_view, std::move(cb));
         provider->OnChangedParameterSetCbk(set_name_str, std::move(cb));
-        provider->GetInitialQualifierState(timeout);
+        provider->DeprecatedMethodToGetInitialQualifierState(timeout);
         provider->WaitUntilConnected(std::chrono::milliseconds{10}, stop_token);
         (void)provider->CheckParameterSetUpdates();
         provider->GetCachedParameterSetsCount();

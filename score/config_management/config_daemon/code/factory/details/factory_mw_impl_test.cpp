@@ -19,8 +19,8 @@
 #include "score/config_management/config_daemon/code/services/details/mw_com/internal_config_provider_service_impl.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service_mock.h"
 
-#include "platform/aas/mw/service/backend/mw_com/provided_service_builder.h"
-#include "platform/aas/mw/service/backend/mw_com/provided_service_decorator.h"
+#include "score/mw/service/backend/mw_com/provided_service_builder.h"
+#include "score/mw/service/backend/mw_com/provided_service_decorator.h"
 
 #include "score/result/error.h"
 #include "score/mw/com/runtime.h"

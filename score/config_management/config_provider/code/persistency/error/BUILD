@@ -1,3 +1,5 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
 cc_library(
     name = "error",
     srcs = [
@@ -32,7 +34,6 @@ cc_test(
     visibility = ["//score/config_management/config_provider/code/persistency:__pkg__"],
     deps = [
         ":error",
-        "//platform/aas/mw/log:fake",
         "@googletest//:gtest_main",
     ],
 )

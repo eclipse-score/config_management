@@ -1,0 +1,73 @@
+@startuml proxy_initial_sync
+title Initial Synchronization When Proxy is Connected to ConfigDaemon
+
+participant "ProxyThread" as ProxyThread
+participant "ConfigProviderImpl" as CPImpl
+participant "InternalConfigProvider" as ICP
+participant "ARA::COM" as CD
+participant "Persistency" as Persist
+participant "KVS" as KVS
+
+note over ProxyThread, CPImpl: Proxy connection established
+ProxyThread -> CPImpl: SetupInternalConfigProvider(internal_config_provider)
+
+== Step 1: Subscribe to Updates ==
+
+CPImpl -> ICP: TrySubscribeToLastUpdatedParameterSetEvent()
+ICP -> CD: Subscribe to LastUpdatedParameterSet field
+CD --> ICP: Subscription confirmed
+ICP --> CPImpl: Subscription successful
+
+== Step 2: Fetch Initial Values from ConfigDaemon ==
+
+note over CPImpl: Fetch all cached parameter sets from ConfigDaemon\nto detect content changes
+' CPImpl -> CPImpl: FetchInitialParameterSetValuesFrom()
+
+loop For each parameter set name in cache
+    CPImpl -> ICP: GetParameterSet(set_name, timeout)
+    ICP -> CD: mw::com GetParameterSet
+    CD --> ICP: ParameterSet (JSON + qualifier)
+    ICP --> CPImpl: ParameterSet with proper qualifier
+
+    ' alt Content different from cached value
+    '     note over CPImpl: ContainsSameContent() returns false
+    CPImpl -> CPImpl: Add to updated_parameter_sets map
+    ' else Content unchanged
+    '     note over CPImpl: Skip - no update needed
+    ' end
+end
+
+== Step 3: Write Updated Values to Persistent Cache ==
+
+' CPImpl -> CPImpl: WriteInitialParameterSetValuesToPersistentCache(updated_parameter_sets)
+
+loop For each updated ParameterSet
+    CPImpl -> Persist: CacheParameterSet(param_set, sync=false)
+
+    alt ParameterSet is kQualified
+        Persist -> Persist: NeedToPersist() returns true
+        Persist -> Persist: ContainsSameContent() check
+        alt Content changed
+            Persist -> KVS: setValue("CfgP__SetName", JSON)
+            note over KVS: Deferred write (sync=false)
+        else Content unchanged
+            note over Persist: Skip write
+        end
+    else ParameterSet not kQualified
+        note over Persist: Skip - only qualified sets persisted
+    end
+end
+
+CPImpl -> Persist: SyncToStorage()
+Persist -> KVS: syncToStorage()
+note over KVS: Flush all deferred writes to physical storage
+
+== Step 4: Start Polling Thread ==
+
+CPImpl -> ICP: StartParameterSetUpdatePollingRoutine(max_samples, interval)
+note over ICP: Polling thread started\nReady for runtime updates
+
+CPImpl -> CPImpl: Notify internal_config_provider_cv_
+note over CPImpl: Signal WaitUntilConnected() waiters
+
+@enduml

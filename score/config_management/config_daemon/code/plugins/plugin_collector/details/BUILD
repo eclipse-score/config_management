@@ -11,6 +11,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
 [
     cc_library(
         name = name,
@@ -29,7 +31,7 @@
             "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
-            "@score_baselibs//score/mw/log",
+            "@score_logging//score/mw/log",
             "@score_config_management//score/config_management/config_daemon/code/plugins:plugin",
             "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
         ] + dependencies,
@@ -65,6 +67,8 @@ cc_test(
     visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
     deps = [
         ":details_for_unit_test",
-        #"@score_baselibs//score/mw/log/test/console_logging_environment",
+        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@googletest//:gtest",
+        "@googletest//:gtest_main",
     ],
 )

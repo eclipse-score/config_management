@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -10,7 +10,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#include "score/config_management/config_provider/code/persistency/details/persistency_empty.h"
+#include "score/config_management/config_provider/code/persistency/details/persistency_impl.h"
 #include <gtest/gtest.h>
 
 namespace score
@@ -38,7 +38,7 @@ TEST_F(PersistencyImplTest, Test_ReadCachedParameterSets)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::PersistencyImpl::ReadCachedParameterSets()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::PersistencyImpl::ReadCachedParameterSets()");
     RecordProperty("Description", "This test verifies that ReadCachedParameterSets is called without exceptions.");
 
     // Given there is no cached values
@@ -52,7 +52,7 @@ TEST_F(PersistencyImplTest, Test_CacheParameterSet)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::PersistencyImpl::CacheParameterSet()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::PersistencyImpl::CacheParameterSet()");
     RecordProperty("Description", "This test verifies that CacheParameterSet is called without exceptions.");
 
     // Given there is no content to be cached
@@ -66,7 +66,7 @@ TEST_F(PersistencyImplTest, Test_SyncToStorage)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::PersistencyImpl::SyncToStorage()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::PersistencyImpl::SyncToStorage()");
     RecordProperty("Description", "This test verifies that SyncToStorage is called without exceptions.");
 
     // Given an existing persistency

@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -20,10 +20,10 @@
 
 #include "score/result/result.h"
 #include "score/mw/log/logger.h"
-#include "platform/aas/mw/service/provided_service_container.h"
+#include "score/mw/service/provided_service_container.h"
 
-#include "memory"
-#include "vector"
+#include <memory>
+#include <vector>
 
 namespace score
 {

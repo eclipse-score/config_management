@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -20,9 +20,9 @@
 #include <score/callback.hpp>
 #include <score/optional.hpp>
 #include <score/stop_token.hpp>
-#include <score/string_view.hpp>
 
 #include <chrono>
+#include <string_view>
 
 namespace score
 {
@@ -35,7 +35,7 @@ using IsAvailableNotificationCallback = score::cpp::callback<void()>;
 class IInternalConfigProvider
 {
   public:
-    using OnChangedParameterSetCallback = score::cpp::callback<void(const score::cpp::string_view set_name)>;
+    using OnChangedParameterSetCallback = score::cpp::callback<void(const std::string_view set_name)>;
     IInternalConfigProvider() = default;
     virtual ~IInternalConfigProvider() noexcept = default;
 
@@ -45,7 +45,7 @@ class IInternalConfigProvider
     IInternalConfigProvider& operator=(const IInternalConfigProvider&) & = delete;
     IInternalConfigProvider& operator=(IInternalConfigProvider&&) = delete;
 
-    virtual Result<json::Any> GetParameterSet(const score::cpp::string_view set_name,
+    virtual Result<json::Any> GetParameterSet(const std::string_view set_name,
                                               const std::chrono::milliseconds timeout) const = 0;
     virtual bool TrySubscribeToLastUpdatedParameterSetEvent(const score::cpp::stop_token& stop_token,
                                                             OnChangedParameterSetCallback&& callback) = 0;

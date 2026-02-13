@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -14,13 +14,13 @@
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_FACTORY_FACTORY_MW_COM_H
 
 #include "score/config_management/config_provider/code/config_provider/details/config_provider_impl.h"
-#include "score/config_management/config_provider/code/persistency/details/persistency_empty.h"
+#include "score/config_management/config_provider/code/persistency/details/persistency_impl.h"
 #include "score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl.h"
 
 #include "score/mw/log/logger.h"
-#include "platform/aas/mw/service/backend/mw_com/single_instantiation_strategy.h"
-#include "platform/aas/mw/service/proxy_needs.h"
-#include "platform/aas/mw/service/proxy_needs_factory.h"
+#include "score/mw/service/backend/mw_com/single_instantiation_strategy.h"
+#include "score/mw/service/proxy_needs.h"
+#include "score/mw/service/proxy_needs_factory.h"
 
 #include <score/memory.hpp>
 #include <score/memory_resource.hpp>

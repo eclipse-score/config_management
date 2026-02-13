@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -14,6 +14,8 @@
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_MOCK_H
 
 #include "score/config_management/config_provider/code/proxies/internal_config_provider.h"
+
+#include <string_view>
 
 #include <gmock/gmock.h>
 
@@ -31,7 +33,7 @@ class InternalConfigProviderMock final : public IInternalConfigProvider
 
     MOCK_METHOD(Result<json::Any>,
                 GetParameterSet,
-                (const score::cpp::string_view, const std::chrono::milliseconds),
+                (const std::string_view, const std::chrono::milliseconds),
                 (const, override));
     MOCK_METHOD(bool,
                 TrySubscribeToLastUpdatedParameterSetEvent,
