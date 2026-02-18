@@ -1,0 +1,19 @@
+@startuml
+
+!includesub ../assets/parameter_set/parameter_set.puml!ParameterSet
+!includesub ../assets/config_provider/initial_qualifier_state_types.puml!InitialQualifierState
+!includesub ../assets/config_provider/config_provider.puml!ConfigProvider
+!includesub ../assets/config_provider/config_provider.puml!ConfigProviderImpl
+!includesub ../assets/proxies/internal_config_provider.puml!InternalConfigProvider
+!includesub ../assets/proxies/internal_config_provider.puml!IInternalConfigProvider
+
+Adaptive_Application *-down- ConfigProvider
+Adaptive_Application .down.> ParameterSet
+Adaptive_Application .down.> InitialQualifierState
+
+ConfigProvider *-up- ParameterSet
+ConfigProvider *-up- InitialQualifierState
+
+ConfigProviderImpl *-down- IInternalConfigProvider
+
+@enduml

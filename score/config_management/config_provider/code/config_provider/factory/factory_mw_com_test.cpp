@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -59,7 +59,7 @@ class ConfigProviderFactoryTest : public ::testing::Test
     std::unique_ptr<MwComSkeleton> CreateService() const
     {
         // Prepare skeleton to offer the service
-        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(kICPSpecifier);
+        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(std::string(kICPSpecifier));
         // ASSERT_TRUE(instance_specifier_result.has_value());
 
         auto service_result = MwComSkeleton::Create(std::move(instance_specifier_result).value());
@@ -81,12 +81,12 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_DefaultPolling_NoPersiste
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderFactory::Create()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderFactory::Create()");
     RecordProperty(
         "Description",
         "This test verifies successful creation of default polling without persistency via config provider factory.");
     // Given that no persistency or polling related parameters are provided during creation
-    score::platform::config_provider::ConfigProviderFactory config_provider_factory;
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
     auto config_provider =
         config_provider_factory.Create<DummyPort>({},                                // default stop_token
                                                   std::chrono::milliseconds(0U),     // zero timeout
@@ -102,12 +102,12 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_CustomPolling_NoPersisten
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderFactory::Create()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderFactory::Create()");
     RecordProperty(
         "Description",
         "This test verifies successful creation of custom polling without persistency via config provider factory.");
     // Given that polling related parameters is provided, but no persistency is provided during creation
-    score::platform::config_provider::ConfigProviderFactory config_provider_factory;
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
     auto config_provider =
         config_provider_factory.Create<DummyPort>({},                             // default stop_token
                                                   std::chrono::milliseconds(0U),  // zero timeout
@@ -125,12 +125,12 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_DefaultPolling_Persistenc
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderFactory::Create()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderFactory::Create()");
     RecordProperty("Description",
                    "This test verifies successful creation of default polling with valid persistency via config "
                    "provider factory.");
     // Given that persistency is provided, but no polling related parameters is provided during creation
-    score::platform::config_provider::ConfigProviderFactory config_provider_factory;
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
     auto persistency_mock = score::cpp::pmr::make_unique<PersistencyMock>(score::cpp::pmr::get_default_resource());
     auto config_provider =
         config_provider_factory.Create<DummyPort>({},                                // default stop_token
@@ -147,12 +147,12 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_CustomPolling_Persistency
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ConfigProviderFactory::Create()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderFactory::Create()");
     RecordProperty(
         "Description",
         "This test verifies successful creation of custom polling with valid persistency via config provider factory.");
     // Given that both persistency and polling related parameters are provided during creation
-    score::platform::config_provider::ConfigProviderFactory config_provider_factory;
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
     auto persistency_mock = score::cpp::pmr::make_unique<PersistencyMock>(score::cpp::pmr::get_default_resource());
     auto config_provider =
         config_provider_factory.Create<DummyPort>({},                           // default stop_token
@@ -177,7 +177,7 @@ TEST_F(ConfigProviderFactoryTest, FoundServiceDuringCreation)
                    "23162623: This test ensures that callback is triggered when service becomes available");
 
     // Given the service can be found during creation
-    score::platform::config_provider::ConfigProviderFactory config_provider_factory;
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
     std::atomic<bool> callback_is_called_upon_found{false};
     std::condition_variable callback_cv;
     std::mutex callback_mutex;

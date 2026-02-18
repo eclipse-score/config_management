@@ -11,7 +11,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
+load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load(":custom.bzl", "load_custom_test_suites")
 
 cc_library(
     name = "plugin",
@@ -93,9 +95,7 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     test_suites_from_sub_packages = [
-        "@score_config_management//score/config_management/config_daemon/code/plugins/calibration:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/plugins/coding:unit_tests",
         "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:unit_tests",
-    ],
+    ] + load_custom_test_suites(),
     visibility = ["@score_config_management//score/config_management/config_daemon/code:__pkg__"],
 )

@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -70,7 +70,7 @@ class InternalConfigProviderTest : public ::testing::Test
     std::unique_ptr<MwComSkeleton> CreateService() const
     {
         // Prepare skeleton to offer the service
-        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(kICPSpecifier);
+        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(std::string(kICPSpecifier));
         // ASSERT_TRUE(instance_specifier_result.has_value());
 
         auto service_result = MwComSkeleton::Create(std::move(instance_specifier_result).value());
@@ -81,7 +81,7 @@ class InternalConfigProviderTest : public ::testing::Test
 
     std::unique_ptr<MWProxy> CreateProxy() const
     {
-        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(kICPSpecifier);
+        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(std::string(kICPSpecifier));
 
         // EXPECT_TRUE(result.has_value());
         const auto proxy_handles_result = MWProxy::FindService(std::move(instance_specifier_result).value());
@@ -99,7 +99,7 @@ TEST_F(InternalConfigProviderTest, CanConstructWithMWComProxy)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Generation and analysis of equivalence classes");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::InternalConfigProvider::InternalConfigProvider()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::InternalConfigProvider::InternalConfigProvider()");
     RecordProperty("Description", "This test verifies a successful creation of InternalConfigProvider.");
     // Given a constructed adaptive proxy of our InternalConfigProvider interface
     // When constructing our IInternalConfigProvider implementation with it

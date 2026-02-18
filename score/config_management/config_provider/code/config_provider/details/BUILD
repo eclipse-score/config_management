@@ -1,3 +1,4 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 
 # Variables
@@ -21,7 +22,9 @@ cc_library(
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
-        "@score_baselibs//score/mw/log",
+        "@score_baselibs//score/concurrency:condition_variable",
+        "@score_baselibs//score/concurrency/future",
+        "@score_logging//score/mw/log",
         "@score_communication//score/mw/service:proxy_future",
         "//score/config_management/config_provider/code/config_provider",
         "//score/config_management/config_provider/code/config_provider/error",
@@ -44,11 +47,12 @@ cc_test(
     deps = [
         ":details",
         "@score_baselibs//score/concurrency:notification",
-        #"@score_baselibs//score/mw/log/test/console_logging_environment",
+        "@score_logging//score/mw/log/test/console_logging_environment",
         "//score/config_management/config_provider/code/config_provider/error",
         "//score/config_management/config_provider/code/persistency:mock",
         "//score/config_management/config_provider/code/persistency/error",
         "//score/config_management/config_provider/code/proxies:mock",
+        "@googletest//:gtest_main",
     ],
 )
 

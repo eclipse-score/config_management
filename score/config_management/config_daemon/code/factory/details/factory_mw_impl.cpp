@@ -11,9 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#include "score/hash/code/core/factory/impl/safe_hash_calculator_factory.h"
-#include "platform/aas/mw/service/backend/mw_com/provided_service_builder.h"
-#include "platform/aas/mw/service/backend/mw_com/provided_service_decorator.h"
+#include "score/mw/service/backend/mw_com/provided_service_builder.h"
+#include "score/mw/service/backend/mw_com/provided_service_decorator.h"
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_impl.h"
 #include "score/config_management/config_daemon/code/factory/details/factory_impl.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/details/fault_event_reporter_score_impl.h"
@@ -39,12 +38,7 @@ const auto kICPServiceInstanceSpecifierName =
     mw::com::InstanceSpecifier::Create("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort").value();
 }  // namespace
 
-Factory::Factory()
-    : IFactory{},
-      json_helper_{std::make_shared<common::JsonHelper>()},
-      hash_calculator_factory_{std::make_shared<hash::SafeHashCalculatorFactory>()}
-{
-}
+Factory::Factory() : IFactory{}, json_helper_{std::make_shared<common::JsonHelper>()} {}
 
 mw::service::ProvidedServiceContainer Factory::CreateInternalConfigProviderService(
     const std::shared_ptr<data_model::IParameterSetCollection> read_only_parameter_data_interface) const

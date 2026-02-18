@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -33,9 +33,7 @@ constexpr std::chrono::seconds kDefaultPollingCycleInterval{5U};
 /* KW_SUPPRESS_START:MISRA.LINKAGE.EXTERN: false positive */
 InitialQualifierState Convert(const score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState value)
 {
-    // Suppress "AUTOSAR C++14 M6-4-5" and "AUTOSAR C++14 M6-4-3", The rule states: An unconditional throw or break
-    // statement shall terminate every nonempty switch-clause." and "A switch statement shall be a well-formed
-    // switch statement.", respectively.
+    // Suppress "AUTOSAR C++14 M6-4-5" and "AUTOSAR C++14 M6-4-3".
     // Rationale: The `return` statements in this case clause unconditionally exits the switch case, making an
     // additional `break` statement redundant.
     // coverity[autosar_cpp14_m6_4_3_violation] See above
@@ -92,7 +90,7 @@ InternalConfigProvider::~InternalConfigProvider() noexcept
     }
 }
 
-Result<json::Any> InternalConfigProvider::GetParameterSet(const score::cpp::string_view set_name,
+Result<json::Any> InternalConfigProvider::GetParameterSet(const std::string_view set_name,
                                                           const std::chrono::milliseconds timeout) const
 {
     logger_.LogDebug() << "InternalConfigProvider::" << __func__ << "[" << set_name << "]: timeout: " << timeout;

@@ -1,0 +1,64 @@
+@startuml persistency_to_cache_sync
+title Synchronization between In-Memory Cache and Persistency before Connected to Proxy
+
+participant "ClientApplication" as App
+participant "ConfigProviderFactory" as Factory
+participant "ConfigProviderImpl" as CPImpl
+participant "Persistency" as Persist
+participant "Filesystem" as FS
+participant "KeyValueStorage" as KVS
+
+App -> Factory ++: Create(persistency)
+Factory -> CPImpl **: new ConfigProviderImpl(persistency)
+
+note over CPImpl: Constructor starts
+
+CPImpl -> Persist++: ReadCachedParameterSets(parameter_sets_, memory_resource, filesystem)
+
+note over Persist: Check flash counter
+Persist -> FS: Open("/persistent/untrusted/ConfigProvider/flash_counter")
+FS --> Persist: file handle
+Persist -> FS: Read 4 bytes
+FS --> Persist: flash_counter bytes
+
+Persist -> KVS: get<Vector<Byte>>("FlashCounter")
+KVS --> Persist: cached_flash_counter
+
+alt Flash Counter Changed
+    note over Persist: Flash detected - invalidate all
+    Persist -> KVS: getAllKvsKeys()
+    KVS --> Persist: all keys
+    loop For each key
+        Persist -> KVS: removeKey(key)
+    end
+    Persist -> KVS: set("FlashCounter", new_flash_counter)
+    note over CPImpl: parameter_sets_ remains empty
+else Flash Counter Unchanged
+    note over Persist: Load cached parameter sets
+    Persist -> KVS: getAllKvsKeys()
+    KVS --> Persist: ["CfgP__SetA", "CfgP__SetB", ...]
+
+    loop For each "CfgP__*" key
+        Persist -> KVS: get<string>(key)
+        KVS --> Persist: JSON string
+        Persist -> Persist: Parse JSON + mark as kUnqualified
+        Persist -> CPImpl: Add to parameter_sets_ map
+    end
+    note over CPImpl: parameter_sets_ now contains cached data
+end
+
+CPImpl --> Factory: ConfigProvider instance
+Factory --> App: ConfigProvider
+
+note over App, CPImpl: Before proxy connection
+App -> CPImpl: GetParameterSet("SetA")
+CPImpl -> CPImpl: Search parameter_sets_ map
+alt Cache Hit
+    note over CPImpl: Found in cache (from persistency)
+    CPImpl --> App: shared_ptr<ParameterSet> (kUnqualified)
+else Cache Miss
+    note over CPImpl: Proxy not ready yet
+    CPImpl --> App: Error: kProxyNotReady
+end
+
+@enduml

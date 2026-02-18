@@ -1,0 +1,71 @@
+@startuml client_creation_blocking
+title Client Application Creation - Blocking Wait for Proxy Connection
+
+actor "Client Application" as Client
+participant "PersistencyFactory" as PFactory
+participant "ConfigProviderFactory" as CPFactory
+participant "ConfigProviderImpl" as CPImpl
+participant "ProxyThread" as ProxyThread
+participant "ProxyFuture" as ProxyFuture
+participant "ServiceDiscovery" as SD
+
+== Step 1: Create Persistency ==
+
+Client -> PFactory: Create(kvs_handle)
+PFactory -> PFactory: new PersistencyImpl(kvs_handle)
+PFactory --> Client: unique_ptr<Persistency>
+
+== Step 2: Create ConfigProvider (Blocking Mode) ==
+
+note over Client: Blocking approach:\nFactory will wait until proxy is connected
+
+Client -> CPFactory: Create(persistency, wait_timeout=5000ms)
+note over CPFactory: Factory blocks until timeout or connection
+
+CPFactory -> CPFactory: Create ProxyFuture for InternalConfigProvider
+CPFactory -> CPImpl: new ConfigProviderImpl(\n  proxy_future,\n  persistency)
+
+note over CPImpl: Constructor starts
+CPImpl -> CPImpl: ReadCachedParameterSets from Persistency
+note over CPImpl: Cache populated with kUnqualified parameter sets
+
+CPImpl -> ProxyThread: Start proxy_available_thread_
+activate ProxyThread
+note over ProxyThread: Background thread waiting for proxy
+
+CPImpl --> CPFactory: ConfigProvider instance
+
+== Step 3: Factory Blocks Until Proxy Connected ==
+
+CPFactory -> CPImpl: WaitUntilConnected(timeout=5000ms, stop_token)
+note over CPFactory, CPImpl: Factory blocks here\nWaits on internal_config_provider_cv_
+
+par Background Proxy Discovery
+    ' ProxyThread -> ProxyFuture: Get(stop_token)
+    ' ProxyFuture -> SD: Find InternalConfigProvider proxy
+    ' SD -> SD: Search for ConfigDaemon service
+    ' note over SD: Service discovery process
+    ' SD --> ProxyFuture: Proxy found
+    ' ProxyFuture --> ProxyThread: unique_ptr<InternalConfigProvider>
+
+    ProxyThread -> CPImpl: SetupInternalConfigProvider(proxy)
+
+    ' note over CPImpl: Initial synchronization
+    ' CPImpl -> CPImpl: TrySubscribeToLastUpdatedParameterSetEvent()
+    ' CPImpl -> CPImpl: FetchInitialParameterSetValuesFrom()
+    ' CPImpl -> CPImpl: WriteInitialParameterSetValuesToPersistentCache()
+    ' CPImpl -> CPImpl: CacheInitialQualifierState()
+    ' CPImpl -> CPImpl: RegisterCallbacksForPersistedParameterSetNames()
+    ' CPImpl -> CPImpl: StartParameterSetUpdatePollingRoutine()
+
+    CPImpl -> CPImpl: Notify internal_config_provider_cv_
+    note over CPImpl: Wakes up waiting thread
+end
+
+CPImpl --> CPFactory: true (connected)
+deactivate ProxyThread
+
+CPFactory --> Client: unique_ptr<ConfigProvider>
+note over Client: Receives connected ConfigProvider\nProxy is ready for use
+
+@enduml

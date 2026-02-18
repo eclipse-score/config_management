@@ -11,6 +11,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
 # Variables
 COMMON_FEATURES = [
     "treat_warnings_as_errors",
@@ -39,7 +41,7 @@ cc_library(
     ],
     deps = [
         "@score_baselibs//score/json",
-        "@score_baselibs//score/mw/log",
+        "@score_logging//score/mw/log",
         "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
         "@score_config_management//score/config_management/config_daemon/code/data_model/error",

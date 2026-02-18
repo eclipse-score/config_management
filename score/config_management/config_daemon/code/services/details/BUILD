@@ -11,6 +11,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
 COMMON_FEATURES = [
     "treat_warnings_as_errors",
     "strict_warnings",
@@ -21,149 +23,56 @@ COMMON_FEATURES = [
     cc_library(
         name = name,
         testonly = testonly,
-        srcs = srcs,
-        hdrs = hdrs,
+        srcs = [
+            "internal_config_provider_service_reactor_impl.cpp",
+        ],
+        hdrs = [
+            "internal_config_provider_service_reactor_impl.h",
+        ],
         features = COMMON_FEATURES,
         tags = ["FUSA"],
         visibility = [
             "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
         ],
-        deps = dependencies,
+        deps = [
+            "@score_logging//score/mw/log",
+            "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+        ] + dependencies,
     )
-    for name, srcs, hdrs, testonly, dependencies in [
+    for name, testonly, dependencies in [
         (
-            "mw_impl",
-            [
-                "internal_config_provider_service_reactor_impl.cpp",
-                "mw_com/internal_config_provider_service_impl.cpp",
-            ],
-            [
-                "internal_config_provider_service_reactor_impl.h",
-                "mw_com/internal_config_provider_service_impl.h",
-            ],
+            "details_impl",
             False,
             [
-                "@score_config_management//score/config_management/config_daemon/code/services",
                 "@score_baselibs//score/result",
                 "@score_communication//score/mw/com",
-                "@score_config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
                 "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
-                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
-                "@score_baselibs//score/mw/log",
             ],
         ),
         (
-            "for_mw_unit_test",
-            [
-                "internal_config_provider_service_reactor_impl.cpp",
-                "mw_com/internal_config_provider_service_impl.cpp",
-            ],
-            [
-                "internal_config_provider_service_reactor_impl.h",
-                "mw_com/internal_config_provider_service_impl.h",
-            ],
+            "for_unit_test",
             True,
             [
                 "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
-                "@score_config_management//score/config_management/config_daemon/code/services",
-                "//score/config_management/config_provider/code/parameter_set",
-                "@score_config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
-                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
-            ],
-        ),
-        (
-            "ara_impl",
-            [
-                "ara_com/internal_config_provider_service_impl.cpp",
-                "internal_config_provider_service_reactor_impl.cpp",
-            ],
-            [
-                "ara_com/internal_config_provider_service_impl.h",
-                "internal_config_provider_service_reactor_impl.h",
-            ],
-            False,
-            [
-                "@score_config_management//score/config_management/config_daemon/code/services",
-                "@score_baselibs//score/result",
-                "@score_communication//score/mw/com",
-                "@score_config_management//score/config_management/config_daemon/adaptive_model/binding:internal_config_provider",
-                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
-                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
-                "@score_baselibs//score/mw/log",
-            ],
-        ),
-        (
-            "for_ara_unit_test",
-            [
-                "ara_com/internal_config_provider_service_impl.cpp",
-                "internal_config_provider_service_reactor_impl.cpp",
-            ],
-            [
-                "ara_com/internal_config_provider_service_impl.h",
-                "internal_config_provider_service_reactor_impl.h",
-            ],
-            True,
-            [
-                "//score/config_management/config_provider/code/parameter_set",
-                "@score_config_management//score/config_management/config_daemon/adaptive_model/binding:internal_config_provider_mock",
-                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
-                "@score_config_management//score/config_management/config_daemon/code/services",
-                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
             ],
         ),
     ]
 ]
 
-filegroup(
-    name = "test_mw_com_config",
-    srcs = ["mw_com/mw_com_config.json"],
+cc_test(
+    name = "unit_test",
+    srcs = ["internal_config_provider_service_reactor_test.cpp"],
+    features = COMMON_FEATURES,
+    tags = [
+        "unit",
+    ],
+    visibility = [
+        "@score_config_management//score/config_management/config_daemon/code/services:__pkg__",
+    ],
+    deps = [
+        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+        "@score_config_management//score/config_management/config_daemon/code/data_model/error",
+        "@score_config_management//score/config_management/config_daemon/code/services/details:for_unit_test",
+    ],
 )
-
-common_srcs = [
-    "internal_config_provider_service_reactor_test.cpp",
-]
-
-common_deps = [
-    #"@score_baselibs//score/mw/log/test/console_logging_environment",
-    "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
-    "@score_config_management//score/config_management/config_daemon/code/data_model/error",
-]
-
-[
-    cc_test(
-        name = name,
-        srcs = common_srcs + extra_srcs,
-        data = data,
-        features = COMMON_FEATURES,
-        tags = [
-            "unit",
-        ] + tag,
-        visibility = [
-            "@score_config_management//score/config_management/config_daemon/code/services:__pkg__",
-        ],
-        deps = common_deps + extra_deps,
-    )
-    for name, tag, extra_srcs, data, extra_deps in [
-        (
-            "unit_tests_mw_com",
-            [
-                "mw_com",
-                "exclusive",  # Sandboxing is not properly working with LoLa message passing 2.0 (Ticket-217341)
-            ],
-            [
-                "mw_com/internal_config_provider_service_impl_test.cpp",
-            ],
-            [":test_mw_com_config"],
-            ["@score_config_management//score/config_management/config_daemon/code/services/details:for_mw_unit_test"],
-        ),
-        (
-            "unit_tests_ara_com",
-            ["ara_com"],
-            [
-                "ara_com/internal_config_provider_service_impl_test.cpp",
-            ],
-            [],
-            ["@score_config_management//score/config_management/config_daemon/code/services/details:for_ara_unit_test"],
-        ),
-    ]
-]

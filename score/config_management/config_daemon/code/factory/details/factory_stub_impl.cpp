@@ -24,7 +24,7 @@ namespace config_management
 namespace config_daemon
 {
 
-Factory::Factory() : IFactory{}, json_helper_{}, hash_calculator_factory_{} {}
+Factory::Factory() : IFactory{}, json_helper_{} {}
 
 ProvidedServiceContainer Factory::CreateInternalConfigProviderService(
     const std::shared_ptr<data_model::IParameterSetCollection> read_only_parameter_data_interface) const

@@ -12,7 +12,9 @@
 # *******************************************************************************
 
 load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
+load("@rules_cc//cc:defs.bzl", "cc_test")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load(":custom.bzl", "load_custom_targets", "load_custom_test_suites")
 
 bool_flag(
     name = "score_variant",
@@ -33,8 +35,6 @@ COMMON_FEATURES = [
     "strict_warnings",
     "additional_warnings",
 ]
-
-
 
 cc_test(
     name = "main_function_test",
@@ -65,9 +65,9 @@ cc_unit_test_suites_for_host_and_qnx(
         "@score_config_management//score/config_management/config_daemon/code/factory:unit_tests",
         "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter:unit_tests",
         "@score_config_management//score/config_management/config_daemon/code/data_model:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/plugins:unit_tests",
         "@score_config_management//score/config_management/config_daemon/code/services:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/proxies:unit_tests",
-    ],
+    ] + load_custom_test_suites(),
     visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
 )
+
+load_custom_targets()

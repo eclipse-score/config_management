@@ -17,7 +17,7 @@
 #ifdef SCORE_BUILD
 #include "score/config_management/config_daemon/code/factory/stub_service_container.h"
 #else
-#include "platform/aas/mw/service/provided_service_container.h"
+#include "score/mw/service/provided_service_container.h"
 #endif
 
 namespace score

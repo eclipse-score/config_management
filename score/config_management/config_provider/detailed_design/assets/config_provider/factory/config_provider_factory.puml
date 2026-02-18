@@ -1,7 +1,7 @@
 @startuml
 
 !startsub ConfigProviderFactory
-namespace score::platform::config_provider {
+namespace score::config_management::config_provider {
 class ConfigProviderFactory {
     + Create(\n\
     token : score::cpp::stop_token,\n\

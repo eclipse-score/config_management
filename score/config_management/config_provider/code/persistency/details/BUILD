@@ -1,3 +1,4 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test")
 
 [
@@ -20,7 +21,7 @@ load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test")
             "//score/config_management/config_provider/code:__subpackages__",
         ],
         deps = [
-            "@score_baselibs//score/mw/log",
+            "@score_logging//score/mw/log",
             "//score/config_management/config_provider/code/persistency",
             "//score/config_management/config_provider/code/persistency/error",
         ] + dep,
@@ -58,8 +59,8 @@ cc_gtest_unit_test(
     ],
     deps = [
         ":details_for_unit_test",
-        ":persistency_empty",
+        ":details",
         "@score_baselibs//score/filesystem:mock",
-        #"@score_baselibs//score/mw/log/test/console_logging_environment",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )

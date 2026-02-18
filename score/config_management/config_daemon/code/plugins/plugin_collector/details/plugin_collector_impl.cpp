@@ -23,7 +23,7 @@ namespace config_daemon
 PluginCollector::PluginCollector() noexcept
     : plugin_creators_{}, logger_{mw::log::CreateLogger(std::string_view{"PCol"})}
 {
-    // Add your plugings creator to plugin_creators_ here.
+    // Add your plugins creator to plugin_creators_ here.
 }
 
 std::vector<std::shared_ptr<IPlugin>> PluginCollector::CreatePlugins()

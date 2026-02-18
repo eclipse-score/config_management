@@ -1,7 +1,7 @@
 @startuml
 
 !startsub ConfigProvider
-namespace score::platform::config_provider {
+namespace score::config_management::config_provider {
 abstract class ConfigProvider {
     + {abstract} GetParameterSet(\n\
     set_name : const score::cpp::string_view) : Result<std::shared_ptr<const ParameterSet>>
@@ -25,8 +25,8 @@ abstract class ConfigProvider {
     stop_token : const score::cpp::stop_token&) : bool
     + {abstract} CheckParameterSetUpdates() : ResultBlank
     + {abstract} GetCachedParameterSetsCount() : std::size_t
-    + {abstract} GetInitialQualifierState() : InitialQualifierState
-    + {abstract} GetInitialQualifierState(\n\
+    + {abstract} DeprecatedMethodToGetInitialQualifierState() : InitialQualifierState
+    + {abstract} DeprecatedMethodToGetInitialQualifierState(\n\
     timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     --
     Responsibility: This class is repsonsible for providing ParameterSet's and InitialQualifierState
@@ -35,7 +35,7 @@ abstract class ConfigProvider {
 !endsub
 
 !startsub ConfigProviderImpl
-namespace score::platform::config_provider {
+namespace score::config_management::config_provider {
 class ConfigProviderImpl {
     + GetParameterSet(\n\
     set_name : const score::cpp::string_view) : Result<std::shared_ptr<const ParameterSet>>
@@ -68,8 +68,8 @@ class ConfigProviderImpl {
     polling_cycle_interval : score::cpp::optional<std::chrono::milliseconds>,\n\
     callback : IsAvailableNotificationCallback,\n\
     persistency : score::cpp::pmr::unique_ptr<Persistency>)
-    + GetInitialQualifierState() : InitialQualifierState
-    + GetInitialQualifierState(timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
+    + DeprecatedMethodToGetInitialQualifierState() : InitialQualifierState
+    + DeprecatedMethodToGetInitialQualifierState(timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     --
     - logger_ : mw::log::Logger&
     - parameter_sets_ : ParameterMap

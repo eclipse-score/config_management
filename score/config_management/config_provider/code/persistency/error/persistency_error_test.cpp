@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -39,7 +39,7 @@ TEST(PersistencyErrorTest, CanConvertToString)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::coding::MakeError()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::coding::MakeError()");
     RecordProperty("Description", "This test verifies MakeError method with all possible values.");
     // Given all possible PersistencyError values
     // When MakeError is called
@@ -53,7 +53,7 @@ TEST(PersistencyErrorTest, ValueOutOfRangeResultsInAssertionFailure)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::coding::MakeError()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::coding::MakeError()");
     RecordProperty("Description", "This test verifies MakeError will terminate once an unknown error code is passed.");
     // Given an out of range PersistencyError value
     // When MakeError is called

@@ -1,7 +1,7 @@
 @startuml
 
 !startsub ConfigProviderError
-namespace score::platform::config_provider {
+namespace score::config_management::config_provider {
 enum ConfigProviderError {
     kParsingFailed
     kObjectCastingError

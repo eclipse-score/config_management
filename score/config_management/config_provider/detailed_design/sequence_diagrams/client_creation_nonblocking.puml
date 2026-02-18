@@ -1,0 +1,86 @@
+@startuml client_creation_nonblocking
+title Client Application Creation - Non-Blocking with Callback Notification
+
+actor "Client Application" as Client
+participant "PersistencyFactory" as PFactory
+participant "ConfigProviderFactory" as CPFactory
+participant "ConfigProviderImpl" as CPImpl
+participant "ProxyThread" as ProxyThread
+' participant "ProxyFuture" as ProxyFuture
+' participant "ServiceDiscovery" as SD
+
+== Step 1: Create Persistency ==
+
+Client -> PFactory: Create(kvs_handle)
+PFactory -> PFactory: new PersistencyImpl(kvs_handle)
+PFactory --> Client: unique_ptr<Persistency>
+
+== Step 2: Create ConfigProvider (Non-Blocking Mode) ==
+
+note over Client: Non-blocking approach:\nRegister callback for connection notification
+
+Client -> CPFactory: Create(persistency,\n  wait_timeout=0ms,\n  callback=[&](){ onProxyReady(); })
+CPFactory -> CPFactory: Create ProxyFuture for InternalConfigProvider
+CPFactory -> CPImpl: new ConfigProviderImpl(\n  proxy_future,\n  persistency,\n  callback)
+
+note over CPImpl: Constructor starts
+CPImpl -> CPImpl: ReadCachedParameterSets from Persistency
+note over CPImpl: Cache populated with kUnqualified parameter sets
+
+CPImpl -> ProxyThread: Start proxy_available_thread_\nwith callback
+activate ProxyThread
+note over ProxyThread: Background thread waiting for proxy
+
+CPImpl --> CPFactory: ConfigProvider instance
+CPFactory --> Client: unique_ptr<ConfigProvider>
+
+note over Client: Constructor returns immediately\n(non-blocking)
+
+== Step 3: Continue with Other Initialization ==
+
+Client -> Client: Initialize other components
+Client -> Client: Perform other startup tasks
+note over Client: Application continues without blocking
+
+== Step 4: Early Access to Cached Data ==
+
+note over Client: ConfigProvider already usable\nwith cached data from Persistency
+
+Client -> CPImpl: GetParameterSet("CachedConfig")
+alt In cache (from Persistency)
+    note over CPImpl: Cache hit - serve immediately
+    CPImpl --> Client: shared_ptr<ParameterSet> (kUnqualified)
+else Not in cache
+    note over CPImpl: Proxy not ready yet
+    CPImpl --> Client: Error: kProxyNotReady
+end
+
+== Step 5: Proxy Connection (Background) ==
+
+par Background Proxy Discovery
+    ' ProxyThread -> ProxyFuture: Get(stop_token)
+    ' ProxyFuture -> SD: Find InternalConfigProvider proxy
+    ' SD -> SD: Search for ConfigDaemon service
+    note over ProxyThread: Service discovery process
+    ' SD --> ProxyFuture: Proxy found
+    ' ProxyFuture --> ProxyThread: unique_ptr<InternalConfigProvider>
+
+    ProxyThread -> CPImpl: SetupInternalConfigProvider(proxy, callback)
+
+    note over CPImpl: Initial synchronization
+    ' CPImpl -> CPImpl: TrySubscribeToLastUpdatedParameterSetEvent()
+    ' CPImpl -> CPImpl: FetchInitialParameterSetValuesFrom()
+    ' CPImpl -> CPImpl: WriteInitialParameterSetValuesToPersistentCache()
+    ' CPImpl -> CPImpl: CacheInitialQualifierState()
+    ' CPImpl -> CPImpl: RegisterCallbacksForPersistedParameterSetNames()
+    ' CPImpl -> CPImpl: StartParameterSetUpdatePollingRoutine()
+
+    CPImpl -> Client: callback: onProxyReady()
+    note over Client: Async notification received\nProxy is now connected
+
+    ' CPImpl -> CPImpl: Notify internal_config_provider_cv_
+end
+
+deactivate ProxyThread
+
+@enduml

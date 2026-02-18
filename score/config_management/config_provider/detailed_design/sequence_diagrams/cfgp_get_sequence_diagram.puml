@@ -1,0 +1,55 @@
+@startuml
+
+skinparam SequenceMessageAlignment center
+title ConfigDaemon InternalConfigProviderService GetParameterSet Method
+
+participant Persistency
+participant ClientApplication
+participant ConfigProvider
+participant ParameterSet
+participant InternalConfigProviderProxy
+participant "mw::com" as mwcom
+
+
+ClientApplication -> ConfigProvider ++: GetParameterSet(parameter_set_name)
+alt parameterset is cached
+ConfigProvider --> ClientApplication : parameter_set
+else
+
+ConfigProvider -> InternalConfigProviderProxy ++: GetParameterSet(parameter_set_name)
+InternalConfigProviderProxy -> mwcom ++: GetParameterSet(parameter_set_name)
+mwcom --> InternalConfigProviderProxy --: future
+
+alt future is timeout
+InternalConfigProviderProxy --> ConfigProvider : ConfigProviderError::kProxyAccessTimeout
+end
+
+alt future do not have value
+InternalConfigProviderProxy --> ConfigProvider : ConfigProviderError::kProxyReturnedNoResult
+end
+
+alt service does not find parameter set
+InternalConfigProviderProxy --> ConfigProvider : ConfigProviderError::kParameterSetNotFound
+end
+
+InternalConfigProviderProxy --> ConfigProvider --:  Result<json::Any>
+
+alt get ConfigProviderError
+    ConfigProvider --> ClientApplication : ConfigProviderError
+end
+
+ConfigProvider -> Persistency ++ : CacheParameterSet
+Persistency --> ConfigProvider --
+
+ConfigProvider -> ConfigProvider: Sync to In-Memory Cache for future requests
+ConfigProvider -> ConfigProvider: RegisterUpdateHandlerForParameterSetName()
+ConfigProvider -> ParameterSet **: create
+ParameterSet --> ConfigProvider
+ConfigProvider --> ClientApplication -- : Result<std::shared_ptr<const ParameterSet>>
+end
+
+ClientApplication -> ParameterSet ++ : GetParameterAs()
+ParameterSet --> ClientApplication --
+
+
+@enduml

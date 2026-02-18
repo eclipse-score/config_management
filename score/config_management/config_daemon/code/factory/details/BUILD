@@ -11,6 +11,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
 [
     cc_library(
         name = name,
@@ -28,12 +30,12 @@
         visibility = visibility,
         deps = [
             "@score_baselibs//score/filesystem",
-            "@score_baselibs//score/hash:safe_hash",
             "@score_baselibs//score/json:json_impl",
             "@score_communication//score/mw/service:factory",
             "@score_config_management//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
             "@score_config_management//score/config_management/config_daemon/code/factory:interface",
             "@score_config_management//score/config_management/config_daemon/code/json_helper/details",
+            "@score_config_management//score/config_management/config_daemon/code/services/details:details_impl",
         ] + dependencies,
     )
     for name, srcs, testonly, visibility, dependencies in [
@@ -47,7 +49,7 @@
             ],
             [
                 "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector/details:details",
-                "@score_config_management//score/config_management/config_daemon/code/services/details:mw_impl",
+                "@score_config_management//score/config_management/config_daemon/code/services/details/mw_com:details_mw_com_impl",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_builder",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_decorator",
                 "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl",
@@ -73,8 +75,7 @@
             ],
             [
                 "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector/details:details_for_unit_test",
-                "@score_config_management//score/config_management/config_daemon/code/services/details:for_mw_unit_test",
-                "@score_baselibs//score/hash:hash_mock",
+                "@score_config_management//score/config_management/config_daemon/code/services/details/mw_com:details_mw_com_test",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_builder",
                 "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_decorator",

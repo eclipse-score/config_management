@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -40,14 +40,14 @@ namespace
 {
 [[maybe_unused]] void CoverParameterSetAPI()
 {
-    using namespace score::platform::config_provider;
+    using namespace score::config_management::config_provider;
     score::json::Any dummy_json;  // empty JSON -> exercise error paths
     ParameterSet ps(std::move(dummy_json));
     ps.ContainsSameContent(ps);
     ps.GetQualifier();
     ps.FormatAsKeyValuePairs();
     ps.GetParametersAsString();
-    score::cpp::string_view param_name{"regression_param"};
+    std::string_view param_name{"regression_param"};
     ps.GetParameterAsJsonAny(param_name);
     // Template calls (compile only)
     ps.GetParameterAs<int>(param_name);
@@ -245,7 +245,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Invalid)
                    "Tests behaviour when int representation of qualifier isn't represented by any enum value.");
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetQualifiers()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetQualifiers()");
 
     json::JsonParser json_parser{};
     // Given the parameter set qualifier is an invalid integer
@@ -271,7 +271,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_WrongJsonType)
     RecordProperty("Description", "Tests error handling when qualifier isn't an integer.");
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetQualifiers()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetQualifiers()");
 
     json::JsonParser json_parser{};
     // Given the parameter set qualifier is of wrong json type
@@ -296,7 +296,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_NotAnObject)
     RecordProperty("Description", "Tests error handling when the root json isn't a JSON object.");
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetQualifiers()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetQualifiers()");
 
     json::JsonParser json_parser{};
     score::json::Any set_json{false};
@@ -315,7 +315,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_NoQualifier)
     RecordProperty("Description", "Tests error handling when the json is missing the qualifier.");
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetQualifiers()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetQualifiers()");
 
     json::JsonParser json_parser{};
     // Given the parameter set is missing the qualifier
@@ -339,7 +339,7 @@ TEST(SimpleParameterSetTest, GetParameter_SetObjectCastingError)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameters()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameters()");
     RecordProperty(
         "Description",
         "This test verifies ContainsSameContent failed due to SetObjectCastingError for GetParameters method");
@@ -357,7 +357,7 @@ TEST(SimpleParameterSetTest, ConstructionWithParamJson)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies successful operation of GetParameterAs function");
 
     json::JsonParser json_parser{};
@@ -375,7 +375,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsPass)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::FormatAsKeyValuePairs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::FormatAsKeyValuePairs()");
     RecordProperty("Description", "This test verifies error handling in the FormatAsKeyValuePairs function.");
 
     // Given the json format parameter set contains various parameters
@@ -460,7 +460,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsInvalidJsonFormat)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::FormatAsKeyValuePairs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::FormatAsKeyValuePairs()");
     RecordProperty(
         "Description",
         "This test verifies error handling in the FormatAsKeyValuePairs function when invalid json format is used.");
@@ -481,7 +481,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsParametersKeywordNotFound)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::FormatAsKeyValuePairs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::FormatAsKeyValuePairs()");
     RecordProperty(
         "Description",
         "This test verifies error handling in the FormatAsKeyValuePairs function when parameters keyword is missing.");
@@ -517,7 +517,7 @@ TEST(SimpleParameterSetTest, GetParametersAsString)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParametersAsString()");
     RecordProperty("Description",
                    "This test verifies success of conversion of parameters data from parameter set to string");
     // Given a parameter set contains simple parameters
@@ -540,7 +540,7 @@ TEST(SimpleParameterSetTest, GetParametersAsString_ObjectCastingError)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParametersAsString()");
     RecordProperty(
         "Description",
         "This test verifies success of SetObjectCasting error handling for FromParameterSetJsonString method");
@@ -558,7 +558,7 @@ TEST(SimpleParameterSetTest, GetParametersAsString_ParsingFailed)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParametersAsString()");
     RecordProperty("Description", "This test verifies GetParametersAsString method failed due to parsing failure");
 
     // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
@@ -577,7 +577,7 @@ TEST(SimpleParameterSetTest, GetParametersAsString_ConvertJsonToStringFailed)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParametersAsString()");
     RecordProperty("Description",
                    "This test verifies GetParametersAsString method failed due to passing a JSON object with empty "
                    "parameter values");
@@ -599,7 +599,7 @@ TEST(SimpleParameterSetTest, GetParameterAs_ObjectCastingError)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAsString()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParametersAsString()");
     RecordProperty("Description",
                    "This test verifies success of SetObjectCasting error handling for GetParameterAs method");
     // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
@@ -616,7 +616,7 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParsingFailed)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParametersAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParametersAs()");
     RecordProperty("Description", "This test verifies error handling for GetParameterAs method");
 
     // Given a parameter set contains invalid format (The ParameterSet expects a structure with a "parameters" key, but
@@ -673,7 +673,7 @@ TYPED_TEST(IntegerTypedParameterSetTest, GetParameterAs_IntegerTypes)
     this->RecordProperty("Priority", "3");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different integer types");
 
@@ -688,7 +688,7 @@ TYPED_TEST(IntegerTypedParameterSetTest, GetParameterAsArray_IntegerTypes)
     this->RecordProperty("Priority", "3");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAsArray method with different integer types");
 
@@ -703,7 +703,7 @@ TYPED_TEST(IntegerTypedParameterSetTest, GetParameterAsTwoDimensionalArray_Integ
     this->RecordProperty("Priority", "3");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty(
         "Description",
         "This test verifies success of GetParameterAsTwoDimensionalArray method with different integer types");
@@ -730,7 +730,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesAsDecimal)
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -749,7 +749,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesAsInteger)
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -767,7 +767,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesCompareIntegerAn
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when "
@@ -787,7 +787,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesBigInFloatType)
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description", "This test verifies success of GetParameterAs method with big float number");
     json::JsonParser json_parser{};
@@ -800,7 +800,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesAsDecimalFo
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -833,7 +833,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesAsIntegerFo
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -866,7 +866,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesWithMixedIn
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -899,7 +899,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsTwoDimensionalArray_FloatTy
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -941,7 +941,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsTwoDimensionalArray_FloatTy
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -984,7 +984,7 @@ TYPED_TEST(FloatTypedParameterSetTest,
 {
     this->RecordProperty("Priority", "3");
     this->RecordProperty("TestType", "Interface test");
-    this->RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description",
                          "This test verifies success of GetParameterAs method with different float types when float "
@@ -1156,7 +1156,7 @@ TEST_F(ParameterSetTest, GetParameterAs_String)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies success of GetParameterAs method with string type");
 
     // Given the parameter "string" is of type string
@@ -1172,7 +1172,7 @@ TEST_F(ParameterSetTest, GetParameterAsArray_String)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies success of GetParameterAsArray method with string type");
 
     // Given the parameter "array_string" is of type array of strings
@@ -1188,7 +1188,7 @@ TEST_F(ParameterSetTest, GetParameterAsTwoDimensionalArray_String)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description",
                    "This test verifies success of GetParameterAsTwoDimensionalArray method with string type");
 
@@ -1208,7 +1208,7 @@ TEST_F(ParameterSetTest, GetParameterAsTwoDimensionalArray_Bool)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description",
                    "This test verifies success of GetParameterAsTwoDimensionalArray method with bool type");
 
@@ -1228,7 +1228,7 @@ TEST_F(ParameterSetTest, GetParameterAs_ValueCastingError)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies success of ValueCasting error handling");
 
     // GetParameterAs
@@ -1286,7 +1286,7 @@ TEST_F(ParameterSetTest, GetParameterAs_ParameterNotFoundError)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies success of ParameterNotFound error handling");
 
     // Given the parameter "foo" does not exist
@@ -1313,7 +1313,7 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParametersNotAnObject)
     RecordProperty("Priority", "3");
     RecordProperty("Description", "Tests error handling when parameters isn't a JSON object.");
     RecordProperty("TestType", "Fault injection test");
-    RecordProperty("Verifies", "::score::platform::config_provider::ParameterSet::GetParameterAs()");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
 
     // Given the parameters is not an JSON object
@@ -1335,11 +1335,11 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParametersNotAnObject)
 }  // namespace score
 
 // Explicit template instantiations to catch signature regressions
-template score::Result<int> score::platform::config_provider::ParameterSet::GetParameterAs<int>(
-    const score::cpp::string_view&) const;
-template score::Result<score::platform::config_provider::ParameterSet::Array<int>>
-score::platform::config_provider::ParameterSet::GetParameterAs<score::platform::config_provider::ParameterSet::Array<int>>(
-    const score::cpp::string_view&) const;
-template score::Result<score::platform::config_provider::ParameterSet::TwoDimensionalArray<int>>
-score::platform::config_provider::ParameterSet::GetParameterAs<
-    score::platform::config_provider::ParameterSet::TwoDimensionalArray<int>>(const score::cpp::string_view&) const;
+template score::Result<int> score::config_management::config_provider::ParameterSet::GetParameterAs<int>(
+    const std::string_view&) const;
+template score::Result<score::config_management::config_provider::ParameterSet::Array<int>>
+score::config_management::config_provider::ParameterSet::GetParameterAs<score::config_management::config_provider::ParameterSet::Array<int>>(
+    const std::string_view&) const;
+template score::Result<score::config_management::config_provider::ParameterSet::TwoDimensionalArray<int>>
+score::config_management::config_provider::ParameterSet::GetParameterAs<
+    score::config_management::config_provider::ParameterSet::TwoDimensionalArray<int>>(const std::string_view&) const;

@@ -1,3 +1,5 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
 COMMON_FEATURES = [
     "treat_warnings_as_errors",
     "strict_warnings",
@@ -20,7 +22,7 @@ COMMON_FEATURES = [
             "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
-            "@score_baselibs//score/mw/log",
+            "@score_logging//score/mw/log",
             "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter:fault_event_types",
             "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter/factory",
             "@score_config_management//score/config_management/config_daemon/code/proxies/fault_event",
@@ -65,7 +67,7 @@ COMMON_FEATURES = [
         ],
         deps = [
             "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter",
-            "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter:fault_event_score_types",
+            "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter:fault_event_types",
         ] + dependencies,
     )
     for name, dependencies, test_only in [

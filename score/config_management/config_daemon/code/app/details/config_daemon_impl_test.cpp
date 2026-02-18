@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -22,7 +22,7 @@
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service_mock.h"
 
 #include "score/os/mocklib/stat_mock.h"
-#include "platform/aas/mw/service/mw/provided_service_builder.h"
+#include "score/mw/service/provided_service.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -65,6 +65,43 @@ class MockFactory
     }
 };
 
+template <typename ServiceType>
+class ServiceDecorator final : public score::mw::service::ProvidedService
+{
+  public:
+    using ServiceHolder = std::unique_ptr<ServiceType>;
+
+    template <typename ServiceImplType = ServiceType, typename... Args>
+    static ServiceDecorator Create(Args&&... args)
+    {
+        ServiceDecorator instance{};
+        instance.service_ = std::make_unique<ServiceImplType>(std::forward<Args>(args)...);
+        return instance;
+    }
+
+    void StartService() noexcept override
+    {
+        service_->OfferService();
+    }
+    void StopService() noexcept override
+    {
+        service_->WithdrawService();
+    }
+    ServiceType* GetService() noexcept
+    {
+        return service_.get();
+    }
+    ServiceHolder ExtractService() noexcept
+    {
+        decltype(service_) service{};
+        service_.swap(service);
+        return service;
+    }
+
+  private:
+    ServiceHolder service_;
+};
+
 class ConfigDaemonFixture : public ::testing::Test
 {
   protected:
@@ -76,15 +113,6 @@ class ConfigDaemonFixture : public ::testing::Test
         first_plugin_mock_ = std::make_shared<score::config_management::config_daemon::PluginMock>();
         second_plugin_mock_ = std::make_shared<score::config_management::config_daemon::PluginMock>();
         plugin_collector_mock_ = std::make_unique<PluginCollectorMock>();
-
-#ifdef SCORE_BUILD
-        provided_services_container_mock_ = ProvidedServiceContainer{};
-        provided_services_container_mock_->SetNumServices(1);
-#else
-        score::mw::service::ProvidedServices<mw::service::ProvidedServiceBuilder::DecoratorType> services{};
-        services.Add<InternalConfigProviderServiceMock>();
-        provided_services_container_mock_ = std::move(services);
-#endif
     }
 
     void TearDown() override {}
@@ -92,25 +120,31 @@ class ConfigDaemonFixture : public ::testing::Test
     void FactoryDefaultSetup();
     void ComponentsDefaultSetup();
     void PluginCollectorSetup();
+    ProvidedServiceContainer CreateProvidedServiceContainer();
 
     score::os::StatMock stat_mock_;
     std::unique_ptr<score::config_management::config_daemon::FactoryMock> factory_mock_;
     std::shared_ptr<score::config_management::config_daemon::PluginMock> first_plugin_mock_;
     std::shared_ptr<score::config_management::config_daemon::PluginMock> second_plugin_mock_;
     std::unique_ptr<score::config_management::config_daemon::ConfigDaemon> config_daemon_app_;
-    std::optional<ProvidedServiceContainer> provided_services_container_mock_;
     std::unique_ptr<PluginCollectorMock> plugin_collector_mock_;
 };
 
+ProvidedServiceContainer ConfigDaemonFixture::CreateProvidedServiceContainer()
+{
+    score::mw::service::ProvidedServices<ServiceDecorator> services{};
+    services.Add<InternalConfigProviderServiceMock>();
+    return services;
+}
+
 void ConfigDaemonFixture::FactoryDefaultSetup()
 {
-    auto parameterset_collection_mock = std::make_unique<data_model::ParameterSetCollectionMock>();
-    auto fault_event_reporter_mock = std::make_unique<fault_event_reporter::FaultEventReporterMock>();
-
-    ON_CALL(*factory_mock_, CreateParameterSetCollection())
-        .WillByDefault(Return(ByMove(std::move(parameterset_collection_mock))));
-    ON_CALL(*factory_mock_, CreateFaultEventReporter())
-        .WillByDefault(Return(ByMove(std::move(fault_event_reporter_mock))));
+    ON_CALL(*factory_mock_, CreateParameterSetCollection()).WillByDefault(Invoke([] {
+        return std::make_unique<data_model::ParameterSetCollectionMock>();
+    }));
+    ON_CALL(*factory_mock_, CreateFaultEventReporter()).WillByDefault(Invoke([] {
+        return std::make_unique<fault_event_reporter::FaultEventReporterMock>();
+    }));
     PluginCollectorSetup();
     ON_CALL(*factory_mock_, CreateLastUpdatedParameterSetSender(_)).WillByDefault(Invoke([](auto&&) {
         return [](const std::string_view) noexcept {
@@ -121,9 +155,7 @@ void ConfigDaemonFixture::FactoryDefaultSetup()
         return [](const InitialQualifierState) noexcept {};
     }));
     ON_CALL(*factory_mock_, CreateInternalConfigProviderService(_)).WillByDefault(Invoke([this](auto&&) {
-        auto result = std::move(provided_services_container_mock_);
-        provided_services_container_mock_ = std::nullopt;
-        return std::move(result).value();
+        return CreateProvidedServiceContainer();
     }));
 }
 
@@ -168,7 +200,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppInitializeSuccess)
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppSettingUmaskFailed)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::ConfigDaemon()");
     RecordProperty("Description", "This test ensures that constructor would not fail, when setting umask failed");
@@ -265,7 +297,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppRunFailDueToInitialQualifierSenderCre
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToCreatePluginCollector)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Initialize()");
     RecordProperty("Description",
@@ -273,7 +305,8 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToCreatePluginCollector)
 
     // Given the factory is able to create all necessary components
     FactoryDefaultSetup();
-    EXPECT_CALL(*factory_mock_, CreatePluginCollector()).WillOnce(Return(ByMove(std::move(nullptr))));
+    EXPECT_CALL(*factory_mock_, CreatePluginCollector())
+        .WillOnce(Return(ByMove(std::unique_ptr<PluginCollectorMock>{})));
 
     config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
     ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeFailure);
@@ -304,7 +337,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToSetupPlugins)
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToInitializeSecondPlugin)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Initialize()");
     RecordProperty("Description",
@@ -325,7 +358,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToInitializeSecondPlugin)
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToRunFirstPlugin)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Run()");
     RecordProperty("Description", "This test ensures that Run would fail, when Plugin->Run return error");
@@ -348,7 +381,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToRunFirstPlugin)
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToRunSecondPlugin)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Run()");
     RecordProperty("Description", "This test ensures that Run would fail, when Plugin->Run return error");
@@ -371,7 +404,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToRunSecondPlugin)
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToInitializeAsPluginIsNull)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Initialize()");
     RecordProperty("Description", "This test ensures that Initialize would fail, if Plugin is null");
@@ -395,7 +428,6 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonRunFailDueToLastUpdatedParameterSetSende
 {
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing");
-    RecordProperty("ASIL", "B");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Run()");
     RecordProperty(
@@ -405,7 +437,6 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonRunFailDueToLastUpdatedParameterSetSende
     // Given the factory failed to create LastUpdatedParameterSetSender
     ComponentsDefaultSetup();
     FactoryDefaultSetup();
-    EXPECT_CALL(*first_plugin_mock_, Deinitialize());
 
     EXPECT_CALL(*factory_mock_, CreateLastUpdatedParameterSetSender(_))
         .WillOnce(Return(ByMove(LastUpdatedParameterSetSender{})));

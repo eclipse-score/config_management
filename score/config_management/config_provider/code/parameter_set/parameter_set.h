@@ -1,5 +1,5 @@
 // *******************************************************************************
-// Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
+// Copyright (c) 2025 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -67,7 +67,7 @@ class ParameterSet final
      * Gets the parameter from the set by the parameter's name
      */
     template <typename T, typename = std::enable_if_t<!IsArray<T>::value, bool>>
-    score::Result<T> GetParameterAs(const score::cpp::string_view& parameter_name) const
+    score::Result<T> GetParameterAs(const std::string_view& parameter_name) const
     {
         const auto value_json = GetParameterAsJsonAny(parameter_name);
         if (value_json.has_value() == true)
@@ -79,7 +79,7 @@ class ParameterSet final
 
     template <typename T,
               typename = std::enable_if_t<(IsArray<T>::value) && (!IsArray<typename T::value_type>::value), bool>>
-    score::Result<Array<typename T::value_type>> GetParameterAs(const score::cpp::string_view& parameter_name) const
+    score::Result<Array<typename T::value_type>> GetParameterAs(const std::string_view& parameter_name) const
     {
         return GetParameterAsArray<typename T::value_type>(parameter_name);
     }
@@ -87,20 +87,20 @@ class ParameterSet final
     template <typename T,
               typename = std::enable_if_t<(IsArray<T>::value) && (IsArray<typename T::value_type>::value), bool>>
     score::Result<TwoDimensionalArray<typename T::value_type::value_type>> GetParameterAs(
-        const score::cpp::string_view& parameter_name) const
+        const std::string_view& parameter_name) const
     {
         return GetParameterAsTwoDimensionalArray<typename T::value_type::value_type>(parameter_name);
     }
     score::Result<std::string> FormatAsKeyValuePairs() const;
     score::Result<std::string> GetParametersAsString() const;
-    Result<std::reference_wrapper<const json::Any>> GetParameterAsJsonAny(const score::cpp::string_view& parameter_name) const;
+    Result<std::reference_wrapper<const json::Any>> GetParameterAsJsonAny(const std::string_view& parameter_name) const;
 
   private:
     Result<std::reference_wrapper<const score::json::Any>> GetParameters() const;
 
     template <typename PrimitiveType>
     score::Result<Array<PrimitiveType>> ConvertJsonListToAmpVector(const score::json::List& list_result,
-                                                                 const score::cpp::string_view& parameter_name) const
+                                                                 const std::string_view& parameter_name) const
     {
         const auto& list = list_result;
         Array<PrimitiveType> result(list.size(), memory_resource_);
@@ -123,7 +123,7 @@ class ParameterSet final
     }
 
     template <typename PrimitiveType>
-    score::Result<Array<PrimitiveType>> GetParameterAsArray(const score::cpp::string_view& parameter_name) const
+    score::Result<Array<PrimitiveType>> GetParameterAsArray(const std::string_view& parameter_name) const
     {
         const auto value_json = GetParameterAsJsonAny(parameter_name);
         if (value_json.has_value() == true)
@@ -143,7 +143,7 @@ class ParameterSet final
 
     template <typename PrimitiveType>
     score::Result<TwoDimensionalArray<PrimitiveType>> GetParameterAsTwoDimensionalArray(
-        const score::cpp::string_view& parameter_name) const
+        const std::string_view& parameter_name) const
     {
         const auto value_json = GetParameterAsJsonAny(parameter_name);
 
