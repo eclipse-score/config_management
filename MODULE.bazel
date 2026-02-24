@@ -17,6 +17,7 @@ module(
 
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
 bazel_dep(name = "rules_python", version = "1.5.1")
+bazel_dep(name = "platforms", version = "0.0.10")
 
 PYTHON_VERSION = "3.12"
 
@@ -50,18 +51,18 @@ use_repo(llvm, "llvm_toolchain_llvm")
 register_toolchains("@llvm_toolchain//:all")
 
 # tooling
-bazel_dep(name = "score_tooling", version = "1.0.5")
+bazel_dep(name = "score_tooling", version = "1.1.2")
 bazel_dep(name = "aspect_rules_lint", version = "1.13.0")
 bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2")
 
 #docs-as-code
-bazel_dep(name = "score_docs_as_code", version = "3.0.0")
+bazel_dep(name = "score_docs_as_code", version = "3.0.1")
 
-# Force score_docs_as_code to 3.0.0 to resolve compatibility conflict between
+# Force score_docs_as_code to 3.0.1 to resolve compatibility conflict between
 # score_logging and score_baselibs
 single_version_override(
     module_name = "score_docs_as_code",
-    version = "3.0.0",
+    version = "3.0.1",
 )
 
 # s-core base libs
