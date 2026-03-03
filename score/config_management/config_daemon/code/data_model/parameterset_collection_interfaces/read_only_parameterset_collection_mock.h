@@ -37,7 +37,10 @@ class ReadOnlyParameterSetCollectionMock final : public IReadOnlyParameterSetCol
     ReadOnlyParameterSetCollectionMock& operator=(const ReadOnlyParameterSetCollectionMock&) noexcept = delete;
     virtual ~ReadOnlyParameterSetCollectionMock() noexcept;
 
-    MOCK_METHOD(Result<score::cpp::pmr::string>, GetParameterSet, (const std::string set_name), (const, noexcept, override));
+    MOCK_METHOD(Result<score::cpp::pmr::string>,
+                GetParameterSet,
+                (const std::string_view set_name),
+                (const, noexcept, override));
     MOCK_METHOD(Result<json::Any>,
                 GetParameterFromSet,
                 (const score::cpp::string_view set_name, const score::cpp::string_view parameter_name),

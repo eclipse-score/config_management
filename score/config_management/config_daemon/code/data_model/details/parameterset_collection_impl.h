@@ -51,7 +51,7 @@ class ParameterSetCollection final : public IParameterSetCollection
                        json::Any&& parameter_value) noexcept override;
     Result<json::Any> GetParameterFromSet(const score::cpp::string_view set_name,
                                           const score::cpp::string_view parameter_name) const override;
-    Result<score::cpp::pmr::string> GetParameterSet(const std::string set_name) const override;
+    Result<score::cpp::pmr::string> GetParameterSet(const std::string_view set_name) const override;
     ResultBlank UpdateParameterSet(const score::cpp::string_view set_name, const score::cpp::string_view set) override;
     bool SetCalibratable(const score::cpp::string_view set_name, const bool is_calibratable) const noexcept override;
 
@@ -61,7 +61,7 @@ class ParameterSetCollection final : public IParameterSetCollection
                                          const score::config_management::config_daemon::ParameterSetQualifier qualifier) override;
 
   private:
-    Result<std::shared_ptr<ParameterSet>> Find(const score::cpp::string_view set_name) const noexcept;
+    Result<std::shared_ptr<ParameterSet>> Find(const std::string_view set_name) const noexcept;
 
     mw::log::Logger& logger_;
     mutable std::mutex mutex_;

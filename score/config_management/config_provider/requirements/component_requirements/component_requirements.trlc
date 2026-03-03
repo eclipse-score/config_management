@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -14,9 +14,126 @@ package ConfigProvider
 
 import ScoreReq
 
-ScoreReq.CompReq SampleRequirement {
-    description = "Description of our SampleRequirement"
-    safety = ScoreReq.Asil.B
-    derived_from = [ConfigProvider.SampleRequirementFeat@2]
-    version = 1
+section "ConfigProvider_Component_Requirements" {
+
+    section "config_provider" {
+
+        section "Notification" {
+
+            /* broken_link_c/issue/23162623 */
+            ScoreReq.CompReq CallbackTriggeredOnServiceAvailable {
+                description = '''{{ConfigProvider}} shall notify the user application once {{InternalConfigProviderService}} is available.
+
+                Note:
+                The callback indicates that:
+                * The service has been found
+                * ConfigProvider is ready to access ParameterSets'''
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+        }
+
+        section "ParameterSet_Access" {
+
+            /* broken_link_c/issue/32233418 */
+            ScoreReq.CompReq OnChangedParameterSetNotInvokedForSameData {
+                description = '''The user application shall be notified not only when the Parameter Set's value changed but also when its {{ParameterSetQualifier}} changed.'''
+
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+        }
+
+    }
+
+    section "parameter_set" {
+
+        /* broken_link_c/issue/14602333 */
+        ScoreReq.CompReq ParameterSetGetQualifier {
+            description = '''{{ConfigProvider}} shall enable a user application to request a Parameter Set with its {{ParameterSetQualifier}} from the {{InternalConfigProviderService}}.'''
+            safety = ScoreReq.Asil.B
+            derived_from = [ConfigProvider.SampleRequirementFeat@1]
+            version = 1
+        }
+
+        /* broken_link_c/issue/32231979 */
+        ScoreReq.CompReq ParameterSetContainsSameContent {
+            description = '''If persistent-caching is enabled, all Parameter Set updates shall only be persisted if the new values (except {{ParameterSetQualifier}}) are different from the already cached values.'''
+            safety = ScoreReq.Asil.QM
+            derived_from = [ConfigProvider.SampleRequirementFeat@1]
+            version = 1
+        }
+
+    }
+
+    section "persistency" {
+
+        section "Caching_Behavior" {
+
+            /* broken_link_c/issue/39318953 */
+            ScoreReq.CompReq PersistentCachingQualifiedOnly {
+                description = '''If persistent-caching is enabled, Parameter Set updates shall only be persisted in the cache if {{ParameterSetQualifier}} is QUALIFIED.'''
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+            /* broken_link_c/issue/32233530 */
+            ScoreReq.CompReq PersistentCachingUpdate {
+                description = '''Upon reception of an updated Parameter Set, its cached value shall be updated with the new values and such new values shall be written to the persistent cache.'''
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+            /* broken_link_c/issue/32233375 */
+            ScoreReq.CompReq PersistentCachingLoad {
+                description = '''A Parameter Set which gets loaded from the persisted cache shall always have {{ParameterSetQualifier}} set to UNQUALIFIED.'''
+                safety = ScoreReq.Asil.B
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+            /* broken_link_c/issue/32231893 */
+            ScoreReq.CompReq PersistentCachingFallback {
+                description = '''If no persistency object for the cache is provided during creation of the Parameter Provider, persistent-caching shall be disabled for this application, otherwise it shall be enabled.'''
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+            /* broken_link_c/issue/32232080 */
+            ScoreReq.CompReq EmptyPersistencyBehavior {
+                description = '''If qualification of the Parameter Sets has not finished and persistent-caching is disabled, no Parameter Set shall be provided to the user application.'''
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+        }
+
+    }
+
+    section "proxies" {
+
+        section "InternalConfigProvider" {
+
+            /* broken_link_c/issue/11397333 */
+            ScoreReq.CompReq GetInitialQualifierState {
+                description = '''A qualifier shall be offered to indicate the integrity of coding data for coding parameters which are attributed with ASIL B level.
+
+                Note: ConfigDaemon assumes that functions which are using the coding parameters will establish a safe state in case when such qualifier indicates that coding data not in state Qualified.'''
+                safety = ScoreReq.Asil.B
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+        }
+
+    }
+
 }

@@ -35,7 +35,8 @@ namespace
 {
 
 const auto kICPServiceInstanceSpecifierName =
-    mw::com::InstanceSpecifier::Create("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort").value();
+    mw::com::InstanceSpecifier::Create(std::string("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort"))
+        .value();
 }  // namespace
 
 Factory::Factory() : IFactory{}, json_helper_{std::make_shared<common::JsonHelper>()} {}

@@ -43,37 +43,6 @@ std::string GetParameterSetValue(mw::log::Logger& logger, const ParameterSet& pa
     return "";
 }
 
-InitialQualifierState ConvertInitialQualifierStateToInitialQualifierState(InitialQualifierState initial_qualifier_state)
-{
-    InitialQualifierState result = InitialQualifierState::kUndefined;
-
-    switch (initial_qualifier_state)
-    {
-        case InitialQualifierState::kDefault:
-            result = InitialQualifierState::kDefault;
-            break;
-        case InitialQualifierState::kInProgress:
-            result = InitialQualifierState::kInProgress;
-            break;
-        case InitialQualifierState::kQualified:
-            result = InitialQualifierState::kQualified;
-            break;
-        case InitialQualifierState::kUnqualified:
-            result = InitialQualifierState::kUnqualified;
-            break;
-        case InitialQualifierState::kQualifying:
-            result = InitialQualifierState::kQualifying;
-            break;
-        case InitialQualifierState::kUndefined:
-            result = InitialQualifierState::kUndefined;
-            break;
-        default:
-            result = InitialQualifierState::kUndefined;
-            break;
-    }
-
-    return result;
-}
 }  // namespace
 
 ConfigProviderImpl::ConfigProviderImpl(
@@ -378,22 +347,6 @@ Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSetF
 
     return {score::cpp::pmr::make_shared<const ParameterSet>(
         memory_resource_, std::move(parameter_set_result).value(), memory_resource_)};
-}
-
-ResultBlank ConfigProviderImpl::OnChangedInitialQualifierState(InitialQualifierStateNotifierCallbackType&& /*callback*/) noexcept
-{
-    return MakeUnexpected(ConfigProviderError::kMethodNotSupported,
-                          "ConfigProviderImpl::OnChangedInitialQualifierState() is no longer supported");
-}
-
-InitialQualifierState ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState() noexcept
-{
-    return ConvertInitialQualifierStateToInitialQualifierState(GetInitialQualifierState(std::nullopt));
-}
-
-InitialQualifierState ConfigProviderImpl::DeprecatedMethodToGetInitialQualifierState(const std::optional<std::chrono::milliseconds> timeout) noexcept
-{
-    return ConvertInitialQualifierStateToInitialQualifierState(GetInitialQualifierState(timeout));
 }
 
 InitialQualifierState ConfigProviderImpl::GetInitialQualifierState(

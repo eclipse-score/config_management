@@ -18,7 +18,6 @@
 #include "score/result/result.h"
 
 #include <score/string.hpp>
-#include <string>
 
 namespace score
 {
@@ -39,7 +38,7 @@ class IReadOnlyParameterSetCollection
     IReadOnlyParameterSetCollection& operator=(const IReadOnlyParameterSetCollection&) noexcept = delete;
     virtual ~IReadOnlyParameterSetCollection() noexcept;
 
-    virtual Result<score::cpp::pmr::string> GetParameterSet(const std::string set_name) const = 0;
+    virtual Result<score::cpp::pmr::string> GetParameterSet(const std::string_view set_name) const = 0;
     virtual Result<json::Any> GetParameterFromSet(const score::cpp::string_view set_name,
                                                   const score::cpp::string_view parameter_name) const = 0;
 };

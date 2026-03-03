@@ -35,7 +35,7 @@ class ParameterSetCollectionMock final : public IParameterSetCollection
                 (const score::cpp::string_view, const score::cpp::string_view, json::Any&&),
                 (noexcept, override));
     MOCK_METHOD(ResultBlank, UpdateParameterSet, (const score::cpp::string_view, const score::cpp::string_view set), (override));
-    MOCK_METHOD(Result<score::cpp::pmr::string>, GetParameterSet, (const std::string set_name), (const, override));
+    MOCK_METHOD(Result<score::cpp::pmr::string>, GetParameterSet, (const std::string_view set_name), (const, override));
     MOCK_METHOD(Result<json::Any>,
                 GetParameterFromSet,
                 (const score::cpp::string_view set_name, const score::cpp::string_view parameter_name),

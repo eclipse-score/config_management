@@ -85,5 +85,6 @@ cc_test(
         "@score_config_management//score/config_management/config_daemon/code/plugins:mock",
         "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:mock",
         "@score_config_management//score/config_management/config_daemon/code/services:mock",
+        "@googletest//:gtest_main",
     ],
 )

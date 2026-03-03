@@ -38,10 +38,12 @@ class Factory final : public IFactory
     Factory& operator=(Factory&&) = delete;
     Factory& operator=(const Factory&) = delete;
 
-    ProvidedServiceContainer CreateInternalConfigProviderService(
+    mw::service::ProvidedServiceContainer CreateInternalConfigProviderService(
         const std::shared_ptr<data_model::IParameterSetCollection> read_only_parameter_data_interface) const override;
-    LastUpdatedParameterSetSender CreateLastUpdatedParameterSetSender(ProvidedServiceContainer& services) override;
-    InitialQualifierStateSender CreateInitialQualifierStateSender(ProvidedServiceContainer& services) override;
+    LastUpdatedParameterSetSender CreateLastUpdatedParameterSetSender(
+        mw::service::ProvidedServiceContainer& services) override;
+    InitialQualifierStateSender CreateInitialQualifierStateSender(
+        mw::service::ProvidedServiceContainer& services) override;
 
     std::shared_ptr<data_model::IParameterSetCollection> CreateParameterSetCollection() const override;
     std::shared_ptr<fault_event_reporter::IFaultEventReporter> CreateFaultEventReporter() const override;

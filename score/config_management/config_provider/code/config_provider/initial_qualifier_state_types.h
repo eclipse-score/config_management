@@ -35,18 +35,6 @@ enum class InitialQualifierState : std::uint8_t
 
 using InitialQualifierStateNotifierCallbackType = score::cpp::callback<void(const InitialQualifierState&)>;
 
-enum class InitialQualifierState : std::uint8_t
-{
-    kUndefined,
-    kInProgress,
-    kDefault,
-    kQualifying,
-    kUnqualified,
-    kQualified
-};
-
-using InitialQualifierStateNotifierCallbackType = score::cpp::callback<void(const InitialQualifierState&)>;
-
 }  // namespace config_provider
 }  // namespace config_management
 }  // namespace score
