@@ -10,8 +10,8 @@ cc_library(
         "demo_parameter_loader.h",
     ],
     features = COMPILER_WARNING_FEATURES,
-    visibility = ["@score_config_management//score/config_management/config_daemon/code:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
     deps = [
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
     ],
 )

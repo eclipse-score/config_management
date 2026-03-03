@@ -15,11 +15,11 @@ load("//third_party/traceability/bazel:traceability.bzl", "safety_software_unit"
 safety_software_unit(
     name = "safety_software_unit_config_daemon",
     # design = ["*.puml"],
-    impl = ["@score_config_management//score/config_management/config_daemon/code:ConfigDaemon"],
+    impl = ["//score/config_management/config_daemon/code:ConfigDaemon"],
     reqs = [
-        "@score_config_management//score/config_management/config_daemon/requirements/component_requirements:component_requirements",
+        "//score/config_management/config_daemon/requirements/component_requirements:component_requirements",
     ],
     tests = [
-        "@score_config_management//score/config_management/config_daemon/code/app/details:unit_test",
+        "//score/config_management/config_daemon/code/app/details:unit_test",
     ],
 )

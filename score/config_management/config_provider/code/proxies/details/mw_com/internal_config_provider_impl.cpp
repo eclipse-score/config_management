@@ -77,7 +77,7 @@ InternalConfigProvider::InternalConfigProvider(std::unique_ptr<InternalMwComProx
     /* KW_SUPPRESS_START:MISRA.USE.EXPANSION: Macro for assertion is tolerated by decision*/
     SCORE_LANGUAGE_FUTURECPP_ASSERT_PRD(proxy_ != nullptr);
     /* KW_SUPPRESS_END:MISRA.USE.EXPANSION */
-    proxy_->initial_qualifier_state.Subscribe(1);
+    std::ignore = proxy_->initial_qualifier_state.Subscribe(1);
 }
 
 InternalConfigProvider::~InternalConfigProvider() noexcept

@@ -38,7 +38,7 @@ ConfigDaemon::ConfigDaemon(std::unique_ptr<IFactory> factory) noexcept
       logger_{mw::log::CreateLogger(std::string_view{"App"})},
       factory_{std::move(factory)},
       parameterset_collection_{factory_->CreateParameterSetCollection()},
-      fault_event_reporter_{factory_->CreateFaultEventReporter()},
+      fault_event_reporter_{nullptr},
       plugins_{}
 {
     logger_.LogDebug() << "ConfigDaemon::" << __func__;
@@ -55,6 +55,13 @@ std::int32_t ConfigDaemon::Initialize(const ApplicationContext& context)
 {
     score::cpp::ignore = context;
     logger_.LogInfo() << "ConfigDaemon::" << __func__;
+
+    fault_event_reporter_ = factory_->CreateFaultEventReporter();
+    if (fault_event_reporter_ == nullptr)
+    {
+        logger_.LogError() << "ConfigDaemon::" << __func__ << " FaultEventReporter creation failed";
+        return kExitCodeFailure;
+    }
 
     const auto prepare_plugins_result = PreparePlugins();
     if (prepare_plugins_result == kExitCodeFailure)
@@ -86,7 +93,6 @@ std::int32_t ConfigDaemon::Initialize(const ApplicationContext& context)
                            << "ProviderServicesContainer doesn't contain any InternalConfigProviderService";
         return kExitCodeFailure;
     }
-    fault_event_reporter_->Initialize();
 
     return kExitCodeSuccess;
 }

@@ -44,15 +44,15 @@ namespace
     score::json::Any dummy_json;  // empty JSON -> exercise error paths
     ParameterSet ps(std::move(dummy_json));
     ps.ContainsSameContent(ps);
-    ps.GetQualifier();
-    ps.FormatAsKeyValuePairs();
-    ps.GetParametersAsString();
+    std::ignore = ps.GetQualifier();
+    std::ignore = ps.FormatAsKeyValuePairs();
+    std::ignore = ps.GetParametersAsString();
     std::string_view param_name{"regression_param"};
-    ps.GetParameterAsJsonAny(param_name);
+    std::ignore = ps.GetParameterAsJsonAny(param_name);
     // Template calls (compile only)
-    ps.GetParameterAs<int>(param_name);
-    ps.GetParameterAs<ParameterSet::Array<int>>(param_name);
-    ps.GetParameterAs<ParameterSet::TwoDimensionalArray<int>>(param_name);
+    std::ignore = ps.GetParameterAs<int>(param_name);
+    std::ignore = ps.GetParameterAs<ParameterSet::Array<int>>(param_name);
+    std::ignore = ps.GetParameterAs<ParameterSet::TwoDimensionalArray<int>>(param_name);
 }
 }  // namespace
 

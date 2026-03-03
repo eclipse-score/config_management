@@ -1839,8 +1839,8 @@ TEST_P(RepeatableConfigProviderTest, TestSharedParameterSet)
     });
 
     auto callback_done = std::async(std::launch::async, [&]() {
-        config_provider->OnChangedParameterSet(parameter_set_name_,
-                                               [](std::shared_ptr<const ParameterSet>) noexcept {});
+        std::ignore = config_provider->OnChangedParameterSet(parameter_set_name_,
+                                                             [](std::shared_ptr<const ParameterSet>) noexcept {});
         callback_ready.set_value();
         ready.wait();
         registered_on_changed_parameter_set_callback_(parameter_set_name_);
@@ -1904,8 +1904,8 @@ TEST_P(RepeatableConfigProviderTest, TestSharedClientHandlers)
     });
 
     auto callback_done = std::async(std::launch::async, [&]() {
-        config_provider->OnChangedParameterSet(parameter_set_name_,
-                                               [](std::shared_ptr<const ParameterSet>) noexcept {});
+        std::ignore = config_provider->OnChangedParameterSet(parameter_set_name_,
+                                                             [](std::shared_ptr<const ParameterSet>) noexcept {});
         callback_ready.set_value();
         ready.wait();
         registered_on_changed_parameter_set_callback_(parameter_set_name_);
@@ -1977,11 +1977,11 @@ namespace
 
     if (provider)
     {
-        provider->GetParameterSet(set_name, timeout);
+        std::ignore = provider->GetParameterSet(set_name, timeout);
         provider->GetParameterSetsByNameList(set_names, timeout);
-        provider->OnChangedParameterSet(set_name_str, std::move(cb));
-        provider->OnChangedParameterSetCbk(set_name_std_view, std::move(cb));
-        provider->OnChangedParameterSetCbk(set_name_str, std::move(cb));
+        std::ignore = provider->OnChangedParameterSet(set_name_str, std::move(cb));
+        std::ignore = provider->OnChangedParameterSetCbk(set_name_std_view, std::move(cb));
+        std::ignore = provider->OnChangedParameterSetCbk(set_name_str, std::move(cb));
         provider->GetInitialQualifierState(timeout);
         provider->WaitUntilConnected(std::chrono::milliseconds{10}, stop_token);
         (void)provider->CheckParameterSetUpdates();

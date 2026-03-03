@@ -31,14 +31,14 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         "@score_communication//score/mw/service",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
-        "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter",
-        "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
-        "@score_config_management//score/config_management/config_daemon/code/services",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/fault_event_reporter",
+        "//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
+        "//score/config_management/config_daemon/code/services",
     ],
 )
 
@@ -51,12 +51,12 @@ cc_library(
     ],
     features = COMMON_FEATURES,
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         ":interface",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
-        "@score_config_management//score/config_management/config_daemon/code/services:mock",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/services:mock",
         "@googletest//:gtest",
     ],
 )
@@ -64,7 +64,7 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "@score_config_management//score/config_management/config_daemon/code/factory/details:unit_test_mw_com",
+        "//score/config_management/config_daemon/code/factory/details:unit_test_mw_com",
     ] + load_custom_test_suites(),
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
 )

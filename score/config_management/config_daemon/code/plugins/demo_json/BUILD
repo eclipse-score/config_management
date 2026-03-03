@@ -3,9 +3,15 @@ load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     test_suites_from_sub_packages = [
-        "@score_config_management//score/config_management/config_daemon/code/plugins/demo_json/details:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/plugins/demo_json/plugin_creator:unit_tests",
+        "//score/config_management/config_daemon/code/plugins/demo_json/details:unit_tests",
+        "//score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:unit_tests",
+        "//score/config_management/config_daemon/code/plugins/demo_json/plugin_creator:unit_tests",
     ],
-    visibility = ["@score_config_management//score/config_management/config_daemon/code/plugins:__pkg__"],
+    visibility = ["//score/config_management/config_daemon/code/plugins:__pkg__"],
+)
+
+filegroup(
+    name = "demo_parameters",
+    srcs = ["etc/demo_parameters.json"],
+    visibility = ["//score/config_management/config_daemon/test:__subpackages__"],
 )

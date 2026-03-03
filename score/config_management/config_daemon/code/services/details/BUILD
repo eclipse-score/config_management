@@ -32,11 +32,11 @@ COMMON_FEATURES = [
         features = COMMON_FEATURES,
         tags = ["FUSA"],
         visibility = [
-            "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+            "//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
             "@score_logging//score/mw/log",
-            "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+            "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
         ] + dependencies,
     )
     for name, testonly, dependencies in [
@@ -46,14 +46,14 @@ COMMON_FEATURES = [
             [
                 "@score_baselibs//score/result",
                 "@score_communication//score/mw/com",
-                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
+                "//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
             ],
         ),
         (
             "for_unit_test",
             True,
             [
-                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
+                "//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
             ],
         ),
     ]
@@ -67,12 +67,12 @@ cc_test(
         "unit",
     ],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code/services:__pkg__",
+        "//score/config_management/config_daemon/code/services:__pkg__",
     ],
     deps = [
         "@score_logging//score/mw/log/test/console_logging_environment",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
-        "@score_config_management//score/config_management/config_daemon/code/data_model/error",
-        "@score_config_management//score/config_management/config_daemon/code/services/details:for_unit_test",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+        "//score/config_management/config_daemon/code/data_model/error",
+        "//score/config_management/config_daemon/code/services/details:for_unit_test",
     ],
 )

@@ -11,6 +11,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
+#include "score/config_management/config_daemon/code/plugins/demo_json/plugin_creator/demo_json_plugin_creator_impl.h"
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/details/plugin_collector_impl.h"
 
 namespace score
@@ -23,6 +24,7 @@ namespace config_daemon
 PluginCollector::PluginCollector() noexcept
     : plugin_creators_{}, logger_{mw::log::CreateLogger(std::string_view{"PCol"})}
 {
+    std::ignore = plugin_creators_.emplace_back(std::make_unique<demo_json::DemoJsonPluginCreatorImpl>());
     // Add your plugins creator to plugin_creators_ here.
 }
 

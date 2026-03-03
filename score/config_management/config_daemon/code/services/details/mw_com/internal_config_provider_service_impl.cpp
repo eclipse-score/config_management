@@ -108,6 +108,32 @@ score::Result<InternalConfigProviderService> InternalConfigProviderService::Crea
 
 void InternalConfigProviderService::StartService()
 {
+    mw::log::LogDebug() << "InternalConfigProviderService::" << __func__;
+    auto handler =
+        [this](mw_com_icp_types::ParameterSetName parameter_set_name) -> mw_com_icp_types::ParameterSetContent {
+        // Truncate at first null terminator to avoid trailing nulls
+        auto* null_terminator = std::find(parameter_set_name.begin(), parameter_set_name.end(), '\0');
+        std::string param_name{parameter_set_name.begin(), null_terminator};
+        auto param_set_result = internal_config_provider_service_reactor_->GetParameterSet(param_name);
+        mw_com_icp_types::ParameterSetContent ret_val{};
+
+        if (param_set_result.has_value() == true)
+        {
+            const auto& value = param_set_result.value();
+            // Only copy actual content, limiting to ret_val size
+            const std::size_t copy_size = std::min(value.size(), ret_val.size());
+            std::copy_n(value.begin(), copy_size, ret_val.begin());
+        }
+        else
+        {
+            logger_.LogError() << "InternalConfigProviderService::" << __func__ << "Key not found";
+            constexpr std::string_view kErrorMsg = "Key not found";
+            std::copy(kErrorMsg.begin(), kErrorMsg.end(), ret_val.begin());
+        }
+
+        return ret_val;
+    };
+    icp_skeleton_.get_parameterset.RegisterHandler(std::move(handler));
     const auto offer_service_result = icp_skeleton_.OfferService();
     if (!offer_service_result.has_value())
     {

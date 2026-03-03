@@ -33,7 +33,6 @@ class FaultEventReporter : public IFaultEventReporter
     FaultEventReporter& operator=(const FaultEventReporter&) = delete;
     FaultEventReporter& operator=(FaultEventReporter&&) = delete;
     ~FaultEventReporter() override = default;
-    void Initialize() override;
     bool Report(const std::uint8_t fault_event_id, [[maybe_unused]] const bool is_fault_present) override;
 
   private:

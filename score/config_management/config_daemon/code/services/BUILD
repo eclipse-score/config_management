@@ -31,10 +31,10 @@ cc_library(
     ],
     features = COMMON_FEATURES,
     tags = ["FUSA"],
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
         "@score_communication//score/mw/service:provided_service_container",
-        "@score_config_management//score/config_management/config_daemon/code/types/initial_qualifier_state",
+        "//score/config_management/config_daemon/code/types/initial_qualifier_state",
         "@score_baselibs//score/language/futurecpp",
     ],
 )
@@ -49,7 +49,7 @@ cc_library(
         "internal_config_provider_service_mock.h",
     ],
     features = COMMON_FEATURES,
-    visibility = ["@score_config_management//score/config_management/config_daemon/code:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
     deps = [
         ":services",
         "@googletest//:gtest",
@@ -59,9 +59,9 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "@score_config_management//score/config_management/config_daemon/code/services/details:unit_test",
+        "//score/config_management/config_daemon/code/services/details:unit_test",
     ] + load_custom_test_suites(),
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
 )
 
 cc_library(
@@ -71,7 +71,7 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         "@score_baselibs//score/result",
@@ -86,7 +86,7 @@ cc_library(
     hdrs = ["internal_config_provider_service_reactor_mock.h"],
     features = COMMON_FEATURES,
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         ":internal_config_provider_reactor",

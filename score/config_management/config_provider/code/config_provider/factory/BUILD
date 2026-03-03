@@ -14,7 +14,7 @@ cc_library(
     tags = ["FUSA"],
     visibility = [
         
-        "@score_config_management//score/config_management/config_daemon/test:__subpackages__",
+        "//score/config_management/config_daemon/test:__subpackages__",
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [

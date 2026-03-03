@@ -33,7 +33,6 @@ class IFaultEventReporter
     IFaultEventReporter& operator=(IFaultEventReporter&&) = delete;
     virtual ~IFaultEventReporter() noexcept = default;
 
-    virtual void Initialize() = 0;
     virtual bool Report(const std::uint8_t fault_event_id, const bool is_fault_present) = 0;
 };
 }  // namespace fault_event_reporter

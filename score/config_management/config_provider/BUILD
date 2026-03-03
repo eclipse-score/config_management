@@ -2,11 +2,45 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 load("@score_baselibs//score/quality/clang_tidy:extra_checks.bzl", "clang_tidy_extra_checks")
 
-cc_library(
+alias(
+    name = "interface",
+    actual = "//score/config_management/config_provider/code/config_provider",
+    visibility = ["//visibility:public"],
+)
+
+alias(
     name = "ConfigProvider",
+    actual = ":ConfigProvider_r20_11",
+    visibility = ["//visibility:public"],
+)
+
+alias(
+    name = "ConfigProvider_for_unit_tests",
+    actual = ":ConfigProvider_r20_11_for_unit_tests",
+    visibility = ["//visibility:public"],
+)
+
+# NOTE: We put the 'FUSA' tag only here so that this lib will get shown
+#       under this name in PowerBI as well as safety reports.
+# For PowerBI reporting to work correctly, this must be a `cc_library` and not an `alias` rule.
+cc_library(
+    name = "ConfigProvider_r20_11",
+    tags = ["FUSA"],
+    visibility = ["//visibility:public"],
+    deps = ["//score/config_management/config_provider/code/config_provider/factory:factory_socal_r20_11"],
+)
+
+cc_library(
+    name = "ConfigProvider_mw_com",
     tags = ["FUSA"],
     visibility = ["//visibility:public"],
     deps = ["//score/config_management/config_provider/code/config_provider/factory:factory_mw_com"],
+)
+
+alias(
+    name = "ConfigProvider_r20_11_for_unit_tests",
+    actual = "//score/config_management/config_provider/code/config_provider/factory:factory_socal_r20_11_for_unit_tests",
+    visibility = ["//visibility:public"],
 )
 
 cc_unit_test_suites_for_host_and_qnx(

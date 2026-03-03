@@ -24,7 +24,7 @@ cc_library(
     ],
     tags = ["FFI"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         "@score_baselibs//score/result",
@@ -40,7 +40,7 @@ cc_test(
         "additional_warnings",
     ],
     tags = ["unit"],
-    visibility = ["@score_config_management//score/config_management/config_daemon/code/data_model:__pkg__"],
+    visibility = ["//score/config_management/config_daemon/code/data_model:__pkg__"],
     deps = [
         ":error",
         "@googletest//:gtest_main",

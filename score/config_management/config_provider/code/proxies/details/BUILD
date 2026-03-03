@@ -13,7 +13,7 @@ cc_library(
     ],
     tags = ["FUSA"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/test/xpad_ara_com_mock:__subpackages__",
+        "//score/config_management/config_daemon/test/xpad_ara_com_mock:__subpackages__",
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
@@ -21,8 +21,8 @@ cc_library(
         "@score_baselibs//score/concurrency/future",
         "@score_baselibs//score/json",
         "@score_logging//score/mw/log",
-        "@score_config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
         "//score/config_management/config_provider/code/proxies:internal_config_provider",
+        "//score/config_management/config_provider/code/proxies/details/mw_com/generated_service:internal_config_provider_type",
     ],
 )
 

@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_provider/code/config_provider/factory/factory_mw_com.h"
-#include "score/config_management/config_daemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
 #include "score/config_management/config_provider/code/persistency/persistency_mock.h"
+#include "score/config_management/config_provider/code/proxies/details/mw_com/generated_service/internal_config_provider_type.h"
 
 #include "score/json/json_parser.h"
 
@@ -52,7 +52,7 @@ class ConfigProviderFactoryTest : public ::testing::Test
         mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton = CreateService();
-        skeleton->initial_qualifier_state.Update(MwComInitialQualifierStateType::kUndefined);
+        std::ignore = skeleton->initial_qualifier_state.Update(MwComInitialQualifierStateType::kUndefined);
         score::cpp::ignore = skeleton->OfferService();
     }
 

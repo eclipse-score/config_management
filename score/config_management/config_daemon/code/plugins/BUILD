@@ -26,14 +26,14 @@ cc_library(
     ],
     tags = ["FFI"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code/app:__subpackages__",
-        "@score_config_management//score/config_management/config_daemon/code/plugins:__subpackages__",
+        "//score/config_management/config_daemon/code/app:__subpackages__",
+        "//score/config_management/config_daemon/code/plugins:__subpackages__",
     ],
     deps = [
         "@score_baselibs//score/result",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
-        "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter",
-        "@score_config_management//score/config_management/config_daemon/code/services",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/fault_event_reporter",
+        "//score/config_management/config_daemon/code/services",
         "@score_baselibs//score/language/futurecpp",
     ],
 )
@@ -49,8 +49,8 @@ cc_library(
         "additional_warnings",
     ],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code/app:__subpackages__",
-        "@score_config_management//score/config_management/config_daemon/code/plugins:__subpackages__",
+        "//score/config_management/config_daemon/code/app:__subpackages__",
+        "//score/config_management/config_daemon/code/plugins:__subpackages__",
     ],
     deps = [
         ":plugin",
@@ -69,7 +69,7 @@ cc_library(
     ],
     tags = ["FFI"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code/plugins:__subpackages__",
+        "//score/config_management/config_daemon/code/plugins:__subpackages__",
     ],
 )
 
@@ -84,7 +84,7 @@ cc_library(
         "additional_warnings",
     ],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code/plugins:__subpackages__",
+        "//score/config_management/config_daemon/code/plugins:__subpackages__",
     ],
     deps = [
         ":plugin_creator",
@@ -95,7 +95,7 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     test_suites_from_sub_packages = [
-        "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:unit_tests",
+        "//score/config_management/config_daemon/code/plugins/plugin_collector:unit_tests",
     ] + load_custom_test_suites(),
-    visibility = ["@score_config_management//score/config_management/config_daemon/code:__pkg__"],
+    visibility = ["//score/config_management/config_daemon/code:__pkg__"],
 )

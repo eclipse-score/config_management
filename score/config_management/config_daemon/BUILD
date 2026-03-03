@@ -18,9 +18,9 @@ load(":custom.bzl", "load_custom_targets")
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     test_suites_from_sub_packages = [
-        "@score_config_management//score/config_management/config_daemon/code:unit_tests",
+        "//score/config_management/config_daemon/code:unit_tests",
     ],
-    visibility = ["@score_config_management//score:__pkg__"],
+    visibility = ["//score:__pkg__"],
 )
 
 clang_tidy_extra_checks(

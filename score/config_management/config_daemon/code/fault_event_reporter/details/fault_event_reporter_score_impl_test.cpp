@@ -41,7 +41,6 @@ TEST_F(FaultEventReporterTest, FaultEventReportPassedTest)
     RecordProperty("Verifies", "::score::config_management::config_daemon::fault_event_reporter::FaultEventReporter::Report()");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
 
-    reporter_->Initialize();
     EXPECT_EQ(reporter_->Report(static_cast<std::uint8_t>(FaultEventId::kUnkownError), true), true);
     EXPECT_EQ(reporter_->Report(2U, true), false);
 }

@@ -51,8 +51,8 @@ class ParameterSetFixture : public ::testing::Test
             });
         parameter_set = std::make_unique<ParameterSet>(std::move(json_writer));
 
-        parameter_set->Add("foo", json::Any{42U});
-        parameter_set->Add("bar", json::Any{69420U});
+        std::ignore = parameter_set->Add("foo", json::Any{42U});
+        std::ignore = parameter_set->Add("bar", json::Any{69420U});
         parameter_set->SetCalibratable(true);
     }
 

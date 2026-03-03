@@ -13,7 +13,7 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_IMPL_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_DETAILS_MW_COM_INTERNAL_CONFIG_PROVIDER_IMPL_H
 
-#include "score/config_management/config_daemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
+#include "score/config_management/config_provider/code/proxies/details/mw_com/generated_service/internal_config_provider_type.h"
 #include "score/config_management/config_provider/code/proxies/internal_config_provider.h"
 
 #include "score/concurrency/condition_variable.h"

@@ -21,6 +21,12 @@
               "fieldName": "initial_qualifier_state",
               "fieldId": 2
             }
+          ],
+          "methods":[
+            {
+              "methodName": "get_parameterset",
+              "methodId": 3
+            }
           ]
         }
       ]
@@ -52,6 +58,12 @@
                 "fieldName": "initial_qualifier_state",
                 "numberOfSampleSlots": 2,
                 "maxSubscribers": 2
+            }
+          ],
+          "methods": [
+            {
+              "methodName": "get_parameterset",
+              "queueSize": 1
             }
           ]
         }

@@ -27,6 +27,6 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
 )

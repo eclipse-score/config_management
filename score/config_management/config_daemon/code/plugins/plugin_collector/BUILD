@@ -30,10 +30,10 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
-        "@score_config_management//score/config_management/config_daemon/code/plugins:plugin",
+        "//score/config_management/config_daemon/code/plugins:plugin",
     ],
 )
 
@@ -46,7 +46,7 @@ cc_library(
     ],
     features = COMMON_FEATURES,
     visibility = [
-        "@score_config_management//score/config_management/config_daemon:__subpackages__",
+        "//score/config_management/config_daemon:__subpackages__",
     ],
     deps = [],
 )
@@ -54,7 +54,7 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector/details:unit_test",
+        "//score/config_management/config_daemon/code/plugins/plugin_collector/details:unit_test",
     ],
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
 )

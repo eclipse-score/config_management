@@ -27,7 +27,6 @@ namespace fault_event_reporter
 class FaultEventReporterMock : public IFaultEventReporter
 {
   public:
-    MOCK_METHOD(void, Initialize, (), (override));
     MOCK_METHOD(bool, Report, (const std::uint8_t fault_event_id, const bool is_fault_present), (override));
 
     ~FaultEventReporterMock() override = default;

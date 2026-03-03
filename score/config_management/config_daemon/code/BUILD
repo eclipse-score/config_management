@@ -25,7 +25,7 @@ config_setting(
     name = "is_score_variant",
     flag_values = {":score_variant": "true"},
     visibility = [
-        "@score_config_management//score/config_management/config_daemon:__subpackages__",
+        "//score/config_management/config_daemon:__subpackages__",
     ],
 )
 
@@ -48,10 +48,10 @@ cc_test(
     deps = [
         "@score_lifecycle_health//src/lifecycle_client_lib:applicationcontext_mock",
         "@score_lifecycle_health//src/lifecycle_client_lib:lifecycle_mock",
-        "@score_config_management//score/config_management/config_daemon/code/app/details:app_for_unit_test",
+        "//score/config_management/config_daemon/code/app/details:app_for_unit_test",
     ] + select({
-        ":is_score_variant": ["@score_config_management//score/config_management/config_daemon/code/factory/details:mw_factory_for_unit_test"],
-        "//conditions:default": ["@score_config_management//score/config_management/config_daemon/code/factory/details:ara_factory_for_unit_test"],
+        ":is_score_variant": ["//score/config_management/config_daemon/code/factory/details:mw_factory_for_unit_test"],
+        "//conditions:default": ["//score/config_management/config_daemon/code/factory/details:ara_factory_for_unit_test"],
     }),
 )
 
@@ -61,13 +61,13 @@ cc_unit_test_suites_for_host_and_qnx(
         ":main_function_test",
     ],
     test_suites_from_sub_packages = [
-        "@score_config_management//score/config_management/config_daemon/code/app:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/factory:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/services:unit_tests",
+        "//score/config_management/config_daemon/code/app:unit_tests",
+        "//score/config_management/config_daemon/code/factory:unit_tests",
+        "//score/config_management/config_daemon/code/fault_event_reporter:unit_tests",
+        "//score/config_management/config_daemon/code/data_model:unit_tests",
+        "//score/config_management/config_daemon/code/services:unit_tests",
     ] + load_custom_test_suites(),
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
 )
 
 load_custom_targets()

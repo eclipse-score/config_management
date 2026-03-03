@@ -190,11 +190,33 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppInitializeSuccess)
     // Given the factory is able to create all necessary components
     FactoryDefaultSetup();
     EXPECT_CALL(stat_mock_, umask(score::os::IntegerToMode(0x7FU))).Times(testing::AtLeast(1));
+    EXPECT_CALL(*factory_mock_, CreateFaultEventReporter()).WillOnce(Invoke([] {
+        return std::make_unique<fault_event_reporter::FaultEventReporterMock>();
+    }));
 
     config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
     // When the Initialize function is run
     // Then the Initialize function would succeed
     ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeSuccess);
+}
+
+TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToCreateFaultEventReporter)
+{
+    RecordProperty("Priority", "3");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Initialize()");
+    RecordProperty("Description",
+                   "This test ensures that Initialize would fail, when FaultEventReporter cannot be created");
+
+    // Given the factory fails to create FaultEventReporter
+    FactoryDefaultSetup();
+    EXPECT_CALL(*factory_mock_, CreateFaultEventReporter()).WillOnce(Return(ByMove(nullptr)));
+
+    config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
+    // When the Initialize function is run
+    // Then the Initialize function would fail
+    ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeFailure);
 }
 
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppSettingUmaskFailed)

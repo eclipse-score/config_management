@@ -17,8 +17,8 @@ trlc_requirements(
     name = "component_requirements",
     srcs = [
         "component_requirements.trlc",
-        "@score_config_management//score/config_management/config_daemon/requirements/assumed_system_requirements",
-        "@score_config_management//score/config_management/config_daemon/requirements/feature_requirements",
+        "//score/config_management/config_daemon/requirements/assumed_system_requirements",
+        "//score/config_management/config_daemon/requirements/feature_requirements",
     ],
     spec = [
         "//third_party/traceability/config/trlc/score_model:requirement_metamodel",

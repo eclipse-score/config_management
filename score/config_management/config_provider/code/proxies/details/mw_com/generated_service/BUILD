@@ -12,43 +12,22 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
-    name = "json_helper",
-    testonly = False,
-    srcs = [],
-    hdrs = [
-        "json_helper.h",
+    name = "internal_config_provider_type",
+    srcs = [
+        "internal_config_provider_type.cpp",
     ],
-    features = COMMON_FEATURES,
-    tags = ["FFI"],
+    hdrs = [
+        "internal_config_provider_type.h",
+    ],
+    features = COMPILER_WARNING_FEATURES,
+    tags = ["FUSA"],
     visibility = [
-        "//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
-        "@score_baselibs//score/filesystem",
-        "@score_baselibs//score/json",
-    ],
-)
-
-cc_library(
-    name = "mock",
-    testonly = True,
-    srcs = [],
-    hdrs = [
-        "json_helper_mock.h",
-    ],
-    features = COMMON_FEATURES,
-    visibility = [
-        "//score/config_management/config_daemon:__subpackages__",
-    ],
-    deps = [
-        ":json_helper",
+        "@score_communication//score/mw/com",
     ],
 )

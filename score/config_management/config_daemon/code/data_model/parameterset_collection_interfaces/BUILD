@@ -27,7 +27,7 @@ cc_library(
         "strict_warnings",
     ],
     tags = ["FFI"],
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
         "@score_baselibs//score/json",
         "@score_baselibs//score/result",

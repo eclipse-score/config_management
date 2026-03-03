@@ -19,11 +19,11 @@ COMMON_FEATURES = [
         ],
         features = COMMON_FEATURES,
         tags = ["FUSA"],
-        visibility = ["@score_config_management//score/config_management/config_daemon/code:__subpackages__"],
+        visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
         deps = [
-            "@score_config_management//score/config_management/config_daemon/code/data_model/error",
-            "@score_config_management//score/config_management/config_daemon/code/services",
-            "@score_config_management//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
+            "//score/config_management/config_daemon/code/data_model/error",
+            "//score/config_management/config_daemon/code/services",
+            "//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
         ] + dep,
     )
     for name, dep, test_only in [
@@ -32,8 +32,8 @@ COMMON_FEATURES = [
             [
                 "@score_baselibs//score/result",
                 "@score_communication//score/mw/com",
-                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
-                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+                "//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
+                "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
                 "@score_logging//score/mw/log",
             ],
             False,
@@ -41,9 +41,9 @@ COMMON_FEATURES = [
         (
             "_test",
             [
-                "@score_config_management//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
+                "//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
                 "//score/config_management/config_provider/code/parameter_set",
-                "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+                "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
             ],
             True,
         ),
@@ -51,8 +51,12 @@ COMMON_FEATURES = [
 ]
 
 filegroup(
-    name = "test_mw_com_config",
+    name = "mw_com_config",
     srcs = ["mw_com_config.json"],
+    visibility = [
+        "//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/test:__subpackages__",
+    ],
 )
 
 cc_test(
@@ -60,7 +64,7 @@ cc_test(
     srcs = [
         "internal_config_provider_service_impl_test.cpp",
     ],
-    data = [":test_mw_com_config"],
+    data = [":mw_com_config"],
     features = COMMON_FEATURES + [
         "aborts_upon_exception",
     ],
@@ -69,7 +73,7 @@ cc_test(
         "mw_com",
         "unit",
     ],
-    visibility = ["@score_config_management//score/config_management/config_daemon/code/services/details/mw_com:__pkg__"],
+    visibility = ["//score/config_management/config_daemon/code/services/details/mw_com:__pkg__"],
     deps = [
         ":details_mw_com_test",
         "@googletest//:gtest_main",

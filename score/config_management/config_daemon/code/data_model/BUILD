@@ -27,13 +27,13 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         "@score_baselibs//score/json",
         "@score_baselibs//score/result",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
-        "@score_config_management//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+        "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
+        "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
     ],
 )
 
@@ -44,7 +44,7 @@ cc_library(
     hdrs = ["parameterset_collection_mock.h"],
     features = COMMON_FEATURES,
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         ":parameterset_collection",
@@ -58,15 +58,15 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score_config_management//score:__subpackages__",
+        "//score:__subpackages__",
     ],
 )
 
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "@score_config_management//score/config_management/config_daemon/code/data_model/details:unit_test",
-        "@score_config_management//score/config_management/config_daemon/code/data_model/error:unit_test",
+        "//score/config_management/config_daemon/code/data_model/details:unit_test",
+        "//score/config_management/config_daemon/code/data_model/error:unit_test",
     ],
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
 )

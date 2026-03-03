@@ -27,16 +27,16 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__pkg__",
+        "//score/config_management/config_daemon/code:__pkg__",
     ],
     deps = [
         "@score_baselibs//score/concurrency:interruptible_wait",
         "@score_baselibs//score/utils:scoped_operation",
         "@score_lifecycle_health//src/lifecycle_client_lib:application",
         "@score_logging//score/mw/log",
-        "@score_config_management//score/config_management/config_daemon/code/app:interface",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
-        "@score_config_management//score/config_management/config_daemon/code/factory:interface",
+        "//score/config_management/config_daemon/code/app:interface",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/factory:interface",
     ],
 )
 
@@ -47,16 +47,16 @@ cc_library(
     hdrs = ["config_daemon_impl.h"],
     features = COMMON_FEATURES,
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__pkg__",
+        "//score/config_management/config_daemon/code:__pkg__",
     ],
     deps = [
         "@score_baselibs//score/utils:scoped_operation",
         "@score_lifecycle_health//src/lifecycle_client_lib:application_mock",
         "@score_logging//score/mw/log",
-        "@score_config_management//score/config_management/config_daemon/code/app:interface",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
-        "@score_config_management//score/config_management/config_daemon/code/factory:interface",
-        "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter",
+        "//score/config_management/config_daemon/code/app:interface",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/factory:interface",
+        "//score/config_management/config_daemon/code/fault_event_reporter",
     ],
 )
 
@@ -69,8 +69,8 @@ cc_test(
     features = COMMON_FEATURES,
     tags = ["unit"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code/app:__pkg__",
-        "@score_config_management//score/config_management/config_daemon/requirements:__pkg__",
+        "//score/config_management/config_daemon/code/app:__pkg__",
+        "//score/config_management/config_daemon/requirements:__pkg__",
     ],
     deps = [
         ":app_for_unit_test",
@@ -79,12 +79,12 @@ cc_test(
         "@score_lifecycle_health//src/lifecycle_client_lib:lifecycle_mock",
         "@score_communication//score/mw/service:factory",
         "@score_communication//score/mw/service:provided_service_container",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
-        "@score_config_management//score/config_management/config_daemon/code/factory:mock",
-        "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter:mock",
-        "@score_config_management//score/config_management/config_daemon/code/plugins:mock",
-        "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:mock",
-        "@score_config_management//score/config_management/config_daemon/code/services:mock",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+        "//score/config_management/config_daemon/code/factory:mock",
+        "//score/config_management/config_daemon/code/fault_event_reporter:mock",
+        "//score/config_management/config_daemon/code/plugins:mock",
+        "//score/config_management/config_daemon/code/plugins/plugin_collector:mock",
+        "//score/config_management/config_daemon/code/services:mock",
         "@googletest//:gtest_main",
     ],
 )

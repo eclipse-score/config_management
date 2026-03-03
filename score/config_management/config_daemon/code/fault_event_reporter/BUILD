@@ -1,5 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load(":custom.bzl", "load_custom_test_suites")
 
 cc_library(
     name = "fault_event_reporter",
@@ -16,9 +17,10 @@ cc_library(
     ],
     tags = ["FFI"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -34,7 +36,7 @@ cc_library(
         "strict_warnings",
     ],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         ":fault_event_reporter",
@@ -52,7 +54,7 @@ cc_library(
     ],
     tags = ["FFI"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [],
 )
@@ -60,7 +62,7 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter/details:score_impl_unit_test",
-    ],
-    visibility = ["@score_config_management//score/config_management/config_daemon/code:__subpackages__"],
+        "//score/config_management/config_daemon/code/fault_event_reporter/details:score_impl_unit_test",
+    ] + load_custom_test_suites(),
+    visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
 )

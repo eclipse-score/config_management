@@ -28,12 +28,12 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
         ],
         tags = ["FUSA"],
         visibility = [
-            "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+            "//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
             "@score_logging//score/mw/log",
-            "@score_config_management//score/config_management/config_daemon/code/plugins:plugin",
-            "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
+            "//score/config_management/config_daemon/code/plugins:plugin",
+            "//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
         ] + dependencies,
     )
     for name, testonly, dependencies in [
@@ -41,15 +41,23 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
             "details",
             False,
             [
-                "@score_config_management//score/config_management/config_daemon/code/plugins:plugin_creator",
-            ],
+                "//score/config_management/config_daemon/code/plugins:plugin_creator",
+            ] + select({
+                "//score/config_management/config_daemon/code:is_score_variant": [
+                    "//score/config_management/config_daemon/code/plugins/demo_json/plugin_creator:demo_json_plugin_creator",
+                ],
+                "//conditions:default": [
+                    "//score/config_management/config_daemon/code/plugins/coding/plugin_creator:coding_plugin_creator",
+                    "//score/config_management/config_daemon/code/plugins/calibration/plugin_creator:calibration_plugin_creator",
+                ],
+            }),
         ),
         (
             "details_for_unit_test",
             True,
             [
-                "@score_config_management//score/config_management/config_daemon/code/plugins:mock",
-                "@score_config_management//score/config_management/config_daemon/code/plugins:plugin_creator_mock",
+                "//score/config_management/config_daemon/code/plugins:mock",
+                "//score/config_management/config_daemon/code/plugins:plugin_creator_mock",
             ],
         ),
     ]
@@ -64,7 +72,7 @@ cc_test(
         "additional_warnings",
     ],
     tags = ["unit"],
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
         ":details_for_unit_test",
         "@score_logging//score/mw/log/test/console_logging_environment",

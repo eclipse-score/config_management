@@ -20,11 +20,11 @@ COMMON_FEATURES = [
         features = COMMON_FEATURES,
         tags = ["FFI"],
         visibility = [
-            "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
+            "//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
-            "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter",
-            "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter:fault_event_score_types",
+            "//score/config_management/config_daemon/code/fault_event_reporter",
+            "//score/config_management/config_daemon/code/fault_event_reporter:fault_event_score_types",
         ] + dependencies,
     )
     for name, dependencies, test_only in [
@@ -51,7 +51,7 @@ cc_test(
     ],
     tags = ["unit"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon:__subpackages__",
+        "//score/config_management/config_daemon:__subpackages__",
     ],
     deps = [":details_score_impl_for_test"],
 )

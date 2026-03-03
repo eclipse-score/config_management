@@ -32,7 +32,6 @@ bool FaultEventReporter::Report(const std::uint8_t fault_event_id, [[maybe_unuse
     }
     return true;
 }
-void FaultEventReporter::Initialize() {}
 // LCOV_EXCL_STOP
 
 }  // namespace fault_event_reporter

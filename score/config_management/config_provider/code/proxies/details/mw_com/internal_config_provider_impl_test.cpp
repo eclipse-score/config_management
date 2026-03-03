@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl.h"
-#include "score/config_management/config_daemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
+#include "score/config_management/config_provider/code/proxies/details/mw_com/generated_service/internal_config_provider_type.h"
 
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
@@ -54,7 +54,7 @@ class InternalConfigProviderTest : public ::testing::Test
         mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton_ = CreateService();
-        skeleton_->initial_qualifier_state.Update(MwComInitialQualifierStateType::kUndefined);
+        std::ignore = skeleton_->initial_qualifier_state.Update(MwComInitialQualifierStateType::kUndefined);
         score::cpp::ignore = skeleton_->OfferService();
         auto proxy = CreateProxy();
         // proxy_mock_ = proxy.get();
@@ -125,7 +125,7 @@ TEST_P(InternalConfigProviderGetInitialQualifierStatePassTest, GetInitialQualifi
                    "method GetInitialQualifierState.");
 
     // Given the InitialQualifierState is provided
-    skeleton_->initial_qualifier_state.Update(std::get<0>(GetParam()));
+    std::ignore = skeleton_->initial_qualifier_state.Update(std::get<0>(GetParam()));
     const auto result = unit_->GetInitialQualifierState(kZeroTimeout);
     // Then GetInitialQualifierState can get this value
     EXPECT_EQ(result, std::get<1>(GetParam()));

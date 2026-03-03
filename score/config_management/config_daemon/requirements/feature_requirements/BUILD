@@ -17,7 +17,7 @@ trlc_requirements(
     name = "feature_requirements",
     srcs = [
         "feature_requirements.trlc",
-        "@score_config_management//score/config_management/config_daemon/requirements/assumed_system_requirements",
+        "//score/config_management/config_daemon/requirements/assumed_system_requirements",
     ],
     spec = [
         "//third_party/traceability/config/trlc/score_model:requirement_metamodel",
@@ -46,7 +46,7 @@ trlc_requirements_test(
 #     name = "traceability",
 #     config = "//third_party/traceability/config/lobster:traceability_feat_conf",
 #     inputs = [
-#         "@score_config_management//score/config_management/config_daemon/requirements/assumed_system_requirements:assumed_system_requirements_lobster",
+#         "//score/config_management/config_daemon/requirements/assumed_system_requirements:assumed_system_requirements_lobster",
 #         ":feature_requirements_lobster",
 #     ],
 # )

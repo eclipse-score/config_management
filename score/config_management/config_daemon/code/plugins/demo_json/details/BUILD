@@ -11,12 +11,12 @@ cc_library(
         "demo_json_plugin_impl.h",
     ],
     features = COMPILER_WARNING_FEATURES,
-    visibility = ["@score_config_management//score/config_management/config_daemon/code:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
     deps = [
         "@score_baselibs//score/json:json_impl",
         "@score_logging//score/mw/log",
-        "@score_config_management//score/config_management/config_daemon/code/plugins:plugin",
-        "@score_config_management//score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:demo_parameter_loader_impl",
+        "//score/config_management/config_daemon/code/plugins:plugin",
+        "//score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:demo_parameter_loader_impl",
     ],
 )
 
@@ -26,17 +26,17 @@ cc_gtest_unit_test(
         "demo_json_plugin_impl_test.cpp",
     ],
     features = COMPILER_WARNING_FEATURES,
-    visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
         ":demo_json_plugin_impl",
         "@score_baselibs//score/json:mock",
         "@score_logging//score/mw/log/test/console_logging_environment",
-        "@score_config_management//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
+        "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
     ],
 )
 
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [":demo_json_plugin_impl_test"],
-    visibility = ["@score_config_management//score/config_management/config_daemon/code/plugins/demo_json:__pkg__"],
+    visibility = ["//score/config_management/config_daemon/code/plugins/demo_json:__pkg__"],
 )

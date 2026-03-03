@@ -46,6 +46,60 @@ section "ConfigProvider_Component_Requirements" {
                 version = 1
             }
 
+            ScoreReq.CompReq ParameterSetRetrievalWithTimeout {
+                description = '''{{ConfigProvider}} shall support a timeout parameter when retrieving a Parameter Set to limit the maximum waiting time.'''
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+            ScoreReq.CompReq BatchParameterSetRetrieval {
+                description = '''{{ConfigProvider}} shall enable retrieval of multiple Parameter Sets in a single request.'''
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+        }
+
+        section "Connection_Management" {
+
+            ScoreReq.CompReq WaitUntilServiceConnected {
+                description = '''{{ConfigProvider}} shall provide a mechanism to wait until the service connection is available, with timeout and cancellation support.'''
+                safety = ScoreReq.Asil.QM
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+        }
+
+        section "InitialQualifierState_Management" {
+
+            ScoreReq.CompReq GetInitialQualifierStateWithTimeout {
+                description = '''{{ConfigProvider}} shall provide the {{InitialQualifierState}} with timeout support.'''
+                safety = ScoreReq.Asil.B
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+            ScoreReq.CompReq InitialQualifierStateChangeNotification {
+                description = '''The user application shall be notified when the {{InitialQualifierState}} changes.'''
+                safety = ScoreReq.Asil.B
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
+        }
+
+        section "Error_Handling" {
+
+            ScoreReq.CompReq OperationErrorReporting {
+                description = '''{{ConfigProvider}} operations related to {{InitialQualifierState}} shall indicate success or failure with error information so that the caller can react safely in case of failure.'''
+                safety = ScoreReq.Asil.B
+                derived_from = [ConfigProvider.SampleRequirementFeat@1]
+                version = 1
+            }
+
         }
 
     }
