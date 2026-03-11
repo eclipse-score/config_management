@@ -2,5 +2,9 @@
   {
     "version": "main",
     "url": "https://eclipse-score.github.io/config_management/main/"
+  },
+  {
+    "version": "pr-3",
+    "url": "https://eclipse-score.github.io/config_management/pr-3/"
   }
 ]
