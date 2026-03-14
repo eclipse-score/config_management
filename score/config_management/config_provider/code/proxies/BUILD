@@ -14,9 +14,9 @@ cc_library(
         "//visibility:public",  # platform_only
     ],
     deps = [
-        "@score_baselibs//score/json",
         "//score/config_management/config_provider/code/config_provider:initial_qualifier_state_types",
         "//score/config_management/config_provider/code/config_provider/error",
+        "@score_baselibs//score/json",
         "@score_baselibs//score/language/futurecpp",
     ],
 )

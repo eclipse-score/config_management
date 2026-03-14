@@ -28,8 +28,8 @@ cc_library(
     visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
     deps = [
         "@score_baselibs//score/json",
-        "@score_baselibs//score/result",
         "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
     ],
 )
 

@@ -21,9 +21,9 @@ cc_library(
     tags = ["FFI"],
     visibility = ["//score/config_management/config_provider/code:__subpackages__"],
     deps = [
-        "@score_baselibs//score/filesystem",
         "//platform/aas/mw/diag",
         "//score/config_management/config_provider/code/parameter_set",
+        "@score_baselibs//score/filesystem",
     ],
 )
 

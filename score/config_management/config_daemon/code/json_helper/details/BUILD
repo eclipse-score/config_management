@@ -25,8 +25,8 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FFI"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
         "@score_config_management//score:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         "@score_baselibs//score/filesystem",

@@ -21,13 +21,13 @@ cc_library(
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
-        "@score_baselibs//score/mw/log",
-        "@score_communication//score/mw/service:proxy_future",
         "//score/config_management/config_provider/code/config_provider",
         "//score/config_management/config_provider/code/config_provider/error",
         "//score/config_management/config_provider/code/persistency",
         "//score/config_management/config_provider/code/proxies:internal_config_provider",
         "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/mw/log",
+        "@score_communication//score/mw/service:proxy_future",
     ],
 )
 

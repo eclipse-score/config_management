@@ -20,9 +20,9 @@ load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test")
             "//score/config_management/config_provider/code:__subpackages__",
         ],
         deps = [
-            "@score_baselibs//score/mw/log",
             "//score/config_management/config_provider/code/persistency",
             "//score/config_management/config_provider/code/persistency/error",
+            "@score_baselibs//score/mw/log",
         ] + dep,
     )
     for name, test_only, dep in [

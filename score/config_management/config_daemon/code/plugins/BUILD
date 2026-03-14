@@ -28,11 +28,11 @@ cc_library(
         "@score_config_management//score/config_management/config_daemon/code/plugins:__subpackages__",
     ],
     deps = [
+        "@score_baselibs//score/language/futurecpp",
         "@score_baselibs//score/result",
         "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
         "@score_config_management//score/config_management/config_daemon/code/fault_event_reporter",
         "@score_config_management//score/config_management/config_daemon/code/services",
-        "@score_baselibs//score/language/futurecpp",
     ],
 )
 

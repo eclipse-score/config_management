@@ -37,7 +37,6 @@
         ] + dependencies,
     )
     for name, srcs, testonly, visibility, dependencies in [
-        
         (
             "mw_factory",
             ["factory_mw_impl.cpp"],
@@ -63,7 +62,6 @@
             [
             ],
         ),
-        
         (
             "mw_factory_for_unit_test",
             ["factory_mw_impl.cpp"],
@@ -121,12 +119,12 @@ filegroup(
         ],
         deps = [
             dep,
-            "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
-            "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:mock",
-            "@score_config_management//score/config_management/config_daemon/code/services:mock",
             "@googletest//:gtest",
             "@googletest//:gtest_main",
             "@score_baselibs//score/language/futurecpp",
+            "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+            "@score_config_management//score/config_management/config_daemon/code/plugins/plugin_collector:mock",
+            "@score_config_management//score/config_management/config_daemon/code/services:mock",
         ],
     )
     for name, src, dep, tag, data in [
@@ -140,6 +138,5 @@ filegroup(
             ],
             [":test_mw_com_config"],
         ),
-        
     ]
 ]

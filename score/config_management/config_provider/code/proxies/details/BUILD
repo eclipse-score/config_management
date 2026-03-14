@@ -11,15 +11,15 @@
         ],
         tags = ["FUSA"],
         visibility = [
-            "@score_config_management//score/config_management/config_daemon/test/xpad_ara_com_mock:__subpackages__",
             "//score/config_management/config_provider:__subpackages__",
+            "@score_config_management//score/config_management/config_daemon/test/xpad_ara_com_mock:__subpackages__",
         ],
         deps = [
+            "//score/config_management/config_provider/code/proxies:internal_config_provider",
             "@score_baselibs//score/concurrency:condition_variable",
             "@score_baselibs//score/concurrency/future",
             "@score_baselibs//score/json",
             "@score_baselibs//score/mw/log",
-            "//score/config_management/config_provider/code/proxies:internal_config_provider",
         ] + dep,
     )
     for name, srcs, hdrs, test_only, dep in [
@@ -76,8 +76,8 @@ cc_test(
     visibility = ["//score/config_management/config_provider/code/proxies:__pkg__"],
     deps = [
         ":internal_config_provider_impl_for_ara_com_unit_tests",
-        "@score_baselibs//score/concurrency:notification",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/concurrency:notification",
     ],
 )
 

@@ -34,16 +34,16 @@ cc_library(
     features = COMMON_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
         "@score_config_management//score:__subpackages__",
+        "@score_config_management//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         "@score_baselibs//score/json",
+        "@score_baselibs//score/language/futurecpp",
         "@score_baselibs//score/mw/log",
         "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
         "@score_config_management//score/config_management/config_daemon/code/data_model/error",
-        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -58,7 +58,7 @@ cc_test(
     visibility = ["@score_config_management//score/config_management/config_daemon/code/data_model:__pkg__"],
     deps = [
         ":parameterset_collection_impl",
-        "@score_baselibs//score/json:mock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/json:mock",
     ],
 )

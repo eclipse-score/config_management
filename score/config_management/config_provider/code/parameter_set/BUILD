@@ -16,10 +16,10 @@ cc_library(
         "//visibility:public",
     ],
     deps = [
+        "//score/config_management/config_provider/code/config_provider/error",
         "@score_baselibs//score/json",
         "@score_baselibs//score/mw/log",
         "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
-        "//score/config_management/config_provider/code/config_provider/error",
     ],
 )
 
@@ -35,9 +35,9 @@ cc_test(
     ],
     deps = [
         ":parameter_set",
-        "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "//score/config_management/config_provider/code/config_provider:config_provider_mock",
         "@googletest//:gtest_main",
+        "@score_config_management//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
     ],
 )
 

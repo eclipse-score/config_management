@@ -13,15 +13,14 @@ load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and
         ],
         tags = ["FUSA"],
         visibility = [
-            
-            "@score_config_management//score/config_management/config_daemon/test:__subpackages__",
             "//score/config_management/config_provider:__subpackages__",
+            "@score_config_management//score/config_management/config_daemon/test:__subpackages__",
         ],
         deps = [
-            "@score_baselibs//score/mw/log",
-            "@score_communication//score/mw/service:factory",
             "//score/config_management/config_provider/code/config_provider/details",
             "//score/config_management/config_provider/code/persistency/details:persistency_empty",
+            "@score_baselibs//score/mw/log",
+            "@score_communication//score/mw/service:factory",
         ] + dep,
     )
     for name, test_only, srcs, hdrs, dep in [

@@ -63,9 +63,9 @@ cc_library(
     ],
     deps = [
         ":interface",
+        "@googletest//:gtest",
         "@score_config_management//score/config_management/config_daemon/code/data_model:parameterset_collection",
         "@score_config_management//score/config_management/config_daemon/code/services:mock",
-        "@googletest//:gtest",
     ],
 )
 
