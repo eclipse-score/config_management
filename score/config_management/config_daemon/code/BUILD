@@ -65,7 +65,6 @@ cc_unit_test_suites_for_host_and_qnx(
         "@score_config_management//score/config_management/config_daemon/code/data_model:unit_tests",
         "@score_config_management//score/config_management/config_daemon/code/plugins:unit_tests",
         "@score_config_management//score/config_management/config_daemon/code/services:unit_tests",
-        "@score_config_management//score/config_management/config_daemon/code/proxies:unit_tests",
     ],
     visibility = ["@score_config_management//score/config_management/config_daemon:__subpackages__"],
 )

@@ -2,9 +2,16 @@ build --java_language_version=17
 build --tool_java_language_version=17
 build --java_runtime_version=remotejdk_17
 build --tool_java_runtime_version=remotejdk_17
-build --@score_baselibs//score/json:base_library=nlohmann
 
 test --test_output=errors
 
+common --@score_baselibs//score/json:base_library=nlohmann
+common --@score_communication//score/mw/com/flags:tracing_library=stub
+common --//score/config_management/config_daemon/code:score_variant=True
 common --registry=https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/
 common --registry=https://bcr.bazel.build
+
+# Host GCC toolchain — used by CI (tests.yml, static-analysis.yml)
+# gcc_toolchain module extension generates @gcc_toolchain_x86_64//:cc_toolchain
+build:host_gcc --extra_toolchains=@gcc_toolchain_x86_64//:cc_toolchain
+build:host_gcc --host_platform=@score_bazel_platforms//:x86_64-linux

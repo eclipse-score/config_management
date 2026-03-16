@@ -60,5 +60,6 @@ cc_test(
         ":parameterset_collection_impl",
         "@googletest//:gtest_main",
         "@score_baselibs//score/json:mock",
+        "@score_baselibs//score/mw/log:console_only_backend",
     ],
 )

@@ -16,7 +16,8 @@ module(
 )
 
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
-bazel_dep(name = "rules_python", version = "1.4.1")
+bazel_dep(name = "rules_python", version = "1.8.3")
+bazel_dep(name = "platforms", version = "1.0.0")
 
 PYTHON_VERSION = "3.12"
 
@@ -25,16 +26,15 @@ python.toolchain(
     is_default = True,
     python_version = PYTHON_VERSION,
 )
-use_repo(python)
 
 # Add GoogleTest dependency
-bazel_dep(name = "googletest", version = "1.17.0.bcr.1")
+bazel_dep(name = "googletest", version = "1.17.0.bcr.2")
 
 # Rust rules for Bazel
-bazel_dep(name = "rules_rust", version = "0.63.0")
+bazel_dep(name = "rules_rust", version = "0.68.1-score")
 
 # C/C++ rules for Bazel
-bazel_dep(name = "rules_cc", version = "0.2.1")
+bazel_dep(name = "rules_cc", version = "0.2.16")
 
 # LLVM Toolchains Rules - host configuration
 bazel_dep(name = "toolchains_llvm", version = "1.4.0")
@@ -50,18 +50,87 @@ use_repo(llvm, "llvm_toolchain_llvm")
 register_toolchains("@llvm_toolchain//:all")
 
 # tooling
-bazel_dep(name = "score_tooling", version = "1.0.4")
-bazel_dep(name = "aspect_rules_lint", version = "1.5.3")
+bazel_dep(name = "score_tooling", version = "1.1.2")
+bazel_dep(name = "aspect_rules_lint", version = "2.0.0")
 bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2")
 
 #docs-as-code
-bazel_dep(name = "score_docs_as_code", version = "2.2.0")
+bazel_dep(name = "score_docs_as_code", version = "3.0.1")
+
+# Force score_docs_as_code to 3.0.1 to resolve compatibility conflict between
+# score_logging and score_baselibs
+single_version_override(
+    module_name = "score_docs_as_code",
+    version = "3.0.1",
+)
+
+# Force score_crates to 0.0.7 since 0.0.8 is not available in registries
+single_version_override(
+    module_name = "score_crates",
+    version = "0.0.7",
+)
 
 # s-core base libs
-bazel_dep(name = "score_baselibs", version = "0.2.2")
+bazel_dep(name = "score_baselibs", version = "0.2.3")
+
+# Override necessary until result_of_t fix is released.
+# Pinned to commit before toolchains_llvm was added as non-dev dep.
+git_override(
+    module_name = "score_baselibs",
+    commit = "052c2f271be4239f97182b164f4903b8c88d6c72",
+    remote = "https://github.com/eclipse-score/baselibs.git",
+)
 
 # s-core communication
 bazel_dep(name = "score_communication", version = "0.1.2")
+
+# Override necessary until S-CORE release 0.6 update,
+# which shall expose mw::service stub.
+git_override(
+    module_name = "score_communication",
+    branch = "main",
+    remote = "https://github.com/eclipse-score/communication.git",
+)
+
+bazel_dep(name = "score_logging", version = "0.1.0")
+bazel_dep(name = "score_lifecycle_health", version = "0.0.1")
+bazel_dep(name = "score_bazel_platforms", version = "0.1.1")
+
+# gcc_toolchain — needed for --config=host_gcc (.bazelrc)
+# score_communication declares it as dev_dependency so we must add it directly
+bazel_dep(name = "gcc_toolchain", version = "0.9.0")
+
+gcc_toolchains = use_extension("@gcc_toolchain//toolchain:module_extensions.bzl", "gcc_toolchains")
+gcc_toolchains.toolchain(
+    name = "gcc_toolchain_x86_64",
+    extra_ldflags = [
+        "-lstdc++",
+        "-lrt",
+        "-latomic",
+    ],
+    gcc_version = "15.2.0",
+    target_arch = "x86_64",
+)
+use_repo(gcc_toolchains, "gcc_toolchain_x86_64")
+
+# Override necessary because there's no oficial release yet.
+# See:
+# https://github.com/eclipse-score/lifecycle/issues/35
+git_override(
+    module_name = "score_lifecycle_health",
+    branch = "main",
+    remote = "https://github.com/eclipse-score/lifecycle.git",
+)
+
+# rules_boost is not in BCR or eclipse-score/bazel_registry;
+# required transitively via score_communication and score_baselibs
+# (boost.program_options / boost.interprocess -> rules_boost)
+bazel_dep(name = "rules_boost", repo_name = "com_github_nelhage_rules_boost")
+archive_override(
+    module_name = "rules_boost",
+    strip_prefix = "rules_boost-master",
+    urls = ["https://github.com/nelhage/rules_boost/archive/refs/heads/master.tar.gz"],
+)
 
 # TRLC dependency for requirements traceability
 bazel_dep(name = "trlc", version = "0.0.0")

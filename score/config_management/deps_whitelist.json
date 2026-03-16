@@ -1,18 +1,41 @@
 {
-  "buildable_targets": [
+  "test_targets": [
+    "//score/config_management/config_daemon/code/data_model/details:unit_test",
+    "//score/config_management/config_daemon/code/data_model/error:unit_test",
+    "//score/config_management/config_daemon/code/fault_event_reporter/details:unit_test",
+    "//score/config_management/config_provider/code/config_provider/error:unit_test",
+    "//tests/cpp:cpp_test_main"
+  ],
+  "clang_tidy_targets": [
     "//score/config_management/config_daemon:clang_tidy_extra_checks",
+    "//score/config_management/config_provider:clang_tidy_extra_checks"
+  ],
+  "buildable_targets": [
     "//score/config_management/config_daemon/code/app:interface",
     "//score/config_management/config_daemon/code/app:mock",
+    "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
+    "//score/config_management/config_daemon/code/data_model/details:unit_test",
     "//score/config_management/config_daemon/code/data_model/error:error",
     "//score/config_management/config_daemon/code/data_model/error:unit_test",
     "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
+    "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+    "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+    "//score/config_management/config_daemon/code/data_model:unit_tests_host",
+    "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+    "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection_mock",
     "//score/config_management/config_daemon/code/factory/details:test_mw_com_config",
+    "//score/config_management/config_daemon/code/factory:unit_tests_host",
     "//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl",
     "//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl_for_test",
+    "//score/config_management/config_daemon/code/fault_event_reporter/details:unit_test",
     "//score/config_management/config_daemon/code/fault_event_reporter:fault_event_reporter",
     "//score/config_management/config_daemon/code/fault_event_reporter:fault_event_score_types",
     "//score/config_management/config_daemon/code/fault_event_reporter:mock",
+    "//score/config_management/config_daemon/code/fault_event_reporter:unit_tests_host",
     "//score/config_management/config_daemon/code:is_score_variant",
+    "//score/config_management/config_daemon/code/json_helper/details:details",
+    "//score/config_management/config_daemon/code/json_helper:json_helper",
+    "//score/config_management/config_daemon/code/json_helper:mock",
     "//score/config_management/config_daemon/code/plugins/plugin_collector:mock",
     "//score/config_management/config_daemon/code/plugins:plugin_creator",
     "//score/config_management/config_daemon/code/plugins:plugin_creator_mock",
@@ -21,11 +44,11 @@
     "//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
     "//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
     "//score/config_management/config_daemon/code/types/initial_qualifier_state:initial_qualifier_state",
-    "//score/config_management/config_provider:clang_tidy_extra_checks",
     "//score/config_management/config_provider/code/config_provider/error:error",
     "//score/config_management/config_provider/code/config_provider/error:unit_test",
     "//score/config_management/config_provider/code/config_provider/error:unit_tests_host",
     "//score/config_management/config_provider/code/config_provider/factory:test_mw_com_config",
+    "//score/config_management/config_provider/code/parameter_set:parameter_set",
     "//score/config_management/config_provider/code/persistency/error:error",
     "//score/config_management/config_provider/code/proxies/details:test_mw_com_config"
   ]

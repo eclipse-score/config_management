@@ -1,0 +1,60 @@
+# *******************************************************************************
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# SPDX-License-Identifier: Apache-2.0
+# *******************************************************************************
+name: Tests CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  merge_group:
+    types: [checks_requested]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run tests from deps_whitelist.json
+        run: |
+          python3 - <<'PYEOF'
+          import json, subprocess, sys
+
+          ACCEPTLIST = "score/config_management/deps_whitelist.json"
+
+          with open(ACCEPTLIST) as f:
+              targets = json.load(f)["test_targets"]
+
+          failures = []
+          for target in targets:
+              result = subprocess.run(
+                  ["bazel", "test", target, "--config=host_gcc"],
+                  capture_output=True, text=True
+              )
+              if result.returncode == 0:
+                  print(f"  PASS  {target}")
+              else:
+                  failures.append(target)
+                  print(f"  FAIL  {target}")
+                  print(result.stderr[-2000:])
+
+          print(f"\n{len(targets) - len(failures)}/{len(targets)} tests passed.")
+
+          if failures:
+              print("\nTests failed for the following targets:")
+              for t in failures:
+                  print(f"  {t}")
+              sys.exit(1)
+          PYEOF
