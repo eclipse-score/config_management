@@ -35,7 +35,7 @@ class DataModelErrorDomain final : public score::result::ErrorDomain
     std::string_view MessageFor(const score::result::ErrorCode& code) const noexcept override
     {
         if ((code < score::cpp::to_underlying(DataModelError::kParameterMissedError)) ||
-            (code > score::cpp::to_underlying(DataModelError::kParameterAlreadyExists)))
+            (code > score::cpp::to_underlying(DataModelError::kFailedToPersistParameterSetCollection)))
         {
             return std::string_view{"Unknown Error!"};
         }
@@ -66,6 +66,12 @@ class DataModelErrorDomain final : public score::result::ErrorDomain
                 break;
             case DataModelError::kParameterAlreadyExists:
                 message = std::string_view{"Parameter with input name already exists"};
+                break;
+            case DataModelError::kFailedToUpdateParameterSetCollectionJson:
+                message = std::string_view{"Failed to update ParameterSetCollection JSON file"};
+                break;
+            case DataModelError::kFailedToPersistParameterSetCollection:
+                message = std::string_view{"Failed to persist parameter set collection"};
                 break;
             // LCOV_EXCL_START (Reaching this default case is not possible as range is checked above.)
             default:

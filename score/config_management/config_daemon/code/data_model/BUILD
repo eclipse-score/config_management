@@ -13,18 +13,13 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "parameterset_collection",
     srcs = ["parameterset_collection.cpp"],
     hdrs = ["parameterset_collection.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",
@@ -42,7 +37,7 @@ cc_library(
     testonly = True,
     srcs = ["parameterset_collection_mock.cpp"],
     hdrs = ["parameterset_collection_mock.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",
     ],
@@ -53,9 +48,40 @@ cc_library(
 )
 
 cc_library(
+    name = "parameterset_collection_manager",
+    srcs = ["parameterset_collection_manager.cpp"],
+    hdrs = ["parameterset_collection_manager.h"],
+    features = COMPILER_WARNING_FEATURES,
+    tags = ["FUSA"],
+    visibility = [
+        "//score/config_management/config_daemon/code:__subpackages__",
+    ],
+    deps = [
+        ":parameterset_collection",
+        "@score_baselibs//score/result",
+    ],
+)
+
+cc_library(
+    name = "parameterset_collection_manager_mock",
+    testonly = True,
+    srcs = ["parameterset_collection_manager_mock.cpp"],
+    hdrs = ["parameterset_collection_manager_mock.h"],
+    features = COMPILER_WARNING_FEATURES,
+    visibility = [
+        "//score/config_management/config_daemon/code:__subpackages__",
+        "//score:__subpackages__",
+    ],
+    deps = [
+        ":parameterset_collection_manager",
+        "@googletest//:gtest",
+    ],
+)
+
+cc_library(
     name = "parameter_set_qualifier",
     hdrs = ["parameter_set_qualifier.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//score:__subpackages__",

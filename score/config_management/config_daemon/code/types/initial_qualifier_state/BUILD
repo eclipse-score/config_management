@@ -12,19 +12,14 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "initial_qualifier_state",
     testonly = False,
     srcs = ["initial_qualifier_state.cpp"],
     hdrs = ["initial_qualifier_state.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",

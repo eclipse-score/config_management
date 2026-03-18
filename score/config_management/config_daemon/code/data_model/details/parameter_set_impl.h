@@ -49,6 +49,7 @@ class ParameterSet final
     ParameterSet& operator=(const ParameterSet&) = delete;
 
     Result<score::cpp::pmr::string> GetParameterSetAsString() const;
+    json::Object GetParameterSetAsJson() const;
     ResultBlank Add(const score::cpp::string_view parameter_name, json::Any&& parameter_value);
     ResultBlank Update(json::Object&& parameters);
     void SetCalibratable(const bool is_calibratable);
@@ -57,8 +58,6 @@ class ParameterSet final
     Result<json::Any> GetParameter(const score::cpp::string_view parameter_name);
 
   private:
-    json::Object GetParameterSetAsJson() const;
-
     mw::log::Logger& logger_;
     std::unordered_map<score::cpp::pmr::string, Parameter> data_;
     std::unique_ptr<json::IJsonWriter> json_writer_;

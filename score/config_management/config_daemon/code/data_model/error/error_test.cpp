@@ -45,6 +45,9 @@ TEST(DataModelErrorTest, CanConvertToString)
     TestMessage(DataModelError::kParentParameterDataNotfound, "Parent ParameterData not found");
     TestMessage(DataModelError::kParameterSetNotCalibratable, "Parameter Set is not calibratable");
     TestMessage(DataModelError::kParameterAlreadyExists, "Parameter with input name already exists");
+    TestMessage(DataModelError::kFailedToUpdateParameterSetCollectionJson,
+                "Failed to update ParameterSetCollection JSON file");
+    TestMessage(DataModelError::kFailedToPersistParameterSetCollection, "Failed to persist parameter set collection");
     TestMessage(static_cast<DataModelError>(0xff), "Unknown Error!");
     TestMessage(static_cast<DataModelError>(-1), "Unknown Error!");
 }

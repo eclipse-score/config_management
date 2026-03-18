@@ -1,11 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load(":custom.bzl", "load_custom_targets")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
 
 [
     cc_library(
@@ -17,7 +12,7 @@ COMMON_FEATURES = [
         hdrs = [
             "fault_event_reporter_score_impl.h",
         ],
-        features = COMMON_FEATURES,
+        features = COMPILER_WARNING_FEATURES,
         tags = ["FFI"],
         visibility = [
             "//score/config_management/config_daemon/code:__subpackages__",
@@ -44,11 +39,7 @@ COMMON_FEATURES = [
 cc_test(
     name = "score_impl_unit_test",
     srcs = ["fault_event_reporter_score_impl_test.cpp"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     visibility = [
         "//score/config_management/config_daemon:__subpackages__",

@@ -37,7 +37,7 @@ ConfigDaemon::ConfigDaemon(std::unique_ptr<IFactory> factory) noexcept
     : IConfigDaemon{},
       logger_{mw::log::CreateLogger(std::string_view{"App"})},
       factory_{std::move(factory)},
-      parameterset_collection_{factory_->CreateParameterSetCollection()},
+      parameterset_collection_manager_{nullptr},
       fault_event_reporter_{nullptr},
       plugins_{}
 {
@@ -69,6 +69,13 @@ std::int32_t ConfigDaemon::Initialize(const ApplicationContext& context)
         return prepare_plugins_result;
     }
 
+    parameterset_collection_manager_ = factory_->CreateParameterSetCollectionManager(plugins_);
+    if (parameterset_collection_manager_ == nullptr)
+    {
+        logger_.LogError() << "ConfigDaemon::" << __func__ << " ParameterSetCollectionManager creation failed";
+        return kExitCodeFailure;
+    }
+
     for (const auto& plugin : plugins_)
     {
         if (plugin == nullptr)
@@ -86,7 +93,8 @@ std::int32_t ConfigDaemon::Initialize(const ApplicationContext& context)
         }
     }
 
-    provided_services_container_ = factory_->CreateInternalConfigProviderService(parameterset_collection_);
+    provided_services_container_ =
+        factory_->CreateInternalConfigProviderService(parameterset_collection_manager_->GetParameterSetCollection());
     if (provided_services_container_.NumServices() == 0U)
     {
         logger_.LogError() << "ConfigDaemon::" << __func__
@@ -143,7 +151,7 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
             return kExitCodeFailure;
         }
 
-        const auto plugin_run_result = plugin->Run(parameterset_collection_,
+        const auto plugin_run_result = plugin->Run(parameterset_collection_manager_,
                                                    std::move(last_updated_parameter_set_sender),
                                                    std::move(initial_qualifier_state_sender),
                                                    token,

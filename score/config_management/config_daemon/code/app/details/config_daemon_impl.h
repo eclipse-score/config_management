@@ -14,6 +14,7 @@
 #define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_DETAILS_CONFIG_DAEMON_IMPL_H
 
 #include "score/config_management/config_daemon/code/app/config_daemon.h"
+#include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
 #include "score/config_management/config_daemon/code/factory/factory.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter.h"
 #include "score/config_management/config_daemon/code/plugins/plugin.h"
@@ -52,7 +53,7 @@ class ConfigDaemon final : public IConfigDaemon
 
     mw::log::Logger& logger_;
     std::unique_ptr<IFactory> factory_;
-    std::shared_ptr<data_model::IParameterSetCollection> parameterset_collection_;
+    std::shared_ptr<data_model::IParameterSetCollectionManager> parameterset_collection_manager_;
     std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter_;
     mw::service::ProvidedServiceContainer provided_services_container_;
     std::vector<std::shared_ptr<IPlugin>> plugins_;

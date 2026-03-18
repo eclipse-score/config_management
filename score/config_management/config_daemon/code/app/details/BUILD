@@ -12,19 +12,14 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "app",
     testonly = False,
     srcs = ["config_daemon_impl.cpp"],
     hdrs = ["config_daemon_impl.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//score/config_management/config_daemon/code:__pkg__",
@@ -35,7 +30,8 @@ cc_library(
         "@score_lifecycle_health//src/lifecycle_client_lib:application",
         "@score_logging//score/mw/log",
         "//score/config_management/config_daemon/code/app:interface",
-        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager",
+        "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_manager_impl",
         "//score/config_management/config_daemon/code/factory:interface",
     ],
 )
@@ -45,7 +41,7 @@ cc_library(
     testonly = True,
     srcs = ["config_daemon_impl.cpp"],
     hdrs = ["config_daemon_impl.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//score/config_management/config_daemon/code:__pkg__",
     ],
@@ -54,8 +50,9 @@ cc_library(
         "@score_lifecycle_health//src/lifecycle_client_lib:application_mock",
         "@score_logging//score/mw/log",
         "//score/config_management/config_daemon/code/app:interface",
-        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
-        "//score/config_management/config_daemon/code/factory:interface",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager",
+        "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_manager_impl",
+        "//score/config_management/config_daemon/code/factory:interface_for_unit_test",
         "//score/config_management/config_daemon/code/fault_event_reporter",
     ],
 )
@@ -66,11 +63,11 @@ cc_test(
     srcs = [
         "config_daemon_impl_test.cpp",
     ],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     visibility = [
         "//score/config_management/config_daemon/code/app:__pkg__",
-        "//score/config_management/config_daemon/requirements:__pkg__",
+        "//requirements:__pkg__",
     ],
     deps = [
         ":app_for_unit_test",
@@ -79,7 +76,7 @@ cc_test(
         "@score_lifecycle_health//src/lifecycle_client_lib:lifecycle_mock",
         "@score_communication//score/mw/service:factory",
         "@score_communication//score/mw/service:provided_service_container",
-        "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager_mock",
         "//score/config_management/config_daemon/code/factory:mock",
         "//score/config_management/config_daemon/code/fault_event_reporter:mock",
         "//score/config_management/config_daemon/code/plugins:mock",

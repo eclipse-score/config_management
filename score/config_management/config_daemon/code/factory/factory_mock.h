@@ -48,9 +48,9 @@ class FactoryMock final : public IFactory
                 (mw::service::ProvidedServiceContainer & services),
                 (override));
 
-    MOCK_METHOD(std::shared_ptr<data_model::IParameterSetCollection>,
-                CreateParameterSetCollection,
-                (),
+    MOCK_METHOD(std::shared_ptr<data_model::IParameterSetCollectionManager>,
+                CreateParameterSetCollectionManager,
+                (std::vector<std::shared_ptr<IPlugin>> & plugins),
                 (const, override));
 
     MOCK_METHOD(std::unique_ptr<IPluginCollector>, CreatePluginCollector, (), (const, override));

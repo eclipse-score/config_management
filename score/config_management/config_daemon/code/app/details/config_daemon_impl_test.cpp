@@ -13,7 +13,7 @@
 #include "score/config_management/config_daemon/code/app/details/config_daemon_impl.h"
 #include "score/os/errno.h"
 #include "score/result/result.h"
-#include "score/config_management/config_daemon/code/data_model/parameterset_collection_mock.h"
+#include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager_mock.h"
 #include "score/config_management/config_daemon/code/factory/factory.h"
 #include "score/config_management/config_daemon/code/factory/factory_mock.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter_mock.h"
@@ -139,8 +139,8 @@ mw::service::ProvidedServiceContainer ConfigDaemonFixture::CreateProvidedService
 
 void ConfigDaemonFixture::FactoryDefaultSetup()
 {
-    ON_CALL(*factory_mock_, CreateParameterSetCollection()).WillByDefault(Invoke([] {
-        return std::make_unique<data_model::ParameterSetCollectionMock>();
+    ON_CALL(*factory_mock_, CreateParameterSetCollectionManager(_)).WillByDefault(Invoke([](auto&&) {
+        return std::make_shared<data_model::ParameterSetCollectionManagerMock>();
     }));
     ON_CALL(*factory_mock_, CreateFaultEventReporter()).WillByDefault(Invoke([] {
         return std::make_unique<fault_event_reporter::FaultEventReporterMock>();
@@ -440,6 +440,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToInitializeAsPluginIsNull)
     plugins.push_back(first_plugin_mock);
     plugins.push_back(second_plugin_mock);
     EXPECT_CALL(*plugin_collector_mock_raw, CreatePlugins()).WillOnce(Return(plugins));
+    ON_CALL(*first_plugin_mock, ParameterSetCollectionUpdateStart(_)).WillByDefault(Return(ResultBlank{}));
     EXPECT_CALL(*first_plugin_mock, Initialize()).WillOnce(Return(ResultBlank{}));
 
     config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
@@ -469,6 +470,22 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonRunFailDueToLastUpdatedParameterSetSende
     // When the Run function is triggered
     // Then the Run function would fail
     ASSERT_EQ(config_daemon_app_->Run(source.get_token()), 1);
+}
+
+TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToCreateParameterSetCollectionManager)
+{
+    RecordProperty("Priority", "3");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Initialize()");
+    RecordProperty("Description",
+                   "This test ensures that Initialize would fail, when ParameterSetCollection cannot be created");
+
+    FactoryDefaultSetup();
+    EXPECT_CALL(*factory_mock_, CreateParameterSetCollectionManager(_)).WillOnce(Return(ByMove(nullptr)));
+
+    config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
+    ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeFailure);
 }
 
 }  // namespace test

@@ -1,5 +1,5 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
-load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load("@safe_posix_platform@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
 
 cc_library(
@@ -31,6 +31,7 @@ cc_gtest_unit_test(
         ":demo_json_plugin_impl",
         "@score_baselibs//score/json:mock",
         "@score_logging//score/mw/log/test/console_logging_environment",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager_mock",
         "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
     ],
 )

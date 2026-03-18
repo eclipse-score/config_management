@@ -45,7 +45,8 @@ class Factory final : public IFactory
     InitialQualifierStateSender CreateInitialQualifierStateSender(
         mw::service::ProvidedServiceContainer& services) override;
 
-    std::shared_ptr<data_model::IParameterSetCollection> CreateParameterSetCollection() const override;
+    std::shared_ptr<data_model::IParameterSetCollectionManager> CreateParameterSetCollectionManager(
+        std::vector<std::shared_ptr<IPlugin>>& plugin) const override;
     std::shared_ptr<fault_event_reporter::IFaultEventReporter> CreateFaultEventReporter() const override;
 
     std::unique_ptr<IPluginCollector> CreatePluginCollector() const override;

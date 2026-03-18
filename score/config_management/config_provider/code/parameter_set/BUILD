@@ -1,17 +1,12 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "parameter_set",
     srcs = ["parameter_set.cpp"],
     hdrs = ["parameter_set.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//visibility:public",
@@ -29,7 +24,7 @@ cc_test(
     srcs = [
         "parameter_set_test.cpp",
     ],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     visibility = [
         "//score/config_management/config_provider:__subpackages__",

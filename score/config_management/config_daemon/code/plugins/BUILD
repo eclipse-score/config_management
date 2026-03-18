@@ -13,25 +13,23 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load(":custom.bzl", "load_custom_test_suites")
 
 cc_library(
     name = "plugin",
     srcs = [],
     hdrs = ["plugin.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
         "//score/config_management/config_daemon/code/app:__subpackages__",
+        "//score/config_management/config_daemon/code/data_model:__subpackages__",
         "//score/config_management/config_daemon/code/plugins:__subpackages__",
     ],
     deps = [
         "@score_baselibs//score/result",
-        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager",
         "//score/config_management/config_daemon/code/fault_event_reporter",
         "//score/config_management/config_daemon/code/services",
         "@score_baselibs//score/language/futurecpp",
@@ -43,13 +41,10 @@ cc_library(
     testonly = True,
     srcs = [],
     hdrs = ["plugin_mock.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//score/config_management/config_daemon/code/app:__subpackages__",
+        "//score/config_management/config_daemon/code/data_model:__subpackages__",
         "//score/config_management/config_daemon/code/plugins:__subpackages__",
     ],
     deps = [
@@ -62,11 +57,7 @@ cc_library(
     name = "plugin_creator",
     srcs = [],
     hdrs = ["plugin_creator.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
         "//score/config_management/config_daemon/code/plugins:__subpackages__",
@@ -78,11 +69,7 @@ cc_library(
     testonly = True,
     srcs = [],
     hdrs = ["plugin_creator_mock.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//score/config_management/config_daemon/code/plugins:__subpackages__",
     ],

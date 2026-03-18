@@ -13,12 +13,7 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "interface",
@@ -27,7 +22,7 @@ cc_library(
     hdrs = [
         "plugin_collector.h",
     ],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",
@@ -44,7 +39,7 @@ cc_library(
     hdrs = [
         "plugin_collector_mock.h",
     ],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//score/config_management/config_daemon:__subpackages__",
     ],

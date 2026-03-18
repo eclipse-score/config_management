@@ -12,6 +12,7 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 [
     cc_library(
@@ -21,11 +22,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
         hdrs = [
             "plugin_collector_impl.h",
         ],
-        features = [
-            "treat_warnings_as_errors",
-            "strict_warnings",
-            "additional_warnings",
-        ],
+        features = COMPILER_WARNING_FEATURES,
         tags = ["FUSA"],
         visibility = [
             "//score/config_management/config_daemon/code:__subpackages__",
@@ -58,7 +55,17 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
             [
                 "//score/config_management/config_daemon/code/plugins:mock",
                 "//score/config_management/config_daemon/code/plugins:plugin_creator_mock",
-            ],
+            ] + select({
+                "//score/config_management/config_daemon/code:is_score_variant": [
+                    "//score/config_management/config_daemon/code/plugins/demo_json/plugin_creator:demo_json_plugin_creator",
+                ],
+                "//conditions:default": [
+                    "//score/config_management/config_daemon/code/plugins/coding/plugin_creator:coding_plugin_creator_for_unit_test",
+                    "//score/config_management/config_daemon/code/plugins/calibration/plugin_creator:calibration_plugin_creator_for_unit_test",
+                    "//score/config_management/config_daemon/code/plugins/calibration/details:calibration_impl_for_test",
+                    "//score/config_management/config_daemon/code/plugins/calibration/factory/details:factory_impl_for_test",
+                ],
+            }),
         ),
     ]
 ]
@@ -66,11 +73,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 cc_test(
     name = "unit_test",
     srcs = ["plugin_collector_impl_test.cpp"],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [

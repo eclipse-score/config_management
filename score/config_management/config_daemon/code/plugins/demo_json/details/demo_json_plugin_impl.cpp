@@ -46,11 +46,12 @@ ResultBlank DemoJsonPluginImpl::Initialize()
 
 void DemoJsonPluginImpl::Deinitialize() noexcept {}
 
-std::int32_t DemoJsonPluginImpl::Run(std::shared_ptr<data_model::IParameterSetCollection> parameterset_collection,
-                                     [[maybe_unused]] LastUpdatedParameterSetSender,
-                                     [[maybe_unused]] InitialQualifierStateSender,
-                                     [[maybe_unused]] score::cpp::stop_token,
-                                     [[maybe_unused]] std::shared_ptr<fault_event_reporter::IFaultEventReporter>)
+std::int32_t DemoJsonPluginImpl::Run(
+    std::shared_ptr<data_model::IParameterSetCollectionManager> parameterset_collection_manager,
+    [[maybe_unused]] LastUpdatedParameterSetSender,
+    [[maybe_unused]] InitialQualifierStateSender,
+    [[maybe_unused]] score::cpp::stop_token,
+    [[maybe_unused]] std::shared_ptr<fault_event_reporter::IFaultEventReporter>)
 {
     logger_.LogInfo() << "DemoJson::" << __func__ << "Start loading JSON file: " << kDemoParametersPath;
     if (json_parser_ == nullptr)
@@ -61,7 +62,7 @@ std::int32_t DemoJsonPluginImpl::Run(std::shared_ptr<data_model::IParameterSetCo
     DemoParameterLoaderImpl parameter_loader{json_parser_->FromFile(kDemoParametersPath)};
     logger_.LogInfo() << "DemoJson::" << __func__ << "Finished loading JSON file: " << kDemoParametersPath;
 
-    if (!parameter_loader.LoadParameterData(parameterset_collection))
+    if (!parameter_loader.LoadParameterData(parameterset_collection_manager->GetParameterSetCollection()))
     {
         logger_.LogError() << "DemoJson::" << __func__ << "- Failed to load demo parameters";
         return EXIT_FAILURE;
@@ -69,6 +70,13 @@ std::int32_t DemoJsonPluginImpl::Run(std::shared_ptr<data_model::IParameterSetCo
 
     logger_.LogInfo() << "DemoJson::" << __func__ << "- Demo parameters loaded";
     return EXIT_SUCCESS;
+}
+
+ResultBlank DemoJsonPluginImpl::ParameterSetCollectionUpdateStart(
+    data_model::IParameterSetCollection& parameter_set_collection)
+{
+    score::cpp::ignore = parameter_set_collection;
+    return {};
 }
 
 }  // namespace demo_json

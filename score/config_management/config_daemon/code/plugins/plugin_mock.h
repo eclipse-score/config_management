@@ -37,12 +37,13 @@ class PluginMock final : public IPlugin
 
     MOCK_METHOD(std::int32_t,
                 Run,
-                (std::shared_ptr<data_model::IParameterSetCollection> parameterset_collection,
+                (std::shared_ptr<data_model::IParameterSetCollectionManager> parameterset_collection_manager,
                  LastUpdatedParameterSetSender cbk_send_last_updated_parameter_set,
                  InitialQualifierStateSender cbk_update_initial_qualifier_state,
                  score::cpp::stop_token stop_token,
                  std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter),
                 (override));
+    MOCK_METHOD(ResultBlank, ParameterSetCollectionUpdateStart, (data_model::IParameterSetCollection&), (override));
 };
 
 }  // namespace config_daemon

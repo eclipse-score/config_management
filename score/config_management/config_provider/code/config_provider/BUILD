@@ -1,15 +1,12 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "initial_qualifier_state_types",
     srcs = ["initial_qualifier_state_types.cpp"],
     hdrs = ["initial_qualifier_state_types.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//visibility:public",
@@ -21,11 +18,7 @@ cc_library(
     name = "config_provider",
     srcs = ["config_provider.cpp"],
     hdrs = ["config_provider.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//visibility:public",
@@ -41,11 +34,7 @@ cc_library(
     name = "config_provider_mock",
     srcs = ["config_provider_mock.cpp"],
     hdrs = ["config_provider_mock.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//visibility:public",
     ],

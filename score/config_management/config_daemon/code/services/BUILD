@@ -13,13 +13,8 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load(":custom.bzl", "load_custom_test_suites")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
 
 cc_library(
     name = "services",
@@ -29,7 +24,7 @@ cc_library(
     hdrs = [
         "internal_config_provider_service.h",
     ],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
@@ -48,7 +43,7 @@ cc_library(
     hdrs = [
         "internal_config_provider_service_mock.h",
     ],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
     deps = [
         ":services",
@@ -68,7 +63,7 @@ cc_library(
     name = "internal_config_provider_reactor",
     srcs = ["internal_config_provider_service_reactor.cpp"],
     hdrs = ["internal_config_provider_service_reactor.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",
@@ -84,7 +79,7 @@ cc_library(
     testonly = True,
     srcs = ["internal_config_provider_service_reactor_mock.cpp"],
     hdrs = ["internal_config_provider_service_reactor_mock.h"],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",
     ],

@@ -52,6 +52,7 @@ class ParameterSetCollectionMock final : public IParameterSetCollection
                 SetParameterSetQualifier,
                 (const score::cpp::string_view set_name, const score::config_management::config_daemon::ParameterSetQualifier qualifier),
                 (override));
+    MOCK_METHOD(score::Result<json::Object>, GetParameterSetCollectionAsJson, (), (const, noexcept, override));
 };
 
 }  // namespace data_model

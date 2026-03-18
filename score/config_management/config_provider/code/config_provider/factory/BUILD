@@ -1,16 +1,13 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load(":custom.bzl", "load_custom_targets")
 
 cc_library(
     name = "factory_mw_com",
     srcs = ["factory_mw_com.cpp"],
     hdrs = ["factory_mw_com.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         
@@ -36,11 +33,7 @@ cc_test(
     name = "unit_tests_mw_com",
     srcs = ["factory_mw_com_test.cpp"],
     data = [":test_mw_com_config"],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = [
         "exclusive",  # Sandboxing is not properly working with LoLa message passing 2.0 (Ticket-217341)
         "unit",

@@ -1,4 +1,5 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "error",
@@ -8,11 +9,7 @@ cc_library(
     hdrs = [
         "persistency_error.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = ["//score/config_management/config_provider/code:__subpackages__"],
     deps = [
@@ -25,11 +22,7 @@ cc_test(
     srcs = [
         "persistency_error_test.cpp",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     visibility = ["//score/config_management/config_provider/code/persistency:__pkg__"],
     deps = [

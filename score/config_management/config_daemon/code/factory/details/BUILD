@@ -12,6 +12,7 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 [
     cc_library(
@@ -21,12 +22,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
         hdrs = [
             "factory_impl.h",
         ],
-        features = [
-            "treat_warnings_as_errors",
-            "additional_warnings",
-            "strict_warnings",
-            "strict_warnings_no_error",
-        ],
+        features = COMPILER_WARNING_FEATURES,
         tags = ["FFI"],
         visibility = visibility,
         deps = [
@@ -34,7 +30,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
             "@score_baselibs//score/json:json_impl",
             "@score_communication//score/mw/service:factory",
             "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
-            "//score/config_management/config_daemon/code/factory:interface",
+            "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_manager_impl",
             "//score/config_management/config_daemon/code/json_helper/details",
             "//score/config_management/config_daemon/code/services/details:details_impl",
         ] + dependencies,
@@ -49,11 +45,13 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
                 "//score/config_management/config_daemon/code:__subpackages__",
             ],
             [
+                "//score/config_management/config_daemon/code/factory:interface",
                 "//score/config_management/config_daemon/code/plugins/plugin_collector/details:details",
                 "//score/config_management/config_daemon/code/services/details/mw_com:details_mw_com_impl",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_builder",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_decorator",
                 "//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl",
+                "//score/config_management/config_daemon/code/data_model/parameter_set_storage/details:details_score",
             ],
         ),
         
@@ -65,11 +63,13 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
                 "//score/config_management/config_daemon/code:__subpackages__",
             ],
             [
+                "//score/config_management/config_daemon/code/factory:interface_for_unit_test",
                 "//score/config_management/config_daemon/code/plugins/plugin_collector/details:details_for_unit_test",
                 "//score/config_management/config_daemon/code/services/details/mw_com:details_mw_com_test",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_builder",
                 "//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl",
                 "@score_communication//score/mw/service/backend/mw_com:provided_service_decorator",
+                "//score/config_management/config_daemon/code/data_model/parameter_set_storage/details:details_score",
             ],
         ),
     ]
@@ -81,12 +81,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
         testonly = True,
         srcs = [src],
         data = data,
-        features = [
-            "treat_warnings_as_errors",
-            "additional_warnings",
-            "strict_warnings",
-            "strict_warnings_no_error",
-        ],
+        features = COMPILER_WARNING_FEATURES,
         tags = [
             "unit",
         ] + tag,

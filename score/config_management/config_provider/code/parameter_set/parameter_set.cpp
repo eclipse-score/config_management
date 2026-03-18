@@ -189,7 +189,7 @@ score::Result<score::config_management::config_daemon::ParameterSetQualifier> Pa
     if (value_result.has_value() == true)
     {
         const std::uint8_t qualifier = value_result.value();
-        if (qualifier <= score::cpp::to_underlying(score::config_management::config_daemon::ParameterSetQualifier::kModified))
+        if (qualifier <= score::cpp::to_underlying(score::config_management::config_daemon::ParameterSetQualifier::kQualifying))
         {
             return static_cast<score::config_management::config_daemon::ParameterSetQualifier>(qualifier);
         }

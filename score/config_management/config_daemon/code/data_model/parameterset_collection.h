@@ -51,6 +51,9 @@ class IParameterSetCollection : public IReadOnlyParameterSetCollection
     virtual ResultBlank SetParameterSetQualifier(
         const score::cpp::string_view set_name,
         const score::config_management::config_daemon::ParameterSetQualifier qualifier) = 0;
+
+    /// @brief Returns a JSON representation of all parameter sets in this collection.
+    virtual score::Result<json::Object> GetParameterSetCollectionAsJson() const noexcept = 0;
 };
 
 }  // namespace data_model

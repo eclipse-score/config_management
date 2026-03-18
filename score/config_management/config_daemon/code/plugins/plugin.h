@@ -15,7 +15,7 @@
 #define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_H
 
 #include "score/result/result.h"
-#include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
+#include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service.h"
 #include <score/stop_token.hpp>
@@ -40,11 +40,14 @@ class IPlugin
     virtual ResultBlank Initialize() = 0;
     virtual void Deinitialize() noexcept = 0;
 
-    virtual std::int32_t Run(std::shared_ptr<data_model::IParameterSetCollection> parameterset_collection,
-                             LastUpdatedParameterSetSender cbk_send_last_updated_parameter_set,
-                             InitialQualifierStateSender cbk_update_initial_qualifier_state,
-                             score::cpp::stop_token stop_token,
-                             std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter) = 0;
+    virtual std::int32_t Run(
+        std::shared_ptr<data_model::IParameterSetCollectionManager> parameterset_collection_manager,
+        LastUpdatedParameterSetSender cbk_send_last_updated_parameter_set,
+        InitialQualifierStateSender cbk_update_initial_qualifier_state,
+        score::cpp::stop_token stop_token,
+        std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter) = 0;
+
+    virtual ResultBlank ParameterSetCollectionUpdateStart(data_model::IParameterSetCollection&) = 0;
 };
 
 }  // namespace config_daemon

@@ -38,7 +38,7 @@ class ParameterSet;
 class ParameterSetCollection final : public IParameterSetCollection
 {
   public:
-    ParameterSetCollection();
+    ParameterSetCollection() noexcept;
     ~ParameterSetCollection() noexcept override = default;
     ParameterSetCollection(ParameterSetCollection&&) = delete;
     ParameterSetCollection(const ParameterSetCollection&) = delete;
@@ -59,6 +59,8 @@ class ParameterSetCollection final : public IParameterSetCollection
         const score::cpp::string_view set_name) const override;
     ResultBlank SetParameterSetQualifier(const score::cpp::string_view set_name,
                                          const score::config_management::config_daemon::ParameterSetQualifier qualifier) override;
+
+    score::Result<json::Object> GetParameterSetCollectionAsJson() const noexcept override;
 
   private:
     Result<std::shared_ptr<ParameterSet>> Find(const std::string_view set_name) const noexcept;

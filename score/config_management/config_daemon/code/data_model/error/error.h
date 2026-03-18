@@ -37,6 +37,8 @@ enum class DataModelError : score::result::ErrorCode
     kParentParameterDataNotfound,
     kParameterSetNotCalibratable,
     kParameterAlreadyExists,
+    kFailedToUpdateParameterSetCollectionJson,
+    kFailedToPersistParameterSetCollection,
 };
 
 /// @brief ADL overload to fulfill design requirements from lib/result

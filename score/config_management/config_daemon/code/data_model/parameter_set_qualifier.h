@@ -27,7 +27,8 @@ enum class ParameterSetQualifier : std::uint8_t
     kUnqualified,
     kQualified,
     kDefault,
-    kModified
+    kModified,
+    kQualifying
 };
 
 }  // namespace config_daemon

@@ -1,4 +1,5 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load(":custom.bzl", "load_custom_targets")
 
 # MW COM proxy implementation (always exported to open-source)
@@ -6,11 +7,7 @@ cc_library(
     name = "details_mw_com",
     srcs = ["mw_com/internal_config_provider_impl.cpp"],
     hdrs = ["mw_com/internal_config_provider_impl.h"],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
         "//score/config_management/config_daemon/test/xpad_ara_com_mock:__subpackages__",
@@ -37,11 +34,7 @@ cc_test(
     name = "unit_test_mw",
     srcs = ["mw_com/internal_config_provider_impl_test.cpp"],
     data = [":test_mw_com_config"],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     visibility = ["//score/config_management/config_provider/code/proxies:__pkg__"],
     deps = [
         ":details_mw_com",

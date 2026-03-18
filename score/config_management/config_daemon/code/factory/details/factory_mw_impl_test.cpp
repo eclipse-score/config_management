@@ -220,16 +220,17 @@ TEST_F(TestFactoryMwImpl, CreateInitialQualifierStateSenderFail)
     ASSERT_TRUE(initial_qualifier_state_sender.empty());
 }
 
-TEST_F(TestFactoryMwImpl, CreateParameterSetCollection)
+TEST_F(TestFactoryMwImpl, CreateParameterSetCollectionManager)
 {
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::CreateParameterSetCollection()");
-    RecordProperty("Description", "Ensure valid ParameterSetCollection is created");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::CreateParameterSetCollectionManager()");
+    RecordProperty("Description", "Ensure valid ParameterSetCollectionManager is created");
 
-    const auto parameter_data = unit_->CreateParameterSetCollection();
-    auto* impl = dynamic_cast<data_model::IParameterSetCollection*>(parameter_data.get());
+    std::vector<std::shared_ptr<IPlugin>> plugins{};
+    const auto parameter_data = unit_->CreateParameterSetCollectionManager(plugins);
+    auto* impl = dynamic_cast<data_model::IParameterSetCollectionManager*>(parameter_data.get());
     ASSERT_NE(nullptr, impl);
 }
 

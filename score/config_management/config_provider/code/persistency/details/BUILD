@@ -1,5 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 [
     cc_library(
@@ -11,11 +12,7 @@ load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test")
         hdrs = [
             "persistency_impl.h",
         ],
-        features = [
-            "treat_warnings_as_errors",
-            "additional_warnings",
-            "strict_warnings",
-        ],
+        features = COMPILER_WARNING_FEATURES,
         tags = ["FFI"],
         visibility = [
             "//score/config_management/config_provider/code:__subpackages__",
@@ -49,11 +46,7 @@ cc_gtest_unit_test(
     srcs = [
         "persistency_impl_test.cpp",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "strict_warnings",
-        "additional_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//score/config_management/config_provider/code/persistency:__pkg__",
     ],

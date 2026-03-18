@@ -29,7 +29,7 @@ namespace config_daemon
 namespace data_model
 {
 
-ParameterSetCollection::ParameterSetCollection()
+ParameterSetCollection::ParameterSetCollection() noexcept
     : IParameterSetCollection{}, logger_{mw::log::CreateLogger(std::string_view{"DtMd"})}, mutex_{}, parameter_sets_{}
 {
 }
@@ -178,6 +178,17 @@ ResultBlank ParameterSetCollection::SetParameterSetQualifier(
     logger_.LogError() << "ParameterSetCollection::" << __func__ << "ParameterSet with name:" << set_name
                        << "doesn't exist";
     return MakeUnexpected(DataModelError::kParameterSetNotFound, "Parameter set not found");
+}
+
+score::Result<json::Object> ParameterSetCollection::GetParameterSetCollectionAsJson() const noexcept
+{
+    const std::lock_guard<std::mutex> lock{mutex_};
+    json::Object collection_json{};
+    for (const auto& entry : parameter_sets_)
+    {
+        collection_json[entry.first.c_str()] = json::Any{entry.second->GetParameterSetAsJson()};
+    }
+    return collection_json;
 }
 
 }  // namespace data_model

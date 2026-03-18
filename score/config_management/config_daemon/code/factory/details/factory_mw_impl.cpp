@@ -14,9 +14,13 @@
 #include "score/mw/service/backend/mw_com/provided_service_builder.h"
 #include "score/mw/service/backend/mw_com/provided_service_decorator.h"
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_impl.h"
+#include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_manager_impl.h"
+#include "score/config_management/config_daemon/code/data_model/parameter_set_storage/details/parameter_set_storage_score_impl.h"
 #include "score/config_management/config_daemon/code/factory/details/factory_impl.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/details/fault_event_reporter_score_impl.h"
 #include "score/config_management/config_daemon/code/json_helper/details/json_helper_impl.h"
+
+#include "kvsbuilder.hpp"
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/details/plugin_collector_impl.h"
 #include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_reactor_impl.h"
 #include "score/config_management/config_daemon/code/services/details/mw_com/internal_config_provider_service_impl.h"
@@ -91,9 +95,25 @@ InitialQualifierStateSender Factory::CreateInitialQualifierStateSender(mw::servi
     return {};
 }
 
-std::shared_ptr<data_model::IParameterSetCollection> Factory::CreateParameterSetCollection() const
+std::shared_ptr<data_model::IParameterSetCollectionManager> Factory::CreateParameterSetCollectionManager(
+    std::vector<std::shared_ptr<IPlugin>>& plugins) const
 {
-    return std::make_shared<data_model::ParameterSetCollection>();
+    auto kvs_result = score::mw::per::kvs::KvsBuilder(score::mw::per::kvs::InstanceId{0U})
+                          .need_defaults_flag(false)
+                          .need_kvs_flag(false)
+                          .dir("/persistent/trusted/ConfigDaemon")
+                          .build();
+    if (!kvs_result.has_value())
+    {
+        mw::log::LogError() << "Factory::" << __func__ << ": Failed to open score KVS for parameter set storage";
+        return nullptr;
+    }
+    auto storage = std::make_unique<data_model::ParameterSetStorageScoreImpl>(
+        std::make_unique<score::mw::per::kvs::Kvs>(std::move(kvs_result).value()));
+
+    auto primary_collection = std::make_shared<data_model::ParameterSetCollection>();
+    return std::make_shared<data_model::ParameterSetCollectionManager>(
+        std::move(primary_collection), plugins, std::move(storage));
 }
 
 std::unique_ptr<IPluginCollector> Factory::CreatePluginCollector() const

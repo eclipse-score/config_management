@@ -14,6 +14,7 @@
 load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
 load("@rules_cc//cc:defs.bzl", "cc_test")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load(":custom.bzl", "load_custom_targets", "load_custom_test_suites")
 
 bool_flag(
@@ -29,13 +30,6 @@ config_setting(
     ],
 )
 
-# Variables
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-]
-
 cc_test(
     name = "main_function_test",
     testonly = True,
@@ -43,7 +37,7 @@ cc_test(
         "main.cpp",
         "main_test.cpp",
     ],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     deps = [
         "@score_lifecycle_health//src/lifecycle_client_lib:applicationcontext_mock",
@@ -65,6 +59,7 @@ cc_unit_test_suites_for_host_and_qnx(
         "//score/config_management/config_daemon/code/factory:unit_tests",
         "//score/config_management/config_daemon/code/fault_event_reporter:unit_tests",
         "//score/config_management/config_daemon/code/data_model:unit_tests",
+        "//score/config_management/config_daemon/code/data_model/parameter_set_storage:unit_tests",
         "//score/config_management/config_daemon/code/services:unit_tests",
     ] + load_custom_test_suites(),
     visibility = ["//score/config_management/config_daemon:__subpackages__"],

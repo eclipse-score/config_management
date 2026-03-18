@@ -12,6 +12,7 @@
 # *******************************************************************************
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "read_only_parameterset_collection",
@@ -21,11 +22,7 @@ cc_library(
     hdrs = [
         "read_only_parameterset_collection.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     tags = ["FFI"],
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
@@ -44,11 +41,7 @@ cc_library(
     hdrs = [
         "read_only_parameterset_collection_mock.h",
     ],
-    features = [
-        "treat_warnings_as_errors",
-        "additional_warnings",
-        "strict_warnings",
-    ],
+    features = COMPILER_WARNING_FEATURES,
     deps = [
         ":read_only_parameterset_collection",
         "@googletest//:gtest",

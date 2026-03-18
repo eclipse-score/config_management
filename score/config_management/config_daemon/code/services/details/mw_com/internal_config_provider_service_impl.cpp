@@ -133,7 +133,7 @@ void InternalConfigProviderService::StartService()
 
         return ret_val;
     };
-    icp_skeleton_.get_parameterset.RegisterHandler(std::move(handler));
+    std::ignore = icp_skeleton_.get_parameterset.RegisterHandler(std::move(handler));
     const auto offer_service_result = icp_skeleton_.OfferService();
     if (!offer_service_result.has_value())
     {

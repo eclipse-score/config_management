@@ -1,0 +1,136 @@
+/********************************************************************************
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+package ConfigManagement
+
+import ScoreReq
+import AssumedSystemRequirements
+
+// section "Definitions"
+ScoreReq.FeatReq ParameterDefinition {
+    description = "An individual vehicle configuration property used for vehicle specific adaptations is called Parameter."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterSetDefinition {
+    description = "Group of Parameters which belong to the same functionality and share an integrity protection is called Parameter Set."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq PluginDefinition {
+    description = "To be added later on."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq LifecycleDefinition {
+    description = "To be added later on."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq PersistentCachingDefinition {
+    description = "To be added later on."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+// endsection "Definitions"
+
+// section "DataHousekeeping"
+ScoreReq.FeatReq CentralHousekeepingForParameters {
+    description = "Configuration Management shall provide a central housekeeping for Parameters."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterRelationToParameterSet {
+    description = "Every Parameter shall be contained in exactly one Parameter Set."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterNameUniqueness {
+    description = "Parameters names shall be unique for an ECU project."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterSetNameUniqueness {
+    description = "Parameters Set names shall be unique for an ECU project."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterSetConfigurationContents {
+    description = "Parameter Set configuration shall contain a mapping of Parameters to Parameter Sets, Parameter names and default values."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterSetConfigurationSource {
+    description = "Parameter Set configuration shall be determined solely by a read-only input source, deployed on the target."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterModification {
+    description = "Parameter values shall be modifiable during runtime regarding modification procedure specific for a parameter kind."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+// endsection "DataHousekeeping"
+
+// section "ParameterProvision"
+ScoreReq.FeatReq ConfigProviderInterface {
+    description = "Configuration Management shall provide a generic interface, independent of any Parameter definitions, for applications to access Parameters in read-only mode."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterSetAccess {
+    description = "A Parameter Set shall be accessible via interface using a key-value principle, where user application passes a Parameter Set name to the interface and its value is returned as result."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    version = 1
+}
+// endsection "ParameterProvision"
+
+// section "ParameterQualification"
+ScoreReq.FeatReq ParameterSetQualifier {
+    description = "A Parameter Set shall contain a qualifier to indicate its integrity."
+    safety = ScoreReq.Asil.B
+    derived_from = [AssumedSystemRequirements.SafeConfiguration@2]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterInitialQualifier {
+    description = "There shall exist an overall qualifier for all Parameter Sets to indicate the state of integrity checks at the point of time of initial provision of parameters."
+    safety = ScoreReq.Asil.B
+    derived_from = [AssumedSystemRequirements.SafeConfiguration@2]
+    version = 1
+}
+// endsection "ParameterQualification"

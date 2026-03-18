@@ -237,6 +237,32 @@ TEST(ParameterQualifierTest, GetQualifierTest_Modified)
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result.value(), score::config_management::config_daemon::ParameterSetQualifier::kModified);
 }
+TEST(ParameterQualifierTest, GetQualifierTest_Qualifying)
+{
+    RecordProperty("Priority", "3");
+    RecordProperty("Verifies", "14602333");
+    RecordProperty("ASIL", "B");
+    RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is qualifying.");
+    RecordProperty("TestType", "Requirements-based test");
+    RecordProperty("DerivationTechnique", "Analysis of requirements");
+
+    json::JsonParser json_parser{};
+    // Given the parameter set qualifier is qualifying
+    const auto* str = R"(
+    {
+        "parameters": {
+            "parameter_name": 55
+        },
+        "qualifier": 4
+    }
+    )";
+    ParameterSet parameter_set{std::move(json_parser.FromBuffer(str).value())};
+
+    auto result = parameter_set.GetQualifier();
+    // Then expect GetQualifier would retrieve qualifying
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), score::config_management::config_daemon::ParameterSetQualifier::kQualifying);
+}
 
 TEST(ParameterQualifierTest, GetQualifierTest_Invalid)
 {
@@ -254,7 +280,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Invalid)
         "parameters": {
             "parameter_name": 55
         },
-        "qualifier": 4
+        "qualifier": 5
     }
     )";
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(str).value())};

@@ -15,10 +15,14 @@
 #define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_H
 
 #include "score/mw/service/provided_service_container.h"
+#include "score/config_management/config_daemon/code/data_model/parameter_set_storage/parameter_set_storage.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
+#include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter.h"
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/plugin_collector.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service.h"
+
+#include <vector>
 
 #include <score/memory.hpp>
 #include <memory>
@@ -48,7 +52,8 @@ class IFactory
     virtual InitialQualifierStateSender CreateInitialQualifierStateSender(
         mw::service::ProvidedServiceContainer& services) = 0;
 
-    virtual std::shared_ptr<data_model::IParameterSetCollection> CreateParameterSetCollection() const = 0;
+    virtual std::shared_ptr<data_model::IParameterSetCollectionManager> CreateParameterSetCollectionManager(
+        std::vector<std::shared_ptr<IPlugin>>& plugins) const = 0;
 
     virtual std::unique_ptr<IPluginCollector> CreatePluginCollector() const = 0;
     virtual std::shared_ptr<fault_event_reporter::IFaultEventReporter> CreateFaultEventReporter() const = 0;

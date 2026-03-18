@@ -1,11 +1,5 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
-
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
-    "strict_warnings_no_error",
-]
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 [
     cc_library(
@@ -17,7 +11,7 @@ COMMON_FEATURES = [
         hdrs = [
             "internal_config_provider_service_impl.h",
         ],
-        features = COMMON_FEATURES,
+        features = COMPILER_WARNING_FEATURES,
         tags = ["FUSA"],
         visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
         deps = [
@@ -65,7 +59,7 @@ cc_test(
         "internal_config_provider_service_impl_test.cpp",
     ],
     data = [":mw_com_config"],
-    features = COMMON_FEATURES + [
+    features = COMPILER_WARNING_FEATURES + [
         "aborts_upon_exception",
     ],
     tags = [

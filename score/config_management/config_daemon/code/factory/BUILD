@@ -13,34 +13,45 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load(":custom.bzl", "load_custom_test_suites")
 
-COMMON_FEATURES = [
-    "treat_warnings_as_errors",
-    "strict_warnings",
-    "additional_warnings",
+[
+    cc_library(
+        name = "interface" + name,
+        testonly = testonly,
+        srcs = [],
+        hdrs = [
+            "factory.h",
+        ],
+        features = COMPILER_WARNING_FEATURES,
+        tags = ["FFI"],
+        visibility = [
+            "//score/config_management/config_daemon/code:__subpackages__",
+        ],
+        deps = [
+            "@score_communication//score/mw/service",
+            "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+            "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager",
+            "//score/config_management/config_daemon/code/data_model/parameter_set_storage",
+            "//score/config_management/config_daemon/code/fault_event_reporter",
+            "//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
+            "//score/config_management/config_daemon/code/services",
+        ] + dependencies,
+    )
+    for name, testonly, dependencies in [
+        (
+            "",
+            False,
+            [],
+        ),
+        (
+            "_for_unit_test",
+            True,
+            [],
+        ),
+    ]
 ]
-
-cc_library(
-    name = "interface",
-    testonly = False,
-    srcs = [],
-    hdrs = [
-        "factory.h",
-    ],
-    features = COMMON_FEATURES,
-    tags = ["FFI"],
-    visibility = [
-        "//score/config_management/config_daemon/code:__subpackages__",
-    ],
-    deps = [
-        "@score_communication//score/mw/service",
-        "//score/config_management/config_daemon/code/data_model:parameterset_collection",
-        "//score/config_management/config_daemon/code/fault_event_reporter",
-        "//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
-        "//score/config_management/config_daemon/code/services",
-    ],
-)
 
 cc_library(
     name = "mock",
@@ -49,13 +60,14 @@ cc_library(
     hdrs = [
         "factory_mock.h",
     ],
-    features = COMMON_FEATURES,
+    features = COMPILER_WARNING_FEATURES,
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
-        ":interface",
+        ":interface_for_unit_test",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager_mock",
         "//score/config_management/config_daemon/code/services:mock",
         "@googletest//:gtest",
     ],

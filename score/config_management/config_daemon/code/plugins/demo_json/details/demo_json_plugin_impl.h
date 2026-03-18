@@ -47,11 +47,14 @@ class DemoJsonPluginImpl final : public IPlugin
     ResultBlank Initialize() override;
     void Deinitialize() noexcept override;
 
-    std::int32_t Run(std::shared_ptr<data_model::IParameterSetCollection> parameterset_collection,
+    std::int32_t Run(std::shared_ptr<data_model::IParameterSetCollectionManager> parameterset_collection_manager,
                      LastUpdatedParameterSetSender cbk_send_last_updated_parameter_set,
                      InitialQualifierStateSender cbk_update_initial_qualifier_state,
                      score::cpp::stop_token stop_token,
                      std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter) override;
+
+    ResultBlank ParameterSetCollectionUpdateStart(
+        data_model::IParameterSetCollection& parameter_set_collection) override;
 
   private:
     std::unique_ptr<score::json::IJsonParser> json_parser_;
