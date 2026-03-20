@@ -1,15 +1,8 @@
-# Comment out as not in score yet
-# *                                  @eclipse-score/infrastructure-tooling-community
-# .*                                 @eclipse-score/infrastructure-tooling-community
-# .github/CODEOWNERS                 @eclipse-score/technical-lead
+# 👋 Code owners help maintain this repository and keep it aligned with our technical vision.
+# You're responsible for reviewing changes, ensuring quality, and guiding contributors.
+# For more information about CODEOWNERS, see:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# in separate <module_name> repositories:
-#
-# /docs                     @eclipse-score/process-community
-# /docs/manual              @eclipse-score/<module_name>/safety-manager
-# /docs/release             @eclipse-score/<module_name>/quality-manager @eclipse-score/<module_name>/module-lead
-# /docs/safety_plan         @eclipse-score/<module_name>/safety-manager @eclipse-score/<module_name>/module-lead
-# /docs/safety_analysis     @eclipse-score/<module_name>/safety-manager
-# /docs/verification        @eclipse-score/<module_name>/quality-manager @eclipse-score/<module_name>/safety-manager
-# /components               @eclipse-score/<module_name>/technical-lead
-# /components/*/            @eclipse-score/<module_name>/automotive-score-committers
+# As we cannot use groups yet, we list all members explicitly.
+# Default owners for everything in the repository
+* @antonkri @luizcordeiro @michaelsaborov
