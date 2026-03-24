@@ -102,6 +102,14 @@ git_override(
    branch = "main",
 )
 
+# s-core persistency
+bazel_dep(name = "score_persistency", version = "0.3.0")
+git_override(
+   module_name = "score_persistency",
+   remote = "https://github.com/eclipse-score/persistency.git",
+   branch = "main",
+)
+
 # TRLC dependency for requirements traceability
 bazel_dep(name = "trlc", version = "0.0.0")
 git_override(
