@@ -25,6 +25,8 @@ on:
   push:
     branches:
       - main
+  release:
+    types: [created]
   merge_group:
     types: [checks_requested]
 
