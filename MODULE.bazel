@@ -56,59 +56,20 @@ bazel_dep(name = "aspect_rules_lint", version = "1.13.0")
 bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2")
 
 #docs-as-code
-bazel_dep(name = "score_docs_as_code", version = "3.0.1")
-
-# Force score_docs_as_code to 3.0.1 to resolve compatibility conflict between
-# score_logging and score_baselibs
-single_version_override(
-    module_name = "score_docs_as_code",
-    version = "3.0.1",
-)
+bazel_dep(name = "score_docs_as_code", version = "4.0.3")
 
 # s-core base libs
-bazel_dep(name = "score_baselibs", version = "0.2.3")
-# Override necessary until result_of_t fix is released.
-git_override(
-   module_name = "score_baselibs",
-   remote = "https://github.com/eclipse-score/baselibs.git",
-   branch = "main",
-)
+bazel_dep(name = "score_baselibs", version = "0.2.7")
 
 # s-core communication
-bazel_dep(name = "score_communication", version = "0.1.2")
-# Override necessary until S-CORE release 0.6 update,
-# which shall expose mw::service stub.
-git_override(
-   module_name = "score_communication",
-   remote = "https://github.com/eclipse-score/communication.git",
-   branch = "main",
-)
+bazel_dep(name = "score_communication", version = "0.2.1")
 
-bazel_dep(name = "score_logging", version = "0.0.4")
-# Override necessary until release 0.0.5 fixes current issues.
-git_override(
-   module_name = "score_logging",
-   remote = "https://github.com/eclipse-score/inc_mw_log.git",
-   branch = "main",
-)
+bazel_dep(name = "score_logging", version = "0.2.1")
 
-bazel_dep(name = "score_lifecycle_health", version = "0.0.1")
-# Override necessary because there's no oficial release yet.
-# See:
-# https://github.com/eclipse-score/lifecycle/issues/35
-git_override(
-   module_name = "score_lifecycle_health",
-   remote = "https://github.com/eclipse-score/lifecycle.git",
-   branch = "main",
-)
+bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
 
 # s-core persistency
-bazel_dep(name = "score_persistency", version = "0.3.0")
-git_override(
-   module_name = "score_persistency",
-   remote = "https://github.com/eclipse-score/persistency.git",
-   branch = "main",
-)
+bazel_dep(name = "score_persistency", version = "0.3.2")
 
 # TRLC dependency for requirements traceability
 bazel_dep(name = "trlc", version = "0.0.0")
