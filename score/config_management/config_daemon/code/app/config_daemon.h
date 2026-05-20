@@ -13,7 +13,7 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_CONFIG_DAEMON_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_CONFIG_DAEMON_H
 
-#include "platform/aas/mw/lifecycle/application.h"
+#include "src/lifecycle_client_lib/include/application.h"
 
 namespace score
 {
