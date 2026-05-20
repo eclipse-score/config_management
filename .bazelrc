@@ -6,7 +6,6 @@ build --tool_java_runtime_version=remotejdk_17
 test --test_output=errors
 
 common --@score_baselibs//score/json:base_library=nlohmann
-common --@score_communication//score/mw/com/flags:tracing_library=stub
 common --//score/config_management/config_daemon/code:score_variant=True
 common --registry=https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/
 common --registry=https://bcr.bazel.build
