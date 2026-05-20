@@ -16,8 +16,8 @@ module(
 )
 
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
-bazel_dep(name = "rules_python", version = "1.5.1")
-bazel_dep(name = "platforms", version = "0.0.10")
+bazel_dep(name = "rules_python", version = "1.8.5")
+bazel_dep(name = "platforms", version = "1.0.0")
 
 PYTHON_VERSION = "3.12"
 
@@ -32,10 +32,10 @@ use_repo(python)
 bazel_dep(name = "googletest", version = "1.17.0.bcr.2")
 
 # Rust rules for Bazel
-bazel_dep(name = "rules_rust", version = "0.67.0")
+bazel_dep(name = "rules_rust", version = "0.68.1-score")
 
 # C/C++ rules for Bazel
-bazel_dep(name = "rules_cc", version = "0.2.14")
+bazel_dep(name = "rules_cc", version = "0.2.17")
 
 # LLVM Toolchains Rules - host configuration
 bazel_dep(name = "toolchains_llvm", version = "1.4.0")
@@ -51,64 +51,32 @@ use_repo(llvm, "llvm_toolchain_llvm")
 register_toolchains("@llvm_toolchain//:all")
 
 # tooling
-bazel_dep(name = "score_tooling", version = "1.1.2")
-bazel_dep(name = "aspect_rules_lint", version = "1.13.0")
+bazel_dep(name = "score_tooling", version = "1.2.0")
+bazel_dep(name = "aspect_rules_lint", version = "2.0.0")
 bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2")
 
-#docs-as-code
-bazel_dep(name = "score_docs_as_code", version = "3.0.1")
-
-# Force score_docs_as_code to 3.0.1 to resolve compatibility conflict between
-# score_logging and score_baselibs
+# Work around BCR grpc-java extension breakage with grpc@1.70.1.
+# Force a grpc-java version that is compatible with the grpc extension API.
 single_version_override(
-    module_name = "score_docs_as_code",
-    version = "3.0.1",
+    module_name = "grpc-java",
+    version = "1.70.0",
 )
+
+#docs-as-code
+bazel_dep(name = "score_docs_as_code", version = "4.0.3")
 
 # s-core base libs
-bazel_dep(name = "score_baselibs", version = "0.2.3")
-# Override necessary until result_of_t fix is released.
-git_override(
-   module_name = "score_baselibs",
-   remote = "https://github.com/eclipse-score/baselibs.git",
-   branch = "main",
-)
+bazel_dep(name = "score_baselibs", version = "0.2.7")
 
 # s-core communication
-bazel_dep(name = "score_communication", version = "0.1.2")
-# Override necessary until S-CORE release 0.6 update,
-# which shall expose mw::service stub.
-git_override(
-   module_name = "score_communication",
-   remote = "https://github.com/eclipse-score/communication.git",
-   branch = "main",
-)
+bazel_dep(name = "score_communication", version = "0.2.1")
 
-bazel_dep(name = "score_logging", version = "0.0.4")
-# Override necessary until release 0.0.5 fixes current issues.
-git_override(
-   module_name = "score_logging",
-   remote = "https://github.com/eclipse-score/inc_mw_log.git",
-   branch = "main",
-)
+bazel_dep(name = "score_logging", version = "0.2.1")
 
-bazel_dep(name = "score_lifecycle_health", version = "0.0.1")
-# Override necessary because there's no oficial release yet.
-# See:
-# https://github.com/eclipse-score/lifecycle/issues/35
-git_override(
-   module_name = "score_lifecycle_health",
-   remote = "https://github.com/eclipse-score/lifecycle.git",
-   branch = "main",
-)
+bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
 
 # s-core persistency
-bazel_dep(name = "score_persistency", version = "0.3.0")
-git_override(
-   module_name = "score_persistency",
-   remote = "https://github.com/eclipse-score/persistency.git",
-   branch = "main",
-)
+bazel_dep(name = "score_persistency", version = "0.3.2")
 
 # TRLC dependency for requirements traceability
 bazel_dep(name = "trlc", version = "0.0.0")
