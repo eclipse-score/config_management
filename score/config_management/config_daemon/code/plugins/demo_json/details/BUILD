@@ -1,6 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
-load("@safe_posix_platform@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "demo_json_plugin_impl",
@@ -13,10 +13,10 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
     deps = [
-        "@score_baselibs//score/json:json_impl",
-        "@score_logging//score/mw/log",
         "//score/config_management/config_daemon/code/plugins:plugin",
         "//score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:demo_parameter_loader_impl",
+        "@score_baselibs//score/json:json_impl",
+        "@score_logging//score/mw/log",
     ],
 )
 
@@ -29,10 +29,10 @@ cc_gtest_unit_test(
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
         ":demo_json_plugin_impl",
-        "@score_baselibs//score/json:mock",
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager_mock",
         "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
+        "@score_baselibs//score/json:mock",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
 

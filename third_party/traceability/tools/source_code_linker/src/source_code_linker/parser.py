@@ -44,7 +44,9 @@ class Parser:
             "' trace:",
         ]
 
-    def extract_id_from_line_standard(self, line: str, tags: List[str]) -> Optional[str]:
+    def extract_id_from_line_standard(
+        self, line: str, tags: List[str]
+    ) -> Optional[str]:
         """
         Parse a single line to extract the ID from standard source files.
 
@@ -70,7 +72,9 @@ class Parser:
                     return id_part.split()[0] if id_part else None
         return None
 
-    def extract_id_from_plantuml_alias(self, line: str, nodes: List[str]) -> Optional[str]:
+    def extract_id_from_plantuml_alias(
+        self, line: str, nodes: List[str]
+    ) -> Optional[str]:
         """
         Parse a single line to extract the ID from PlantUML alias nodes (e.g., $TopEvent, $BasicEvent).
 
@@ -87,25 +91,27 @@ class Parser:
             The extracted ID if found, None otherwise.
         """
         # Step 1: Clean the line of \n, and \\n
-        cleaned_line = line.replace('\n', '').replace('\\n', '')
+        cleaned_line = line.replace("\n", "").replace("\\n", "")
 
         # Step 2: Remove all single and double quotes
-        cleaned_line = cleaned_line.replace('"', '').replace("'", '').replace("{",'').strip()
+        cleaned_line = (
+            cleaned_line.replace('"', "").replace("'", "").replace("{", "").strip()
+        )
 
         # Step 3: Search for nodes and capture the ID
         for node in nodes:
             if cleaned_line.startswith(node):
                 # Scan for Macro
-                if node.startswith('$'):
-                    parts = cleaned_line.split(',')
+                if node.startswith("$"):
+                    parts = cleaned_line.split(",")
                     if len(parts) >= 2:
-                        return parts[1].strip().rstrip(')')
-                else: # scan for normal plantuml element
+                        return parts[1].strip().rstrip(")")
+                else:  # scan for normal plantuml element
                     # Remove the identifier from the start of the line
-                    parts = cleaned_line[len(node):].strip().split()
+                    parts = cleaned_line[len(node) :].strip().split()
 
                     # If there are at least 3 parts and the second-to-last is 'as', return the last part
-                    if len(parts) >= 3 and parts[-2] == 'as':
+                    if len(parts) >= 3 and parts[-2] == "as":
                         return parts[-1], node
 
                     # If there's only one part after the identifier, return it
@@ -125,7 +131,7 @@ class Parser:
         Returns:
             Optional[str]: The extracted ID if found, None otherwise.
         """
-        cleaned_line = line.replace('\n', '').replace('\\n', '').strip()
+        cleaned_line = line.replace("\n", "").replace("\\n", "").strip()
 
         # Escape the node name for safe regex usage
         escaped_node = re.escape(node)
@@ -133,14 +139,16 @@ class Parser:
         # Special handling for interface methods (e.g., +GetNumber(), +SetNumber())
         if node == "interface":
             # Look for method pattern: +method_name()
-            method_pattern = r'^\s*\+(\w+)\('
+            method_pattern = r"^\s*\+(\w+)\("
             match = re.match(method_pattern, cleaned_line)
             if match:
                 method_name = match.group(1)
                 return method_name
 
         # Pattern 1: <tag> "SampleLibrary" as SL
-        quoted_with_alias = re.search(rf'^\s*{escaped_node}\s+"([^"]+)"\s+as\s+(\w+)', cleaned_line)
+        quoted_with_alias = re.search(
+            rf'^\s*{escaped_node}\s+"([^"]+)"\s+as\s+(\w+)', cleaned_line
+        )
         if quoted_with_alias:
             return quoted_with_alias.group(2)  # Return alias
 
@@ -150,17 +158,14 @@ class Parser:
             return quoted_no_alias.group(1)  # Return name
 
         # Pattern 3: <tag> SampleLibrary
-        simple_no_alias = re.search(rf'^\s*{escaped_node}\s+(\w+)', cleaned_line)
+        simple_no_alias = re.search(rf"^\s*{escaped_node}\s+(\w+)", cleaned_line)
         if simple_no_alias:
             return simple_no_alias.group(1)  # Return name
 
         return None
 
     def parse_standard_file(
-        self,
-        source_file: str,
-        github_base_url: str,
-        tags: List[str]
+        self, source_file: str, github_base_url: str, tags: List[str]
     ) -> Dict[str, List[str]]:
         """
         Extract tags from standard source files (non-PlantUML files).
@@ -191,10 +196,7 @@ class Parser:
         return requirement_mapping
 
     def parse_plantuml_file(
-        self,
-        source_file: str,
-        github_base_url: str,
-        nodes: List[str]
+        self, source_file: str, github_base_url: str, nodes: List[str]
     ) -> Dict[str, List[str]]:
         """
         Extract tags from PlantUML files (.puml files).
@@ -217,16 +219,18 @@ class Parser:
 
             for line_number, line in enumerate(f):
                 line_number = line_number + 1
-                cleaned_line = line.replace('\n', '').replace('\\n', '').strip()
+                cleaned_line = line.replace("\n", "").replace("\\n", "").strip()
 
                 # Track interface context for proper method prefixing
                 if "interface" in nodes:
                     # Check if this line defines an interface
-                    interface_name = self.extract_id_from_plantuml_element(line, "interface")
-                    if interface_name and not cleaned_line.strip().startswith('+'):
+                    interface_name = self.extract_id_from_plantuml_element(
+                        line, "interface"
+                    )
+                    if interface_name and not cleaned_line.strip().startswith("+"):
                         # This is an interface definition, not a method
                         current_interface = interface_name
-                    elif cleaned_line.strip() == '}':
+                    elif cleaned_line.strip() == "}":
                         # End of interface block
                         current_interface = None
 
@@ -235,7 +239,11 @@ class Parser:
                     req_id = self.extract_plantuml_element(line, node)
                     if req_id:
                         # For interface methods, prefix with interface name
-                        if node == "interface" and current_interface and cleaned_line.strip().startswith('+'):
+                        if (
+                            node == "interface"
+                            and current_interface
+                            and cleaned_line.strip().startswith("+")
+                        ):
                             req_id = f"{current_interface}.{req_id}"
 
                         link = f"{github_base_url}/blob/{hash}/{source_file}#L{line_number}"
@@ -255,7 +263,7 @@ class Parser:
             Optional[str]: The extracted ID if found, None otherwise.
         """
         # For plantuml_alias mode (nodes starting with $), use the alias extraction logic
-        if node.startswith('$'):
+        if node.startswith("$"):
             return self.extract_id_from_plantuml_alias(line, [node])
         else:
             # For general plantuml mode, use the element extraction logic
@@ -267,7 +275,7 @@ class Parser:
         github_base_url: str,
         tags: List[str],
         mode: str = "code",
-        nodes: Optional[List[str]] = None
+        nodes: Optional[List[str]] = None,
     ) -> Dict[str, List[str]]:
         """
         Dispatch to appropriate parser based on file extension and mode.
@@ -282,8 +290,12 @@ class Parser:
         Returns:
             Dict[str, List[str]]: mapping of requirement IDs to GitHub URLs.
         """
-        if source_file.endswith('.puml'):
-            if mode == "plantuml_alias_cpp" or mode == "plantuml_alias_req" or mode == "plantuml":
+        if source_file.endswith(".puml"):
+            if (
+                mode == "plantuml_alias_cpp"
+                or mode == "plantuml_alias_req"
+                or mode == "plantuml"
+            ):
                 # For plantuml modes: process all tags without filtering
                 if tags:
                     return self.parse_plantuml_file(source_file, github_base_url, tags)

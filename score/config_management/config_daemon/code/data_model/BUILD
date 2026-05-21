@@ -25,10 +25,10 @@ cc_library(
         "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
-        "@score_baselibs//score/json",
-        "@score_baselibs//score/result",
         "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+        "@score_baselibs//score/json",
+        "@score_baselibs//score/result",
     ],
 )
 
@@ -69,8 +69,8 @@ cc_library(
     hdrs = ["parameterset_collection_manager_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//score/config_management/config_daemon/code:__subpackages__",
         "//score:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         ":parameterset_collection_manager",

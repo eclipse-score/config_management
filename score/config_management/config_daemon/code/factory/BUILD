@@ -30,13 +30,13 @@ load(":custom.bzl", "load_custom_test_suites")
             "//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
-            "@score_communication//score/mw/service",
             "//score/config_management/config_daemon/code/data_model:parameterset_collection",
             "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager",
             "//score/config_management/config_daemon/code/data_model/parameter_set_storage",
             "//score/config_management/config_daemon/code/fault_event_reporter",
             "//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
             "//score/config_management/config_daemon/code/services",
+            "@score_communication//score/mw/service",
         ] + dependencies,
     )
     for name, testonly, dependencies in [

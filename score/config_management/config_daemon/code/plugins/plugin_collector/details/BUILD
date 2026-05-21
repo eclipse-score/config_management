@@ -28,9 +28,9 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
             "//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
-            "@score_logging//score/mw/log",
             "//score/config_management/config_daemon/code/plugins:plugin",
             "//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
+            "@score_logging//score/mw/log",
         ] + dependencies,
     )
     for name, testonly, dependencies in [
@@ -78,8 +78,8 @@ cc_test(
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
         ":details_for_unit_test",
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
