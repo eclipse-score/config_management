@@ -67,6 +67,11 @@ bazel_dep(name = "score_docs_as_code", version = "4.0.3")
 
 # s-core base libs
 bazel_dep(name = "score_baselibs", version = "0.2.7")
+git_override(
+    module_name = "score_baselibs",
+    commit = "37a4d652e67ced151ca6a8356c10fcb0a627c5b3",
+    remote = "https://github.com/eclipse-score/baselibs.git",
+)
 
 # s-core communication
 bazel_dep(name = "score_communication", version = "0.2.1")
