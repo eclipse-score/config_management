@@ -30,18 +30,18 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "//score/config_management/config_daemon/code:__subpackages__",
         "//score:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
-        "@score_baselibs//score/filesystem",
-        "@score_baselibs//score/json",
-        "@score_logging//score/mw/log",
         "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection",
         "//score/config_management/config_daemon/code/data_model/error",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage",
+        "@score_baselibs//score/filesystem",
+        "@score_baselibs//score/json",
         "@score_baselibs//score/language/futurecpp",
+        "@score_logging//score/mw/log",
     ],
 )
 
@@ -56,11 +56,11 @@ cc_library(
     ],
     deps = [
         ":parameterset_collection_impl",
-        "@score_logging//score/mw/log",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager",
         "//score/config_management/config_daemon/code/data_model/error",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage",
         "//score/config_management/config_daemon/code/plugins:plugin",
+        "@score_logging//score/mw/log",
     ],
 )
 
@@ -75,8 +75,8 @@ cc_test(
     visibility = ["//score/config_management/config_daemon/code/data_model:__pkg__"],
     deps = [
         ":parameterset_collection_impl",
-        "@score_baselibs//score/json:mock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/json:mock",
     ],
 )
 
@@ -88,9 +88,9 @@ cc_test(
     visibility = ["//score/config_management/config_daemon/code/data_model:__pkg__"],
     deps = [
         ":parameterset_collection_manager_impl",
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage:mock",
         "//score/config_management/config_daemon/code/plugins:mock",
         "@googletest//:gtest_main",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )

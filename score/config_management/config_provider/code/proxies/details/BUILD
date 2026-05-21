@@ -14,12 +14,12 @@ cc_library(
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
+        "//score/config_management/config_provider/code/proxies:internal_config_provider",
+        "//score/config_management/config_provider/code/proxies/details/mw_com/generated_service:internal_config_provider_type",
         "@score_baselibs//score/concurrency:condition_variable",
         "@score_baselibs//score/concurrency/future",
         "@score_baselibs//score/json",
         "@score_logging//score/mw/log",
-        "//score/config_management/config_provider/code/proxies:internal_config_provider",
-        "//score/config_management/config_provider/code/proxies/details/mw_com/generated_service:internal_config_provider_type",
     ],
 )
 

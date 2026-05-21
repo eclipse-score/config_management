@@ -30,8 +30,8 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
             "//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
-            "@score_logging//score/mw/log",
             "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+            "@score_logging//score/mw/log",
         ] + dependencies,
     )
     for name, testonly, dependencies in [
@@ -65,9 +65,9 @@ cc_test(
         "//score/config_management/config_daemon/code/services:__pkg__",
     ],
     deps = [
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
         "//score/config_management/config_daemon/code/data_model/error",
         "//score/config_management/config_daemon/code/services/details:for_unit_test",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )

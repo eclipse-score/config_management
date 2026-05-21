@@ -36,11 +36,11 @@ COMMON_FEATURES = [
             "//score/config_management/config_daemon/code:__subpackages__",
         ],
         deps = [
-            "@score_baselibs//score/hash:safe_hash",
-            "@score_baselibs//score/json",
             "//score/config_management/config_daemon/code/data_model:parameterset_collection",
             "//score/config_management/config_daemon/code/data_model/parameter_set_storage",
             "//score/config_management/config_daemon/code/data_model/parameter_set_storage/error",
+            "@score_baselibs//score/hash:safe_hash",
+            "@score_baselibs//score/json",
         ] + dependencies,
     )
     for name, testonly, dependencies in [
@@ -71,10 +71,10 @@ cc_test(
     ],
     deps = [
         ":details_score_for_unit_test",
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
 

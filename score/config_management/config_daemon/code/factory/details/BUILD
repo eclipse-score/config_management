@@ -26,17 +26,16 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
         tags = ["FFI"],
         visibility = visibility,
         deps = [
-            "@score_baselibs//score/filesystem",
-            "@score_baselibs//score/json:json_impl",
-            "@score_communication//score/mw/service:factory",
             "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
             "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_manager_impl",
             "//score/config_management/config_daemon/code/json_helper/details",
             "//score/config_management/config_daemon/code/services/details:details_impl",
+            "@score_baselibs//score/filesystem",
+            "@score_baselibs//score/json:json_impl",
+            "@score_communication//score/mw/service:factory",
         ] + dependencies,
     )
     for name, srcs, testonly, visibility, dependencies in [
-        
         (
             "mw_factory",
             ["factory_mw_impl.cpp"],
@@ -54,7 +53,6 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
                 "//score/config_management/config_daemon/code/data_model/parameter_set_storage/details:details_score",
             ],
         ),
-        
         (
             "mw_factory_for_unit_test",
             ["factory_mw_impl.cpp"],
@@ -109,6 +107,5 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
             ],
             ["//score/config_management/config_daemon/code/services/details/mw_com:mw_com_config"],
         ),
-        
     ]
 ]

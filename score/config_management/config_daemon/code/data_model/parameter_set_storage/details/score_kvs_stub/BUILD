@@ -36,8 +36,8 @@ cc_library(
         "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
-        "@score_baselibs//score/result",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage/error",
+        "@score_baselibs//score/result",
     ],
 )
 

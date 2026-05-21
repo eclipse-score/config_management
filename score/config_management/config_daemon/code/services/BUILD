@@ -28,9 +28,9 @@ cc_library(
     tags = ["FUSA"],
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
-        "@score_communication//score/mw/service:provided_service_container",
         "//score/config_management/config_daemon/code/types/initial_qualifier_state",
         "@score_baselibs//score/language/futurecpp",
+        "@score_communication//score/mw/service:provided_service_container",
     ],
 )
 
@@ -69,8 +69,8 @@ cc_library(
         "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
-        "@score_baselibs//score/result",
         "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
     ],
 )
 
