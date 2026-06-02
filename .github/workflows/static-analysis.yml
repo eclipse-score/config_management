@@ -21,6 +21,10 @@ on:
   merge_group:
     types: [checks_requested]
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   static-analysis:
     runs-on: ubuntu-latest
@@ -48,10 +52,16 @@ jobs:
 
           failures = []
           for target in targets:
-              result = subprocess.run(
-                  ["bazel", "build", target],
-                  capture_output=True, text=True
-              )
+              try:
+                  result = subprocess.run(
+                      ["bazel", "build", target],
+                      capture_output=True, text=True,
+                      timeout=600,
+                  )
+              except subprocess.TimeoutExpired:
+                  failures.append(target)
+                  print(f"  TIMEOUT  {target}")
+                  continue
               if result.returncode == 0:
                   print(f"  OK    {target}")
               else:

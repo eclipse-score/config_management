@@ -35,6 +35,10 @@ on:
   merge_group:
     types: [checks_requested]
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   build-acceptlist-check:
     name: Build acceptlisted CfgD & CfgP targets
@@ -63,15 +67,22 @@ jobs:
 
           failures = []
           for target in targets:
-              result = subprocess.run(
-                  ["bazel", "build", target],
-                  capture_output=True, text=True
-              )
+              try:
+                  result = subprocess.run(
+                      ["bazel", "build", target],
+                      capture_output=True, text=True,
+                      timeout=600,
+                  )
+              except subprocess.TimeoutExpired:
+                  failures.append(target)
+                  print(f"  TIMEOUT  {target}")
+                  continue
               if result.returncode == 0:
                   print(f"  OK    {target}")
               else:
                   failures.append(target)
                   print(f"  FAIL  {target}")
+                  print(result.stderr[-2000:])
 
           print(f"\n{len(targets) - len(failures)}/{len(targets)} targets built successfully.")
 
