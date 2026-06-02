@@ -10,3 +10,17 @@ common --@score_communication//score/mw/com/flags:tracing_library=stub
 common --//score/config_management/config_daemon/code:score_variant=True
 common --registry=https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/
 common --registry=https://bcr.bazel.build
+
+# score_baselibs deprecated StringLiteral but still uses it in many headers
+# (string_comparison_adaptor.h, text_format.h, etc.). These headers are included
+# transitively by our own code, so the -Werror,-Wdeprecated-declarations error
+# fires in ALL translation units that pull in score/json or score/mw/log.
+# score_baselibs' own CI uses GCC (dev_dependency toolchain) which doesn't
+# treat deprecated-declarations as errors. Suppress globally until upstream
+# removes the deprecated usages from their public headers.
+build --copt=-Wno-deprecated-declarations
+# score_logging commit 3ad4fab (May 15) introduced an unused 'result' variable in
+# data_router_message_client_impl.cpp (PThreadBlockSigTerm return value discarded).
+# No upstream fix exists yet. Suppress -Wunused-variable for all external/ source
+# files (does NOT affect our own code in score/ or tests/).
+build --per_file_copt=external/.*@-Wno-unused-variable

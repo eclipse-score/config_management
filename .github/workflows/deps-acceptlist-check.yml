@@ -43,6 +43,8 @@ jobs:
   build-acceptlist-check:
     name: Build acceptlisted CfgD & CfgP targets
     runs-on: ubuntu-24.04
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

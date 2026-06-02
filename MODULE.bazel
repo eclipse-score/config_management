@@ -76,6 +76,15 @@ git_override(
 # s-core communication
 bazel_dep(name = "score_communication", version = "0.2.1")
 bazel_dep(name = "score_logging", version = "0.2.1")
+git_override(
+    module_name = "score_logging",
+    # Commit after fix: "Suppress unused variable warnings in SignalHandling::WithSigTermBlocked"
+    # (cafa286e27609db638b78261256b39143c66550f, May 15 2026) which resolves the
+    # -Werror,-Wunused-variable build failure caused by 'block_result' in score_logging v0.2.1.
+    commit = "7669689f72a9668f4c56797a391f00cac1de4436",
+    remote = "https://github.com/eclipse-score/logging.git",
+)
+
 bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
 
 # s-core persistency
