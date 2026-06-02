@@ -15,7 +15,6 @@
 #include "score/filesystem/error.h"
 #include "score/json/json_parser.h"
 #include "score/os/stat.h"
-#include "score/utils/src/scoped_operation.h"
 
 #include <score/utility.hpp>
 
@@ -109,20 +108,22 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
 {
     logger_.LogInfo() << "ConfigDaemon::" << __func__;
 
-    utils::ScopedOperation<> deinitialize_plugin_instance([this, &logger = logger_]() noexcept {
-        logger.LogInfo() << "ConfigDaemon::" << __func__ << "Exiting plugin execution scope";
-
-        for (const auto& plugin : plugins_)
-        {
-            // LCOV_EXCL_START Can't be covered by unit tests. It has already been checked for nullptr
-            // earlier in the Initialize method, and there is no way to set it to nullptr in the test.
-            if (plugin != nullptr)
+    // RAII guard replacing the removed utils::ScopedOperation from score_baselibs.
+    // Ensures Deinitialize() is called on all plugins regardless of how Run() returns.
+    const std::unique_ptr<ConfigDaemon, void (*)(ConfigDaemon*)> deinitialize_plugin_instance{
+        this, [](ConfigDaemon* d) noexcept {
+            d->logger_.LogInfo() << "ConfigDaemon::Run Exiting plugin execution scope";
+            for (const auto& plugin : d->plugins_)
             {
-                plugin->Deinitialize();
+                // LCOV_EXCL_START Can't be covered by unit tests. It has already been checked for nullptr
+                // earlier in the Initialize method, and there is no way to set it to nullptr in the test.
+                if (plugin != nullptr)
+                {
+                    plugin->Deinitialize();
+                }
+                // LCOV_EXCL_STOP
             }
-            // LCOV_EXCL_STOP
-        }
-    });
+        }};
     for (const auto& plugin : plugins_)
     {
         // LCOV_EXCL_START Can't be covered by unit tests. It has already been checked for nullptr
