@@ -4,11 +4,11 @@ ConfigProvider is a library that offers an API to access parameter data stored i
 
 ## How to use
 
-Below you will see description and short snippet showing how to use the ConfigProvider library. If it's not working please take a look at unit_test and sctf tests, they should be alwways up to date.
+Below you will see description and short snippet showing how to use the ConfigProvider library. If it's not working please take a look at unit_test and sctf tests, they should be always up to date.
 
 ### Creation of ConfigProvider
 
-ConfigProvider instance can be instantiated by its own factory class located at `score/config_management/ConfigProvider/code/config_provider/factory/factory_socal_r20_11.h` with
+ConfigProvider instance can be instantiated by its own factory class located at `score/config_management/config_provider/code/config_provider/factory/factory_mw_com.h` with
 one of the following methods
 
 - `ConfigProviderFactory::Create(token, timeout, memory_resource, callback)`
@@ -97,16 +97,16 @@ std::cout << "Number of currently cached parameter sets: " << config_provider.Ge
 
 - Unit
   - Path:
-    - `score/config_management/ConfigProvider/code/config_provider/details/config_provider_impl_test.cpp`
-    - `score/config_management/ConfigProvider/code/config_provider/factory/factory_mw_com_test.cpp`
-    - `score/config_management/ConfigProvider/code/parameter_set/parameter_set_test.cpp`
-    - `score/config_management/ConfigProvider/code/proxies/details/mw_com/internal_config_provider_impl_test.cpp.cpp`
-  - Cmd: `bazel test --config=spp_memcheck //score/config_management/ConfigProvider:unit_tests_host`
+    - `score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp`
+    - `score/config_management/config_provider/code/config_provider/factory/factory_mw_com_test.cpp`
+    - `score/config_management/config_provider/code/parameter_set/parameter_set_test.cpp`
+    - `score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl_test.cpp`
+  - Cmd: `bazel test //score/config_management/config_provider:unit_tests`
 
 #### Bazel
 
 On your target add the following dependencies.\
-`"//score/config_management/ConfigProvider:ConfigProvider"`
+`"//score/config_management/config_provider:ConfigProvider"`
 
 ConfigProvider visibility is:
  `"//visibility:public",`
@@ -122,20 +122,20 @@ A ParameterSet obtained during the lifecycle will be cached if it is different f
 
 NOTE: Only a ParameterSet with qualifier equal to `ParameterSetQualifier::kQualified` will be cached.
 
-Overview of persistent caching sequences can be found [here](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/swh/safe-posix-score/config_management/ConfigProvider/detailed_design/persistent_cache.uxf)
+Overview of persistent caching sequences can be found in the detailed design documentation under `score/config_management/config_provider/detailed_design/`.
 
 #### Enable caching
 
 To enable persistent caching, follow these steps:
 
-Create instance of Persistency by its own factory class located at `score/config_management/ConfigProvider/code/persistency/factory/persistency_factory.h`
+Create instance of Persistency by its own factory class located at `score/config_management/config_provider/code/persistency/persistency.h`
 with method `PersistencyFactory::Create<KeyValueStorageType>(handle, memory_resource)`, where:
 
 - KeyValueStorageType: in 99% it will be an `mw::per::KeyValueStorage`, but due to application-specific dependency it needs to be supplied on user side
 - handle: a valid handle to mw::per::KeyValueStorage(return value of mw::per::OpenKeyValueStorage call)
 - memory_resource: std::pmr::memory_resource provided by user.
 
-Create instance of ConfigProvider by its own factory class located at `score/config_management/ConfigProvider/code/config_provider/factory/factory.h`
+Create instance of ConfigProvider by its own factory class located at `score/config_management/config_provider/code/config_provider/factory/factory_mw_com.h`
 with one of the following methods:
 
 - `ConfigProviderFactory::Create(token, persistency, memory_resource, callback)`
