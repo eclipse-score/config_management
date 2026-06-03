@@ -15,7 +15,7 @@
 #include "score/filesystem/error.h"
 #include "score/json/json_parser.h"
 #include "score/os/stat.h"
-#include "score/utils/src/scoped_operation.h"
+#include "score/scope_exit/scope_exit.h"
 
 #include <score/utility.hpp>
 
@@ -109,7 +109,7 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
 {
     logger_.LogInfo() << "ConfigDaemon::" << __func__;
 
-    utils::ScopedOperation<> deinitialize_plugin_instance([this, &logger = logger_]() noexcept {
+    score::utils::ScopeExit<> deinitialize_plugin_instance([this, &logger = logger_]() noexcept {
         logger.LogInfo() << "ConfigDaemon::" << __func__ << "Exiting plugin execution scope";
 
         for (const auto& plugin : plugins_)
