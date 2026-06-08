@@ -61,6 +61,7 @@ cc_unit_test_suites_for_host_and_qnx(
         "//score/config_management/config_daemon/code/data_model:unit_tests",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage:unit_tests",
         "//score/config_management/config_daemon/code/services:unit_tests",
+        "//score/config_management/config_daemon/code/plugins:unit_tests",
     ] + load_custom_test_suites(),
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
 )
