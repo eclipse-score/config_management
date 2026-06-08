@@ -52,7 +52,7 @@ cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage/error:unit_test",
-        "//score/config_management/config_daemon/code/data_model/parameter_set_storage/details:unit_test",
+        "//score/config_management/config_daemon/code/data_model/parameter_set_storage/details:unit_test_score",
     ],
     visibility = ["//score/config_management/config_daemon/code:__pkg__"],
 )
