@@ -3,7 +3,7 @@
 !startsub IPlugin
 namespace score::config_management::config_daemon {
 abstract class IPlugin {
-    + {abstract} Initialize() : ResultBlank
+    + {abstract} Initialize() : Result<void>
     + {abstract} Deinitialize() : void
     + {abstract} Run(parameterset_collection : std::shared_ptr<data_model::IParameterSetCollection>,\n\
         cbk_send_last_updated_parameter_set : LastUpdatedParameterSetSender,\n\

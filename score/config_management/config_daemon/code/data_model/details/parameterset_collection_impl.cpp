@@ -34,9 +34,9 @@ ParameterSetCollection::ParameterSetCollection() noexcept
 {
 }
 
-ResultBlank ParameterSetCollection::Insert(const score::cpp::string_view set_name,
-                                           const score::cpp::string_view parameter_name,
-                                           json::Any&& parameter_value) noexcept
+Result<void> ParameterSetCollection::Insert(const score::cpp::string_view set_name,
+                                            const score::cpp::string_view parameter_name,
+                                            json::Any&& parameter_value) noexcept
 {
     logger_.LogDebug() << "ParameterSetCollection::" << __func__ << "set_name:" << set_name
                        << "parameter_name:" << parameter_name;
@@ -99,7 +99,7 @@ Result<std::shared_ptr<ParameterSet>> ParameterSetCollection::Find(const std::st
     return result->second;
 }
 
-ResultBlank ParameterSetCollection::UpdateParameterSet(const score::cpp::string_view set_name, const score::cpp::string_view set)
+Result<void> ParameterSetCollection::UpdateParameterSet(const score::cpp::string_view set_name, const score::cpp::string_view set)
 {
     const std::lock_guard<std::mutex> lock{mutex_};
 
@@ -164,7 +164,7 @@ score::Result<score::config_management::config_daemon::ParameterSetQualifier> Pa
     return MakeUnexpected(DataModelError::kParameterSetNotFound, "Parameter set not found");
 }
 
-ResultBlank ParameterSetCollection::SetParameterSetQualifier(
+Result<void> ParameterSetCollection::SetParameterSetQualifier(
     const score::cpp::string_view set_name,
     const score::config_management::config_daemon::ParameterSetQualifier qualifier)
 {

@@ -30,8 +30,8 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "//score:__subpackages__",
         "//score/config_management/config_daemon/code:__subpackages__",
+        "//score:__subpackages__",
     ],
     deps = [
         "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
@@ -40,8 +40,8 @@ cc_library(
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage",
         "@score_baselibs//score/filesystem",
         "@score_baselibs//score/json",
-        "@score_baselibs//score/language/futurecpp",
         "@score_logging//score/mw/log",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -75,8 +75,8 @@ cc_test(
     visibility = ["//score/config_management/config_daemon/code/data_model:__pkg__"],
     deps = [
         ":parameterset_collection_impl",
-        "@googletest//:gtest_main",
         "@score_baselibs//score/json:mock",
+        "@googletest//:gtest_main",
     ],
 )
 
@@ -88,9 +88,11 @@ cc_test(
     visibility = ["//score/config_management/config_daemon/code/data_model:__pkg__"],
     deps = [
         ":parameterset_collection_manager_impl",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage:mock",
         "//score/config_management/config_daemon/code/plugins:mock",
-        "@googletest//:gtest_main",
+        "//score/config_management/config_daemon/code/types/initial_qualifier_state",
         "@score_logging//score/mw/log/test/console_logging_environment",
+        "@googletest//:gtest_main",
     ],
 )

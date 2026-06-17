@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_JSON_HELPER_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_JSON_HELPER_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_JSON_HELPER_JSON_HELPER_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_JSON_HELPER_JSON_HELPER_H
 
 #include "score/filesystem/filestream/i_file_factory.h"
 #include "score/filesystem/i_standard_filesystem.h"
@@ -49,6 +49,7 @@ class IJsonHelper
 
     virtual std::shared_ptr<json::IJsonParser> GetJsonParser() const noexcept = 0;
     virtual std::shared_ptr<json::IJsonWriter> GetJsonWriter() const noexcept = 0;
+    virtual std::shared_ptr<json::IJsonWriter> GetJsonSyncedWriter() const noexcept = 0;
     virtual std::shared_ptr<filesystem::IStandardFilesystem> GetStandardFilesystem() const noexcept = 0;
     virtual std::shared_ptr<filesystem::IFileFactory> GetFileFactory() const noexcept = 0;
 };
@@ -58,4 +59,4 @@ class IJsonHelper
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_JSON_HELPER_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_JSON_HELPER_JSON_HELPER_H

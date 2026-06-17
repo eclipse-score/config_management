@@ -32,18 +32,20 @@ class Transformer:
             "data": [],
             "generator": "lobster_cpp",
             "schema": "lobster-imp-trace",
-            "version": 3,
+            "version": 3
         }
 
         self.lobster_reqs_template = {
             "data": [],
             "generator": "lobster-trlc",
             "schema": "lobster-req-trace",
-            "version": 4,
+            "version": 4
         }
 
     def transform_to_code_format(
-        self, requirement_mapping: Dict[str, List[str]], source_file: str
+        self,
+        requirement_mapping: Dict[str, List[str]],
+        source_file: str
     ) -> Dict[str, Any]:
         """
         Transform parsed data to lobster code format.
@@ -83,9 +85,11 @@ class Transformer:
                 "just_up": [],
                 "just_down": [],
                 "just_global": [],
-                "refs": [f"req {req_id}"],
+                "refs": [
+                    f"req {req_id}"
+                ],
                 "language": "cpp",
-                "kind": "Function",
+                "kind": "Function"
             }
 
             result["data"].append(codetag)
@@ -96,7 +100,7 @@ class Transformer:
         self,
         requirement_mapping: Dict[str, List[str]],
         source_file: str,
-        mode: str = "plantuml",
+        mode: str = "plantuml"
     ) -> Dict[str, Any]:
         """
         Transform parsed data to lobster requirements format.
@@ -141,7 +145,9 @@ class Transformer:
         return result
 
     def transform_to_interface_format(
-        self, requirement_mapping: Dict[str, List[str]], source_file: str
+        self,
+        requirement_mapping: Dict[str, List[str]],
+        source_file: str
     ) -> Dict[str, Any]:
         """
         Transform parsed data to lobster interface requirements format.
@@ -193,7 +199,10 @@ class Transformer:
         return result
 
     def transform_parsed_data(
-        self, requirement_mapping: Dict[str, List[str]], source_file: str, mode: str
+        self,
+        requirement_mapping: Dict[str, List[str]],
+        source_file: str,
+        mode: str
     ) -> Dict[str, Any]:
         """
         Transform parsed data to the specified output format.
@@ -209,13 +218,9 @@ class Transformer:
         if mode == "plantuml_alias_cpp":
             return self.transform_to_code_format(requirement_mapping, source_file)
         elif mode == "plantuml_alias_req":
-            return self.transform_to_requirements_format(
-                requirement_mapping, source_file, mode
-            )
+            return self.transform_to_requirements_format(requirement_mapping, source_file, mode)
         elif mode == "plantuml":
-            return self.transform_to_requirements_format(
-                requirement_mapping, source_file, mode
-            )
+            return self.transform_to_requirements_format(requirement_mapping, source_file, mode)
         else:  # mode == "code" (default)
             return self.transform_to_code_format(requirement_mapping, source_file)
 
@@ -237,7 +242,7 @@ class Transformer:
             "data": [],
             "generator": results[0].get("generator", "lobster_cpp"),
             "schema": results[0].get("schema", "lobster-imp-trace"),
-            "version": results[0].get("version", 3),
+            "version": results[0].get("version", 3)
         }
 
         # Collect all data entries

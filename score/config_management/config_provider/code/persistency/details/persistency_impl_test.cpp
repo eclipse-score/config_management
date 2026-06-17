@@ -33,45 +33,23 @@ class PersistencyImplTest : public ::testing::Test
     std::unique_ptr<PersistencyImpl> sut_;
 };
 
-TEST_F(PersistencyImplTest, Test_ReadCachedParameterSets)
+TEST_F(PersistencyImplTest, ReadParameterSetsByNameListFromFile_DoesNothing)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_provider::PersistencyImpl::ReadCachedParameterSets()");
-    RecordProperty("Description", "This test verifies that ReadCachedParameterSets is called without exceptions.");
+    RecordProperty("Verifies",
+                   "::score::config_management::config_provider::PersistencyImpl::ReadParameterSetsByNameListFromFile()");
+    RecordProperty("Description",
+                   "This test verifies that ReadParameterSetsByNameListFromFile on PersistencyImpl leaves the "
+                   "parameter set cache unchanged.");
 
-    // Given there is no cached values
-    ParameterMap cached_parameter_set;
-    score::filesystem::Filesystem filesystem = score::filesystem::FilesystemFactory{}.CreateInstance();
-    sut_->ReadCachedParameterSets(cached_parameter_set, score::cpp::pmr::get_default_resource(), filesystem);
-}
+    ParameterMap cached_parameter_sets;
+    score::cpp::pmr::vector<std::string_view> set_names{"SomeName"};
 
-TEST_F(PersistencyImplTest, Test_CacheParameterSet)
-{
-    RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
-    RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_provider::PersistencyImpl::CacheParameterSet()");
-    RecordProperty("Description", "This test verifies that CacheParameterSet is called without exceptions.");
+    sut_->ReadParameterSetsByNameListFromFile(cached_parameter_sets, set_names, score::cpp::pmr::get_default_resource());
 
-    // Given there is no content to be cached
-    ParameterMap cached_parameter_set;
-    // Then CacheParameterSet would execute without exceptions
-    EXPECT_NO_THROW(sut_->CacheParameterSet(cached_parameter_set, "", nullptr, false));
-}
-
-TEST_F(PersistencyImplTest, Test_SyncToStorage)
-{
-    RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of boundary values");
-    RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_provider::PersistencyImpl::SyncToStorage()");
-    RecordProperty("Description", "This test verifies that SyncToStorage is called without exceptions.");
-
-    // Given an existing persistency
-    // Then SyncToStorage would execute without exceptions
-    EXPECT_NO_THROW(sut_->SyncToStorage());
+    EXPECT_TRUE(cached_parameter_sets.empty());
 }
 
 }  // namespace

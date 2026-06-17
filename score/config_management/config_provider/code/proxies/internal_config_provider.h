@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_H
 
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
 
@@ -64,4 +64,4 @@ class IInternalConfigProvider
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_H

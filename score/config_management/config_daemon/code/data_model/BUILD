@@ -58,6 +58,7 @@ cc_library(
     ],
     deps = [
         ":parameterset_collection",
+        "//score/config_management/config_daemon/code/types/initial_qualifier_state",
         "@score_baselibs//score/result",
     ],
 )
@@ -69,8 +70,8 @@ cc_library(
     hdrs = ["parameterset_collection_manager_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//score:__subpackages__",
         "//score/config_management/config_daemon/code:__subpackages__",
+        "//score:__subpackages__",
     ],
     deps = [
         ":parameterset_collection_manager",
@@ -84,7 +85,8 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "//score:__subpackages__",
+        "//score/config_management/config_daemon:__subpackages__",
+        "//score/config_management/config_provider:__subpackages__",
     ],
 )
 

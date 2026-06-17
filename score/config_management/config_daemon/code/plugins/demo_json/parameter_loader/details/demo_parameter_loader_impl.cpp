@@ -12,8 +12,8 @@
 // *******************************************************************************
 #include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details/demo_parameter_loader_impl.h"
 
-#include "score/json/internal/model/any.h"
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
+#include "score/json/internal/model/any.h"
 
 #include <score/string_view.hpp>
 

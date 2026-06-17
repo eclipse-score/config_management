@@ -50,7 +50,7 @@ class InternalConfigProviderTest : public ::testing::Test
     void SetUp() override
     {
         score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
-            "./score/config_management/ConfigProvider/code/proxies/details/mw_com/mw_com_config.json"};
+            "./score/config_management/config_provider/code/proxies/details/mw_com/mw_com_config.json"};
         mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton_ = CreateService();

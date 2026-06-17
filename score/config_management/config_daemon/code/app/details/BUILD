@@ -66,8 +66,8 @@ cc_test(
     features = COMPILER_WARNING_FEATURES,
     tags = ["unit"],
     visibility = [
-        "//requirements:__pkg__",
         "//score/config_management/config_daemon/code/app:__pkg__",
+        "//requirements:__pkg__",
     ],
     deps = [
         ":app_for_unit_test",
@@ -77,11 +77,11 @@ cc_test(
         "//score/config_management/config_daemon/code/plugins:mock",
         "//score/config_management/config_daemon/code/plugins/plugin_collector:mock",
         "//score/config_management/config_daemon/code/services:mock",
-        "@googletest//:gtest_main",
         "@score_baselibs//score/os/mocklib:stat_mock",
-        "@score_communication//score/mw/service:factory",
-        "@score_communication//score/mw/service:provided_service_container",
         "@score_lifecycle_health//src/lifecycle_client_lib:applicationcontext",
         "@score_lifecycle_health//src/lifecycle_client_lib:lifecycle_mock",
+        "@score_communication//score/mw/service:factory",
+        "@score_communication//score/mw/service:provided_service_container",
+        "@googletest//:gtest_main",
     ],
 )

@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_MOCK_H
 
 #include "score/config_management/config_provider/code/proxies/internal_config_provider.h"
 
@@ -53,4 +53,4 @@ class InternalConfigProviderMock final : public IInternalConfigProvider
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_INTERNAL_CONFIG_PROVIDER_MOCK_H

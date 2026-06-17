@@ -11,11 +11,12 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_H
 
-#include "score/result/result.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
+#include "score/config_management/config_daemon/code/types/initial_qualifier_state/initial_qualifier_state.h"
+#include "score/result/result.h"
 
 #include <memory>
 
@@ -44,11 +45,19 @@ class IParameterSetCollectionManager
     IParameterSetCollectionManager& operator=(const IParameterSetCollectionManager&) & noexcept = delete;
     virtual ~IParameterSetCollectionManager() noexcept;
 
+    /// @brief Loads the ParameterSetCollection from persistent storage into memory.
+    ///
+    /// Sets per-entry qualifiers to kQualifying if actual persisted data was loaded,
+    /// or kDefault if only default data is available. Must be called in Run() before
+    /// StartServices() to ensure data is ready when the service is offered.
+    /// @return The initial qualifier state applied to all entries on success, or an error.
+    virtual Result<InitialQualifierState> LoadParameterSetCollectionFromStorage() noexcept = 0;
+
     /// @brief Returns the primary ParameterSetCollection owned by this manager.
     virtual std::shared_ptr<IParameterSetCollection> GetParameterSetCollection() = 0;
 
     /// @brief Triggers a ParameterSetCollection update by notifying all registered plugins.
-    virtual ResultBlank ParameterSetCollectionUpdateRequest() = 0;
+    virtual Result<void> ParameterSetCollectionUpdateRequest() = 0;
 };
 
 }  // namespace data_model
@@ -56,4 +65,4 @@ class IParameterSetCollectionManager
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_H

@@ -13,8 +13,8 @@
 
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_manager_impl.h"
 
-#include "score/mw/log/logging.h"
 #include "score/config_management/config_daemon/code/data_model/error/error.h"
+#include "score/mw/log/logging.h"
 
 namespace score
 {
@@ -37,12 +37,54 @@ ParameterSetCollectionManager::ParameterSetCollectionManager(
 {
 }
 
+Result<InitialQualifierState> ParameterSetCollectionManager::LoadParameterSetCollectionFromStorage() noexcept
+{
+    if (storage_ == nullptr)
+    {
+        logger_.LogError() << "ParameterSetCollectionManager::" << __func__ << ": No storage configured";
+        return score::MakeUnexpected(DataModelError::kFailedToLoadParameterSetCollectionJson, "No storage configured");
+    }
+
+    const auto load_result = storage_->LoadParameterSetCollection(*primary_collection_);
+    if (!load_result.has_value())
+    {
+        logger_.LogError() << "ParameterSetCollectionManager::" << __func__
+                           << ": Failed to load ParameterSetCollection: " << load_result.error()
+                           << "; falling back to default data";
+        return score::MakeUnexpected(DataModelError::kFailedToLoadParameterSetCollectionJson,
+                                   "Failed to load ParameterSetCollection");
+    }
+
+    const bool actual_data_loaded = load_result.value();
+    logger_.LogInfo() << "ParameterSetCollectionManager::" << __func__
+                      << ": ParameterSetCollection loaded; actual_data_loaded=" << actual_data_loaded;
+
+    const auto initial_qualifier =
+        actual_data_loaded ? ParameterSetQualifier::kQualifying : ParameterSetQualifier::kDefault;
+    const auto collection_json_result = primary_collection_->GetParameterSetCollectionAsJson();
+    if (collection_json_result.has_value())
+    {
+        for (const auto& entry : collection_json_result.value())
+        {
+            const auto set_result =
+                primary_collection_->SetParameterSetQualifier(entry.first.GetAsStringView(), initial_qualifier);
+            if (!set_result.has_value())
+            {
+                logger_.LogError() << "ParameterSetCollectionManager::" << __func__
+                                   << ": Failed to set initial qualifier for: " << entry.first.GetAsStringView();
+            }
+        }
+    }
+
+    return actual_data_loaded ? InitialQualifierState::kQualifying : InitialQualifierState::kDefault;
+}
+
 std::shared_ptr<IParameterSetCollection> ParameterSetCollectionManager::GetParameterSetCollection()
 {
     return primary_collection_;
 }
 
-ResultBlank ParameterSetCollectionManager::ParameterSetCollectionUpdateRequest()
+Result<void> ParameterSetCollectionManager::ParameterSetCollectionUpdateRequest()
 {
     logger_.LogInfo() << "ParameterSetCollectionManager::" << __func__ << ": Starting update procedure";
 
@@ -73,7 +115,7 @@ ResultBlank ParameterSetCollectionManager::ParameterSetCollectionUpdateRequest()
     return {};
 }
 
-ResultBlank ParameterSetCollectionManager::NotifyPluginsToUpdate(ParameterSetCollection& temporary_collection)
+Result<void> ParameterSetCollectionManager::NotifyPluginsToUpdate(ParameterSetCollection& temporary_collection)
 {
     if (plugins_.empty())
     {

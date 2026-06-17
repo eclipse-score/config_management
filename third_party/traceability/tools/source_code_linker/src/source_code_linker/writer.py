@@ -123,7 +123,8 @@ class Writer:
         # Ensure data is sorted by tag for consistent output
         if "data" in formatted_data and isinstance(formatted_data["data"], list):
             formatted_data["data"] = sorted(
-                formatted_data["data"], key=lambda x: x.get("tag", "")
+                formatted_data["data"],
+                key=lambda x: x.get("tag", "")
             )
 
         return formatted_data
@@ -133,7 +134,7 @@ class Writer:
         lobster_data: Dict[str, Any],
         source_files: list,
         lobster_output_path: str,
-        sources_output_path: str,
+        sources_output_path: str
     ) -> None:
         """
         Write all output files.
@@ -163,17 +164,11 @@ class Writer:
             # Check if sources_output_path is one of the input files
             try:
                 # Try to determine if this is an input file by checking if we can read from it
-                with open(sources_output_path, "r") as f:
+                with open(sources_output_path, 'r') as f:
                     content = f.read().strip()
                     # If file contains source file paths, it's likely an input file
-                    if (
-                        content
-                        and not content.startswith("[")
-                        and not content.startswith("{")
-                    ):
-                        logger.debug(
-                            f"Skipping sources file write - appears to be input file: {sources_output_path}"
-                        )
+                    if content and not content.startswith('[') and not content.startswith('{'):
+                        logger.debug(f"Skipping sources file write - appears to be input file: {sources_output_path}")
                         return
             except (IOError, PermissionError):
                 pass
@@ -181,6 +176,4 @@ class Writer:
             # Write the sources file
             self.write_sources_file(source_files, sources_output_path)
 
-        logger.info(
-            f"Successfully wrote {len(formatted_data['data'])} entries to output files"
-        )
+        logger.info(f"Successfully wrote {len(formatted_data['data'])} entries to output files")

@@ -14,6 +14,7 @@ cc_library(
     tags = ["FUSA"],
     visibility = [
         "//score/config_management/config_provider:__subpackages__",
+        "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
         "//score/config_management/config_provider/code/config_provider",
@@ -22,9 +23,9 @@ cc_library(
         "//score/config_management/config_provider/code/proxies:internal_config_provider",
         "@score_baselibs//score/concurrency:condition_variable",
         "@score_baselibs//score/concurrency/future",
-        "@score_baselibs//score/language/futurecpp",
-        "@score_communication//score/mw/service:proxy_future",
         "@score_logging//score/mw/log",
+        "@score_communication//score/mw/service:proxy_data",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -44,9 +45,9 @@ cc_test(
         "//score/config_management/config_provider/code/persistency:mock",
         "//score/config_management/config_provider/code/persistency/error",
         "//score/config_management/config_provider/code/proxies:mock",
-        "@googletest//:gtest_main",
         "@score_baselibs//score/concurrency:notification",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/mw/log:recorder_mock",
+        "@googletest//:gtest_main",
     ],
 )
 

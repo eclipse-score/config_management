@@ -36,6 +36,7 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
         ] + dependencies,
     )
     for name, srcs, testonly, visibility, dependencies in [
+        
         (
             "mw_factory",
             ["factory_mw_impl.cpp"],
@@ -53,6 +54,7 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
                 "//score/config_management/config_daemon/code/data_model/parameter_set_storage/details:details_score",
             ],
         ),
+        
         (
             "mw_factory_for_unit_test",
             ["factory_mw_impl.cpp"],
@@ -107,5 +109,6 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
             ],
             ["//score/config_management/config_daemon/code/services/details/mw_com:mw_com_config"],
         ),
+        
     ]
 ]

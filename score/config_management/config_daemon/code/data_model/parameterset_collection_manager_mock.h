@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_MOCK_H
 
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
 
@@ -30,8 +30,9 @@ namespace data_model
 class ParameterSetCollectionManagerMock final : public IParameterSetCollectionManager
 {
   public:
+    MOCK_METHOD(Result<InitialQualifierState>, LoadParameterSetCollectionFromStorage, (), (noexcept, override));
     MOCK_METHOD(std::shared_ptr<IParameterSetCollection>, GetParameterSetCollection, (), (override));
-    MOCK_METHOD(ResultBlank, ParameterSetCollectionUpdateRequest, (), (override));
+    MOCK_METHOD(Result<void>, ParameterSetCollectionUpdateRequest, (), (override));
 };
 
 }  // namespace data_model
@@ -39,4 +40,4 @@ class ParameterSetCollectionManagerMock final : public IParameterSetCollectionMa
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MANAGER_MOCK_H

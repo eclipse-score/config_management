@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_ERROR_PERSISTENCY_ERROR_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_ERROR_PERSISTENCY_ERROR_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_ERROR_PERSISTENCY_ERROR_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_ERROR_PERSISTENCY_ERROR_H
 
 #include "score/result/error.h"
 #include "score/result/error_code.h"
@@ -37,4 +37,4 @@ score::result::Error MakeError(const PersistencyError code, const std::string_vi
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_ERROR_PERSISTENCY_ERROR_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_ERROR_PERSISTENCY_ERROR_H

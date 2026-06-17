@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
 
 #include "score/config_management/config_daemon/code/data_model/details/parameter_impl.h"
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
@@ -23,6 +23,7 @@
 
 #include <score/optional.hpp>
 #include <score/string.hpp>
+#include <score/string_view.hpp>
 
 #include <mutex>
 #include <unordered_map>
@@ -50,8 +51,8 @@ class ParameterSet final
 
     Result<score::cpp::pmr::string> GetParameterSetAsString() const;
     json::Object GetParameterSetAsJson() const;
-    ResultBlank Add(const score::cpp::string_view parameter_name, json::Any&& parameter_value);
-    ResultBlank Update(json::Object&& parameters);
+    Result<void> Add(const score::cpp::string_view parameter_name, json::Any&& parameter_value);
+    Result<void> Update(json::Object&& parameters);
     void SetCalibratable(const bool is_calibratable);
     void SetQualifier(const score::config_management::config_daemon::ParameterSetQualifier qualifier);
     score::config_management::config_daemon::ParameterSetQualifier GetQualifier() const;
@@ -70,4 +71,4 @@ class ParameterSet final
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_SET_IMPL_H

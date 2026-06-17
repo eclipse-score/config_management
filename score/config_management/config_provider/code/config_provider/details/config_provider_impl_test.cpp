@@ -24,7 +24,7 @@
 #include "score/concurrency/notification.h"
 
 #include "score/json/json_parser.h"
-#include "score/mw/log/detail/common/recorder_factory.h"
+#include "score/mw/log/recorder_mock.h"
 #include "score/mw/log/runtime.h"
 
 #include <gtest/gtest.h>
@@ -101,10 +101,10 @@ class ConfigProviderTest : public ::testing::Test
     }
     void SetUpPersistency()
     {
-        EXPECT_CALL(*persistency_, ReadCachedParameterSets(_, _, _))
+        EXPECT_CALL(*persistency_, ReadParameterSetsByNameListFromFile(_, _, _))
             .WillOnce(Invoke([&](ParameterMap& cached_parameter_sets,
-                                 score::cpp::pmr::memory_resource*,
-                                 const score::filesystem::Filesystem&) -> void {
+                                 const score::cpp::pmr::vector<std::string_view>&,
+                                 score::cpp::pmr::memory_resource*) -> void {
                 const score::cpp::pmr::string param_set_key{parameter_set_name_};
                 const std::string param_set_json = R"(
                     {
@@ -181,13 +181,29 @@ class ConfigProviderTest : public ::testing::Test
     }
     auto CreateConfigProviderWithAvailableCallback(IsAvailableNotificationCallback callback)
     {
-        return std::make_unique<ConfigProviderImpl>(promise_.GetInterruptibleFuture().value(),
-                                                    stop_source_.get_token(),
-                                                    score::cpp::pmr::get_default_resource(),
-                                                    score::cpp::nullopt,  // default max_samples_limit
-                                                    score::cpp::nullopt,  // default polling_cycle_interval
-                                                    std::move(callback),
-                                                    std::move(persistency_));
+        return std::make_unique<ConfigProviderImpl>(
+            mw::service::OptionalProxyData<IInternalConfigProvider>{promise_.GetInterruptibleFuture().value()},
+            stop_source_.get_token(),
+            score::cpp::pmr::get_default_resource(),
+            score::cpp::nullopt,  // default max_samples_limit
+            score::cpp::nullopt,  // default polling_cycle_interval
+            std::move(callback),
+            std::move(persistency_));
+    }
+
+    auto CreateConfigProviderWithInitialParameterSetNameList(
+        const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
+        IsAvailableNotificationCallback callback)
+    {
+        return std::make_unique<ConfigProviderImpl>(
+            mw::service::OptionalProxyData<IInternalConfigProvider>{promise_.GetInterruptibleFuture().value()},
+            stop_source_.get_token(),
+            score::cpp::pmr::get_default_resource(),
+            score::cpp::nullopt,
+            score::cpp::nullopt,
+            std::move(callback),
+            std::move(persistency_),
+            initial_parameter_set_name_list);
     }
 
     score::Result<score::json::Any> correct_parameter_set_from_proxy_;
@@ -218,19 +234,17 @@ class ConfigProviderTest : public ::testing::Test
 TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_EmptyPersistency)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of requirements");
-    RecordProperty("TestType", "Requirements-based test");
-    RecordProperty("Verifies", "32232080, 14351548, 32231893");
-    RecordProperty("ASIL", "B");
-    RecordProperty(
-        "Description",
-        "32232080: This test checks if qualification of the Parameter Sets has not finished and persistent-caching is "
-        "disabled, no Parameter Set will be provided to the user application."
-        "14351548: This test checks that ConfigProvider get Undefined InitialQualifierState when there is no update "
-        "from "
-        "ConfigDaemon application."
-        "32231893: This test checks that ConfigProvider cannot fetch data from persistent-caching if no persistency "
-        "object for the cache is provided during creation of the ConfigProvider.");
+    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("lobster-tracing", "ConfigProvider.InitialQualifierStateUndefined");
+    RecordProperty("Description",
+                   "This test checks if qualification of the Parameter Sets has not finished and persistent-caching is "
+                   "disabled, no Parameter Set will be provided to the user application."
+                   "This test checks that ConfigProvider get Undefined InitialQualifierState when there is no update "
+                   "from ConfigDaemon application."
+                   "This test checks that ConfigProvider cannot fetch data from persistent-caching if no persistency "
+                   "object for the cache is provided during creation of the ConfigProvider.");
+    ;
     // Given a ConfigProvider instance which is blocked waiting for its proxy to become available
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
 
@@ -250,19 +264,16 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_EmptyPersistenc
 TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_EmptyPersistency)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of requirements");
-    RecordProperty("TestType", "Requirements-based test");
-    RecordProperty("Verifies", "32232080, 14351548, 32231893");
-    RecordProperty("ASIL", "B");
-    RecordProperty(
-        "Description",
-        "32232080: This test checks if qualification of the Parameter Sets has not finished and persistent-caching is "
-        "disabled, no Parameter Set will be provided to the user application."
-        "14351548: This test checks that ConfigProvider get Undefined InitialQualifierState when there is no update "
-        "from "
-        "ConfigDaemon application."
-        "32231893: This test checks that ConfigProvider cannot fetch data from persistent-caching if no persistency "
-        "object for the cache is provided during creation of the ConfigProvider.");
+    RecordProperty("DerivationTechnique", "Analysis of boundary values");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("lobster-tracing", "ConfigProvider.InitialQualifierStateUndefined");
+    RecordProperty("Description",
+                   "This test checks if qualification of the Parameter Sets has not finished and persistent-caching is "
+                   "disabled, no Parameter Set will be provided to the user application."
+                   "This test checks that ConfigProvider get Undefined InitialQualifierState when there is no update "
+                   "from ConfigDaemon application."
+                   "This test checks that ConfigProvider cannot fetch data from persistent-caching if no persistency "
+                   "object for the cache is provided during creation of the ConfigProvider.");
 
     // Given a ConfigProvider instance which failed to find its proxy
     auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
@@ -603,22 +614,22 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_Persistency)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
-    RecordProperty("Verifies", "32231893");
+    RecordProperty("Verifies", "75487226");
     RecordProperty("ASIL", "QM");
     RecordProperty(
         "Description",
-        "32231893: This test checks the scenario when the client waits for the proxy to be available and the "
-        "persistency is "
-        "not empty. The client would get persisted ParameterSet when trying to use config_provider, when the proxy "
-        "searching thread is still blocked.");
-    // Given persistency with cached parameter sets
+        "75487226: This test checks the scenario when the client waits for the proxy to be available and the "
+        "persistency loads parameter sets from file. The client would get the loaded ParameterSet when trying to use "
+        "config_provider, when the proxy searching thread is still blocked.");
+    // Given persistency loads parameter sets from file
     SetUpPersistency();
-    // When ConfigProvider is created with proxy search blocked
-    auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
+    // When ConfigProvider is created with an initial name list and proxy search blocked
+    score::cpp::pmr::vector<std::string_view> name_list{parameter_set_name_};
+    auto config_provider = CreateConfigProviderWithInitialParameterSetNameList(name_list, []() noexcept {});
 
     // Then GetInitialQualifierState returns undefined (proxy not available)
     EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
-    // Then GetParameterSet returns cached parameter set from persistency
+    // Then GetParameterSet returns the file-loaded parameter set
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
                   ->GetParameterAs<std::uint32_t>(parameter_name_)
@@ -637,23 +648,23 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_Persistency)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
-    RecordProperty("Verifies", "32231893");
+    RecordProperty("Verifies", "75487226");
     RecordProperty("ASIL", "QM");
     RecordProperty(
         "Description",
-        "32231893: This test checks the scenario when the client waits for the proxy to be available and the "
-        "persistency is "
-        "not empty. The client would get persisted ParameterSet when trying to use config_provider, when the proxy "
+        "75487226: This test checks the scenario when the client waits for the proxy to be available and the "
+        "persistency loads parameter sets from file. The client would get the loaded ParameterSet when the proxy "
         "searching thread failed to find the proxy.");
-    // Given persistency with cached parameter sets
+    // Given persistency loads parameter sets from file
     SetUpPersistency();
-    // When ConfigProvider is created and proxy search fails
-    auto config_provider = CreateConfigProviderWithAvailableCallback([]() noexcept {});
+    // When ConfigProvider is created with an initial name list and proxy search fails
+    score::cpp::pmr::vector<std::string_view> name_list{parameter_set_name_};
+    auto config_provider = CreateConfigProviderWithInitialParameterSetNameList(name_list, []() noexcept {});
     FailProxySearch();
 
     // Then GetInitialQualifierState returns undefined (proxy not available)
     EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
-    // Then GetParameterSet returns cached parameter set from persistency
+    // Then GetParameterSet returns the file-loaded parameter set
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
                   .value()
                   ->GetParameterAs<std::uint32_t>(parameter_name_)
@@ -664,6 +675,67 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_Persistency)
             .has_value());
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
               MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+}
+
+TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
+{
+    RecordProperty("Priority", "3");
+    RecordProperty("Verifies", " 11397333, 32232137, 75487226");
+    RecordProperty("DerivationTechnique", "Analysis of requirements");
+    RecordProperty("TestType", "Requirements-based test");
+    RecordProperty("ASIL", "B");
+    RecordProperty(
+        "Description",
+        "This test checks the scenario when the client waits for the proxy to be available and the persistency "
+        "loads parameter sets from file. The client would get the loaded ParameterSet before the proxy is available. "
+        "The client would get updated ParameterSet once the proxy searching thread finds the proxy. "
+        "11397333: The Qualifier state can be retrieved to indicate the integrity of the Parameter Set data. "
+        "32232137: After the qualification has finished and the service is found, ConfigProvider can find the updated "
+        "ParameterSet. "
+        "The Qualifier state of cached ParameterSet is always UNQUALIFIED.");
+
+    // Given persistency loads parameter sets from file
+    SetUpPersistency();
+    // When ConfigProvider is created with an initial name list and waits for proxy
+    score::cpp::pmr::vector<std::string_view> name_list{parameter_set_name_};
+    auto config_provider = CreateConfigProviderWithInitialParameterSetNameList(name_list, [this]() noexcept {
+        UnblockMakeProxyAvailable();
+    });
+
+    // Then GetInitialQualifierState returns undefined initially
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
+    // Then GetParameterSet returns file-loaded parameter set before proxy
+    EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
+                  .value()
+                  ->GetParameterAs<std::uint32_t>(parameter_name_)
+                  .value(),
+              parameter_content_from_persistency_);
+    EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).value()->GetQualifier().value(),
+              parameter_qualifier_from_persistency_);
+    EXPECT_TRUE(
+        config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
+            .has_value());
+    EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
+              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+
+    SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kQualified);
+    BlockUntilProxyIsReady(stop_source_.get_token());
+
+    // When proxy becomes available
+    // Then GetInitialQualifierState returns qualified
+    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kQualified);
+    // Then GetParameterSet returns updated parameter set from proxy
+    EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
+                  .value()
+                  ->GetParameterAs<std::uint32_t>(parameter_name_)
+                  .value(),
+              parameter_content_from_proxy_);
+    EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).value()->GetQualifier().value(),
+              parameter_qualifier_from_proxy_);
+    EXPECT_EQ(config_provider->OnChangedParameterSet(parameter_set_name_, nullptr).error(),
+              MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
+    EXPECT_TRUE(config_provider->CheckParameterSetUpdates().has_value());
+    EXPECT_EQ(config_provider->GetCachedParameterSetsCount(), 1U);
 }
 
 TEST_F(ConfigProviderTest, SubscribeBeforeGettingDataFromProxy)
@@ -677,8 +749,9 @@ TEST_F(ConfigProviderTest, SubscribeBeforeGettingDataFromProxy)
                    "LastUpdatedParameterSetEvent "
                    "before fetching any ParameterSet name from it");
 
-    // Given persistency and a mock proxy setup
+    // Given persistency loads parameter sets from file and a mock proxy setup
     SetUpPersistency();
+    score::cpp::pmr::vector<std::string_view> name_list{parameter_set_name_};
     std::unique_ptr<InternalConfigProviderMock> internal_config_provider =
         std::make_unique<InternalConfigProviderMock>();
     icp_mock_ = internal_config_provider.get();
@@ -694,7 +767,7 @@ TEST_F(ConfigProviderTest, SubscribeBeforeGettingDataFromProxy)
     }
 
     // When ConfigProvider is created and proxy becomes available
-    auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
+    auto config_provider = CreateConfigProviderWithInitialParameterSetNameList(name_list, [this]() noexcept {
         UnblockMakeProxyAvailable();
     });
     BlockUntilProxyIsReady(stop_source_.get_token());
@@ -713,7 +786,6 @@ TEST_F(ConfigProviderTest, FailedToSubscribe)
         "client would be blocked when waiting for the proxy to be available.");
 
     // Given persistency and a mock proxy that fails subscription
-    SetUpPersistency();
     std::unique_ptr<InternalConfigProviderMock> internal_config_provider =
         std::make_unique<InternalConfigProviderMock>();
     icp_mock_ = internal_config_provider.get();  // Before the proxy is available
@@ -750,8 +822,9 @@ TEST_F(ConfigProviderTest, SubscribeWithEmptyCallback)
                    "This test checks the branch when the subscription is success but no callback is provided for "
                    "notification purpose during construction stage.");
 
-    // Given persistency and a mock proxy that succeeds subscription
+    // Given persistency loads parameter sets from file and a mock proxy that succeeds subscription
     SetUpPersistency();
+    score::cpp::pmr::vector<std::string_view> name_list{parameter_set_name_};
     std::unique_ptr<InternalConfigProviderMock> internal_config_provider =
         std::make_unique<InternalConfigProviderMock>();
     icp_mock_ = internal_config_provider.get();
@@ -766,7 +839,7 @@ TEST_F(ConfigProviderTest, SubscribeWithEmptyCallback)
     // When client thread creates ConfigProvider with empty callback
     score::cpp::jthread client_thread{[&]() {
         thread_running.notify();
-        auto config_provider = CreateConfigProviderWithAvailableCallback({});
+        auto config_provider = CreateConfigProviderWithInitialParameterSetNameList(name_list, {});
         BlockUntilProxyIsReady(test_stop_source.get_token());
         thread_finished.notify();
     }};
@@ -776,69 +849,6 @@ TEST_F(ConfigProviderTest, SubscribeWithEmptyCallback)
     test_stop_source.request_stop();
     thread_finished.waitWithAbort(test_stop_source.get_token());
     client_thread.join();
-}
-
-TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
-{
-    RecordProperty("Priority", "3");
-    RecordProperty("Verifies", " 11397333, 32232137, 32233375");
-    RecordProperty("DerivationTechnique", "Analysis of requirements");
-    RecordProperty("TestType", "Requirements-based test");
-    RecordProperty("ASIL", "B");
-    RecordProperty(
-        "Description",
-        "This test checks the scenario when the client waits for the proxy to be available and the persistency is not"
-        "empty. The client would get persisted ParameterSet when trying to use config_provider, when the proxy "
-        "searching thread is still blocked. The client would get updated ParameterSet when trying to use "
-        "config_provider, when "
-        "the proxy searching thread finds the proxy."
-        "11397333: The Qualifier state can be retrieved to indicate the integrity of the Parameter Set data."
-        "32232137: After the qualification has finished and the service is found, ConfigProvider can find the updated "
-        "ParameterSet."
-        "32233375: The Qualifier state of cached ParameterSet is always UNQUALIFIED.");
-
-    // Given persistency with cached parameter sets
-    SetUpPersistency();
-    // When ConfigProvider is created and waits for proxy
-    auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
-        UnblockMakeProxyAvailable();
-    });
-
-    // Then GetInitialQualifierState returns undefined initially
-
-    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
-    // Then GetParameterSet returns cached parameter set from persistency before proxy
-    EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
-                  .value()
-                  ->GetParameterAs<std::uint32_t>(parameter_name_)
-                  .value(),
-              parameter_content_from_persistency_);
-    EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).value()->GetQualifier().value(),
-              parameter_qualifier_from_persistency_);
-    EXPECT_TRUE(
-        config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
-            .has_value());
-    EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
-
-    SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kQualified);
-    BlockUntilProxyIsReady(stop_source_.get_token());
-
-    // When proxy becomes available
-    // Then GetInitialQualifierState returns qualified
-    EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kQualified);
-    // Then GetParameterSet returns updated parameter set from proxy
-    EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_)
-                  .value()
-                  ->GetParameterAs<std::uint32_t>(parameter_name_)
-                  .value(),
-              parameter_content_from_proxy_);
-    EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).value()->GetQualifier().value(),
-              parameter_qualifier_from_proxy_);
-    EXPECT_EQ(config_provider->OnChangedParameterSet(parameter_set_name_, nullptr).error(),
-              MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
-    EXPECT_TRUE(config_provider->CheckParameterSetUpdates().has_value());
-    EXPECT_EQ(config_provider->GetCachedParameterSetsCount(), 1U);
 }
 
 TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandler)
@@ -924,7 +934,6 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledFo
                    "successfully in case a proper update callback for a ParameterSet is not yet registered");
 
     // Given a ConfigProvider instance with proxy and persistency
-    EXPECT_CALL(*persistency_, CacheParameterSet(_, _, _, _)).Times(2);
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
     });
@@ -1250,16 +1259,13 @@ TEST_F(ConfigProviderTest, SuccessLastUpdatedParameterSetPersistedInCache)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
-    RecordProperty("Verifies", "32233530");
+    RecordProperty("lobster-tracing", "ConfigProvider.InitialQualifierStateUndefined");
     RecordProperty("ASIL", "QM");
-    RecordProperty(
-        "Description",
-        "32233530: This test ensures that upon reception of an updated Parameter Set, its cached value shall be "
-        "updated with the new values and such new values shall be written to the persistent cache.");
+    RecordProperty("Description",
+                   "This test ensures that upon reception of an updated Parameter Set, its cached value shall be "
+                   "updated with the new values and such new values shall be written to the persistent cache.");
 
     // Given ConfigProvider with persistency and proxy ready
-    EXPECT_CALL(*persistency_, CacheParameterSet(_, _, _, _)).Times(2);
-    SetUpPersistency();
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
     });
@@ -1288,14 +1294,10 @@ TEST_F(ConfigProviderTest, SuccessLastUpdatedParameterSetPersistedInCache)
               updated_content_from_proxy_);
     EXPECT_EQ(provider_parameter_set_result.value()->GetQualifier().value(), updated_qualifier_from_proxy_);
 
-    score::mw::log::detail::Configuration config{};
-    config.SetLogMode({score::mw::LogMode::kConsole});
-    config.SetDefaultConsoleLogLevel(score::mw::log::LogLevel::kInfo);
-    auto recorder =
-        score::mw::log::detail::RecorderFactory().CreateRecorderFromLogMode(score::mw::LogMode::kConsole, config);
+    testing::NiceMock<score::mw::log::RecorderMock> recorder_mock;
 
     // below needed to cover non-debug branch in GetParameterSet method
-    score::mw::log::detail::Runtime::SetRecorder(recorder.get());
+    score::mw::log::detail::Runtime::SetRecorder(&recorder_mock);
     const auto provider_parameter_set_result2 = config_provider->GetParameterSet(parameter_set_name_);
     EXPECT_EQ(provider_parameter_set_result2.value()->GetParameterAs<std::uint32_t>(parameter_name_).value(),
               updated_content_from_proxy_);
@@ -1376,7 +1378,6 @@ TEST_F(ConfigProviderTest, Test_FailedFetchInitialParameterSetValuesFrom)
     RecordProperty("Description",
                    "This test checks the case when internal config provider fails to get parameter sets during "
                    "execution of FetchInitialParameterSetValuesFrom at the construction stage of ConfigProviderImpl.");
-    SetUpPersistency();
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
     });
@@ -1479,7 +1480,6 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_WithProxy)
         "This test verifies that GetParameterSetsByNameList would gets error if cached value cannot be retrieved from "
         "proxy. "
         "This test verifies that GetParameterSetsByNameList would gets value if value can be retrieved from proxy. ");
-    SetUpPersistency();
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
@@ -1533,7 +1533,6 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_ConcurrentAccess)
                    "This test verifies thread-safety of GetParameterSetsByNameList by starting threads simultaneously "
                    "and checking final state.");
 
-    SetUpPersistency();
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
@@ -1619,7 +1618,6 @@ TEST_F(ConfigProviderTest, GetParameterSet_ConcurrentAccess)
                    "This test verifies thread-safety of GetParameterSet by starting threads simultaneously and "
                    "checking final state.");
 
-    SetUpPersistency();
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
@@ -1987,6 +1985,46 @@ namespace
         (void)provider->CheckParameterSetUpdates();
         provider->GetCachedParameterSetsCount();
     }
+}
+
+TEST_F(ConfigProviderTest, GetParameterSetsByNameList_ReturnsCachedValueWithDebugLogging)
+{
+    RecordProperty("Priority", "3");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetParameterSetsByNameList()");
+    RecordProperty("Description",
+                   "This test verifies that GetParameterSetsByNameList returns a value directly from the cache when "
+                   "the parameter set was already fetched, covering the lambda in std::find_if and the debug logging "
+                   "path in GetParameterSetValue.");
+
+    SetUpPersistency();
+    score::cpp::pmr::vector<std::string_view> name_list{parameter_set_name_};
+    auto config_provider = CreateConfigProviderWithInitialParameterSetNameList(name_list, [this]() noexcept {
+        UnblockMakeProxyAvailable();
+    });
+    SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kQualified);
+    BlockUntilProxyIsReady(stop_source_.get_token());
+
+    // Enable debug logging so that GetParameterSetValue executes the debug branch (lines 23, 27)
+    testing::NiceMock<score::mw::log::RecorderMock> recorder_mock;
+    ON_CALL(recorder_mock, IsLogEnabled(_, _)).WillByDefault(Return(true));
+    score::mw::log::detail::Runtime::SetRecorder(&recorder_mock);
+
+    // When GetParameterSetsByNameList is called with a set already in the cache
+    score::cpp::pmr::vector<std::string_view> set_names{std::string_view(parameter_set_name_)};
+    const auto result = config_provider->GetParameterSetsByNameList(set_names, std::nullopt);
+
+    score::mw::log::detail::Runtime::SetRecorder(nullptr);
+
+    // Then it returns the cached value directly without going to the proxy
+    ASSERT_EQ(result.size(), 1U);
+    EXPECT_TRUE(result.at(score::cpp::pmr::string(parameter_set_name_)).has_value());
+    EXPECT_EQ(result.at(score::cpp::pmr::string(parameter_set_name_))
+                  .value()
+                  ->GetParameterAs<std::uint32_t>(parameter_name_)
+                  .value(),
+              parameter_content_from_proxy_);
 }
 
 }  // namespace

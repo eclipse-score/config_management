@@ -11,7 +11,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 load(":custom.bzl", "load_custom_targets")
 
 COMMON_FEATURES = [
@@ -72,10 +72,39 @@ cc_test(
     deps = [
         ":details_score_for_unit_test",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+        "@score_logging//score/mw/log/test/console_logging_environment",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
-        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
 
 load_custom_targets()
+
+cc_test(
+    name = "unit_test",
+    srcs = select({
+        "//score/config_management/config_daemon/code:is_score_variant": ["parameter_set_storage_score_impl_test.cpp"],
+        "//conditions:default": ["parameter_set_storage_impl_test.cpp"],
+    }),
+    features = COMMON_FEATURES,
+    tags = ["unit"],
+    visibility = [
+        "//score/config_management/config_daemon/code/data_model/parameter_set_storage:__pkg__",
+    ],
+    deps = [
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
+        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@googletest//:gtest",
+    ] + select({
+        "//score/config_management/config_daemon/code:is_score_variant": [
+            ":details_score_for_unit_test",
+            "@googletest//:gtest_main",
+        ],
+        "//conditions:default": [
+            ":details_for_unit_test",
+            "@score_baselibs//score/filesystem:mock",
+            "@score_baselibs//score/hash:hash_mock",
+            "@score_baselibs//score/json:mock",
+        ],
+    }),
+)

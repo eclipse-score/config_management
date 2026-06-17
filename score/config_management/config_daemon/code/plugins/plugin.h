@@ -11,13 +11,13 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_PLUGIN_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_PLUGIN_H
 
-#include "score/result/result.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service.h"
+#include "score/result/result.h"
 #include <score/stop_token.hpp>
 
 namespace score
@@ -37,7 +37,7 @@ class IPlugin
     IPlugin& operator=(const IPlugin&) = delete;
     virtual ~IPlugin() = default;
 
-    virtual ResultBlank Initialize() = 0;
+    virtual Result<void> Initialize() = 0;
     virtual void Deinitialize() noexcept = 0;
 
     virtual std::int32_t Run(
@@ -47,11 +47,11 @@ class IPlugin
         score::cpp::stop_token stop_token,
         std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter) = 0;
 
-    virtual ResultBlank ParameterSetCollectionUpdateStart(data_model::IParameterSetCollection&) = 0;
+    virtual Result<void> ParameterSetCollectionUpdateStart(data_model::IParameterSetCollection&) = 0;
 };
 
 }  // namespace config_daemon
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_PLUGIN_H

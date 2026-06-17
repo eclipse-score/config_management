@@ -19,35 +19,14 @@ import AssumedSystemRequirements
 ScoreReq.FeatReq ParameterDefinition {
     description = "An individual vehicle configuration property used for vehicle specific adaptations is called Parameter."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterSetDefinition {
     description = "Group of Parameters which belong to the same functionality and share an integrity protection is called Parameter Set."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
-    version = 1
-}
-
-ScoreReq.FeatReq PluginDefinition {
-    description = "To be added later on."
-    safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
-    version = 1
-}
-
-ScoreReq.FeatReq LifecycleDefinition {
-    description = "To be added later on."
-    safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
-    version = 1
-}
-
-ScoreReq.FeatReq PersistentCachingDefinition {
-    description = "To be added later on."
-    safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 // endsection "Definitions"
@@ -56,49 +35,56 @@ ScoreReq.FeatReq PersistentCachingDefinition {
 ScoreReq.FeatReq CentralHousekeepingForParameters {
     description = "Configuration Management shall provide a central housekeeping for Parameters."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterRelationToParameterSet {
     description = "Every Parameter shall be contained in exactly one Parameter Set."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterNameUniqueness {
     description = "Parameters names shall be unique for an ECU project."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterSetNameUniqueness {
     description = "Parameters Set names shall be unique for an ECU project."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterSetConfigurationContents {
     description = "Parameter Set configuration shall contain a mapping of Parameters to Parameter Sets, Parameter names and default values."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterSetConfigurationSource {
     description = "Parameter Set configuration shall be determined solely by a read-only input source, deployed on the target."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterModification {
     description = "Parameter values shall be modifiable during runtime regarding modification procedure specific for a parameter kind."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
+    version = 1
+}
+
+ScoreReq.FeatReq ParameterIntegrity {
+    description = "The integrity of stored Parameters shall be protected and verified."
+    safety = ScoreReq.Asil.B
+    derived_from = [AssumedSystemRequirements.SafeConfiguration@1]
     version = 1
 }
 // endsection "DataHousekeeping"
@@ -107,14 +93,14 @@ ScoreReq.FeatReq ParameterModification {
 ScoreReq.FeatReq ConfigProviderInterface {
     description = "Configuration Management shall provide a generic interface, independent of any Parameter definitions, for applications to access Parameters in read-only mode."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterSetAccess {
     description = "A Parameter Set shall be accessible via interface using a key-value principle, where user application passes a Parameter Set name to the interface and its value is returned as result."
     safety = ScoreReq.Asil.QM
-    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@2]
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
     version = 1
 }
 // endsection "ParameterProvision"
@@ -123,14 +109,64 @@ ScoreReq.FeatReq ParameterSetAccess {
 ScoreReq.FeatReq ParameterSetQualifier {
     description = "A Parameter Set shall contain a qualifier to indicate its integrity."
     safety = ScoreReq.Asil.B
-    derived_from = [AssumedSystemRequirements.SafeConfiguration@2]
+    derived_from = [AssumedSystemRequirements.SafeConfiguration@1]
     version = 1
 }
 
 ScoreReq.FeatReq ParameterInitialQualifier {
     description = "There shall exist an overall qualifier for all Parameter Sets to indicate the state of integrity checks at the point of time of initial provision of parameters."
     safety = ScoreReq.Asil.B
-    derived_from = [AssumedSystemRequirements.SafeConfiguration@2]
+    derived_from = [AssumedSystemRequirements.SafeConfiguration@1]
     version = 1
 }
 // endsection "ParameterQualification"
+
+/* broken_link_c/issue/15804755 */
+ScoreReq.FeatReq CompleteParameterSets {
+    description = """The interface between parameter provider and application shall only exchange complete Parameter Sets."""
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.SafeConfiguration@1]
+    version = 1
+}
+
+/* broken_link_c/issue/24399695 */
+ScoreReq.FeatReq SupportedPrimitiveParameterTypes {
+    description = """The following primitive parameter types shall be supported for parameters:
+    * {{sint8}}
+    * {{sint16}}
+    * {{sint32}}
+    * {{sint64}}
+    * {{uint8}}
+    * {{uint16}}
+    * {{uint32}}
+    * {{uint64}}
+    * {{float32}}
+    * {{float64}}"""
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
+    version = 1
+}
+
+/* broken_link_c/issue/24400736 */
+ScoreReq.FeatReq SupportedComplexParameterTypes {
+    description = """The following complex parameter types shall be supported for parameters:
+    * One dimensional array of {{SupportedPrimitiveParameterTypes}}
+    * Two dimensional array of {{SupportedPrimitiveParameterTypes}}"""
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
+    version = 1
+}
+
+ScoreReq.FeatReq ApplicationLifecycle {
+    description = "Configuration Management shall synchronize its activities with the ECU´s software execution lifecycle."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
+    version = 1
+}
+
+ScoreReq.FeatReq PluginSpecialization {
+    description = "Configuration Management shall enable the processing of Parameter Sets of one kind by a dedicated software module {{Plugin}}."
+    safety = ScoreReq.Asil.QM
+    derived_from = [AssumedSystemRequirements.FileBasedConfiguration@1]
+    version = 1
+}

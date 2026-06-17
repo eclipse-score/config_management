@@ -44,7 +44,7 @@ ParameterSetStorageScoreImpl::ParameterSetStorageScoreImpl(std::unique_ptr<score
 {
 }
 
-ResultBlank ParameterSetStorageScoreImpl::StoreParameterSetCollection(
+Result<void> ParameterSetStorageScoreImpl::StoreParameterSetCollection(
     data_model::IParameterSetCollection& collection) noexcept
 {
     // Collect all parameter sets into a JSON object, overriding qualifier to kQualifying.
@@ -87,7 +87,7 @@ ResultBlank ParameterSetStorageScoreImpl::StoreParameterSetCollection(
     return PersistParameterSetCollectionHash(std::string{hash_pmr.begin(), hash_pmr.end()});
 }
 
-ResultBlank ParameterSetStorageScoreImpl::PersistParameterSetCollectionHash(const std::string& hash) noexcept
+Result<void> ParameterSetStorageScoreImpl::PersistParameterSetCollectionHash(const std::string& hash) noexcept
 {
     const auto set_result = kvs_->set_value(kParameterSetHashKvsKey, score::mw::per::kvs::KvsValue{hash});
     if (!set_result.has_value())
@@ -105,7 +105,6 @@ ResultBlank ParameterSetStorageScoreImpl::PersistParameterSetCollectionHash(cons
 
 Result<std::string> ParameterSetStorageScoreImpl::ReadParameterSetCollectionHash() const noexcept
 {
-    // LCOV_EXCL_START This can be removed once the ReadParameterSetCollection Public Method is added and tested
     const auto get_result = kvs_->get_value(kParameterSetHashKvsKey);
     if (!get_result.has_value())
     {
@@ -117,7 +116,14 @@ Result<std::string> ParameterSetStorageScoreImpl::ReadParameterSetCollectionHash
         return MakeUnexpected(ParameterSetStorageError::kDataNotFound, "Hash value in score KVS has unexpected type");
     }
     return std::get<std::string>(kvsvalue.getValue());
-    // LCOV_EXCL_STOP
+}
+
+Result<bool> ParameterSetStorageScoreImpl::LoadParameterSetCollection(
+    data_model::IParameterSetCollection& /*collection*/) noexcept
+{
+    // Filesystem-based PSC loading is not applicable on the SCORE platform.
+    // Always indicate that the default parameter set collection is in use.
+    return false;
 }
 
 }  // namespace data_model

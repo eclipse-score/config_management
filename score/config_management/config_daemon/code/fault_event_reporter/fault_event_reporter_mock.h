@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_FAULT_EVENT_REPORTER_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_FAULT_EVENT_REPORTER_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FAULT_EVENT_REPORTER_FAULT_EVENT_REPORTER_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FAULT_EVENT_REPORTER_FAULT_EVENT_REPORTER_MOCK_H
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter.h"
 
 #include <gmock/gmock.h>
@@ -36,4 +36,4 @@ class FaultEventReporterMock : public IFaultEventReporter
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FAULT_EVENT_REPORTER_FAULT_EVENT_REPORTER_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FAULT_EVENT_REPORTER_FAULT_EVENT_REPORTER_MOCK_H

@@ -11,19 +11,19 @@ abstract class ConfigProvider {
     + {abstract} GetParameterSetsByNameList(\n\
     set_names : const score::cpp::pmr::vector<score::cpp::string_view>&,\n\
     timeout : const std::optional<std::chrono::milliseconds>) : ParameterSetMap
-    + {abstract} OnChangedInitialQualifierState(callback : InitialQualifierStateNotifierCallbackType&&) : ResultBlank
+    + {abstract} OnChangedInitialQualifierState(callback : InitialQualifierStateNotifierCallbackType&&) : Result<void>
     + {abstract} OnChangedParameterSet(\n\
     set_name : const std::string&,\n\
-    callback : OnChangedParameterSetCallback&&) : ResultBlank
+    callback : OnChangedParameterSetCallback&&) : Result<void>
     + {abstract} OnChangedParameterSetCbk(\n\
     set_name : std::string_view,\n\
-    callback : OnChangedParameterSetCallback&&) : ResultBlank
+    callback : OnChangedParameterSetCallback&&) : Result<void>
     + {abstract} GetInitialQualifierState(\n\
     timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     + {abstract} WaitUntilConnected(\n\
     timeout : const std::chrono::milliseconds,\n\
     stop_token : const score::cpp::stop_token&) : bool
-    + {abstract} CheckParameterSetUpdates() : ResultBlank
+    + {abstract} CheckParameterSetUpdates() : Result<void>
     + {abstract} GetCachedParameterSetsCount() : std::size_t
     + {abstract} GetInitialQualifierState() : InitialQualifierState
     + {abstract} GetInitialQualifierState(\n\
@@ -45,16 +45,16 @@ class ConfigProviderImpl {
     + GetParameterSetsByNameList(\n\
     set_names : const score::cpp::pmr::vector<score::cpp::string_view>&,\n\
     timeout : const std::optional<std::chrono::milliseconds>) : ParameterSetMap
-    + OnChangedInitialQualifierState(callback : InitialQualifierStateNotifierCallbackType&&) : ResultBlank
+    + OnChangedInitialQualifierState(callback : InitialQualifierStateNotifierCallbackType&&) : Result<void>
     + OnChangedParameterSet(\n\
     set_name : const std::string&,\n\
-    callback : OnChangedParameterSetCallback&&) : ResultBlank
+    callback : OnChangedParameterSetCallback&&) : Result<void>
     + OnChangedParameterSetCbk(\n\
     set_name : std::string_view,\n\
-    callback : OnChangedParameterSetCallback&&) : ResultBlank
+    callback : OnChangedParameterSetCallback&&) : Result<void>
     + GetInitialQualifierState(\n\
     timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
-    + CheckParameterSetUpdates() : ResultBlank
+    + CheckParameterSetUpdates() : Result<void>
     + WaitUntilConnected(\n\
     timeout : const std::chrono::milliseconds,\n\
     stop_token : const score::cpp::stop_token&) : bool

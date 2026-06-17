@@ -10,15 +10,16 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_PERSISTENCY_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_PERSISTENCY_H
 
-#include "score/filesystem/filesystem.h"
-#include "score/result/result.h"
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
+#include "score/result/result.h"
 
 #include <score/memory.hpp>
+#include <score/string.hpp>
 #include <score/unordered_map.hpp>
+#include <score/vector.hpp>
 #include <string>
 
 namespace score
@@ -46,35 +47,24 @@ class Persistency
     Persistency& operator=(const Persistency&) = delete;
     virtual ~Persistency() = default;
 
-    /// @brief Reads all parameter set value from persistency cluster into local cache
+    /// @brief Reads only the selected parameter sets from ConfigDaemon JSON files into local cache.
     ///
-    /// @param cached_parameter_sets local cached parameter set
+    /// Uses flash-counter based file selection:
+    /// - If flash counter has not changed, tries parameter_set_collection.json first.
+    /// - Otherwise, or if actual file is unavailable, loads from default_parameter_set_collection.json.
+    ///
+    /// @param cached_parameter_sets local cached parameter set map to be updated
+    /// @param set_names parameter set names that should be loaded
     /// @param memory_resource memory resource used for memory allocation
-    /// @param filesystem filesystem used for flash_counter file access
+    /// @param filesystem filesystem used for file access
     ///
-    virtual void ReadCachedParameterSets(ParameterMap& cached_parameter_sets,
-                                         score::cpp::pmr::memory_resource* memory_resource,
-                                         const score::filesystem::Filesystem& filesystem) noexcept = 0;
-
-    /// @brief Cache a parameter set into the persistency cluster
-    ///
-    /// @param cached_parameter_sets local cached parameter set
-    /// @param param_set_key parameter set name
-    /// @param parameter_set parameter set value
-    /// @param sync_to_storage flag indicating whether to sync to storage
-    ///
-    virtual void CacheParameterSet(const ParameterMap& cached_parameter_sets,
-                                   const score::cpp::pmr::string param_set_key,
-                                   const std::shared_ptr<const ParameterSet> parameter_set,
-                                   bool sync_to_storage) noexcept = 0;
-
-    /// @brief Sync all cached parameter sets to the storage
-    ///
-    virtual void SyncToStorage() noexcept = 0;
+    virtual void ReadParameterSetsByNameListFromFile(ParameterMap& cached_parameter_sets,
+                                                     const score::cpp::pmr::vector<std::string_view>& set_names,
+                                                     score::cpp::pmr::memory_resource* memory_resource) noexcept = 0;
 };
 
 }  // namespace config_provider
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_PERSISTENCY_H

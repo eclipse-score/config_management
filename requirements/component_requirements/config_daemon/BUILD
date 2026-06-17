@@ -21,7 +21,7 @@ trlc_requirements(
         "//requirements/feature_requirements",
     ],
     spec = [
-        "//third_party/traceability/config/trlc/score_model:requirement_metamodel",
+        "@score_tooling//bazel/rules/rules_score/trlc/config:score_requirements_model",
     ],
     visibility = ["//visibility:public"],
 )

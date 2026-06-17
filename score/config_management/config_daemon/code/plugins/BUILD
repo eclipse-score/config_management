@@ -31,8 +31,8 @@ cc_library(
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager",
         "//score/config_management/config_daemon/code/fault_event_reporter",
         "//score/config_management/config_daemon/code/services",
-        "@score_baselibs//score/language/futurecpp",
         "@score_baselibs//score/result",
+        "@score_baselibs//score/language/futurecpp",
     ],
 )
 
@@ -83,6 +83,7 @@ cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     test_suites_from_sub_packages = [
         "//score/config_management/config_daemon/code/plugins/plugin_collector:unit_tests",
+        "//score/config_management/config_daemon/code/plugins/demo_json:unit_tests",
     ] + load_custom_test_suites(),
     visibility = ["//score/config_management/config_daemon/code:__pkg__"],
 )

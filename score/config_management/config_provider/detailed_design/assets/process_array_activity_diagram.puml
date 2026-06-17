@@ -1,0 +1,61 @@
+@startuml process_array_activity_diagram
+
+partition GetParameterAsArray {
+
+  start
+
+  :Call GetParameterAsJsonAny;
+
+  :Convert json::Any into json::List;
+
+  repeat
+
+    :Get next element from json::List;
+
+    :Convert element into primitive type;
+
+    :Add converted element to array;
+
+  repeat while (the end of json::List is reached) is (no) not (yes)
+
+  :Return array of primitive types;
+
+  stop
+
+}
+
+partition GetParameterAsTwoDimensionalArray {
+
+  start
+
+  :Call GetParameterAsJsonAny;
+
+  :Convert json::Any into outer json::List;
+
+  repeat
+
+    :Get next element from outer json::List;
+
+    :Convert json::Any into inner json::List;
+
+    repeat
+
+      :Get next element from inner json::List;
+
+      :Convert element into primitive type;
+
+      :Add converted element to inner array;
+
+    repeat while (the end of inner json::List is reached) is (no) not (yes)
+
+    :Add inner array to outer array;
+
+  repeat while (the end of outer json::List is reached) is (no) not (yes)
+
+  :Return array of arrays of primitive types;
+
+  stop
+
+}
+
+@enduml

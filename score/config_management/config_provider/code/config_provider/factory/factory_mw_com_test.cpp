@@ -48,7 +48,7 @@ class ConfigProviderFactoryTest : public ::testing::Test
     void SetUp() override
     {
         score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
-            "./score/config_management/ConfigProvider/code/config_provider/factory/mw_com_config.json"};
+            "./score/config_management/config_provider/code/config_provider/factory/mw_com_config.json"};
         mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton = CreateService();

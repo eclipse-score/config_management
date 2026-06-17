@@ -18,7 +18,7 @@ This package provides functionality for extracting traceability links from sourc
 and generating lobster-compatible output files.
 """
 
-from .main import SourceCodeLinker
+from source_code_linker.main import SourceCodeLinker
 
 __version__ = "1.0.0"
 __all__ = ["SourceCodeLinker"]

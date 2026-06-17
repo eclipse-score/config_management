@@ -65,7 +65,7 @@ ICP --> CP : (updates processed asynchronously via handler)
 ' User subscribes for notifications
 UserBusinessLogic -> CP : OnChangedParameterSet(name, callback)
 CP -> CP : RegisterUpdateHandlerForParameterSetName(name)
-CP --> UserBusinessLogic : ResultBlank
+CP --> UserBusinessLogic : Result<void>
 
 ' Obtain cached InitialQualifierState
 UserBusinessLogic -> CP : GetInitialQualifierState(timeout?)

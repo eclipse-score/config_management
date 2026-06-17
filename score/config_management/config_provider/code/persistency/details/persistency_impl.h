@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_DETAILS_PERSISTENCY_EMPTY_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_DETAILS_PERSISTENCY_EMPTY_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_DETAILS_PERSISTENCY_EMPTY_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_DETAILS_PERSISTENCY_EMPTY_H
 
 #include "score/config_management/config_provider/code/persistency/persistency.h"
 
@@ -32,14 +32,9 @@ class PersistencyImpl final : public Persistency
 {
   public:
     explicit PersistencyImpl();
-    void ReadCachedParameterSets(ParameterMap& cached_parameter_sets,
-                                 score::cpp::pmr::memory_resource* memory_resource,
-                                 const score::filesystem::Filesystem& filesystem) noexcept override;
-    void CacheParameterSet(const ParameterMap& cached_parameter_sets,
-                           const score::cpp::pmr::string param_set_key,
-                           const std::shared_ptr<const ParameterSet> parameter_set,
-                           bool sync_to_storage) noexcept override;
-    void SyncToStorage() noexcept override;
+    void ReadParameterSetsByNameListFromFile(ParameterMap& cached_parameter_sets,
+                                             const score::cpp::pmr::vector<std::string_view>& set_names,
+                                             score::cpp::pmr::memory_resource* memory_resource) noexcept override;
 
   private:
     mw::log::Logger& logger_;
@@ -49,4 +44,4 @@ class PersistencyImpl final : public Persistency
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_DETAILS_PERSISTENCY_EMPTY_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_DETAILS_PERSISTENCY_EMPTY_H

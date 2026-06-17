@@ -10,12 +10,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_DEMO_JSON_PARAMETER_LOADER_DETAILS_DEMO_PARAMETER_LOADER_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_DEMO_JSON_PARAMETER_LOADER_DETAILS_DEMO_PARAMETER_LOADER_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_DEMO_JSON_PARAMETER_LOADER_DETAILS_DEMO_PARAMETER_LOADER_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_DEMO_JSON_PARAMETER_LOADER_DETAILS_DEMO_PARAMETER_LOADER_IMPL_H
 
+#include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/demo_parameter_loader.h"
 #include "score/result/result.h"
 #include "score/mw/log/logger.h"
-#include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/demo_parameter_loader.h"
 
 #include "score/json/internal/model/any.h"
 
@@ -56,4 +56,4 @@ class DemoParameterLoaderImpl final : public DemoParameterLoader
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_DEMO_JSON_PARAMETER_LOADER_DETAILS_DEMO_PARAMETER_LOADER_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_DEMO_JSON_PARAMETER_LOADER_DETAILS_DEMO_PARAMETER_LOADER_IMPL_H

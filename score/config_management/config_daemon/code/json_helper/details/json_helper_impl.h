@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
 
 #include "score/config_management/config_daemon/code/json_helper/json_helper.h"
 
@@ -40,12 +40,14 @@ class JsonHelper final : public IJsonHelper
 
     std::shared_ptr<json::IJsonParser> GetJsonParser() const noexcept override;
     std::shared_ptr<json::IJsonWriter> GetJsonWriter() const noexcept override;
+    std::shared_ptr<json::IJsonWriter> GetJsonSyncedWriter() const noexcept override;
     std::shared_ptr<filesystem::IStandardFilesystem> GetStandardFilesystem() const noexcept override;
     std::shared_ptr<filesystem::IFileFactory> GetFileFactory() const noexcept override;
 
   private:
     std::shared_ptr<json::IJsonParser> json_parser_;
     std::shared_ptr<json::IJsonWriter> json_writer_;
+    std::shared_ptr<json::IJsonWriter> json_synced_writer_;
     std::shared_ptr<filesystem::IStandardFilesystem> standart_filesystem_;
     std::shared_ptr<filesystem::IFileFactory> file_factory_;
 };
@@ -55,4 +57,4 @@ class JsonHelper final : public IJsonHelper
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_JSON_HELPER_DETAILS_JSON_HELPER_IMPL_H

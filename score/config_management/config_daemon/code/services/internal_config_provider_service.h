@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
 
-#include "score/mw/service/provided_service.h"
 #include "score/config_management/config_daemon/code/types/initial_qualifier_state/initial_qualifier_state.h"
+#include "score/mw/service/provided_service.h"
 #include <score/callback.hpp>
 #include <string>
 
@@ -43,4 +43,4 @@ class IInternalConfigProviderService : public ::score::mw::service::ProvidedServ
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H

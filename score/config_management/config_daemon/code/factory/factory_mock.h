@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_FACTORY_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_FACTORY_MOCK_H
 
 #include "score/config_management/config_daemon/code/factory/factory.h"
 
@@ -65,4 +65,4 @@ class FactoryMock final : public IFactory
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_FACTORY_MOCK_H

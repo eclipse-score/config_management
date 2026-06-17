@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
 
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
 
@@ -30,11 +30,11 @@ namespace data_model
 class ParameterSetCollectionMock final : public IParameterSetCollection
 {
   public:
-    MOCK_METHOD(ResultBlank,
+    MOCK_METHOD(Result<void>,
                 Insert,
                 (const score::cpp::string_view, const score::cpp::string_view, json::Any&&),
                 (noexcept, override));
-    MOCK_METHOD(ResultBlank, UpdateParameterSet, (const score::cpp::string_view, const score::cpp::string_view set), (override));
+    MOCK_METHOD(Result<void>, UpdateParameterSet, (const score::cpp::string_view, const score::cpp::string_view set), (override));
     MOCK_METHOD(Result<score::cpp::pmr::string>, GetParameterSet, (const std::string_view set_name), (const, override));
     MOCK_METHOD(Result<json::Any>,
                 GetParameterFromSet,
@@ -48,7 +48,7 @@ class ParameterSetCollectionMock final : public IParameterSetCollection
                 GetParameterSetQualifier,
                 (const score::cpp::string_view set_name),
                 (const, override));
-    MOCK_METHOD(ResultBlank,
+    MOCK_METHOD(Result<void>,
                 SetParameterSetQualifier,
                 (const score::cpp::string_view set_name, const score::config_management::config_daemon::ParameterSetQualifier qualifier),
                 (override));
@@ -60,4 +60,4 @@ class ParameterSetCollectionMock final : public IParameterSetCollection
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_MOCK_H

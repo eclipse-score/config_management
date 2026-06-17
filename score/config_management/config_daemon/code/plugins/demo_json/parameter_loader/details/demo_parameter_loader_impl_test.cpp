@@ -12,10 +12,10 @@
 // *******************************************************************************
 #include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details/demo_parameter_loader_impl.h"
 
-#include "score/json/json_parser.h"
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_impl.h"
 #include "score/config_management/config_daemon/code/data_model/error/error.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_mock.h"
+#include "score/json/json_parser.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -37,16 +37,16 @@ namespace test
 using score::json::operator""_json;
 using ::testing::_;
 
-score::ResultBlank Ok()
+score::Result<void> Ok()
 {
-    return score::ResultBlank{};
+    return score::Result<void>{};
 }
 
-score::ResultBlank Err()
+score::Result<void> Err()
 {
-    return score::ResultBlank{score::unexpect,
-                            score::config_management::config_daemon::data_model::MakeError(
-                                score::config_management::config_daemon::data_model::DataModelError::kParsingError, "unit-test")};
+    return score::Result<void>{score::unexpect,
+                             score::config_management::config_daemon::data_model::MakeError(
+                                 score::config_management::config_daemon::data_model::DataModelError::kParsingError, "unit-test")};
 }
 
 TEST(DemoParameterLoaderImplTest, LoadsParametersIntoDataModel)

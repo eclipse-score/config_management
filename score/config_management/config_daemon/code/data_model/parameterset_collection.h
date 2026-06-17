@@ -11,13 +11,13 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_H
 
-#include "score/json/internal/model/any.h"
-#include "score/result/result.h"
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces/read_only_parameterset_collection.h"
+#include "score/json/internal/model/any.h"
+#include "score/result/result.h"
 
 #include <score/string_view.hpp>
 
@@ -40,15 +40,15 @@ class IParameterSetCollection : public IReadOnlyParameterSetCollection
     IParameterSetCollection& operator=(const IParameterSetCollection&) & noexcept = delete;
     ~IParameterSetCollection() noexcept override;
 
-    virtual ResultBlank Insert(const score::cpp::string_view set_name,
-                               const score::cpp::string_view parameter_name,
-                               json::Any&& parameter_value) noexcept = 0;
-    virtual ResultBlank UpdateParameterSet(const score::cpp::string_view set_name, const score::cpp::string_view set) = 0;
+    virtual Result<void> Insert(const score::cpp::string_view set_name,
+                                const score::cpp::string_view parameter_name,
+                                json::Any&& parameter_value) noexcept = 0;
+    virtual Result<void> UpdateParameterSet(const score::cpp::string_view set_name, const score::cpp::string_view set) = 0;
     virtual bool SetCalibratable(const score::cpp::string_view set_name, const bool is_calibratable) const noexcept = 0;
 
     virtual score::Result<score::config_management::config_daemon::ParameterSetQualifier> GetParameterSetQualifier(
         const score::cpp::string_view set_name) const = 0;
-    virtual ResultBlank SetParameterSetQualifier(
+    virtual Result<void> SetParameterSetQualifier(
         const score::cpp::string_view set_name,
         const score::config_management::config_daemon::ParameterSetQualifier qualifier) = 0;
 
@@ -61,4 +61,4 @@ class IParameterSetCollection : public IReadOnlyParameterSetCollection
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETERSET_COLLECTION_H

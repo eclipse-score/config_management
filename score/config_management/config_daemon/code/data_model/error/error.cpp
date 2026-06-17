@@ -70,6 +70,9 @@ class DataModelErrorDomain final : public score::result::ErrorDomain
             case DataModelError::kFailedToUpdateParameterSetCollectionJson:
                 message = std::string_view{"Failed to update ParameterSetCollection JSON file"};
                 break;
+            case DataModelError::kFailedToLoadParameterSetCollectionJson:
+                message = std::string_view{"Failed to load ParameterSetCollection JSON file"};
+                break;
             case DataModelError::kFailedToPersistParameterSetCollection:
                 message = std::string_view{"Failed to persist parameter set collection"};
                 break;

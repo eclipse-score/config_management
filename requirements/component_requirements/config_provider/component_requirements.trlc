@@ -43,7 +43,7 @@ section "ConfigProvider_Component_Requirements" {
                 description = '''The user application shall be notified not only when the Parameter Set's value changed but also when its {{ParameterSetQualifier}} changed.'''
 
                 safety = ScoreReq.Asil.QM
-                derived_from = [ConfigManagement.ParameterSetAccess@1, ConfigManagement.ParameterSetQualifier@1]
+                derived_from = [ConfigManagement.ParameterSetAccess@1, ConfigManagement.ParameterSetQualifier@1, ConfigManagement.CompleteParameterSets@1]
                 version = 1
             }
 
@@ -57,7 +57,7 @@ section "ConfigProvider_Component_Requirements" {
             ScoreReq.CompReq BatchParameterSetRetrieval {
                 description = '''{{ConfigProvider}} shall enable retrieval of multiple Parameter Sets in a single request.'''
                 safety = ScoreReq.Asil.QM
-                derived_from = [ConfigManagement.ConfigProviderInterface@1]
+                derived_from = [ConfigManagement.ConfigProviderInterface@1, ConfigManagement.CompleteParameterSets@1]
                 version = 1
             }
 
@@ -75,6 +75,13 @@ section "ConfigProvider_Component_Requirements" {
         }
 
         section "InitialQualifierState_Management" {
+
+            ScoreReq.CompReq InitialQualifierStateUndefined {
+                description = '''{{ConfigProvider}} as part of a user application shall initialize the {{InitialQualifierState}} with value {{UNDEFINED}} at its side, which will remain as long as no update is available from {{ConfigDaemon}} application.'''
+                safety = ScoreReq.Asil.B
+                derived_from = [ConfigManagement.ConfigProviderInterface@1, ConfigManagement.ParameterInitialQualifier@1]
+                version = 1
+            }
 
             ScoreReq.CompReq GetInitialQualifierStateWithTimeout {
                 description = '''{{ConfigProvider}} shall provide the {{InitialQualifierState}} with timeout support.'''
@@ -113,62 +120,6 @@ section "ConfigProvider_Component_Requirements" {
             safety = ScoreReq.Asil.B
             derived_from = [ConfigManagement.ConfigProviderInterface@1, ConfigManagement.ParameterSetQualifier@1]
             version = 1
-        }
-
-        /* broken_link_c/issue/32231979 */
-        ScoreReq.CompReq ParameterSetContainsSameContent {
-            description = '''If persistent-caching is enabled, all Parameter Set updates shall only be persisted if the new values (except {{ParameterSetQualifier}}) are different from the already cached values.'''
-            safety = ScoreReq.Asil.QM
-            derived_from = [ConfigManagement.PersistentCachingDefinition@1, ConfigManagement.ParameterSetQualifier@1, ConfigManagement.ParameterModification@1]
-            version = 1
-        }
-
-    }
-
-    section "persistency" {
-
-        section "Caching_Behavior" {
-
-            /* broken_link_c/issue/39318953 */
-            ScoreReq.CompReq PersistentCachingQualifiedOnly {
-                description = '''If persistent-caching is enabled, Parameter Set updates shall only be persisted in the cache if {{ParameterSetQualifier}} is QUALIFIED.'''
-                safety = ScoreReq.Asil.QM
-                derived_from = [ConfigManagement.PersistentCachingDefinition@1, ConfigManagement.ParameterSetQualifier@1]
-                version = 1
-            }
-
-            /* broken_link_c/issue/32233530 */
-            ScoreReq.CompReq PersistentCachingUpdate {
-                description = '''Upon reception of an updated Parameter Set, its cached value shall be updated with the new values and such new values shall be written to the persistent cache.'''
-                safety = ScoreReq.Asil.QM
-                derived_from = [ConfigManagement.PersistentCachingDefinition@1]
-                version = 1
-            }
-
-            /* broken_link_c/issue/32233375 */
-            ScoreReq.CompReq PersistentCachingLoad {
-                description = '''A Parameter Set which gets loaded from the persisted cache shall always have {{ParameterSetQualifier}} set to UNQUALIFIED.'''
-                safety = ScoreReq.Asil.B
-                derived_from = [ConfigManagement.PersistentCachingDefinition@1, ConfigManagement.ParameterSetQualifier@1]
-                version = 1
-            }
-
-            /* broken_link_c/issue/32231893 */
-            ScoreReq.CompReq PersistentCachingFallback {
-                description = '''If no persistency object for the cache is provided during creation of the Parameter Provider, persistent-caching shall be disabled for this application, otherwise it shall be enabled.'''
-                safety = ScoreReq.Asil.QM
-                derived_from = [ConfigManagement.PersistentCachingDefinition@1]
-                version = 1
-            }
-
-            /* broken_link_c/issue/32232080 */
-            ScoreReq.CompReq EmptyPersistencyBehavior {
-                description = '''If qualification of the Parameter Sets has not finished and persistent-caching is disabled, no Parameter Set shall be provided to the user application.'''
-                safety = ScoreReq.Asil.QM
-                derived_from = [ConfigManagement.PersistentCachingDefinition@1, ConfigManagement.ParameterSetAccess@1]
-                version = 1
-            }
-
         }
 
     }

@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_H
 
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
 
@@ -62,18 +62,18 @@ class ConfigProvider
     virtual ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                        const std::optional<std::chrono::milliseconds> timeout) = 0;
 
-    virtual ResultBlank OnChangedParameterSet(const std::string& set_name,
-                                              OnChangedParameterSetCallback&& callback) noexcept = 0;
+    virtual Result<void> OnChangedParameterSet(const std::string& set_name,
+                                               OnChangedParameterSetCallback&& callback) noexcept = 0;
 
-    virtual ResultBlank OnChangedParameterSetCbk(std::string_view set_name,
-                                                 OnChangedParameterSetCallback&& callback) noexcept = 0;
+    virtual Result<void> OnChangedParameterSetCbk(std::string_view set_name,
+                                                  OnChangedParameterSetCallback&& callback) noexcept = 0;
 
     virtual InitialQualifierState GetInitialQualifierState(
         const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;
 
     virtual bool WaitUntilConnected(const std::chrono::milliseconds timeout,
                                     const score::cpp::stop_token& stop_token) noexcept = 0;
-    [[nodiscard]] virtual ResultBlank CheckParameterSetUpdates() noexcept = 0;
+    [[nodiscard]] virtual Result<void> CheckParameterSetUpdates() const noexcept = 0;
     virtual std::size_t GetCachedParameterSetsCount() const noexcept = 0;
 };
 
@@ -81,4 +81,4 @@ class ConfigProvider
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_H

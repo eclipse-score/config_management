@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP
 
 #include "kvs.hpp"
 
@@ -26,11 +26,11 @@ class MockKvs final : public Kvs
   public:
     // NOLINTBEGIN(readability-identifier-naming)
     MOCK_METHOD(score::Result<KvsValue>, get_value, (std::string_view key), (noexcept, override));
-    MOCK_METHOD(score::ResultBlank, set_value, (std::string_view key, const KvsValue& value), (noexcept, override));
-    MOCK_METHOD(score::ResultBlank, flush, (), (noexcept, override));
+    MOCK_METHOD(score::Result<void>, set_value, (std::string_view key, const KvsValue& value), (noexcept, override));
+    MOCK_METHOD(score::Result<void>, flush, (), (noexcept, override));
     // NOLINTEND(readability-identifier-naming)
 };
 
 }  // namespace score::mw::per::kvs
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP

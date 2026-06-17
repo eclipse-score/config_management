@@ -20,7 +20,7 @@ cc_unit_test_suites_for_host_and_qnx(
     test_suites_from_sub_packages = [
         "//score/config_management/config_daemon/code:unit_tests",
     ],
-    visibility = ["//score:__pkg__"],
+    visibility = ["//score/config_management:__pkg__"],
 )
 
 clang_tidy_extra_checks(
