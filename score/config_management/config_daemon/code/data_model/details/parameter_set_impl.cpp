@@ -35,7 +35,7 @@ ParameterSet::ParameterSet(std::unique_ptr<json::IJsonWriter> json_writer)
 {
 }
 
-ResultBlank ParameterSet::Add(const score::cpp::string_view parameter_name, json::Any&& parameter_value)
+Result<void> ParameterSet::Add(const score::cpp::string_view parameter_name, json::Any&& parameter_value)
 {
     Parameter parameter;
     parameter.SetValue(std::move(parameter_value));
@@ -51,10 +51,10 @@ ResultBlank ParameterSet::Add(const score::cpp::string_view parameter_name, json
                            << "already exists in parameter set";
         return MakeUnexpected(DataModelError::kParameterAlreadyExists, "Parameter already exist in parameter set");
     }
-    return ResultBlank{};
+    return Result<void>{};
 }
 
-ResultBlank ParameterSet::Update(json::Object&& parameters)
+Result<void> ParameterSet::Update(json::Object&& parameters)
 {
     // check if the parameter set is calibratable
     if (is_calibratable_)
@@ -82,7 +82,7 @@ ResultBlank ParameterSet::Update(json::Object&& parameters)
                 data_[parameter_name].SetValue(std::move(param.second));
                 logger_.LogInfo() << __func__ << "parameter with name:" << parameter_name << "updated";
             }
-            return ResultBlank{};
+            return Result<void>{};
         }
         else
         {

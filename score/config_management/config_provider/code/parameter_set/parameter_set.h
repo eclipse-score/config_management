@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PARAMETER_SET_PARAMETER_SET_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PARAMETER_SET_PARAMETER_SET_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PARAMETER_SET_PARAMETER_SET_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PARAMETER_SET_PARAMETER_SET_H
 
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
@@ -245,4 +245,4 @@ class ParameterSet final
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PARAMETER_SET_PARAMETER_SET_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PARAMETER_SET_PARAMETER_SET_H

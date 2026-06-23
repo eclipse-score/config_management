@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_ERROR_ERROR_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_ERROR_ERROR_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_ERROR_ERROR_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_ERROR_ERROR_H
 
 #include "score/result/error.h"
 #include "score/result/error_code.h"
@@ -38,6 +38,7 @@ enum class DataModelError : score::result::ErrorCode
     kParameterSetNotCalibratable,
     kParameterAlreadyExists,
     kFailedToUpdateParameterSetCollectionJson,
+    kFailedToLoadParameterSetCollectionJson,
     kFailedToPersistParameterSetCollection,
 };
 
@@ -49,4 +50,4 @@ score::result::Error MakeError(const DataModelError code, const std::string_view
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_ERROR_ERROR_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_ERROR_ERROR_H

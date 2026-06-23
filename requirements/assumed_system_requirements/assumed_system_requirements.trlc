@@ -14,16 +14,6 @@ package AssumedSystemRequirements
 
 import ScoreReq
 
-ScoreReq.AssumedSystemReq ErrorHandling {
-    description = """(C++) exceptions shall not be used for error handling.
-The best way to deal with errors is to try to resolve those component internally. If not possible the caller of the function shall be notified of the error.
-For (error) returns there is a specific library to be used in S-CORE, it is the Score::Result library which is part of
-the Base Libraries feature."""
-    safety = ScoreReq.Asil.B
-    rationale = "Exceptions will be directly leading to an abort and thus reducing availability of the S-CORE platform."
-    version = 1
-}
-
 ScoreReq.AssumedSystemReq SafeConfiguration {
     description = """The SW-platform shall support safe configuration.
 
@@ -37,72 +27,5 @@ ScoreReq.AssumedSystemReq FileBasedConfiguration {
     description = """The SW-platform shall support configuration of applications via files (e.g. yaml, json)."""
     safety = ScoreReq.Asil.QM
     rationale = "File based configuration allows changes without rebuilding the software."
-    version = 1
-}
-
-/* broken_link_c/issue/15804755 */
-ScoreReq.AssumedSystemReq CompleteParameterSets {
-    description = """The interface between parameter provider and application shall only exchange complete Parameter Sets."""
-    safety = ScoreReq.Asil.QM
-    rationale = "To be filled later"
-    version = 1
-}
-
-/* broken_link_c/issue/15804754 */
-ScoreReq.AssumedSystemReq ParameterSetsIndependecy {
-    description = """The interface between the parameter provider and the applications shall be independent of the Parameter Set definitions."""
-    safety = ScoreReq.Asil.QM
-    rationale = "To be filled later"
-    version = 1
-}
-
-/* broken_link_c/issue/15804740 */
-ScoreReq.AssumedSystemReq ParameterSetsNameUniqueness {
-    description = """At build-time a check shall ensure that Parameters names are unique for different Plugins."""
-    safety = ScoreReq.Asil.QM
-    rationale = "To be filled later"
-    version = 1
-}
-
-ScoreReq.AssumedSystemReq ParametersNameUniqueness {
-    description = """At build-time a check shall ensure that Parameter Set names are unique for different Plugins."""
-    safety = ScoreReq.Asil.QM
-    rationale = "To be filled later"
-    version = 1
-}
-
-/* broken_link_c/issue/24399695 */
-ScoreReq.AssumedSystemReq SupportedPrimitiveParameterTypes {
-    description = """The following primitive parameter types shall be supported for parameters:
-    * {{sint8}}
-    * {{sint16}}
-    * {{sint32}}
-    * {{sint64}}
-    * {{uint8}}
-    * {{uint16}}
-    * {{uint32}}
-    * {{uint64}}
-    * {{float32}}
-    * {{float64}}"""
-    safety = ScoreReq.Asil.QM
-    rationale = "To be filled later"
-    version = 1
-}
-
-/* broken_link_c/issue/24400736 */
-ScoreReq.AssumedSystemReq SupportedComplexParameterTypes {
-    description = """The following complex parameter types shall be supported for parameters:
-    * One dimensional array of {{SupportedPrimitiveParameterTypes}}
-    * Two dimensional array of {{SupportedPrimitiveParameterTypes}}"""
-    safety = ScoreReq.Asil.QM
-    rationale = "To be filled later"
-    version = 1
-}
-
-/* broken_link_c/issue/15804785 */
-ScoreReq.AssumedSystemReq ParameterSetsAvailability {
-    description = """The parameter provider shall provide all Parameter Sets within 3000 ms after the transition into the function group state, it and dependent applications are part of, is finished."""
-    safety = ScoreReq.Asil.QM
-    rationale = "To be filled later"
     version = 1
 }

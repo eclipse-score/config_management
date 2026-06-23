@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_IMPL_H
 
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
 
@@ -46,19 +46,19 @@ class ParameterSetCollection final : public IParameterSetCollection
     ParameterSetCollection& operator=(ParameterSetCollection&&) = delete;
     ParameterSetCollection& operator=(const ParameterSetCollection&) = delete;
 
-    ResultBlank Insert(const score::cpp::string_view set_name,
-                       const score::cpp::string_view parameter_name,
-                       json::Any&& parameter_value) noexcept override;
+    Result<void> Insert(const score::cpp::string_view set_name,
+                        const score::cpp::string_view parameter_name,
+                        json::Any&& parameter_value) noexcept override;
     Result<json::Any> GetParameterFromSet(const score::cpp::string_view set_name,
                                           const score::cpp::string_view parameter_name) const override;
     Result<score::cpp::pmr::string> GetParameterSet(const std::string_view set_name) const override;
-    ResultBlank UpdateParameterSet(const score::cpp::string_view set_name, const score::cpp::string_view set) override;
+    Result<void> UpdateParameterSet(const score::cpp::string_view set_name, const score::cpp::string_view set) override;
     bool SetCalibratable(const score::cpp::string_view set_name, const bool is_calibratable) const noexcept override;
 
     score::Result<score::config_management::config_daemon::ParameterSetQualifier> GetParameterSetQualifier(
         const score::cpp::string_view set_name) const override;
-    ResultBlank SetParameterSetQualifier(const score::cpp::string_view set_name,
-                                         const score::config_management::config_daemon::ParameterSetQualifier qualifier) override;
+    Result<void> SetParameterSetQualifier(const score::cpp::string_view set_name,
+                                          const score::config_management::config_daemon::ParameterSetQualifier qualifier) override;
 
     score::Result<json::Object> GetParameterSetCollectionAsJson() const noexcept override;
 
@@ -75,4 +75,4 @@ class ParameterSetCollection final : public IParameterSetCollection
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_IMPL_H

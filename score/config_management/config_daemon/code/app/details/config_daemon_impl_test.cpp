@@ -11,8 +11,6 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_daemon/code/app/details/config_daemon_impl.h"
-#include "score/os/errno.h"
-#include "score/result/result.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager_mock.h"
 #include "score/config_management/config_daemon/code/factory/factory.h"
 #include "score/config_management/config_daemon/code/factory/factory_mock.h"
@@ -20,6 +18,8 @@
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/plugin_collector_mock.h"
 #include "score/config_management/config_daemon/code/plugins/plugin_mock.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service_mock.h"
+#include "score/os/errno.h"
+#include "score/result/result.h"
 
 #include "score/os/mocklib/stat_mock.h"
 #include "score/mw/service/provided_service.h"
@@ -140,7 +140,11 @@ mw::service::ProvidedServiceContainer ConfigDaemonFixture::CreateProvidedService
 void ConfigDaemonFixture::FactoryDefaultSetup()
 {
     ON_CALL(*factory_mock_, CreateParameterSetCollectionManager(_)).WillByDefault(Invoke([](auto&&) {
-        return std::make_shared<data_model::ParameterSetCollectionManagerMock>();
+        auto mock = std::make_shared<data_model::ParameterSetCollectionManagerMock>();
+        ON_CALL(*mock, GetParameterSetCollection()).WillByDefault(Return(nullptr));
+        ON_CALL(*mock, LoadParameterSetCollectionFromStorage())
+            .WillByDefault(Return(Result<InitialQualifierState>{InitialQualifierState::kDefault}));
+        return mock;
     }));
     ON_CALL(*factory_mock_, CreateFaultEventReporter()).WillByDefault(Invoke([] {
         return std::make_unique<fault_event_reporter::FaultEventReporterMock>();
@@ -161,7 +165,7 @@ void ConfigDaemonFixture::FactoryDefaultSetup()
 
 void ConfigDaemonFixture::ComponentsDefaultSetup()
 {
-    ON_CALL(*first_plugin_mock_, Initialize()).WillByDefault(Return(ResultBlank{}));
+    ON_CALL(*first_plugin_mock_, Initialize()).WillByDefault(Return(Result<void>{}));
 }
 
 void ConfigDaemonFixture::PluginCollectorSetup()
@@ -170,18 +174,17 @@ void ConfigDaemonFixture::PluginCollectorSetup()
     plugins.push_back(first_plugin_mock_);
     plugins.push_back(second_plugin_mock_);
     ON_CALL(*plugin_collector_mock_, CreatePlugins()).WillByDefault(Return(plugins));
-    ON_CALL(*first_plugin_mock_, Initialize()).WillByDefault(Return(ResultBlank{}));
-    ON_CALL(*second_plugin_mock_, Initialize()).WillByDefault(Return(ResultBlank{}));
+    ON_CALL(*first_plugin_mock_, Initialize()).WillByDefault(Return(Result<void>{}));
+    ON_CALL(*second_plugin_mock_, Initialize()).WillByDefault(Return(Result<void>{}));
     ON_CALL(*factory_mock_, CreatePluginCollector()).WillByDefault(Return(ByMove(std::move(plugin_collector_mock_))));
 }
 
 TEST_F(ConfigDaemonFixture, ConfigDaemonAppInitializeSuccess)
 {
     RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Analysis of requirements");
-    RecordProperty("TestType", "Requirements-based test");
-    RecordProperty("Verifies", "12990991");
-    RecordProperty("ASIL", "B");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("lobster-tracing", "ConfigDaemon.StorageAccessibility");
     RecordProperty(
         "Description",
         "This test ensures that Initialize would return success, when factory can create all necessary "
@@ -265,7 +268,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppRunSucceed)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
-    RecordProperty("Verifies", "6950665");
+    RecordProperty("Verifies", "6950665, 75561092");
     RecordProperty("ASIL", "B");
     RecordProperty("Description",
                    "This test ensures that Initialize and Run would succeed, when factory can create necessary "
@@ -274,8 +277,8 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppRunSucceed)
     // Given the factory is able to create necessary components
     ComponentsDefaultSetup();
     FactoryDefaultSetup();
-    EXPECT_CALL(*first_plugin_mock_, Initialize()).WillOnce(Return(ResultBlank{}));
-    EXPECT_CALL(*second_plugin_mock_, Initialize()).WillOnce(Return(ResultBlank{}));
+    EXPECT_CALL(*first_plugin_mock_, Initialize()).WillOnce(Return(Result<void>{}));
+    EXPECT_CALL(*second_plugin_mock_, Initialize()).WillOnce(Return(Result<void>{}));
     EXPECT_CALL(*first_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
     EXPECT_CALL(*second_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
     EXPECT_CALL(*first_plugin_mock_, Deinitialize());
@@ -287,32 +290,6 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppRunSucceed)
     // Then the both functions would fail
     ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeSuccess);
     ASSERT_EQ(config_daemon_app_->Run(source.get_token()), kExitCodeSuccess);
-}
-
-TEST_F(ConfigDaemonFixture, ConfigDaemonAppRunFailDueToInitialQualifierSenderCreationFailure)
-{
-    RecordProperty("Priority", "3");
-    RecordProperty("DerivationTechnique", "Error guessing");
-    RecordProperty("TestType", "Interface test");
-    RecordProperty("Verifies", "::score::config_management::config_daemon::ConfigDaemon::Run()");
-    RecordProperty(
-        "Description",
-        "This test ensures that Run would return fail, when InitialQualifierStateSender Callback cannot be created");
-
-    // Given the factory failed to create InitialQualifierStateSender
-    ComponentsDefaultSetup();
-    FactoryDefaultSetup();
-    EXPECT_CALL(*first_plugin_mock_, Deinitialize());
-
-    EXPECT_CALL(*factory_mock_, CreateInitialQualifierStateSender(_))
-        .WillOnce(Return(ByMove(InitialQualifierStateSender{})));
-    config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
-    score::cpp::stop_source source;
-    source.request_stop();
-    config_daemon_app_->Initialize(gDummyContext);
-    // When the Run function is run
-    // Then the Run function would fail
-    ASSERT_EQ(config_daemon_app_->Run(source.get_token()), kExitCodeFailure);
 }
 
 // ToDo: Update this within CleanUp task(Ticket-192926)
@@ -347,7 +324,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToSetupPlugins)
     ComponentsDefaultSetup();
     FactoryDefaultSetup();
 
-    ResultBlank error_result{score::MakeUnexpected(score::json::Error::kParsingError, "")};
+    Result<void> error_result{score::MakeUnexpected(score::json::Error::kParsingError, "")};
     EXPECT_CALL(*first_plugin_mock_, Initialize()).WillOnce(Return(error_result));
     EXPECT_CALL(*second_plugin_mock_, Initialize()).Times(0);
 
@@ -368,8 +345,8 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToInitializeSecondPlugin)
     ComponentsDefaultSetup();
     FactoryDefaultSetup();
 
-    ResultBlank error_result{score::MakeUnexpected(score::json::Error::kParsingError, "")};
-    EXPECT_CALL(*first_plugin_mock_, Initialize()).WillOnce(Return(ResultBlank{}));
+    Result<void> error_result{score::MakeUnexpected(score::json::Error::kParsingError, "")};
+    EXPECT_CALL(*first_plugin_mock_, Initialize()).WillOnce(Return(Result<void>{}));
     EXPECT_CALL(*second_plugin_mock_, Initialize()).WillOnce(Return(error_result));
 
     config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
@@ -440,8 +417,8 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToInitializeAsPluginIsNull)
     plugins.push_back(first_plugin_mock);
     plugins.push_back(second_plugin_mock);
     EXPECT_CALL(*plugin_collector_mock_raw, CreatePlugins()).WillOnce(Return(plugins));
-    ON_CALL(*first_plugin_mock, ParameterSetCollectionUpdateStart(_)).WillByDefault(Return(ResultBlank{}));
-    EXPECT_CALL(*first_plugin_mock, Initialize()).WillOnce(Return(ResultBlank{}));
+    ON_CALL(*first_plugin_mock, ParameterSetCollectionUpdateStart(_)).WillByDefault(Return(Result<void>{}));
+    EXPECT_CALL(*first_plugin_mock, Initialize()).WillOnce(Return(Result<void>{}));
 
     config_daemon_app_ = std::make_unique<score::config_management::config_daemon::ConfigDaemon>(std::move(factory_mock_));
     ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeFailure);

@@ -11,6 +11,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
+load("@rules_python//python:defs.bzl", "py_binary")
+
 load("@score_communication_pip//:requirements.bzl", "requirement")
 
 py_binary(
@@ -18,8 +20,8 @@ py_binary(
     srcs = ["trlc_renderer.py"],
     visibility = ["//visibility:public"],
     deps = [
-        requirement("bigtree"),
-        requirement("pydot"),
-        #"@//third_party/trlc:trlc_whl",
+        "//third_party/bigtree",
+        "//third_party/pydot",
+        "//third_party/trlc:trlc_whl",
     ],
 )

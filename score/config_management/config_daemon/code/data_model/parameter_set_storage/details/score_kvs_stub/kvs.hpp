@@ -51,12 +51,12 @@ class Kvs
             score::MakeUnexpected(::score::config_management::config_daemon::data_model::ParameterSetStorageError::kDataNotFound)
                 .error());
     }
-    virtual score::ResultBlank set_value(std::string_view /*key*/, const KvsValue& /*value*/) noexcept
+    virtual score::Result<void> set_value(std::string_view /*key*/, const KvsValue& /*value*/) noexcept
     {
         return score::MakeUnexpected(
             ::score::config_management::config_daemon::data_model::ParameterSetStorageError::kUnableToSaveToPersistency);
     }
-    virtual score::ResultBlank flush() noexcept
+    virtual score::Result<void> flush() noexcept
     {
         return score::MakeUnexpected(
             ::score::config_management::config_daemon::data_model::ParameterSetStorageError::kUnableToSaveToPersistency);

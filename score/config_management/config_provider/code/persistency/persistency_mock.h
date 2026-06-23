@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_PERSISTENCY_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_PERSISTENCY_MOCK_H
 
 #include "score/config_management/config_provider/code/persistency/persistency.h"
 
@@ -28,21 +28,11 @@ class PersistencyMock : public Persistency
 {
   public:
     MOCK_METHOD(void,
-                ReadCachedParameterSets,
+                ReadParameterSetsByNameListFromFile,
                 (ParameterMap & cached_parameter_sets,
-                 score::cpp::pmr::memory_resource* memory_resource,
-                 const score::filesystem::Filesystem&),
+                 const score::cpp::pmr::vector<std::string_view>& set_names,
+                 score::cpp::pmr::memory_resource* memory_resource),
                 (noexcept, override));
-
-    MOCK_METHOD(void,
-                CacheParameterSet,
-                (const ParameterMap& cached_parameter_sets,
-                 const score::cpp::pmr::string param_set_key,
-                 const std::shared_ptr<const ParameterSet> parameter_set,
-                 bool sync_to_storage),
-                (noexcept, override));
-
-    MOCK_METHOD(void, SyncToStorage, (), (noexcept, override));
 
     ~PersistencyMock() = default;
 };
@@ -51,4 +41,4 @@ class PersistencyMock : public Persistency
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_PERSISTENCY_PERSISTENCY_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_PERSISTENCY_MOCK_H

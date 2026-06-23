@@ -11,16 +11,16 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_FACTORY_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_FACTORY_H
 
-#include "score/mw/service/provided_service_container.h"
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/parameter_set_storage.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
 #include "score/config_management/config_daemon/code/fault_event_reporter/fault_event_reporter.h"
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/plugin_collector.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service.h"
+#include "score/mw/service/provided_service_container.h"
 
 #include <vector>
 
@@ -63,4 +63,4 @@ class IFactory
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_FACTORY_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_FACTORY_H

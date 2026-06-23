@@ -22,10 +22,10 @@
 #include "score/mw/service/backend/mw_com/provided_service_builder.h"
 #include "score/mw/service/backend/mw_com/provided_service_decorator.h"
 
+#include "score/config_management/config_daemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
 #include "score/result/error.h"
 #include "score/mw/com/runtime.h"
 #include "score/mw/com/runtime_configuration.h"
-#include "score/config_management/config_daemon/code/services/details/mw_com/generated_service/internal_config_provider_type.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 

@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_DETAILS_CONFIG_PROVIDER_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_DETAILS_CONFIG_PROVIDER_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_DETAILS_CONFIG_PROVIDER_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_DETAILS_CONFIG_PROVIDER_IMPL_H
 
 #include "score/config_management/config_provider/code/config_provider/config_provider.h"
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
@@ -23,13 +23,14 @@
 #include "score/mw/log/logger.h"
 
 #include "score/concurrency/condition_variable.h"
-#include "score/mw/service/proxy_future.h"
+#include "score/mw/service/proxy_data.h"
 
 #include <score/jthread.hpp>
 #include <score/memory.hpp>
 #include <score/memory_resource.hpp>
 #include <score/optional.hpp>
 #include <score/unordered_map.hpp>
+#include <score/vector.hpp>
 #include <string_view>
 
 namespace score
@@ -66,17 +67,17 @@ class ConfigProviderImpl final : public ConfigProvider
 
     ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                const std::optional<std::chrono::milliseconds> timeout) override;
-    ResultBlank OnChangedParameterSet(const std::string& set_name,
-                                      OnChangedParameterSetCallback&& callback) noexcept override;
+    Result<void> OnChangedParameterSet(const std::string& set_name,
+                                       OnChangedParameterSetCallback&& callback) noexcept override;
 
-    ResultBlank OnChangedParameterSetCbk(std::string_view set_name,
-                                         OnChangedParameterSetCallback&& callback) noexcept override;
+    Result<void> OnChangedParameterSetCbk(std::string_view set_name,
+                                          OnChangedParameterSetCallback&& callback) noexcept override;
 
     InitialQualifierState GetInitialQualifierState(
         const std::optional<std::chrono::milliseconds> timeout) noexcept override;
 
     /// @brief Checks if any ParameterSet updates is available and stimulate polling routine.
-    ResultBlank CheckParameterSetUpdates() noexcept override;
+    Result<void> CheckParameterSetUpdates() const noexcept override;
 
     bool WaitUntilConnected(const std::chrono::milliseconds timeout,
                             const score::cpp::stop_token& stop_token) noexcept override;
@@ -86,13 +87,14 @@ class ConfigProviderImpl final : public ConfigProvider
     bool IsAwaitingProxyConnection() const noexcept;
 
     ConfigProviderImpl(
-        mw::service::ProxyFuture<std::unique_ptr<IInternalConfigProvider>> internal_config_provider_future,
+        mw::service::OptionalProxyData<IInternalConfigProvider> proxy_data,
         score::cpp::stop_token user_stop_token,
         score::cpp::pmr::memory_resource* const memory_resource,
         score::cpp::optional<std::size_t> max_samples_limit,
         score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
         IsAvailableNotificationCallback callback,
-        score::cpp::pmr::unique_ptr<Persistency> persistency);
+        score::cpp::pmr::unique_ptr<Persistency> persistency,
+        score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list = score::cpp::nullopt);
 
   private:
     void SetupInternalConfigProvider(std::shared_ptr<IInternalConfigProvider> internal_config_provider,
@@ -105,8 +107,8 @@ class ConfigProviderImpl final : public ConfigProvider
         const IInternalConfigProvider& internal_config_provider,
         const std::chrono::milliseconds timeout);
     ParameterMap FetchInitialParameterSetValuesFrom(const IInternalConfigProvider& internal_config_provider);
-    ResultBlank RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
-                                                         OnChangedParameterSetCallback&& callback);
+    Result<void> RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
+                                                          OnChangedParameterSetCallback&& callback);
     void RegisterCallbacksForPersistedParameterSetNames();
     void WriteInitialParameterSetValuesToPersistentCache(ParameterMap updated_parameter_sets);
 
@@ -129,4 +131,4 @@ class ConfigProviderImpl final : public ConfigProvider
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_DETAILS_CONFIG_PROVIDER_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_DETAILS_CONFIG_PROVIDER_IMPL_H

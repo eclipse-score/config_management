@@ -123,14 +123,17 @@ def get_default_branch() -> str:
     try:
         # Check remote branches to determine if main or master exists
         result = subprocess.run(
-            ["git", "branch", "-r"], capture_output=True, text=True, cwd=find_git_root()
+            ["git", "branch", "-r"],
+            capture_output=True,
+            text=True,
+            cwd=find_git_root()
         )
         if result.returncode == 0:
             branches = result.stdout.strip()
             # Check for main first (modern default)
-            if "origin/main" in branches:
+            if 'origin/main' in branches:
                 return "main"
-            elif "origin/master" in branches:
+            elif 'origin/master' in branches:
                 return "master"
     except Exception as e:
         logger.debug(f"Could not determine default branch: {e}")
@@ -169,9 +172,7 @@ def get_git_hash(file_path: str) -> str:
         # If git hash is empty, return the default branch (main or master)
         if not decoded_result:
             default_branch = get_default_branch()
-            logger.debug(
-                f"Empty git hash for {abs_path}, using default branch '{default_branch}'"
-            )
+            logger.debug(f"Empty git hash for {abs_path}, using default branch '{default_branch}'")
             return default_branch
 
         # sanity check

@@ -12,7 +12,7 @@ cc_library(
         "//visibility:public",  # platform_only
     ],
     deps = [
-        "//score/config_management/config_provider/code/config_provider:initial_qualifier_state_types",
+        "//score/config_management/config_provider:config_provider_interface",
         "//score/config_management/config_provider/code/config_provider/error",
         "@score_baselibs//score/json",
         "@score_baselibs//score/language/futurecpp",

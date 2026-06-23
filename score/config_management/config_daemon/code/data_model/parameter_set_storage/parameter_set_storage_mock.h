@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_MOCK_H
 
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/parameter_set_storage.h"
 
@@ -30,8 +30,13 @@ namespace data_model
 class ParameterSetStorageMock : public IParameterSetStorage
 {
   public:
-    MOCK_METHOD(ResultBlank,
+    MOCK_METHOD(Result<void>,
                 StoreParameterSetCollection,
+                (data_model::IParameterSetCollection & collection),
+                (noexcept, override));
+
+    MOCK_METHOD(Result<bool>,
+                LoadParameterSetCollection,
                 (data_model::IParameterSetCollection & collection),
                 (noexcept, override));
 
@@ -43,4 +48,4 @@ class ParameterSetStorageMock : public IParameterSetStorage
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_MOCK_H

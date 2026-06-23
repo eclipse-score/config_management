@@ -95,7 +95,7 @@ CP --> UserBusinessLogic : Result<shared_ptr<const ParameterSet>>
 ' User registers for change notifications
 UserBusinessLogic -> CP : OnChangedParameterSet(name, callback)
 CP -> CP : RegisterUpdateHandlerForParameterSetName(name)
-CP --> UserBusinessLogic : ResultBlank
+CP --> UserBusinessLogic : Result<void>
 
 note over CP, UserBusinessLogic #ccffcc
 Persistent cache initialized; updates via event + polling thread.

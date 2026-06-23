@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_H
 
 #include "score/result/result.h"
 
@@ -46,13 +46,27 @@ class IParameterSetStorage
     /// (where applicable) storing the flash counter copy.
     ///
     /// @param collection  The collection to persist.
-    /// @return ResultBlank on success, error on failure.
-    virtual ResultBlank StoreParameterSetCollection(IParameterSetCollection& collection) noexcept = 0;
-};
+    /// @return Result<void> on success, error on failure.
+    virtual Result<void> StoreParameterSetCollection(IParameterSetCollection& collection) noexcept = 0;
 
+    /// @brief Load the parameter set collection from persistent storage on startup.
+    ///
+    /// Checks the flash counter against its KVS copy to detect a flash event.
+    /// If a flash is detected, updates the KVS copy, removes ParameterSetCollection.json
+    /// and loads DefaultParameterSetCollection.json.
+    /// Otherwise, verifies the SHA-256 hash of ParameterSetCollection.json against
+    /// the KVS copy and loads ParameterSetCollection.json on success, or falls back
+    /// to DefaultParameterSetCollection.json on any integrity failure.
+    ///
+    /// @param collection  The in-memory collection to populate.
+    /// @return Result<bool>: true if ParameterSetCollection.json was loaded (kQualifying),
+    ///         false if DefaultParameterSetCollection.json was loaded (kDefault),
+    ///         or an error on unrecoverable failure (e.g. flash counter unreadable).
+    virtual Result<bool> LoadParameterSetCollection(IParameterSetCollection& collection) noexcept = 0;
+};
 }  // namespace data_model
 }  // namespace config_daemon
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_PARAMETER_SET_STORAGE_H

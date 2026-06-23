@@ -1054,14 +1054,13 @@ TEST_F(ParameterSetTest, TestContainsSameContent)
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("ASIL", "QM");
-    RecordProperty("Verifies", "32231979");
-    RecordProperty(
-        "Description",
-        "32231979: This test checks if current ParameterSet contains the same parameters content as the newly "
-        "received ParameterSet."
-        "This function would return true if the newly received ParameterSet has the same parameters "
-        "content, regardless of its qualifier."
-        "Otherwise, this function would return false.");
+    RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::ContainsSameContent()");
+    RecordProperty("Description",
+                   "This test checks if current ParameterSet contains the same parameters content as the newly "
+                   "received ParameterSet."
+                   "This function would return true if the newly received ParameterSet has the same parameters "
+                   "content, regardless of its qualifier."
+                   "Otherwise, this function would return false.");
 
     json::JsonParser json_parser{};
     const auto* content_v1_qualifier_v1 = R"(

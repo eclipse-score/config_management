@@ -10,14 +10,14 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_DEMO_JSON_DETAILS_DEMO_JSON_PLUGIN_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_DEMO_JSON_DETAILS_DEMO_JSON_PLUGIN_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_DEMO_JSON_DETAILS_DEMO_JSON_PLUGIN_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_DEMO_JSON_DETAILS_DEMO_JSON_PLUGIN_IMPL_H
 
+#include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/demo_parameter_loader.h"
+#include "score/config_management/config_daemon/code/plugins/plugin.h"
 #include "score/json/i_json_parser.h"
 #include "score/json/json_parser.h"
 #include "score/mw/log/logger.h"
-#include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/demo_parameter_loader.h"
-#include "score/config_management/config_daemon/code/plugins/plugin.h"
 
 #include <memory>
 
@@ -44,7 +44,7 @@ class DemoJsonPluginImpl final : public IPlugin
 
     ~DemoJsonPluginImpl() noexcept override = default;
 
-    ResultBlank Initialize() override;
+    Result<void> Initialize() override;
     void Deinitialize() noexcept override;
 
     std::int32_t Run(std::shared_ptr<data_model::IParameterSetCollectionManager> parameterset_collection_manager,
@@ -53,7 +53,7 @@ class DemoJsonPluginImpl final : public IPlugin
                      score::cpp::stop_token stop_token,
                      std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter) override;
 
-    ResultBlank ParameterSetCollectionUpdateStart(
+    Result<void> ParameterSetCollectionUpdateStart(
         data_model::IParameterSetCollection& parameter_set_collection) override;
 
   private:
@@ -66,4 +66,4 @@ class DemoJsonPluginImpl final : public IPlugin
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_DEMO_JSON_DETAILS_DEMO_JSON_PLUGIN_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_DEMO_JSON_DETAILS_DEMO_JSON_PLUGIN_IMPL_H

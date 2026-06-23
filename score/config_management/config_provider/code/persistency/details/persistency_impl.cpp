@@ -21,24 +21,11 @@ namespace config_provider
 
 PersistencyImpl::PersistencyImpl() : Persistency{}, logger_{mw::log::CreateLogger(std::string_view("CfgP"))} {}
 
-void PersistencyImpl::CacheParameterSet(const ParameterMap&,
-                                         const score::cpp::pmr::string,
-                                         const std::shared_ptr<const ParameterSet>,
-                                         bool) noexcept
+void PersistencyImpl::ReadParameterSetsByNameListFromFile(ParameterMap&,
+                                                           const score::cpp::pmr::vector<std::string_view>&,
+                                                           score::cpp::pmr::memory_resource*) noexcept
 {
-    logger_.LogDebug() << "Empty persistency is used, no caching is done";
-}
-
-void PersistencyImpl::ReadCachedParameterSets(ParameterMap&,
-                                               score::cpp::pmr::memory_resource*,
-                                               const score::filesystem::Filesystem&) noexcept
-{
-    logger_.LogDebug() << "Empty persistency is used, no caching would be read";
-}
-
-void PersistencyImpl::SyncToStorage() noexcept
-{
-    logger_.LogDebug() << "Empty persistency is used, no syncing is done";
+    logger_.LogDebug() << "Empty persistency is used, no parameter sets would be loaded from file";
 }
 
 }  // namespace config_provider

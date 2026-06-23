@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_PARAMETER_SET_STORAGE_SCORE_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_PARAMETER_SET_STORAGE_SCORE_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_PARAMETER_SET_STORAGE_SCORE_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_PARAMETER_SET_STORAGE_SCORE_IMPL_H
 
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/parameter_set_storage.h"
 
@@ -39,11 +39,15 @@ class ParameterSetStorageScoreImpl final : public IParameterSetStorage
     /// @brief Construct the storage impl, taking ownership of an opened Kvs instance.
     explicit ParameterSetStorageScoreImpl(std::unique_ptr<score::mw::per::kvs::Kvs> kvs) noexcept;
 
-    ResultBlank StoreParameterSetCollection(data_model::IParameterSetCollection& collection) noexcept override;
+    Result<void> StoreParameterSetCollection(data_model::IParameterSetCollection& collection) noexcept override;
+
+    /// @brief LoadParameterSetCollection is not applicable on the SCORE platform (no filesystem access).
+    ///        Always returns false to indicate the default parameter set collection is in use.
+    Result<bool> LoadParameterSetCollection(data_model::IParameterSetCollection& collection) noexcept override;
 
   private:
     Result<std::string> ReadParameterSetCollectionHash() const noexcept;
-    ResultBlank PersistParameterSetCollectionHash(const std::string& hash) noexcept;
+    Result<void> PersistParameterSetCollectionHash(const std::string& hash) noexcept;
     std::unique_ptr<score::mw::per::kvs::Kvs> kvs_;
 };
 
@@ -52,4 +56,4 @@ class ParameterSetStorageScoreImpl final : public IParameterSetStorage
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_PARAMETER_SET_STORAGE_SCORE_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_PARAMETER_SET_STORAGE_SCORE_IMPL_H

@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_provider/code/config_provider/details/config_provider_impl.h"
+#include "score/config_management/config_provider/code/config_provider/error/error.h"
 #include "score/concurrency/future/interruptible_promise.h"
 #include "score/json/json_parser.h"
-#include "score/config_management/config_provider/code/config_provider/error/error.h"
 
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
 #include <score/memory.hpp>
@@ -46,13 +46,14 @@ std::string GetParameterSetValue(mw::log::Logger& logger, const ParameterSet& pa
 }  // namespace
 
 ConfigProviderImpl::ConfigProviderImpl(
-    mw::service::ProxyFuture<std::unique_ptr<IInternalConfigProvider>> internal_config_provider_future,
+    mw::service::OptionalProxyData<IInternalConfigProvider> proxy_data,
     score::cpp::stop_token user_stop_token,
     score::cpp::pmr::memory_resource* const memory_resource,
     score::cpp::optional<std::size_t> max_samples_limit,
     score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
     IsAvailableNotificationCallback callback,
-    score::cpp::pmr::unique_ptr<Persistency> persistency)
+    score::cpp::pmr::unique_ptr<Persistency> persistency,
+    score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list)
     : ConfigProvider(),
       logger_{mw::log::CreateLogger(std::string_view{"CfgP"})},
       parameter_sets_{ParameterMap::allocator_type{memory_resource}},  // LCOV_EXCL_LINE optimized by compiler
@@ -67,14 +68,19 @@ ConfigProviderImpl::ConfigProviderImpl(
       stop_callback_{}
 {
     logger_.LogDebug() << __func__;
-    const score::filesystem::FilesystemFactory filesystem_factory{};  // LCOV_EXCL_LINE optimized by compiler
-    persistency_->ReadCachedParameterSets(parameter_sets_, memory_resource, filesystem_factory.CreateInstance());
+
+    if (initial_parameter_set_name_list.has_value())
+    {
+        persistency_->ReadParameterSetsByNameListFromFile(
+            parameter_sets_, initial_parameter_set_name_list.value(), memory_resource);
+    }
 
     score::cpp::ignore = proxy_available_thread_.emplace(
         [this](const score::cpp::stop_token jthread_stop_token,
                decltype(callback) notification_callback,
-               decltype(internal_config_provider_future) proxy_future) mutable {
-            auto proxy_holder = proxy_future.Get(jthread_stop_token);
+               decltype(proxy_data) pd) mutable {
+            auto proxy_holder = pd.GetProxyFuture().Get(jthread_stop_token);
+            pd.StopServiceDiscovery();
             if (proxy_holder.has_value())
             {
                 logger_.LogInfo() << "ProxyAvailableThread: InternalConfigProvider proxy is connected";
@@ -87,7 +93,7 @@ ConfigProviderImpl::ConfigProviderImpl(
             }
         },
         std::move(callback),
-        std::move(internal_config_provider_future));
+        std::move(proxy_data));
 
     score::cpp::ignore = stop_callback_.emplace(user_stop_token, [this]() {
         score::cpp::ignore = proxy_available_thread_->request_stop();
@@ -244,7 +250,6 @@ Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(
         std::lock_guard<std::mutex> lock{mutex_};
         logger_.LogInfo() << __func__ << " [" << set_name << "]: Adding new parameter set to cache as "
                           << parameter_sets_.size() << " element";
-        persistency_->CacheParameterSet(parameter_sets_, param_set_key, param_set.value(), true);
         score::cpp::ignore = parameter_sets_.try_emplace(param_set_key, param_set.value());
         // Register update handler to keep this newly cached parameter set up-to-date.
         // We ignore returned value because we always pass empty callback here which
@@ -307,7 +312,6 @@ ParameterSetMap ConfigProviderImpl::GetParameterSetsByNameList(const score::cpp:
             score::cpp::ignore = parameter_set_map.try_emplace(set_name_key, param_set.value());
             {
                 std::lock_guard<std::mutex> lock{mutex_};
-                persistency_->CacheParameterSet(parameter_sets_, set_name_key, param_set.value(), false);
                 score::cpp::ignore = parameter_sets_.try_emplace(set_name_key, param_set.value());
                 // Register update handler to keep this newly cached parameter set up-to-date.
                 // We ignore returned value because we always pass empty callback here which
@@ -324,7 +328,6 @@ ParameterSetMap ConfigProviderImpl::GetParameterSetsByNameList(const score::cpp:
         }
     }
 
-    persistency_->SyncToStorage();
     return parameter_set_map;
 }
 
@@ -408,7 +411,6 @@ void ConfigProviderImpl::LastUpdatedParameterSetReceiveHandler(const std::string
 
     if (parameter_set.has_value())
     {
-        persistency_->CacheParameterSet(parameter_sets_, set_name_amp, parameter_set.value(), true);
         const auto result = parameter_sets_.insert_or_assign(set_name_amp, parameter_set.value());
 
         if (result.second)
@@ -429,8 +431,8 @@ void ConfigProviderImpl::LastUpdatedParameterSetReceiveHandler(const std::string
     }
 }
 
-ResultBlank ConfigProviderImpl::OnChangedParameterSet(const std::string& set_name,
-                                                      OnChangedParameterSetCallback&& callback) noexcept
+Result<void> ConfigProviderImpl::OnChangedParameterSet(const std::string& set_name,
+                                                       OnChangedParameterSetCallback&& callback) noexcept
 {
     logger_.LogDebug() << __func__ << " [" << set_name << "]";
 
@@ -444,14 +446,14 @@ ResultBlank ConfigProviderImpl::OnChangedParameterSet(const std::string& set_nam
     return RegisterUpdateHandlerForParameterSetName(set_name, std::move(on_changed_parameter_set_callback));
 }
 
-ResultBlank ConfigProviderImpl::OnChangedParameterSetCbk(std::string_view set_name,
-                                                         OnChangedParameterSetCallback&& callback) noexcept
+Result<void> ConfigProviderImpl::OnChangedParameterSetCbk(std::string_view set_name,
+                                                          OnChangedParameterSetCallback&& callback) noexcept
 {
     return OnChangedParameterSet(std::string{set_name}, std::move(callback));
 }
 
-ResultBlank ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
-                                                                         OnChangedParameterSetCallback&& callback)
+Result<void> ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
+                                                                          OnChangedParameterSetCallback&& callback)
 {
     // NOTE: we assume here that `mutex_` got already acquired by the caller!
     logger_.LogDebug() << __func__ << " [" << set_name << "]";
@@ -475,7 +477,7 @@ ResultBlank ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName(const s
     return {};
 }
 
-ResultBlank ConfigProviderImpl::CheckParameterSetUpdates() noexcept
+Result<void> ConfigProviderImpl::CheckParameterSetUpdates() const noexcept
 {
     logger_.LogDebug() << __func__;
 
@@ -523,14 +525,11 @@ void ConfigProviderImpl::WriteInitialParameterSetValuesToPersistentCache(Paramet
     logger_.LogDebug() << __func__;
 
     std::lock_guard<std::mutex> lock{mutex_};
-    const auto current_parameter_set_copy = parameter_sets_;
     for (const auto& [key, value] : updated_parameter_sets)
     {
         logger_.LogDebug() << __func__ << ": Cache parameter set " << key;
-        persistency_->CacheParameterSet(current_parameter_set_copy, key, value, false);
     }
 
-    persistency_->SyncToStorage();
     if (!updated_parameter_sets.empty())
     {
         parameter_sets_ = std::move(updated_parameter_sets);

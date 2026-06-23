@@ -39,7 +39,7 @@ DemoJsonPluginImpl::DemoJsonPluginImpl(std::unique_ptr<score::json::IJsonParser>
     logger_.LogInfo() << "DemoJson::" << __func__ << "- Created";
 }
 
-ResultBlank DemoJsonPluginImpl::Initialize()
+Result<void> DemoJsonPluginImpl::Initialize()
 {
     return {};
 }
@@ -72,7 +72,7 @@ std::int32_t DemoJsonPluginImpl::Run(
     return EXIT_SUCCESS;
 }
 
-ResultBlank DemoJsonPluginImpl::ParameterSetCollectionUpdateStart(
+Result<void> DemoJsonPluginImpl::ParameterSetCollectionUpdateStart(
     data_model::IParameterSetCollection& parameter_set_collection)
 {
     score::cpp::ignore = parameter_set_collection;

@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_FACTORY_FACTORY_MW_COM_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_FACTORY_FACTORY_MW_COM_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_FACTORY_FACTORY_MW_COM_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_FACTORY_FACTORY_MW_COM_H
 
 #include "score/config_management/config_provider/code/config_provider/details/config_provider_impl.h"
 #include "score/config_management/config_provider/code/persistency/details/persistency_impl.h"
@@ -25,6 +25,7 @@
 #include <score/memory.hpp>
 #include <score/memory_resource.hpp>
 #include <score/optional.hpp>
+#include <score/vector.hpp>
 
 namespace score
 {
@@ -50,6 +51,42 @@ class ConfigProviderFactory final
     score::cpp::pmr::unique_ptr<ConfigProvider> Create(
         score::cpp::stop_token token,
         std::chrono::milliseconds timeout,
+        const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
+        score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
+        IsAvailableNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+    {
+        return CreateInternal<InternalConfigProviderPort>(token,
+                                                          timeout,
+                                                          score::cpp::nullopt,
+                                                          score::cpp::nullopt,
+                                                          memory_resource,
+                                                          std::move(callback),
+                                                          score::cpp::pmr::make_unique<PersistencyImpl>(memory_resource),
+                                                          initial_parameter_set_name_list);
+    }
+
+    template <typename InternalConfigProviderPort>
+    score::cpp::pmr::unique_ptr<ConfigProvider> Create(
+        score::cpp::stop_token token,
+        score::cpp::pmr::unique_ptr<Persistency> persistency,
+        const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
+        score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
+        IsAvailableNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+    {
+        return CreateInternal<InternalConfigProviderPort>(token,
+                                                          std::chrono::milliseconds(0U),
+                                                          score::cpp::nullopt,
+                                                          score::cpp::nullopt,
+                                                          memory_resource,
+                                                          std::move(callback),
+                                                          std::move(persistency),
+                                                          initial_parameter_set_name_list);
+    }
+
+    template <typename InternalConfigProviderPort>
+    score::cpp::pmr::unique_ptr<ConfigProvider> Create(
+        score::cpp::stop_token token,
+        std::chrono::milliseconds timeout,
         score::cpp::optional<std::size_t> max_samples_limit,
         score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
@@ -61,7 +98,8 @@ class ConfigProviderFactory final
                                                           polling_cycle_interval,
                                                           memory_resource,
                                                           std::move(callback),
-                                                          score::cpp::pmr::make_unique<PersistencyImpl>(memory_resource));
+                                                          score::cpp::pmr::make_unique<PersistencyImpl>(memory_resource),
+                                                          score::cpp::nullopt);
     }
 
     template <typename InternalConfigProviderPort>
@@ -79,7 +117,8 @@ class ConfigProviderFactory final
                                                           polling_cycle_interval,
                                                           memory_resource,
                                                           std::move(callback),
-                                                          std::move(persistency));
+                                                          std::move(persistency),
+                                                          score::cpp::nullopt);
     }
 
     template <typename InternalConfigProviderPort>
@@ -95,7 +134,8 @@ class ConfigProviderFactory final
                                                           score::cpp::nullopt,
                                                           memory_resource,
                                                           std::move(callback),
-                                                          score::cpp::pmr::make_unique<PersistencyImpl>(memory_resource));
+                                                          score::cpp::pmr::make_unique<PersistencyImpl>(memory_resource),
+                                                          score::cpp::nullopt);
     }
 
     template <typename InternalConfigProviderPort>
@@ -111,18 +151,21 @@ class ConfigProviderFactory final
                                                           score::cpp::nullopt,
                                                           memory_resource,
                                                           std::move(callback),
-                                                          std::move(persistency));
+                                                          std::move(persistency),
+                                                          score::cpp::nullopt);
     }
 
   private:
     template <typename InternalConfigProviderPort>
-    score::cpp::pmr::unique_ptr<ConfigProvider> CreateInternal(score::cpp::stop_token token,
-                                                        std::chrono::milliseconds timeout,
-                                                        score::cpp::optional<std::size_t> max_samples_limit,
-                                                        score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
-                                                        score::cpp::pmr::memory_resource* const memory_resource,
-                                                        IsAvailableNotificationCallback&& callback,
-                                                        score::cpp::pmr::unique_ptr<Persistency> persistency) const
+    score::cpp::pmr::unique_ptr<ConfigProvider> CreateInternal(
+        score::cpp::stop_token token,
+        std::chrono::milliseconds timeout,
+        score::cpp::optional<std::size_t> max_samples_limit,
+        score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
+        score::cpp::pmr::memory_resource* const memory_resource,
+        IsAvailableNotificationCallback&& callback,
+        score::cpp::pmr::unique_ptr<Persistency> persistency,
+        score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list) const
     {
         using InternalConfigProviderStrategy =
             mw::service::backend::mw_com::SingleInstantiationStrategy<IInternalConfigProvider,
@@ -145,7 +188,8 @@ class ConfigProviderFactory final
             max_samples_limit,
             polling_cycle_interval,
             std::move(callback),
-            std::move(persistency));
+            std::move(persistency),
+            std::move(initial_parameter_set_name_list));
 
         score::cpp::ignore = config_provider->WaitUntilConnected(timeout, token);
         return config_provider;
@@ -158,4 +202,4 @@ class ConfigProviderFactory final
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_FACTORY_FACTORY_MW_COM_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_FACTORY_FACTORY_MW_COM_H

@@ -1,45 +1,22 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test")
 load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load(":custom.bzl", "load_custom_targets")
 
-[
-    cc_library(
-        name = "details" + name,
-        testonly = test_only,
-        srcs = [
-            "persistency_impl.cpp",
-        ],
-        hdrs = [
-            "persistency_impl.h",
-        ],
-        features = COMPILER_WARNING_FEATURES,
-        tags = ["FFI"],
-        visibility = [
-            "//score/config_management/config_provider/code:__subpackages__",
-        ],
-        deps = [
-            "//score/config_management/config_provider/code/persistency",
-            "//score/config_management/config_provider/code/persistency/error",
-            "@score_logging//score/mw/log",
-        ] + dep,
-    )
-    for name, test_only, dep in [
-        (
-            "",
-            False,
-            [
-                # Target for storage impl
-            ],
-        ),
-        (
-            "_for_unit_test",
-            True,
-            [
-                # Target for storage mock
-            ],
-        ),
-    ]
-]
+cc_library(
+    name = "details",
+    srcs = ["persistency_impl.cpp"],
+    hdrs = ["persistency_impl.h"],
+    tags = ["FFI"],
+    visibility = [
+        "//score/config_management/config_provider/code:__subpackages__",
+    ],
+    deps = [
+        "//score/config_management/config_provider/code/persistency",
+        "@score_logging//score/mw/log",
+        "@score_baselibs//score/language/futurecpp",
+    ],
+)
 
 cc_gtest_unit_test(
     name = "unit_test",
@@ -52,8 +29,9 @@ cc_gtest_unit_test(
     ],
     deps = [
         ":details",
-        ":details_for_unit_test",
         "@score_baselibs//score/filesystem:mock",
         "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
+
+load_custom_targets()

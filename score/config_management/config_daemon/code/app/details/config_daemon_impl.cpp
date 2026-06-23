@@ -109,7 +109,25 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
 {
     logger_.LogInfo() << "ConfigDaemon::" << __func__;
 
-    score::utils::ScopeExit<> deinitialize_plugin_instance([this, &logger = logger_]() noexcept {
+    const auto load_result = parameterset_collection_manager_->LoadParameterSetCollectionFromStorage();
+    if (!load_result.has_value())
+    {
+        logger_.LogError() << "ConfigDaemon::" << __func__ << ": Failed to load ParameterSetCollection from storage";
+    }
+
+    logger_.LogInfo() << "ConfigDaemon::" << __func__ << "InternalConfigProviderService offered.";
+    provided_services_container_.StartServices();
+
+    if (load_result.has_value())
+    {
+        auto initial_qualifier_state_sender = factory_->CreateInitialQualifierStateSender(provided_services_container_);
+        if (!initial_qualifier_state_sender.empty())
+        {
+            initial_qualifier_state_sender(load_result.value());
+        }
+    }
+
+    utils::ScopeExit<> deinitialize_plugin_instance([this, &logger = logger_]() noexcept {
         logger.LogInfo() << "ConfigDaemon::" << __func__ << "Exiting plugin execution scope";
 
         for (const auto& plugin : plugins_)
@@ -162,9 +180,6 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
             return kExitCodeFailure;
         }
     }
-
-    logger_.LogInfo() << "ConfigDaemon::" << __func__ << "InternalConfigProviderService offered.";
-    provided_services_container_.StartServices();
 
     score::concurrency::wait_until_stop_requested(token);
 

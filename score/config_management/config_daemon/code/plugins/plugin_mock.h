@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_PLUGIN_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_PLUGIN_MOCK_H
 
 #include "score/config_management/config_daemon/code/plugins/plugin.h"
 
@@ -32,7 +32,7 @@ class PluginMock final : public IPlugin
   public:
     ~PluginMock() = default;
 
-    MOCK_METHOD(ResultBlank, Initialize, (), (override));
+    MOCK_METHOD(Result<void>, Initialize, (), (override));
     MOCK_METHOD(void, Deinitialize, (), (noexcept, override));
 
     MOCK_METHOD(std::int32_t,
@@ -43,11 +43,11 @@ class PluginMock final : public IPlugin
                  score::cpp::stop_token stop_token,
                  std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter),
                 (override));
-    MOCK_METHOD(ResultBlank, ParameterSetCollectionUpdateStart, (data_model::IParameterSetCollection&), (override));
+    MOCK_METHOD(Result<void>, ParameterSetCollectionUpdateStart, (data_model::IParameterSetCollection&), (override));
 };
 
 }  // namespace config_daemon
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_PLUGINS_PLUGIN_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_PLUGIN_MOCK_H

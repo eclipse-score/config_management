@@ -14,10 +14,11 @@
   - [4.1 Execution Stages](#41-execution-stages)
   - [4.2 IPC communication](#42-ipc-communication)
 - [5. External Dependencies](#5-external-dependencies)
+- [6. Security Policy](#6-security-policy)
 
 ## 1. Introduction
 
-Embedded software typically requires vehicle-specific configuration parameters, such as geometry and geographical region. `ConfigDaemon` application and [`ConfigProvider` library](../../score/static_reflection_with_serialization/ConfigProvider/detailed_design/README.md) together implement a configuration management approach that centralizes storage, verification, and updates, and provides configuration data to client applications.
+Embedded software typically requires vehicle-specific configuration parameters, such as geometry and geographical region. `ConfigDaemon` application and [`ConfigProvider` library](../../common/ConfigProvider/detailed_design/README.md) together implement a configuration management approach that centralizes storage, verification, and updates, and provides configuration data to client applications.
 
 The diagram below demonstrates the composition principle of `ConfigDaemon` and User Adaptive Applications. The entire communication path between the business logic using a parameter and a parameter stored is encapsulated by `ConfigDaemon` and `ConfigProvider` library. Thus, a user is not directly confronted with the kind of IPC implementation or parameter representation and handling by the interface `IInternalConfigProvider`.
 
@@ -172,3 +173,56 @@ A client application can also subscribe to a named `ParameterSet` with a callbac
 
 ## 5. External Dependencies
 <!-- TODO: Update the score lib path -->
+
+## 6. Security Policy
+
+A security policy (secpol) file defines the OS-level capabilities and IPC connection permissions granted to `ConfigDaemon` by the QNX security framework. It follows the principle of least privilege: only the abilities actually required for the process to function are granted.
+
+The secpol file is located at [`config_daemon.secpol`](../../../../../ecu/xpad/abc-lmn/config/ipnext/isoc/config_management/config_daemon/config_daemon.secpol).
+
+### Abilities
+
+| Ability | Why it is needed |
+|---|---|
+| `nonroot` | By default, a process gets the abilities specified in an allow statement only if it is root. To grant them when the process is non-root as well, the nonroot option is required. |
+| `amsr/safe-process:asil_b` | MICROSAR Adaptive (Vector stack) safety-process classification. It marks `ConfigDaemon` as ASIL-B for Adaptive safety/runtime integration and corresponding supervision behavior. |
+| `map_fixed` | Required by the OS to load and run the application itself. Without this ability the process cannot start. This is a base policy requirement for all QNX applications (QNX 7.1 and QNX 8.0). |
+| `pathspace` | Provides the process access to the `procnto` pathname prefix space. Required for `mw::log` (DLT logging), to register named IPC server endpoints, and to attach the message passing channel (`/mw_com/message_passing/logging.CfgD.1012`). |
+| `prot_exec` | Required by the dynamic linker to map shared libraries with execute permission during process startup. |
+| `public_channel` | Allows the process to create public channels, a QNX mechanism for inter-process communication (IPC). Required to attach the DLT logging channel (`/mw_com/message_passing/logging.CfgD.1012`). |
+| `xthread_threadctl:11` | Required for calling `pthread_setname_np()` (thread naming), which on QNX uses the ThreadCtl(_NTO_TCTL_NAME) kernel call with subcommand value 11. ConfigDaemon's dependencies (mw::com, score::concurrency, mw::log) spawn threads that call `pthread_setname_np()`. Without this ability, each naming call produces a secpol violation. The `:11` subrange restricts permission to only the thread-naming subcommand, following the principle of least privilege. |
+
+### Channel connect permissions
+
+`ConfigDaemon` is permitted to initiate IPC connections to the following processes:
+
+| Process | Reason |
+|---|---|
+| `Bs_t` | Required by the coding plugin to call BasicSecurity services used during coding checks: the `crypto` proxy (`VerifyNcdSignature`) for NCD signature/integrity validation and additional BasicSecurity-backed services (e.g., secure feature registry and secure VIN related proxies). |
+| `CalibrationServer_t` | CalibrationServer is a client of both services provided by ConfigD: `ConfigCalibration` and `InternalConfigProvider`, and ConfigD connects to CalibrationServer for IPC transport. |
+| `datarouter_t` | Required to use the DLT `mw::log` framework for logging. |
+| `devb_loopback_t` | Required for mounting rw_overlay/writable.fs loopback images so development and ITF overlays can replace files under `/opt/ConfigDaemon/etc` before `ConfigDaemon` starts. |
+| `devb_ufs_qualcomm_t` | Required for ConfigD persistent-storage functionality on Qualcomm UFS-backed partitions: storing/verifying the parameter-set collection state and hash (`/persistent/trusted/ConfigDaemon/...`), reading flash counter (`/persistent/untrusted/ConfigProvider/flash_counter`), and flushing KVS data (`/persistent/ConfigDaemon/nvmblock/key_value_storage`). |
+| `devb_virtio_t` | Implementation detail of qemu testing. |
+| `DiagnosticManagerSwc_t` | Diagnostic Manager — used for coding diagnostic jobs and DTC reporting |
+| `execution_manager_t` | AUTOSAR Execution Manager — manages process lifecycle |
+| `IPCServiceDiscoveryDaemon_t` | Required by Vector mw::com IPC service discovery. During startup, ConfigDaemon proxy creation/`FindService` resolves service instances (`FaultEventProxy`, `CryptoProxy`, `SecureFeatureRegistryProxy`, `VINProxy`, `VPCProxy`, `ProgIdProxy`, `SoftwareIdProviderProxy`) via this daemon. |
+| `lifecycle_state_machine_t` | LSM uses the `InternalConfigProvider` interface to read coding parameters from ConfigD — specifically the `FasCountryVariants` coding parameter, which LSM uses to determine the current software variant and drive the `CountryVariant` function group state. |
+| `PhmHeartBeatProxy_t` | Platform Health Management — ConfigD reports hardware and software fault events via `FaultEventProxy`. The events are used by PhmHeartBeatProxy to set primary DTCs. |
+| `qtsafefsd_t` | QNX safe filesystem — coding and calibration parameter files are stored under `/opt` which is integrity-protected by the read-only qtsafefs (ASIL-B). |
+| `secured_t` | Secure daemon — ConfigD subscribes to the `SecureDebug` interface provided by `secured` to determine whether to offer the `ConfigCalibrationService` (toggled off in field mode, on in engineering mode). |
+| `SoftwareIdProvider_t` | Provides SWID for ECU programming detection |
+| `SoftwareUpdate_t` | Provides `ProgId` used by the coding plugin to detect whether the ECU has been reprogrammed. |
+| `someipd_posix_t` | SOME/IP daemon — required for receiving VIN and VPC (Vehicle Profile Checksum), consumed by the coding plugin for qualification. |
+
+### Named path attachments
+
+`ConfigDaemon` is permitted to attach to the following named paths:
+
+| Path | Purpose |
+|---|---|
+| `/dev/name/local/amsr/amsr_ipc_server-0000039180_0000000101` | `ConfigCalibration` service endpoint (service ID 39180) — ConfigDaemon registers this skeleton to expose the `ConfigCalibration` interface, which allows CalibrationServer to write/update parameter sets. |
+| `/dev/name/local/amsr/amsr_ipc_server-0000037832_0000000101` | `SvkCafId` service endpoint (service ID 37832) - ConfigDaemon's coding plugin registers this skeleton to expose the current CAF IDs (`SgbmId` array), which `SoftwareUpdate` consumes to identify the active coding software versions. |
+| `/dev/name/local/amsr/amsr_ipc_server-0000016578_0000000101` | `InternalConfigProvider` service endpoint (service ID 16578) — ConfigDaemon registers this skeleton to expose the `InternalConfigProvider` interface, which provides read-only access to configuration parameters for all client applications. |
+| `/dev/name/local/amsr/amsr_ipc_server-0000061020_0000002273` | Vector AMSR IPC infrastructure server - ConfigDaemon connects to this during `mw::core::Initialize()` to register itself in the `mw::com` runtime, enabling it to offer its services (`ConfigCalibration`, `InternalConfigProvider`) and discover/connect to other services. Required by all processes using the Vector adaptive stack. |
+| `/mw_com/message_passing/logging.CfgD.1012` | DLT logging channel for ConfigDaemon |

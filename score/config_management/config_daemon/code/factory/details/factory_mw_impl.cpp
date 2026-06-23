@@ -11,8 +11,6 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#include "score/mw/service/backend/mw_com/provided_service_builder.h"
-#include "score/mw/service/backend/mw_com/provided_service_decorator.h"
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_impl.h"
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_manager_impl.h"
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/details/parameter_set_storage_score_impl.h"
@@ -24,6 +22,9 @@
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/details/plugin_collector_impl.h"
 #include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_reactor_impl.h"
 #include "score/config_management/config_daemon/code/services/details/mw_com/internal_config_provider_service_impl.h"
+#include "score/mw/log/logging.h"
+#include "score/mw/service/backend/mw_com/provided_service_builder.h"
+#include "score/mw/service/backend/mw_com/provided_service_decorator.h"
 
 #include <score/utility.hpp>
 #include <memory>

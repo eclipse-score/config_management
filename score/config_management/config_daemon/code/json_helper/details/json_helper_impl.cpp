@@ -30,6 +30,7 @@ JsonHelper::JsonHelper()
     : IJsonHelper{},
       json_parser_{std::make_shared<json::JsonParser>()},
       json_writer_{std::make_shared<json::JsonWriter>()},
+      json_synced_writer_{std::make_shared<json::JsonWriter>(json::FileSyncMode::kSynced)},
       standart_filesystem_{std::make_shared<filesystem::StandardFilesystem>()},
       file_factory_{std::make_shared<filesystem::FileFactory>()}
 {
@@ -42,6 +43,10 @@ std::shared_ptr<json::IJsonParser> JsonHelper::GetJsonParser() const noexcept
 std::shared_ptr<json::IJsonWriter> JsonHelper::GetJsonWriter() const noexcept
 {
     return json_writer_;
+}
+std::shared_ptr<json::IJsonWriter> JsonHelper::GetJsonSyncedWriter() const noexcept
+{
+    return json_synced_writer_;
 }
 std::shared_ptr<filesystem::IStandardFilesystem> JsonHelper::GetStandardFilesystem() const noexcept
 {

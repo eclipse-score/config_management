@@ -66,8 +66,8 @@ TEST_F(ParameterSetStorageScoreImplTest, StoreParameterSetCollection_EmptyCollec
         return json::Object{};
     });
 
-    EXPECT_CALL(*kvs_mock_, set_value(kParameterSetHashKvsKey, ::testing::_)).WillOnce(Return(score::ResultBlank{}));
-    EXPECT_CALL(*kvs_mock_, flush()).WillOnce(Return(score::ResultBlank{}));
+    EXPECT_CALL(*kvs_mock_, set_value(kParameterSetHashKvsKey, ::testing::_)).WillOnce(Return(score::Result<void>{}));
+    EXPECT_CALL(*kvs_mock_, flush()).WillOnce(Return(score::Result<void>{}));
 
     EXPECT_TRUE(sut_->StoreParameterSetCollection(collection_mock).has_value());
 }
@@ -107,11 +107,26 @@ TEST_F(ParameterSetStorageScoreImplTest, StoreParameterSetCollection_KvsFlushFai
         return json::Object{};
     });
 
-    EXPECT_CALL(*kvs_mock_, set_value(kParameterSetHashKvsKey, ::testing::_)).WillOnce(Return(score::ResultBlank{}));
+    EXPECT_CALL(*kvs_mock_, set_value(kParameterSetHashKvsKey, ::testing::_)).WillOnce(Return(score::Result<void>{}));
     EXPECT_CALL(*kvs_mock_, flush())
         .WillOnce(Return(score::MakeUnexpected(ParameterSetStorageError::kUnableToSaveToPersistency)));
 
     EXPECT_FALSE(sut_->StoreParameterSetCollection(collection_mock).has_value());
+}
+
+TEST_F(ParameterSetStorageScoreImplTest, LoadParameterSetCollection_AlwaysReturnsFalse)
+{
+    RecordProperty("Priority", "3");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence class and boundary values");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("Description",
+                   "Verifies that LoadParameterSetCollection on the SCORE platform always returns false "
+                   "(default collection in use) since filesystem-based PSC is not applicable on SCORE.");
+
+    data_model::ParameterSetCollectionMock collection_mock{};
+    const auto result = sut_->LoadParameterSetCollection(collection_mock);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_FALSE(result.value());
 }
 
 }  // namespace

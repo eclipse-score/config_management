@@ -18,6 +18,7 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
             "//score/config_management/config_daemon/code/data_model/error",
             "//score/config_management/config_daemon/code/services",
             "//score/config_management/config_daemon/code/services/details/mw_com/generated_service:internal_config_provider_type",
+            "@score_logging//score/mw/log",
         ] + dep,
     )
     for name, dep, test_only in [
@@ -28,7 +29,6 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
                 "@score_communication//score/mw/com",
                 "//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
                 "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
-                "@score_logging//score/mw/log",
             ],
             False,
         ),
@@ -36,7 +36,6 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
             "_test",
             [
                 "//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
-                "//score/config_management/config_provider/code/parameter_set",
                 "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
             ],
             True,

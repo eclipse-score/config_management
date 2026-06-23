@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H
 
 #include "score/config_management/config_daemon/code/factory/factory.h"
 #include "score/config_management/config_daemon/code/json_helper/json_helper.h"
@@ -59,4 +59,4 @@ class Factory final : public IFactory
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_FACTORY_DETAILS_FACTORY_IMPL_H

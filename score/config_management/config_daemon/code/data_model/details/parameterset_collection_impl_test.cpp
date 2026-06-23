@@ -557,6 +557,111 @@ TEST_F(ParameterSetCollectionFixture, GetSetParameterSetQualifier_NonExistentSet
     ASSERT_EQ(set_qualifier_result.error(), DataModelError::kParameterSetNotFound);
 }
 
+TEST_F(ParameterSetCollectionFixture, GetParameterSetCollectionAsJson_EmptyCollection)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("TestType", "Requirements-based test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty(
+        "Verifies",
+        "::score::config_management::config_daemon::data_model::ParameterSetCollection::GetParameterSetCollectionAsJson");
+    RecordProperty("Description",
+                   "Verifies that GetParameterSetCollectionAsJson returns an empty JSON object when the collection "
+                   "contains no parameter sets.");
+
+    ParameterSetCollection empty_collection{};
+
+    const auto result = empty_collection.GetParameterSetCollectionAsJson();
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_TRUE(result.value().empty());
+}
+
+TEST_F(ParameterSetCollectionFixture, GetParameterSetCollectionAsJson_SingleParameterSet)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("TestType", "Requirements-based test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty(
+        "Verifies",
+        "::score::config_management::config_daemon::data_model::ParameterSetCollection::GetParameterSetCollectionAsJson");
+    RecordProperty("Description",
+                   "Verifies that GetParameterSetCollectionAsJson returns a JSON object containing the inserted "
+                   "parameter set, with 'parameters' and 'qualifier' fields present.");
+
+    const auto result = parameter_data_->GetParameterSetCollectionAsJson();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result.value().size(), 1U);
+
+    const auto set_entry = result.value().find(set_name_for_update_tests_.c_str());
+    ASSERT_NE(set_entry, result.value().end());
+
+    const auto set_object_result = set_entry->second.As<json::Object>();
+    ASSERT_TRUE(set_object_result.has_value());
+
+    const auto& set_object = set_object_result.value().get();
+    EXPECT_NE(set_object.find("parameters"), set_object.end());
+    EXPECT_NE(set_object.find("qualifier"), set_object.end());
+}
+
+TEST_F(ParameterSetCollectionFixture, GetParameterSetCollectionAsJson_MultipleParameterSets)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("TestType", "Requirements-based test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty(
+        "Verifies",
+        "::score::config_management::config_daemon::data_model::ParameterSetCollection::GetParameterSetCollectionAsJson");
+    RecordProperty("Description",
+                   "Verifies that GetParameterSetCollectionAsJson returns a JSON object containing all inserted "
+                   "parameter sets as top-level keys.");
+
+    const std::string second_set_name{"second_set"};
+    const auto insert_result = parameter_data_->Insert(second_set_name, "second_param", json::Any{std::int64_t{42}});
+    ASSERT_TRUE(insert_result.has_value());
+
+    const auto result = parameter_data_->GetParameterSetCollectionAsJson();
+
+    // Verify the collection contains exactly the two inserted parameter sets
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result.value().size(), 2U);
+
+    // Verify that the first parameter set is present by its name as a top-level key
+    const auto first_set_entry = result.value().find(set_name_for_update_tests_.c_str());
+    ASSERT_NE(first_set_entry, result.value().end());
+
+    // Verify the first set entry is a valid JSON object containing a "parameters" field
+    const auto first_set_object_result = first_set_entry->second.As<json::Object>();
+    ASSERT_TRUE(first_set_object_result.has_value());
+
+    const auto& first_parameters_entry = first_set_object_result.value().get().find("parameters");
+    ASSERT_NE(first_parameters_entry, first_set_object_result.value().get().end());
+
+    // Verify the first set's "parameters" object contains the expected parameter name
+    const auto first_parameters_object_result = first_parameters_entry->second.As<json::Object>();
+    ASSERT_TRUE(first_parameters_object_result.has_value());
+    EXPECT_NE(first_parameters_object_result.value().get().find("parameter_name"),
+              first_parameters_object_result.value().get().end());
+
+    // Verify that the second parameter set is present by its name as a top-level key
+    const auto second_set_entry = result.value().find(second_set_name.c_str());
+    ASSERT_NE(second_set_entry, result.value().end());
+
+    // Verify the second set entry is a valid JSON object containing a "parameters" field
+    const auto second_set_object_result = second_set_entry->second.As<json::Object>();
+    ASSERT_TRUE(second_set_object_result.has_value());
+
+    const auto& second_parameters_entry = second_set_object_result.value().get().find("parameters");
+    ASSERT_NE(second_parameters_entry, second_set_object_result.value().get().end());
+
+    // Verify the second set's "parameters" object contains the expected parameter name
+    const auto second_parameters_object_result = second_parameters_entry->second.As<json::Object>();
+    ASSERT_TRUE(second_parameters_object_result.has_value());
+    EXPECT_NE(second_parameters_object_result.value().get().find("second_param"),
+              second_parameters_object_result.value().get().end());
+}
+
 }  // namespace test
 }  // namespace data_model
 }  // namespace config_daemon

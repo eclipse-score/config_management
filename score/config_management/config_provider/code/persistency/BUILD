@@ -1,6 +1,7 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load(":custom.bzl", "load_custom_test_suites")
 
 # Persistency library is a public interface for ConfigProvider users,
 # which can be optionally used for enabling caching of parameter sets to persistency
@@ -45,6 +46,6 @@ cc_unit_test_suites_for_host_and_qnx(
     cc_unit_tests = [
         "//score/config_management/config_provider/code/persistency/details:unit_test",
         "//score/config_management/config_provider/code/persistency/error:unit_test",
-    ],
+    ] + load_custom_test_suites(),
     visibility = ["//score/config_management/config_provider:__subpackages__"],
 )

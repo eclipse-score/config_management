@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_CONFIG_DAEMON_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_CONFIG_DAEMON_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_APP_CONFIG_DAEMON_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_APP_CONFIG_DAEMON_H
 
 #include "src/lifecycle_client_lib/include/application.h"
 
@@ -37,4 +37,4 @@ class IConfigDaemon : public score::mw::lifecycle::Application
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_CONFIG_DAEMON_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_APP_CONFIG_DAEMON_H

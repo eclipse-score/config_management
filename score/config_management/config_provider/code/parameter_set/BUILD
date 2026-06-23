@@ -9,7 +9,7 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "//visibility:public",
+        "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
         "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
@@ -32,9 +32,9 @@ cc_test(
     deps = [
         ":parameter_set",
         "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
-        "//score/config_management/config_provider/code/config_provider:config_provider_mock",
-        "@googletest//:gtest_main",
+        "//score/config_management/config_provider:config_provider_mock",
         "@score_logging//score/mw/log/test/console_logging_environment",
+        "@googletest//:gtest_main",
     ],
 )
 

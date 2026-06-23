@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_DETAILS_CONFIG_DAEMON_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_DETAILS_CONFIG_DAEMON_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_APP_DETAILS_CONFIG_DAEMON_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_APP_DETAILS_CONFIG_DAEMON_IMPL_H
 
 #include "score/config_management/config_daemon/code/app/config_daemon.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
@@ -63,4 +63,4 @@ class ConfigDaemon final : public IConfigDaemon
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_APP_DETAILS_CONFIG_DAEMON_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_APP_DETAILS_CONFIG_DAEMON_IMPL_H

@@ -10,8 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_MOCK_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_MOCK_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_MOCK_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_MOCK_H
 
 #include "score/config_management/config_provider/code/config_provider/config_provider.h"
 
@@ -48,11 +48,11 @@ class ConfigProviderMock final : public ConfigProvider
                 (const score::cpp::pmr::vector<std::string_view>& set_names,
                  const std::optional<std::chrono::milliseconds> timeout),
                 (override));
-    MOCK_METHOD(ResultBlank,
+    MOCK_METHOD(Result<void>,
                 OnChangedParameterSet,
                 (const std::string& set_name, OnChangedParameterSetCallback&& callback),
                 (noexcept, override));
-    MOCK_METHOD(ResultBlank,
+    MOCK_METHOD(Result<void>,
                 OnChangedParameterSetCbk,
                 (std::string_view set_name, OnChangedParameterSetCallback&& callback),
                 (noexcept, override));
@@ -60,7 +60,7 @@ class ConfigProviderMock final : public ConfigProvider
                 GetInitialQualifierState,
                 (const std::optional<std::chrono::milliseconds> timeout),
                 (noexcept, override));
-    MOCK_METHOD(ResultBlank, CheckParameterSetUpdates, (), (noexcept, override));
+    MOCK_METHOD(Result<void>, CheckParameterSetUpdates, (), (const, noexcept, override));
     MOCK_METHOD(bool,
                 WaitUntilConnected,
                 (const std::chrono::milliseconds, const score::cpp::stop_token&),
@@ -76,4 +76,4 @@ class ConfigProviderMock final : public ConfigProvider
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGPROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_MOCK_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_CONFIG_PROVIDER_CONFIG_PROVIDER_MOCK_H

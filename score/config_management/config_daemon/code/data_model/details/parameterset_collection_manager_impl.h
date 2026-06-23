@@ -11,16 +11,16 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_MANAGER_IMPL_H
-#define SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_MANAGER_IMPL_H
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_MANAGER_IMPL_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_MANAGER_IMPL_H
 
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
 
-#include "score/result/result.h"
-#include "score/mw/log/logger.h"
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_impl.h"
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/parameter_set_storage.h"
 #include "score/config_management/config_daemon/code/plugins/plugin.h"
+#include "score/result/result.h"
+#include "score/mw/log/logger.h"
 
 #include <memory>
 #include <vector>
@@ -56,13 +56,15 @@ class ParameterSetCollectionManager final : public IParameterSetCollectionManage
     ParameterSetCollectionManager& operator=(ParameterSetCollectionManager&&) = delete;
     ParameterSetCollectionManager& operator=(const ParameterSetCollectionManager&) = delete;
 
+    Result<InitialQualifierState> LoadParameterSetCollectionFromStorage() noexcept override;
+
     std::shared_ptr<IParameterSetCollection> GetParameterSetCollection() override;
 
     /// @brief Triggers plugins to populate a temporary ParameterSetCollection.
-    ResultBlank ParameterSetCollectionUpdateRequest() override;
+    Result<void> ParameterSetCollectionUpdateRequest() override;
 
   private:
-    ResultBlank NotifyPluginsToUpdate(ParameterSetCollection& temporary_collection);
+    Result<void> NotifyPluginsToUpdate(ParameterSetCollection& temporary_collection);
 
     std::shared_ptr<IParameterSetCollection> primary_collection_;
     std::vector<std::weak_ptr<IPlugin>> plugins_;
@@ -75,4 +77,4 @@ class ParameterSetCollectionManager final : public IParameterSetCollectionManage
 }  // namespace config_management
 }  // namespace score
 
-#endif  // SCORE_CONFIG_MANAGEMENT_CONFIGDAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_MANAGER_IMPL_H
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_MANAGER_IMPL_H
