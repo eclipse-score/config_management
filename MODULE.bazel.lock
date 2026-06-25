@@ -54,7 +54,8 @@
     "https://bcr.bazel.build/modules/aspect_rules_lint/1.4.4/MODULE.bazel": "24459eeeeb084bc3e7628c338e494746718bc17b3a3cbd94415c8df5c7c6dc37",
     "https://bcr.bazel.build/modules/aspect_rules_lint/1.5.3/MODULE.bazel": "7fee71b11be63f1cf0458cd8c731712a0e672d0bb6df8879ed70249bf8dfdfdc",
     "https://bcr.bazel.build/modules/aspect_rules_lint/2.0.0/MODULE.bazel": "1f4c81edd9af0c54e65dedbe36653fc63dc9a91605313d54d5ab371f853d693c",
-    "https://bcr.bazel.build/modules/aspect_rules_lint/2.0.0/source.json": "3c3a55b5b424100feca2fd656dcdcd8a0c9fd3304ce609ce71a4d6d46d00a03c",
+    "https://bcr.bazel.build/modules/aspect_rules_lint/2.3.0/MODULE.bazel": "4d36bce3c1347bb4fed5906877dce0e683cb207f4032711aff32334003bcf835",
+    "https://bcr.bazel.build/modules/aspect_rules_lint/2.3.0/source.json": "07c6e7333ac089e2428a02d68deb5f90e3947aa9b9ac22c26b9e8b0083122926",
     "https://bcr.bazel.build/modules/aspect_rules_py/1.0.0/MODULE.bazel": "8eb29876512d3242af50a424300bec5c5f8957b455963df5f618cb7fd4e8ae19",
     "https://bcr.bazel.build/modules/aspect_rules_py/1.4.0/MODULE.bazel": "6fd29b93207a31445d5d3ab9d9882fd5511e43c95e8e82e7492872663720fd44",
     "https://bcr.bazel.build/modules/aspect_rules_py/1.4.0/source.json": "fb1ba946478fb6dbb26d49307d756b0fd2ff88be339af23c39c0397d59143d2c",
@@ -203,7 +204,8 @@
     "https://bcr.bazel.build/modules/buildifier_prebuilt/6.4.0/MODULE.bazel": "37389c6b5a40c59410b4226d3bb54b08637f393d66e2fa57925c6fcf68e64bf4",
     "https://bcr.bazel.build/modules/buildifier_prebuilt/7.3.1/MODULE.bazel": "537faf0ad9f5892910074b8e43b4c91c96f1d5d86b6ed04bdbe40cf68aa48b68",
     "https://bcr.bazel.build/modules/buildifier_prebuilt/8.2.0.2/MODULE.bazel": "a9b689711d5b69f9db741649b218c119b9fdf82924ba390415037e09798edd03",
-    "https://bcr.bazel.build/modules/buildifier_prebuilt/8.2.0.2/source.json": "51eb0a4b38aaaeab7fa64361576d616c4d8bfd0f17a0a10184aeab7084d79f8e",
+    "https://bcr.bazel.build/modules/buildifier_prebuilt/8.5.1/MODULE.bazel": "77f2a1958d1d07376dd3ce3ae16540f2c1b01921c1fd21930827271260e75a66",
+    "https://bcr.bazel.build/modules/buildifier_prebuilt/8.5.1/source.json": "ae9f3d9dc7bec033976cf47165a78788bebad2b5c272241063ae31bad8664fd4",
     "https://bcr.bazel.build/modules/buildozer/7.1.2/MODULE.bazel": "2e8dd40ede9c454042645fd8d8d0cd1527966aa5c919de86661e62953cd73d84",
     "https://bcr.bazel.build/modules/buildozer/7.1.2/source.json": "c9028a501d2db85793a6996205c8de120944f50a0d570438fcae0457a5f9d1f8",
     "https://bcr.bazel.build/modules/c-ares/1.15.0/MODULE.bazel": "ba0a78360fdc83f02f437a9e7df0532ad1fbaa59b722f6e715c11effebaa0166",
@@ -264,7 +266,8 @@
     "https://bcr.bazel.build/modules/grpc/1.70.1/source.json": "e2977ea6cf9f2755418934d4ae134a6569713dd200fd7aded86a4b7f1b86efc9",
     "https://bcr.bazel.build/modules/jq.bzl/0.1.0/MODULE.bazel": "2ce69b1af49952cd4121a9c3055faa679e748ce774c7f1fda9657f936cae902f",
     "https://bcr.bazel.build/modules/jq.bzl/0.4.0/MODULE.bazel": "a7b39b37589f2b0dad53fd6c1ccaabbdb290330caa920d7ef3e6aad068cd4ab2",
-    "https://bcr.bazel.build/modules/jq.bzl/0.4.0/source.json": "52ec7530c4618e03f634b30ff719814a68d7d39c235938b7aa2abbfe1eb1c52c",
+    "https://bcr.bazel.build/modules/jq.bzl/0.6.0/MODULE.bazel": "26ec5118e66a55fef36f8ea39d6415d55fc966671fe4d61a6b9ef0cd6bc7b6a1",
+    "https://bcr.bazel.build/modules/jq.bzl/0.6.0/source.json": "2ed4e35b9fa9505495784114f7637fbde5846ec14af917841b6c045d877f20eb",
     "https://bcr.bazel.build/modules/jsoncpp/1.9.5/MODULE.bazel": "31271aedc59e815656f5736f282bb7509a97c7ecb43e927ac1a37966e0578075",
     "https://bcr.bazel.build/modules/jsoncpp/1.9.5/source.json": "4108ee5085dd2885a341c7fab149429db457b3169b86eb081fa245eadf69169d",
     "https://bcr.bazel.build/modules/libpfm/4.11.0.bcr.1/MODULE.bazel": "e5362dadc90aab6724c83a2cc1e67cbed9c89a05d97fb1f90053c8deb1e445c8",
@@ -575,6 +578,7 @@
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/aspect_rules_lint/1.4.4/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/aspect_rules_lint/1.5.3/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/aspect_rules_lint/2.0.0/MODULE.bazel": "not found",
+    "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/aspect_rules_lint/2.3.0/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/aspect_rules_py/1.0.0/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/aspect_rules_py/1.4.0/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/aspect_rules_ts/3.6.0/MODULE.bazel": "not found",
@@ -672,6 +676,7 @@
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/buildifier_prebuilt/6.4.0/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/buildifier_prebuilt/7.3.1/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/buildifier_prebuilt/8.2.0.2/MODULE.bazel": "not found",
+    "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/buildifier_prebuilt/8.5.1/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/buildozer/7.1.2/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/c-ares/1.15.0/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/cel-spec/0.15.0/MODULE.bazel": "not found",
@@ -715,6 +720,7 @@
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/grpc/1.70.1/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/jq.bzl/0.1.0/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/jq.bzl/0.4.0/MODULE.bazel": "not found",
+    "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/jq.bzl/0.6.0/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/jsoncpp/1.9.5/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/libpfm/4.11.0.bcr.1/MODULE.bazel": "not found",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/libpfm/4.11.0/MODULE.bazel": "not found",
@@ -906,7 +912,10 @@
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_baselibs_rust/0.1.0/MODULE.bazel": "e9f8781fa23b58a7c4815d662d82a9a472d8dddc306f08cba3853928f3b760fe",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_baselibs_rust/0.1.2/MODULE.bazel": "8a07e1c62986e941a6e182e39c9cd08391849eed55c2f4dbb02d72ef6f524346",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_baselibs_rust/0.1.2/source.json": "5d920b55b98cf3d87da75d5a3ab1915709867fda14991ef2843c5e7c33aa0391",
+    "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_bazel_cpp_toolchains/0.5.1/MODULE.bazel": "c92d6f92b79fc96c4d9f033af21d65a0f8ce714da387da61160111e3b3babd25",
+    "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_bazel_cpp_toolchains/0.5.1/source.json": "e3bb1beaf9e8e08fe682a616647d17badb1d7f8eeed4d2582277a9d7a1186c62",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_bazel_platforms/0.0.4/MODULE.bazel": "57dce05e4eb4ac25250d67e47caef99f4cbaedf38083de26aa53979ee6a3ae4b",
+    "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_bazel_platforms/0.1.1/MODULE.bazel": "236e5bdff6f2d6de6f96cc4f5f4b1bf2cd6137547ce279668a2dd4c54cd4236c",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_bazel_platforms/0.1.2/MODULE.bazel": "d1889bf36241521c5d5c401aaf1e98242a60f9cab9d223f8190e5d7087956e83",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_bazel_platforms/0.1.2/source.json": "549c18a968c1ab76135ad38fd15981fcc04d377a62f20e2e5e0b5faa9de2b01d",
     "https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/modules/score_communication/0.2.1/MODULE.bazel": "4f9e3ac5a12e510412025dc0860bf56c2a186c4e9c4f7144c8fd425aca492bbf",
@@ -1439,7 +1448,7 @@
     "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
       "general": {
         "bzlTransitiveDigest": "gA7tPEdJXhskzPIEUxjX9IdDrM6+WjfbgXJ8Ez47umk=",
-        "usagesDigest": "i1FqFhjXyyH6bfERz4zwy4c9HppAM5D5gaFRtmhxi/E=",
+        "usagesDigest": "z8cWWnVpO8J/dzJXjYbJOFOppzxrQWI6B21RNkSjQI4=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1448,7 +1457,7 @@
             "repoRuleId": "@@aspect_tools_telemetry+//:extension.bzl%tel_repository",
             "attributes": {
               "deps": {
-                "aspect_rules_lint": "2.0.0",
+                "aspect_rules_lint": "2.3.0",
                 "aspect_tools_telemetry": "0.2.8"
               }
             }
@@ -9480,6 +9489,70 @@
             "rules_swift+",
             "build_bazel_rules_swift",
             "rules_swift+"
+          ]
+        ]
+      }
+    },
+    "@@score_bazel_cpp_toolchains+//extensions:gcc.bzl%gcc": {
+      "general": {
+        "bzlTransitiveDigest": "FPdomjlUToKRMMVvxdB1HPeVVF0Bk9iaEODAcgx7tcw=",
+        "usagesDigest": "kYz1Ecksh70VzQLPbG64fDpc+5OBWUcGuPwLxyXoQQg=",
+        "recordedFileInputs": {},
+        "recordedDirentsInputs": {},
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "score_gcc_x86_64_toolchain_pkg": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "https://github.com/eclipse-score/toolchains_gcc_packages/releases/download/v0.0.4/x86_64-unknown-linux-gnu_gcc12.tar.gz"
+              ],
+              "build_file": "@@score_bazel_cpp_toolchains+//packages/linux/x86_64/gcc/12.2.0:gcc.BUILD",
+              "sha256": "e9b9a7a63a5f8271b76d6e2057906b95c7a244e4931a8e10edeaa241e9f7c11e",
+              "strip_prefix": "x86_64-unknown-linux-gnu"
+            }
+          },
+          "score_gcc_x86_64_toolchain": {
+            "repoRuleId": "@@score_bazel_cpp_toolchains+//rules:gcc.bzl%gcc_toolchain",
+            "attributes": {
+              "extra_compile_flags": [],
+              "extra_c_compile_flags": [],
+              "extra_cxx_compile_flags": [],
+              "extra_link_flags": [],
+              "license_info_variable": "",
+              "license_info_value": "",
+              "license_path": "/opt/score_qnx/license/licenses",
+              "sdk_version": "",
+              "sdp_version": "",
+              "tc_compiler_library_search_paths": [],
+              "tc_cpu": "x86_64",
+              "tc_identifier": "gcc_12.2.0",
+              "tc_os": "linux",
+              "tc_pkg_repo": "score_gcc_x86_64_toolchain_pkg",
+              "tc_system_toolchain": false,
+              "tc_runtime_ecosystem": "",
+              "gcc_version": "12.2.0",
+              "cc_toolchain_config": "@@score_bazel_cpp_toolchains+//templates/linux:cc_toolchain_config.bzl.template",
+              "cc_toolchain_flags": "@@score_bazel_cpp_toolchains+//templates/linux:cc_toolchain_flags.bzl.template",
+              "use_base_constraints_only": false
+            }
+          }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "bazel_tools",
+            "rules_cc",
+            "rules_cc+"
+          ],
+          [
+            "score_bazel_cpp_toolchains+",
+            "bazel_tools",
+            "bazel_tools"
+          ],
+          [
+            "score_bazel_cpp_toolchains+",
+            "score_bazel_cpp_toolchains",
+            "score_bazel_cpp_toolchains+"
           ]
         ]
       }
