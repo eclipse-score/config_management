@@ -12,7 +12,6 @@
 # *******************************************************************************
 
 load("@rules_python//python:defs.bzl", "py_binary")
-
 load("@score_communication_pip//:requirements.bzl", "requirement")
 
 py_binary(
