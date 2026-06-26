@@ -4,6 +4,7 @@
     "//score/config_management/config_daemon/code/data_model/parameter_set_storage:unit_tests_host",
     "//score/config_management/config_daemon/code/fault_event_reporter:unit_tests_host",
     "//score/config_management/config_daemon/code/plugins/demo_json:unit_tests_host",
+    "//score/config_management/config_daemon/code/plugins/plugin_collector:unit_tests_host",
     "//score/config_management/config_daemon/code/services:unit_tests_host",
     "//score/config_management/config_provider/code/config_provider/error:unit_test",
     "//score/config_management/config_provider/code/parameter_set:unit_test",
