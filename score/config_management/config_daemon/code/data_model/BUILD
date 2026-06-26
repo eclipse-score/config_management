@@ -70,8 +70,8 @@ cc_library(
     hdrs = ["parameterset_collection_manager_mock.h"],
     features = COMPILER_WARNING_FEATURES,
     visibility = [
-        "//score/config_management/config_daemon/code:__subpackages__",
         "//score:__subpackages__",
+        "//score/config_management/config_daemon/code:__subpackages__",
     ],
     deps = [
         ":parameterset_collection_manager",

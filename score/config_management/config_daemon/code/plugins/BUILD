@@ -31,8 +31,8 @@ cc_library(
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager",
         "//score/config_management/config_daemon/code/fault_event_reporter",
         "//score/config_management/config_daemon/code/services",
-        "@score_baselibs//score/result",
         "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/result",
     ],
 )
 

@@ -72,9 +72,9 @@ cc_test(
     deps = [
         ":details_score_for_unit_test",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
 
@@ -93,8 +93,8 @@ cc_test(
     ],
     deps = [
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "@googletest//:gtest",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ] + select({
         "//score/config_management/config_daemon/code:is_score_variant": [
             ":details_score_for_unit_test",

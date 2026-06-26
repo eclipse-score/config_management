@@ -78,8 +78,8 @@ cc_test(
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
         ":details_for_unit_test",
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
