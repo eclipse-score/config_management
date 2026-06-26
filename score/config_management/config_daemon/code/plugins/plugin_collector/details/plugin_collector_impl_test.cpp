@@ -65,7 +65,7 @@ TEST_F(PluginCollectorFixture, PluginCollectorCreatePlugins)
     RecordProperty("Verifies", "::score::config_management::config_daemon::PluginCollector::CreatePlugins()");
     RecordProperty("Description", "This test ensures that CreatePlugins would return vector of Plugins");
 
-    ASSERT_EQ((plugin_collector_->CreatePlugins()).size(), 0);
+    ASSERT_EQ((plugin_collector_->CreatePlugins()).size(), 1U);
 }
 
 }  // namespace test

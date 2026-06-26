@@ -11,24 +11,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@trlc//:trlc.bzl", "trlc_requirements", "trlc_requirements_test")
+load("@score_tooling//bazel/rules/rules_score:rules_score.bzl", "feature_requirements")
 
-trlc_requirements(
+feature_requirements(
     name = "feature_requirements",
     srcs = [
         "feature_requirements.trlc",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
         "//requirements/assumed_system_requirements",
     ],
-    spec = [
-        "@score_tooling//bazel/rules/rules_score/trlc/config:score_requirements_model",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-trlc_requirements_test(
-    name = "feature_requirements_test",
-    reqs = [
-        ":feature_requirements",
-    ],
-    visibility = ["//visibility:public"],
 )

@@ -11,31 +11,24 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@trlc//:trlc.bzl", "trlc_requirements", "trlc_requirements_test")
+load(
+    "@score_tooling//bazel/rules/rules_score:rules_score.bzl",
+    "assumptions_of_use",
+    "dependability_analysis",
+    "fmea",
+)
+load("@trlc//:trlc.bzl", "trlc_requirements")
 
-# Failures Modes
-trlc_requirements(
-    name = "failure_modes",
-    srcs = [
-        "failure_modes.trlc",
-    ],
-    spec = [
-        "@score_tooling//bazel/rules/rules_score/trlc/config:score_requirements_model",
-    ],
+# Failure Modes
+fmea(
+    name = "fmea",
+    failuremodes = ["failure_modes.trlc"],
     visibility = ["//visibility:public"],
 )
 
-trlc_requirements_test(
-    name = "failure_modes_test",
-    reqs = [
-        ":failure_modes",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-# AoUs
+# Assumptions of Use: wrap aou.trlc to provide TrlcProviderInfo for assumptions_of_use
 trlc_requirements(
-    name = "control_measures",
+    name = "aou_trlc",
     srcs = [
         "aou.trlc",
     ],
@@ -45,10 +38,14 @@ trlc_requirements(
     visibility = ["//visibility:public"],
 )
 
-trlc_requirements_test(
-    name = "control_measures_test",
-    reqs = [
-        ":control_measures",
-    ],
+assumptions_of_use(
+    name = "assumptions_of_use",
+    srcs = [":aou_trlc"],
+    visibility = ["//visibility:public"],
+)
+
+dependability_analysis(
+    name = "dependability_analysis",
+    fmea = [":fmea"],
     visibility = ["//visibility:public"],
 )
