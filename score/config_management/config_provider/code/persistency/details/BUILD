@@ -13,8 +13,8 @@ cc_library(
     ],
     deps = [
         "//score/config_management/config_provider/code/persistency",
-        "@score_logging//score/mw/log",
         "@score_baselibs//score/language/futurecpp",
+        "@score_logging//score/mw/log",
     ],
 )
 

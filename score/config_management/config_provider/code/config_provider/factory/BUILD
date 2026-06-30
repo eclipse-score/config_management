@@ -10,16 +10,15 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
         "//score/config_management/config_provider/code/config_provider/details",
-        "//score/config_management/config_provider/code/persistency/details:details",
+        "//score/config_management/config_provider/code/persistency/details",
         "//score/config_management/config_provider/code/proxies/details:details_mw_com",
-        "@score_logging//score/mw/log",
         "@score_communication//score/mw/service:factory",
         "@score_communication//score/mw/service/backend/mw_com:single_instantiation_strategy",
+        "@score_logging//score/mw/log",
     ],
 )
 

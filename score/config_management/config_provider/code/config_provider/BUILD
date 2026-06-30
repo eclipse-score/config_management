@@ -9,8 +9,8 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "//score/config_management/config_provider:__subpackages__",
         "//score:__subpackages__",
+        "//score/config_management/config_provider:__subpackages__",
     ],
     deps = ["@score_baselibs//score/language/futurecpp"],
 )
@@ -22,8 +22,8 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "//score/config_management/config_provider:__subpackages__",
         "//score:__subpackages__",
+        "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
         ":initial_qualifier_state_types",

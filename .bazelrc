@@ -11,6 +11,11 @@ common --//score/config_management/config_daemon/code:score_variant=True
 common --registry=https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/
 common --registry=https://bcr.bazel.build
 
+# Host GCC toolchain — used by CI (tests.yml, static-analysis.yml)
+# score_bazel_cpp_toolchains gcc module extension generates @score_gcc_x86_64_toolchain
+build:host_gcc --extra_toolchains=@score_gcc_x86_64_toolchain//:x86_64-linux-gcc_12.2.0
+build:host_gcc --host_platform=@score_bazel_platforms//:x86_64-linux
+
 # score_baselibs deprecated StringLiteral but still uses it in many headers
 # (string_comparison_adaptor.h, text_format.h, etc.). These headers are included
 # transitively by our own code, so the -Werror,-Wdeprecated-declarations error
