@@ -52,7 +52,7 @@ register_toolchains("@llvm_toolchain//:all")
 
 # Score C++ toolchain — used for --config=host_gcc in CI (tests, static-analysis)
 bazel_dep(name = "score_bazel_platforms", version = "0.1.2")
-bazel_dep(name = "score_bazel_cpp_toolchains", version = "0.5.1")
+bazel_dep(name = "score_bazel_cpp_toolchains", version = "0.5.4")
 
 gcc = use_extension("@score_bazel_cpp_toolchains//extensions:gcc.bzl", "gcc")
 gcc.toolchain(
