@@ -1,6 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
-load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
+load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 
 cc_library(
     name = "demo_parameter_loader_impl",
@@ -16,8 +16,8 @@ cc_library(
         "//score/config_management/config_daemon/code/data_model:parameterset_collection",
         "//score/config_management/config_daemon/code/plugins/demo_json/parameter_loader:demo_parameter_loader",
         "@score_baselibs//score/json:json_serializer",
-        "@score_logging//score/mw/log",
         "@score_baselibs//score/language/futurecpp",
+        "@score_logging//score/mw/log",
     ],
 )
 

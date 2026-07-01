@@ -33,8 +33,8 @@ cc_test(
         ":parameter_set",
         "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "//score/config_management/config_provider:config_provider_mock",
-        "@score_logging//score/mw/log/test/console_logging_environment",
         "@googletest//:gtest_main",
+        "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
 
