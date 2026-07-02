@@ -24,8 +24,8 @@
 #include "score/concurrency/notification.h"
 
 #include "score/json/json_parser.h"
+#include "score/mw/log/logging.h"
 #include "score/mw/log/recorder_mock.h"
-#include "score/mw/log/runtime.h"
 
 #include <gtest/gtest.h>
 
@@ -1297,13 +1297,13 @@ TEST_F(ConfigProviderTest, SuccessLastUpdatedParameterSetPersistedInCache)
     testing::NiceMock<score::mw::log::RecorderMock> recorder_mock;
 
     // below needed to cover non-debug branch in GetParameterSet method
-    score::mw::log::detail::Runtime::SetRecorder(&recorder_mock);
+    score::mw::log::SetLogRecorder(&recorder_mock);
     const auto provider_parameter_set_result2 = config_provider->GetParameterSet(parameter_set_name_);
     EXPECT_EQ(provider_parameter_set_result2.value()->GetParameterAs<std::uint32_t>(parameter_name_).value(),
               updated_content_from_proxy_);
     EXPECT_EQ(provider_parameter_set_result2.value()->GetQualifier().value(), updated_qualifier_from_proxy_);
 
-    score::mw::log::detail::Runtime::SetRecorder(nullptr);
+    score::mw::log::SetLogRecorder(nullptr);
 }
 
 TEST_F(ConfigProviderTest, WaitUntilConnected_success)
@@ -2009,13 +2009,13 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_ReturnsCachedValueWithDebu
     // Enable debug logging so that GetParameterSetValue executes the debug branch (lines 23, 27)
     testing::NiceMock<score::mw::log::RecorderMock> recorder_mock;
     ON_CALL(recorder_mock, IsLogEnabled(_, _)).WillByDefault(Return(true));
-    score::mw::log::detail::Runtime::SetRecorder(&recorder_mock);
+    score::mw::log::SetLogRecorder(&recorder_mock);
 
     // When GetParameterSetsByNameList is called with a set already in the cache
     score::cpp::pmr::vector<std::string_view> set_names{std::string_view(parameter_set_name_)};
     const auto result = config_provider->GetParameterSetsByNameList(set_names, std::nullopt);
 
-    score::mw::log::detail::Runtime::SetRecorder(nullptr);
+    score::mw::log::SetLogRecorder(nullptr);
 
     // Then it returns the cached value directly without going to the proxy
     ASSERT_EQ(result.size(), 1U);

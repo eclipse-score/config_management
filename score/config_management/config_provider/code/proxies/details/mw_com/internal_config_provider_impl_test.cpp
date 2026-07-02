@@ -51,7 +51,7 @@ class InternalConfigProviderTest : public ::testing::Test
     {
         score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
             "./score/config_management/config_provider/code/proxies/details/mw_com/mw_com_config.json"};
-        mw::com::runtime::InitializeRuntime(runtime_configuration);
+        score::mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton_ = CreateService();
         std::ignore = skeleton_->initial_qualifier_state.Update(MwComInitialQualifierStateType::kUndefined);

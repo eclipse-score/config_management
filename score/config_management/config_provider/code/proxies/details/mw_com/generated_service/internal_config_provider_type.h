@@ -54,7 +54,7 @@ class InternalConfigProviderInterface : public Trait::Base
         "initial_qualifier_state"};
 };
 
-using InternalConfigProviderSkeleton = mw::com::AsSkeleton<InternalConfigProviderInterface>;
+using InternalConfigProviderSkeleton = score::mw::com::AsSkeleton<InternalConfigProviderInterface>;
 
 }  // namespace config_daemon
 }  // namespace config_management

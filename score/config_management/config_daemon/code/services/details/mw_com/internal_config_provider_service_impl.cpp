@@ -92,7 +92,7 @@ InternalConfigProviderService::InternalConfigProviderService(
 
 score::Result<InternalConfigProviderService> InternalConfigProviderService::Create(
     std::shared_ptr<InternalConfigProviderServiceReactor> internal_config_provider_service_reactor,
-    const mw::com::InstanceSpecifier& instance_specifier)
+    const score::mw::com::InstanceSpecifier& instance_specifier)
 {
     auto icp_skeleton_result{InternalConfigProviderSkeleton::Create(instance_specifier)};
     if (!icp_skeleton_result.has_value())
