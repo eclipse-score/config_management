@@ -1,0 +1,66 @@
+# *******************************************************************************
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# SPDX-License-Identifier: Apache-2.0
+# *******************************************************************************
+name: Code Coverage
+permissions:
+  contents: read
+  actions: write
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - main
+  merge_group:
+    types: [checks_requested]
+  workflow_call:
+jobs:
+  coverage-report:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: eclipse-score/more-disk-space@6a3b48901846bf7f8cc985925157d71a8973e61f # v1
+        with:
+          level: 4
+      - name: Checkout Repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+      - name: Install lcov
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov
+      - name: Setup Bazel Cache
+        uses: eclipse-score/cicd-actions/setup-bazel-cache@659dcbed63f6b7fbde88c7850125ea0a0a92f939
+        with:
+          unique-cache-name: ${{ github.workflow }}-${{ github.job }}
+      - name: Run Bazel Coverage
+        run: |
+          readarray -t TARGETS < <(python3 -c \
+            "import json; [print(t) for t in json.load(open('score/config_management/deps_acceptlist.json'))['test_targets']]")
+          bazel coverage --config=host_gcc "${TARGETS[@]}"
+      - name: Generate HTML Coverage Report
+        run: |
+          genhtml "$(bazel info output_path)/_coverage/_coverage_report.dat" \
+            -o=cpp_coverage \
+            --show-details \
+            --source-directory="$(bazel info execution_root)" \
+            --legend \
+            --function-coverage \
+            --branch-coverage
+        shell: bash
+      - name: Upload Coverage Artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ github.event.repository.name }}_cpp_coverage_report
+          path: cpp_coverage/
+          include-hidden-files: true
+          retention-days: 10
