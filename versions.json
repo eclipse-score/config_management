@@ -16,11 +16,11 @@
     "url": "https://eclipse-score.github.io/config_management/pr-21/"
   },
   {
-    "version": "pr-3",
-    "url": "https://eclipse-score.github.io/config_management/pr-3/"
-  },
-  {
     "version": "pr-22",
     "url": "https://eclipse-score.github.io/config_management/pr-22/"
+  },
+  {
+    "version": "pr-3",
+    "url": "https://eclipse-score.github.io/config_management/pr-3/"
   }
 ]
