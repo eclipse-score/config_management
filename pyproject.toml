@@ -7,3 +7,8 @@ exclude = [
     "**/.*",
     "**/bazel-*",
 ]
+
+[tool.ruff]
+extend-exclude = [
+    "third_party/",
+]

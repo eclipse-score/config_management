@@ -66,8 +66,8 @@ use_repo(gcc, "score_gcc_x86_64_toolchain")
 
 # tooling
 bazel_dep(name = "score_tooling", version = "1.2.0")
-bazel_dep(name = "aspect_rules_lint", version = "2.0.0")
-bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2")
+bazel_dep(name = "aspect_rules_lint", version = "2.3.0")
+bazel_dep(name = "buildifier_prebuilt", version = "8.5.1")
 
 # Work around BCR grpc-java extension breakage with grpc@1.70.1.
 # Force a grpc-java version that is compatible with the grpc extension API.
