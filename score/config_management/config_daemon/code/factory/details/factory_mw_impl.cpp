@@ -40,7 +40,8 @@ namespace
 {
 
 const auto kICPServiceInstanceSpecifierName =
-    mw::com::InstanceSpecifier::Create(std::string("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort"))
+    score::mw::com::InstanceSpecifier::Create(
+        std::string("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort"))
         .value();
 }  // namespace
 

@@ -58,7 +58,7 @@ class InternalConfigProviderInterface : public Trait::Base
     typename Trait::template Method<mw_com_icp_types::GetParameterSet> get_parameterset{*this, "get_parameterset"};
 };
 
-using InternalConfigProviderSkeleton = mw::com::AsSkeleton<InternalConfigProviderInterface>;
+using InternalConfigProviderSkeleton = score::mw::com::AsSkeleton<InternalConfigProviderInterface>;
 
 }  // namespace config_daemon
 }  // namespace config_management

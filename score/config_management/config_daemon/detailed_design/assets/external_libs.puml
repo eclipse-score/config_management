@@ -28,9 +28,9 @@ package portinterfaces::internalconfigprovider::skeleton <<frame>> {
 }
 !endsub
 
-!startsub IDiagnosticJobCollection
+!startsub DiagnosticJobCollection
 package mw::diag <<frame>> {
-    class IDiagnosticJobCollection {
+    class DiagnosticJobCollection {
     }
 }
 !endsub

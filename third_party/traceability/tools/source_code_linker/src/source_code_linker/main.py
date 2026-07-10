@@ -48,11 +48,11 @@ class SourceCodeLinker:
         """
         numeric_level = getattr(logging, log_level.upper(), None)
         if not isinstance(numeric_level, int):
-            raise ValueError(f"Invalid log level: {log_level}")
+            raise ValueError(f'Invalid log level: {log_level}')
 
         logging.basicConfig(
             level=numeric_level,
-            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
 
     def parse_arguments(self) -> argparse.Namespace:
@@ -70,53 +70,58 @@ class SourceCodeLinker:
         # 1. Positional arguments (for Bazel integration)
         parser.add_argument(
             "inputs",
-            nargs="*",
-            help="Input files containing lists of source files to process (positional)",
+            nargs='*',
+            help="Input files containing lists of source files to process (positional)"
         )
 
         # 2. Named arguments (for direct usage)
         parser.add_argument(
             "--input-files",
-            nargs="+",
-            help="Input files containing lists of source files to process (named)",
+            nargs='+',
+            help="Input files containing lists of source files to process (named)"
         )
 
         parser.add_argument(
-            "-o", "--output", required=True, help="Output lobster JSON file path"
+            "-o", "--output",
+            required=True,
+            help="Output lobster JSON file path"
         )
 
         parser.add_argument(
-            "--sources_output", help="Output sources text file path (optional)"
+            "--sources_output",
+            help="Output sources text file path (optional)"
         )
 
         parser.add_argument(
-            "-t",
-            "--trace",
+            "-t", "--trace",
             choices=["code", "plantuml_alias_cpp", "plantuml_alias_req", "plantuml"],
             default="code",
-            help="Traceability mode: code, plantuml_alias_cpp, plantuml_alias_req, or plantuml",
+            help="Traceability mode: code, plantuml_alias_cpp, plantuml_alias_req, or plantuml"
         )
 
         parser.add_argument(
-            "--tags", help="Pipe-separated list of traceability tags to search for"
+            "--tags",
+            help="Pipe-separated list of traceability tags to search for"
         )
 
         parser.add_argument(
-            "-u", "--url", default="broken_link_g/", help="Base GitHub URL"
+            "-u", "--url",
+            default="broken_link_g/",
+            help="Base GitHub URL"
         )
 
         parser.add_argument(
             "--log-level",
             choices=["DEBUG", "INFO", "WARNING", "ERROR"],
             default="INFO",
-            help="Logging level",
+            help="Logging level"
         )
 
         args = parser.parse_args()
 
         # Determine input files from either positional or named arguments
         # Priority: --input-files (named) > positional inputs
-        if hasattr(args, "input_files") and args.input_files:
+        if hasattr(args, 'input_files') and args.input_files:
             args.inputs = args.input_files
         else:
             args.inputs = args.inputs or []
@@ -129,7 +134,7 @@ class SourceCodeLinker:
 
         # Auto-generate sources_output if not provided (but different from input)
         if not args.sources_output:
-            base_name = args.output.replace(".lobster", "")
+            base_name = args.output.replace('.lobster', '')
             args.sources_output = f"{base_name}_generated_sources.txt"
 
         return args
@@ -188,7 +193,7 @@ class SourceCodeLinker:
         source_files: List[str],
         github_base_url: str,
         tags: List[str],
-        trace_mode: str,
+        trace_mode: str
     ) -> List[dict]:
         """
         Process all source files to extract traceability information.
@@ -283,7 +288,7 @@ class SourceCodeLinker:
                 merged_result,
                 list(source_files),  # Convert set back to list
                 args.output,
-                args.sources_output,
+                args.sources_output
             )
 
             logger.info("Source code linking process completed successfully")

@@ -52,7 +52,7 @@ class TestFactoryMwImpl : public ::testing::Test
     {
         score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
             "./score/config_management/config_daemon/code/services/details/mw_com/mw_com_config.json"};
-        mw::com::runtime::InitializeRuntime(runtime_configuration);
+        score::mw::com::runtime::InitializeRuntime(runtime_configuration);
     }
     void SetUp() override
     {

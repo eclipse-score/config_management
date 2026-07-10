@@ -34,7 +34,7 @@ class InternalConfigProviderService final : public IInternalConfigProviderServic
   public:
     static score::Result<InternalConfigProviderService> Create(
         std::shared_ptr<InternalConfigProviderServiceReactor> internal_config_provider_service_reactor,
-        const mw::com::InstanceSpecifier& instance_specifier);
+        const score::mw::com::InstanceSpecifier& instance_specifier);
 
     void SetInitialQualifierState(const config_daemon::InitialQualifierState initial_qualifier_state) noexcept override;
     bool SendLastUpdatedParameterSet(const std::string_view parameter_set_name) noexcept override;
