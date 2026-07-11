@@ -16,31 +16,19 @@
     "url": "https://eclipse-score.github.io/config_management/pr-21/"
   },
   {
-    "version": "pr-22",
-    "url": "https://eclipse-score.github.io/config_management/pr-22/"
-  },
-  {
-    "version": "pr-23",
-    "url": "https://eclipse-score.github.io/config_management/pr-23/"
-  },
-  {
-    "version": "pr-3",
-    "url": "https://eclipse-score.github.io/config_management/pr-3/"
-  },
-  {
-    "version": "pr-25",
-    "url": "https://eclipse-score.github.io/config_management/pr-25/"
-  },
-  {
     "version": "pr-26",
     "url": "https://eclipse-score.github.io/config_management/pr-26/"
+  },
+  {
+    "version": "pr-27",
+    "url": "https://eclipse-score.github.io/config_management/pr-27/"
   },
   {
     "version": "pr-28",
     "url": "https://eclipse-score.github.io/config_management/pr-28/"
   },
   {
-    "version": "pr-27",
-    "url": "https://eclipse-score.github.io/config_management/pr-27/"
+    "version": "pr-3",
+    "url": "https://eclipse-score.github.io/config_management/pr-3/"
   }
 ]
