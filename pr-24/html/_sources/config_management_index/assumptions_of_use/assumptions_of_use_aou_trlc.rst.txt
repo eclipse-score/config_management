@@ -1,0 +1,6 @@
+Assumptions Of Use
+==================
+.. requirement:definition:: ConfigDaemon.SampleAoU
+
+   It shall be made sure that this SampleAoU never ends up anywhere
+
