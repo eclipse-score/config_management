@@ -72,10 +72,23 @@ bazel_dep(name = "score_tooling", version = "1.2.0")
 # NOTE: To be removed once score_tooling releases a stable version with these features.
 git_override(
     module_name = "score_tooling",
-    commit = "835f219a1121b316c4c7809d983db1b4d31ebbcf",
+    commit = "ade2a09e66423f788d207f8624358047f48ba209",
     patch_strip = 1,
+    # svglib → rlpycairo → pycairo requires libcairo2-dev which is not installed
+    # on the standard GitHub Actions ubuntu-latest runner. Since we only build
+    # HTML docs (not PDF), svglib is not needed.
     patches = ["//bazel/patches:score_tooling_remove_svglib.patch"],
     remote = "https://github.com/eclipse-score/tooling.git",
+)
+
+# rules_distroless@0.9.0 is not in BCR; required by score_tooling HEAD for the docs_runtime
+# container (hermetic Sphinx/graphviz execution). Override to the fork that provides it.
+# dev_dependency=True: container builds are not needed in production targets.
+bazel_dep(name = "rules_distroless", version = "0.9.0", dev_dependency = True)
+git_override(
+    module_name = "rules_distroless",
+    commit = "dbf25be1c3a9a1698511a4817582efe61dc5ec15",
+    remote = "https://github.com/LittleHuba/rules_distroless.git",
 )
 
 bazel_dep(name = "aspect_rules_lint", version = "2.3.0")
