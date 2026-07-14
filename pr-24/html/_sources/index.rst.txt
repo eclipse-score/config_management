@@ -32,7 +32,7 @@ using **C++** and **Bazel** as a build system.
    :caption: Dependability
    :maxdepth: 2
 
-   config_management/index
+   config_management_index/index
 
 
 Project Layout
