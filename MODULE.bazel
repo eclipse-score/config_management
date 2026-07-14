@@ -17,6 +17,7 @@ module(
 
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
 bazel_dep(name = "rules_python", version = "1.8.5")
+bazel_dep(name = "rules_shell", version = "0.6.1")
 bazel_dep(name = "platforms", version = "1.0.0")
 
 PYTHON_VERSION = "3.12"
@@ -66,6 +67,30 @@ use_repo(gcc, "score_gcc_x86_64_toolchain")
 
 # tooling
 bazel_dep(name = "score_tooling", version = "1.2.0")
+
+# NOTE: git_override to get sphinx_module + docs_library_deps + dependable_element _rst target.
+# NOTE: To be removed once score_tooling releases a stable version with these features.
+git_override(
+    module_name = "score_tooling",
+    commit = "ade2a09e66423f788d207f8624358047f48ba209",
+    patch_strip = 1,
+    # svglib → rlpycairo → pycairo requires libcairo2-dev which is not installed
+    # on the standard GitHub Actions ubuntu-latest runner. Since we only build
+    # HTML docs (not PDF), svglib is not needed.
+    patches = ["//bazel/patches:score_tooling_remove_svglib.patch"],
+    remote = "https://github.com/eclipse-score/tooling.git",
+)
+
+# rules_distroless@0.9.0 is not in BCR; required by score_tooling HEAD for the docs_runtime
+# container (hermetic Sphinx/graphviz execution). Override to the fork that provides it.
+# dev_dependency=True: container builds are not needed in production targets.
+bazel_dep(name = "rules_distroless", version = "0.9.0", dev_dependency = True)
+git_override(
+    module_name = "rules_distroless",
+    commit = "dbf25be1c3a9a1698511a4817582efe61dc5ec15",
+    remote = "https://github.com/LittleHuba/rules_distroless.git",
+)
+
 bazel_dep(name = "aspect_rules_lint", version = "2.3.0")
 bazel_dep(name = "buildifier_prebuilt", version = "8.5.1")
 
@@ -75,9 +100,6 @@ single_version_override(
     module_name = "grpc-java",
     version = "1.70.0",
 )
-
-#docs-as-code
-bazel_dep(name = "score_docs_as_code", version = "4.0.3")
 
 # s-core base libs
 bazel_dep(name = "score_baselibs", version = "0.2.7")
@@ -104,10 +126,18 @@ bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
 # s-core persistency
 bazel_dep(name = "score_persistency", version = "0.3.2")
 
-# TRLC dependency for requirements traceability
+# TRLC dependency — commit matches score_tooling ade2a09e
 bazel_dep(name = "trlc", version = "0.0.0")
 git_override(
     module_name = "trlc",
-    commit = "a4f7e95210d8093ba208b91cbc5b681eae8d502b",  # trlc-2.0.3 release
+    commit = "8d25f639ff44976893d7866ba421a04db5698ebe",
     remote = "https://github.com/bmw-software-engineering/trlc.git",
+)
+
+# lobster dependency — commit matches score_tooling ade2a09e
+bazel_dep(name = "lobster", version = "0.0.0")
+git_override(
+    module_name = "lobster",
+    commit = "2792e2daee2cf524fdc7b1545fd3537791ebc36c",
+    remote = "https://github.com/bmw-software-engineering/lobster.git",
 )

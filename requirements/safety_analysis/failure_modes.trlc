@@ -15,7 +15,7 @@ package ConfigDaemon
 import ScoreReq
 
 ScoreReq.FailureMode SampleFailureMode{
-    guideword = ScoreReq.GuideWord.LossOfFunction
+    guidewords = [ScoreReq.Guideword.LossOfFunction]
     description = "SampleFailureMode takes over the world"
     failureeffect = "The world as we know it will end"
     version = 1
