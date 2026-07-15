@@ -73,6 +73,7 @@ bazel_dep(name = "score_tooling", version = "1.2.0")
 git_override(
     module_name = "score_tooling",
     commit = "835f219a1121b316c4c7809d983db1b4d31ebbcf",
+    patch_strip = 1,
     patches = ["//bazel/patches:score_tooling_remove_svglib.patch"],
     remote = "https://github.com/eclipse-score/tooling.git",
 )
