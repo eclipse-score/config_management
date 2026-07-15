@@ -19,4 +19,4 @@ Assumed System
    :maxdepth: 1
 
    assumed_system_requirements/assumed_system_requirements
-   assumptions_of_use/assumptions_of_use_aou_trlc
+   assumptions_of_use/assumptions_of_use
