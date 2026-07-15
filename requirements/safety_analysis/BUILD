@@ -17,7 +17,6 @@ load(
     "dependability_analysis",
     "fmea",
 )
-load("@trlc//:trlc.bzl", "trlc_requirements")
 
 # Failure Modes
 fmea(
@@ -26,21 +25,9 @@ fmea(
     visibility = ["//visibility:public"],
 )
 
-# Assumptions of Use: wrap aou.trlc to provide TrlcProviderInfo for assumptions_of_use
-trlc_requirements(
-    name = "aou_trlc",
-    srcs = [
-        "aou.trlc",
-    ],
-    spec = [
-        "@score_tooling//bazel/rules/rules_score/trlc/config:score_requirements_model",
-    ],
-    visibility = ["//visibility:public"],
-)
-
 assumptions_of_use(
     name = "assumptions_of_use",
-    srcs = [":aou_trlc"],
+    srcs = ["aou.trlc"],
     visibility = ["//visibility:public"],
 )
 
