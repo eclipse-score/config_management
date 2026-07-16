@@ -1,6 +1,7 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load("@score_tooling//bazel/rules/rules_score:rules_score.bzl", "unit")
 
 cc_library(
     name = "details",
@@ -54,4 +55,12 @@ cc_unit_test_suites_for_host_and_qnx(
         ":unit_test",
     ],
     visibility = ["//score/config_management/config_provider:__subpackages__"],
+)
+
+unit(
+    name = "config_provider_details_unit",
+    tests = [],
+    unit_design = [],
+    visibility = ["//score/config_management/dependability:__pkg__"],
+    implementation = [":details"],
 )

@@ -16,6 +16,9 @@ common --//score/config_management/config_daemon/code:score_variant=True
 common --registry=https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/
 common --registry=https://bcr.bazel.build
 
+# libclang toolchain for the C++ parser used by score_tooling unit() rules
+common --extra_toolchains=//bazel/toolchains:score_config_management_libclang_toolchain
+
 # Host GCC toolchain — used by CI (tests.yml, static-analysis.yml)
 # score_bazel_cpp_toolchains gcc module extension generates @score_gcc_x86_64_toolchain
 build:host_gcc --extra_toolchains=@score_gcc_x86_64_toolchain//:x86_64-linux-gcc_12.2.0
@@ -32,11 +35,16 @@ build:host_gcc --platforms=@score_bazel_platforms//:x86_64-linux-gcc_12.2.0-posi
 # treat deprecated-declarations as errors. Suppress globally until upstream
 # removes the deprecated usages from their public headers.
 build --copt=-Wno-deprecated-declarations
+# Same flag for exec/tool configurations (unit() rule compiles test binaries as
+# tools; score_lifecycle_health also uses the deprecated StringLiteral there).
+build --host_copt=-Wno-deprecated-declarations
 # score_logging commit 3ad4fab (May 15) introduced an unused 'result' variable in
 # data_router_message_client_impl.cpp (PThreadBlockSigTerm return value discarded).
 # No upstream fix exists yet. Suppress -Wunused-variable for all external/ source
 # files (does NOT affect our own code in score/ or tests/).
 build --per_file_copt=external/.*@-Wno-unused-variable
+# Same for exec/tool configuration builds triggered by unit() rules.
+build --host_per_file_copt=external/.*@-Wno-unused-variable
 
 coverage --features=coverage
 coverage --combined_report=lcov
