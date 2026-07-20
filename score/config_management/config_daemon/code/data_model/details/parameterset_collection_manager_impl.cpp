@@ -88,8 +88,8 @@ Result<void> ParameterSetCollectionManager::ParameterSetCollectionUpdateRequest(
 {
     logger_.LogInfo() << "ParameterSetCollectionManager::" << __func__ << ": Starting update procedure";
 
-    auto temporary_collection = std::make_unique<ParameterSetCollection>();
-    auto result = NotifyPluginsToUpdate(*temporary_collection);
+    ParameterSetCollection temporary_collection{};
+    auto result = NotifyPluginsToUpdate(temporary_collection);
 
     if (result.has_value() == false)
     {
@@ -101,7 +101,7 @@ Result<void> ParameterSetCollectionManager::ParameterSetCollectionUpdateRequest(
 
     if (storage_ != nullptr)
     {
-        auto store_result = storage_->StoreParameterSetCollection(*temporary_collection);
+        auto store_result = storage_->StoreParameterSetCollection(temporary_collection);
         if (store_result.has_value() == false)
         {
             logger_.LogError() << "ParameterSetCollectionManager::" << __func__
@@ -128,6 +128,9 @@ Result<void> ParameterSetCollectionManager::NotifyPluginsToUpdate(ParameterSetCo
     // Plugins are in dependency order: primary plugin always before dependent plugin.
     for (auto& weak_plugin : plugins_)
     {
+        // Suppress AUTOSAR C++14 A18-5-8 rule finding.
+        // The object is a locked weak_ptr which is allocated in the heap.
+        // coverity[autosar_cpp14_a18_5_8_violation]
         auto plugin = weak_plugin.lock();
         if (plugin == nullptr)
         {

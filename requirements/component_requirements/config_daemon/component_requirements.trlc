@@ -23,7 +23,6 @@ section "Application" {
         safety = ScoreReq.Asil.B
         derived_from = [ConfigManagement.CentralHousekeepingForParameters@1, ConfigManagement.ParameterSetConfigurationSource@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     /* broken_link_c/issue/14351696 */
@@ -32,7 +31,6 @@ section "Application" {
         safety = ScoreReq.Asil.B
         derived_from = [ConfigManagement.ParameterNameUniqueness@1, ConfigManagement.ParameterSetNameUniqueness@1, ConfigManagement.ParameterSetConfigurationContents@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     ScoreReq.CompReq Lifecycle {
@@ -40,7 +38,6 @@ section "Application" {
         safety = ScoreReq.Asil.QM
         derived_from = [ConfigManagement.ApplicationLifecycle@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     section "ApplicationStages" {
@@ -53,7 +50,6 @@ section "Application" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ApplicationLifecycle@1, ConfigManagement.PluginSpecialization@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         ScoreReq.CompReq InitializeService {
@@ -61,7 +57,6 @@ section "Application" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ApplicationLifecycle@1, ConfigManagement.ConfigProviderInterface@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         ScoreReq.CompReq RunPlugins {
@@ -69,7 +64,6 @@ section "Application" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ApplicationLifecycle@1, ConfigManagement.PluginSpecialization@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         ScoreReq.CompReq RunService {
@@ -77,7 +71,6 @@ section "Application" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ApplicationLifecycle@1, ConfigManagement.ConfigProviderInterface@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         ScoreReq.CompReq RunIdle {
@@ -85,7 +78,6 @@ section "Application" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ApplicationLifecycle@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         ScoreReq.CompReq RunShutdown {
@@ -93,7 +85,6 @@ section "Application" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ApplicationLifecycle@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         ScoreReq.CompReq ShutdownPlugins {
@@ -101,7 +92,6 @@ section "Application" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ApplicationLifecycle@1, ConfigManagement.PluginSpecialization@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         ScoreReq.CompReq ShutdownService {
@@ -109,7 +99,6 @@ section "Application" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ConfigProviderInterface@1, ConfigManagement.ConfigProviderInterface@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
     }
@@ -126,7 +115,6 @@ section "ParameterSetService" {
         safety = ScoreReq.Asil.B
         derived_from = [ConfigManagement.ConfigProviderInterface@1, ConfigManagement.ParameterSetAccess@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }*/
 
     /* broken_link_c/issue/22912892 */
@@ -135,7 +123,6 @@ section "ParameterSetService" {
         safety = ScoreReq.Asil.B
         derived_from = [ConfigManagement.ConfigProviderInterface@1, ConfigManagement.ParameterSetQualifier@1, ConfigManagement.ParameterSetDefinition@1, ConfigManagement.CompleteParameterSets@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
 }
@@ -148,7 +135,6 @@ section "DataModel" {
         safety = ScoreReq.Asil.QM
         derived_from = [ConfigManagement.ParameterSetDefinition@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     /* broken_link_c/issue/23162088 */
@@ -157,7 +143,6 @@ section "DataModel" {
         safety = ScoreReq.Asil.QM
         derived_from = [ConfigManagement.ParameterDefinition@1, ConfigManagement.ParameterSetDefinition@1, ConfigManagement.ParameterRelationToParameterSet@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     section "DataModel Integrity" {
@@ -168,7 +153,6 @@ section "DataModel" {
             safety = ScoreReq.Asil.B
             derived_from = [ConfigManagement.ParameterIntegrity@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         /* broken_link_c/issue/17198390 */
@@ -177,7 +161,6 @@ section "DataModel" {
             safety = ScoreReq.Asil.B
             derived_from = [ConfigManagement.ParameterIntegrity@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         /* broken_link_c/issue/12990991 */
@@ -186,7 +169,6 @@ section "DataModel" {
             safety = ScoreReq.Asil.B
             derived_from = [ConfigManagement.ParameterIntegrity@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         /* broken_link_c/issue/11705350 */
@@ -195,7 +177,6 @@ section "DataModel" {
             safety = ScoreReq.Asil.B
             derived_from = [ConfigManagement.ParameterIntegrity@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         /* broken_link_c/issue/21696211 */
@@ -204,7 +185,6 @@ section "DataModel" {
             safety = ScoreReq.Asil.B
             derived_from = [ConfigManagement.ParameterIntegrity@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         ScoreReq.CompReq StoredQualifier {
@@ -212,7 +192,6 @@ section "DataModel" {
             safety = ScoreReq.Asil.B
             derived_from = [ConfigManagement.ParameterIntegrity@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
     }
@@ -238,7 +217,6 @@ section "DataModel" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ParameterDefinition@1, ConfigManagement.SupportedPrimitiveParameterTypes@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
         /* broken_link_c/issue/23162843 */
@@ -251,7 +229,6 @@ section "DataModel" {
             safety = ScoreReq.Asil.QM
             derived_from = [ConfigManagement.ParameterDefinition@1, ConfigManagement.SupportedPrimitiveParameterTypes@1, ConfigManagement.SupportedComplexParameterTypes@1]
             version = 1
-            fulfilledBy = "ConfigDaemon"
         }
 
     }
@@ -262,7 +239,6 @@ section "DataModel" {
         safety = ScoreReq.Asil.B
         derived_from = [ConfigManagement.ParameterSetQualifier@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
 }
@@ -274,7 +250,6 @@ section "Plugins" {
         safety = ScoreReq.Asil.QM
         derived_from = [ConfigManagement.PluginSpecialization@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     ScoreReq.CompReq PluginSingleParametersType {
@@ -282,7 +257,6 @@ section "Plugins" {
         safety = ScoreReq.Asil.QM
         derived_from = [ConfigManagement.PluginSpecialization@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     ScoreReq.CompReq PluginCreation {
@@ -290,7 +264,6 @@ section "Plugins" {
         safety = ScoreReq.Asil.QM
         derived_from = [ConfigManagement.PluginSpecialization@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     ScoreReq.CompReq PluginInitialization {
@@ -298,7 +271,6 @@ section "Plugins" {
         safety = ScoreReq.Asil.QM
         derived_from = [ConfigManagement.PluginSpecialization@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
     ScoreReq.CompReq PluginRun {
@@ -307,7 +279,6 @@ section "Plugins" {
         safety = ScoreReq.Asil.QM
         derived_from = [ConfigManagement.PluginSpecialization@1]
         version = 1
-        fulfilledBy = "ConfigDaemon"
     }
 
 }
