@@ -13,8 +13,5 @@ cc_unit_test_suites_for_host_and_qnx(
 filegroup(
     name = "demo_parameters",
     srcs = ["etc/demo_parameters.json"],
-    visibility = [
-        "//score/config_management/config_daemon/test:__subpackages__",
-        "//visibility:public",
-    ],
+    visibility = ["//score/config_management/config_daemon/test:__subpackages__"],
 )

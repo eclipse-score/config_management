@@ -52,6 +52,7 @@ cc_library(
         "//score/config_management/config_daemon/code/factory:interface_for_unit_test",
         "//score/config_management/config_daemon/code/fault_event_reporter",
         "@score_baselibs//score/scope_exit",
+        "@score_lifecycle_health//score/launch_manager:application_cc",
         "@score_lifecycle_health//score/launch_manager:applicationcontext_mock_cc",
         "@score_logging//score/mw/log",
     ],
@@ -68,7 +69,6 @@ cc_test(
     visibility = [
         "//requirements:__pkg__",
         "//score/config_management/config_daemon/code/app:__pkg__",
-        "//score/config_management/config_daemon/code/app/details:__pkg__",
     ],
     deps = [
         ":app_for_unit_test",

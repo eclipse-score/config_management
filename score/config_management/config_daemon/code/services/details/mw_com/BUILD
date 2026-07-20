@@ -49,7 +49,6 @@ filegroup(
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",
         "//score/config_management/config_daemon/test:__subpackages__",
-        "//visibility:public",
     ],
 )
 

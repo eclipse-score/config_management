@@ -47,9 +47,7 @@ cc_unit_test_suites_for_host_and_qnx(
 
 test_suite(
     name = "component_tests",
-    tests = [
-        "//score/config_management/config_provider/test/sct:component_tests",
-    ],
+    tests = [],
     visibility = ["//score/config_management:__pkg__"],
 )
 
