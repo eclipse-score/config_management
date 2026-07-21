@@ -108,7 +108,7 @@ git_override(
     remote = "https://github.com/eclipse-score/logging.git",
 )
 
-bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
+bazel_dep(name = "score_lifecycle_health", version = "0.3.0")
 
 # s-core persistency
 bazel_dep(name = "score_persistency", version = "0.3.2")
