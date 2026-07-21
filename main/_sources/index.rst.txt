@@ -12,10 +12,11 @@
    # SPDX-License-Identifier: Apache-2.0
    # *******************************************************************************
 
-Module Template Documentation
-=============================
+Config Management Documentation
+================================
 
-This documentation describes the structure, usage and configuration of the Bazel-based C++/Rust module template.
+This documentation describes the structure, usage and configuration of the
+Config Management module.
 
 .. contents:: Table of Contents
    :depth: 2
@@ -24,30 +25,25 @@ This documentation describes the structure, usage and configuration of the Bazel
 Overview
 --------
 
-This repository provides a standardized setup for projects using **C++** or **Rust** and **Bazel** as a build system.
-It integrates best practices for build, test, CI/CD and documentation.
+This repository provides a standardized setup for the Config Management module
+using **C++** and **Bazel** as a build system.
 
-Requirements
-------------
+.. toctree::
+   :caption: Dependability
+   :maxdepth: 2
 
-.. stkh_req:: Example Functional Requirement
-   :id: stkh_req__docgen_enabled__example
-   :status: valid
-   :safety: QM
-   :security: YES
-   :reqtype: Functional
-   :rationale: Ensure documentation builds are possible for all modules
+   config_management_index/index
 
 
 Project Layout
 --------------
 
-The module template includes the following top-level structure:
+The module includes the following top-level structure:
 
-- `src/`: Main C++/Rust sources
+- `src/`: Main C++ sources
 - `tests/`: Unit and integration tests
 - `examples/`: Usage examples
-- `docs/`: Documentation using `docs-as-code`
+- `docs/`: Documentation using Sphinx
 - `.github/workflows/`: CI/CD pipelines
 
 Quick Start
@@ -76,7 +72,5 @@ Example:
 
    PROJECT_CONFIG = {
        "asil_level": "QM",
-       "source_code": ["cpp", "rust"]
+       "source_code": ["cpp"]
    }
-
-This enables conditional behavior (e.g., choosing `clang-tidy` for C++ or `clippy` for Rust).

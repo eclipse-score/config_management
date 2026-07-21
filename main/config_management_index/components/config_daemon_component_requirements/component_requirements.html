@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Requirements &mdash; Sphinx Doc 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_style.css?v=92936fa5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/modern.css?v=803738c0" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+      <script src="../../../_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+      <script src="../../../_static/sphinx-needs/libs/html/datatables.min.js?v=8a4aee21"></script>
+      <script src="../../../_static/sphinx-needs/libs/html/datatables_loader.js?v=a2cae175"></script>
+      <script src="../../../_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="config_provider_component" href="../config_provider_component.html" />
+    <link rel="prev" title="config_daemon_component" href="../config_daemon_component.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Sphinx Doc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Dependability</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Dependable element: config_management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../assumed_system.html">Assumed System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software_arch.html">Software Architectural Level</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../components.html">Components</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../config_daemon_component.html">config_daemon_component</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../config_daemon_component.html#component-requirements">Component Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../config_provider_component.html">config_provider_component</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../traceability.html">Traceability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sphinx Doc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Dependable element: config_management</a></li>
+          <li class="breadcrumb-item"><a href="../../components.html">Components</a></li>
+          <li class="breadcrumb-item"><a href="../config_daemon_component.html">config_daemon_component</a></li>
+      <li class="breadcrumb-item active">Requirements</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/config_management_index/components/config_daemon_component_requirements/component_requirements.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="requirements">
+<h1>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h1>
+<section id="application">
+<h2>Application<a class="headerlink" href="#application" title="Link to this heading"></a></h2>
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.StorageAccessibility">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.StorageAccessibility</span></span><a class="headerlink" href="#requirement-ConfigDaemon.StorageAccessibility" title="Link to this definition"></a></dt>
+<dd><p>Files persisted by ConfigDaemon shall be writable by ConfigDaemon only.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.StorageFailure">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.StorageFailure</span></span><a class="headerlink" href="#requirement-ConfigDaemon.StorageFailure" title="Link to this definition"></a></dt>
+<dd><p>In case file system is not accessible for ConfigDaemon application at startup or any other failure leads to parameter data model populated incompletely, ConfigDaemon application shall not offer any services.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.Lifecycle">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.Lifecycle</span></span><a class="headerlink" href="#requirement-ConfigDaemon.Lifecycle" title="Link to this definition"></a></dt>
+<dd><p>{{ConfigDaemon}} shall implement {{Initialize()}} and {{Run()}} functions in order to be managed by {{LifecycleManager}}.</p>
+</dd></dl>
+
+<section id="applicationstages">
+<h3>ApplicationStages<a class="headerlink" href="#applicationstages" title="Link to this heading"></a></h3>
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.InitializePlugins">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.InitializePlugins</span></span><a class="headerlink" href="#requirement-ConfigDaemon.InitializePlugins" title="Link to this definition"></a></dt>
+<dd><p>The {{ConfigDaemon}} shall setup {{Plugins}} during the execution of {{ConfigDaemon::Initialize()}}. The setup consists of the following steps:
+* Create {{Plugins}} by using {{PluginCollector}}.
+* Store created {{Plugins}} in internall collection.
+* Call the {{Initialize()}} function exactly once for each {{Plugin}} in the collection.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.InitializeService">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.InitializeService</span></span><a class="headerlink" href="#requirement-ConfigDaemon.InitializeService" title="Link to this definition"></a></dt>
+<dd><p>The {{ConfigDaemon}} shall create and initialize {{InternalConfigProviderService}} service during the execution of {{ConfigDaemon::Initialize()}}.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.RunPlugins">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.RunPlugins</span></span><a class="headerlink" href="#requirement-ConfigDaemon.RunPlugins" title="Link to this definition"></a></dt>
+<dd><p>The {{ConfigDaemon}} shall call the {{Run()}} function exactly once for each {{Plugin}} in the collection during the execution of {{ConfigDaemon::Run()}}.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.RunService">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.RunService</span></span><a class="headerlink" href="#requirement-ConfigDaemon.RunService" title="Link to this definition"></a></dt>
+<dd><p>The {{ConfigDaemon}} shall offer {{InternalConfigProviderService}} service during the execution of {{ConfigDaemon::Run()}}.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.RunIdle">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.RunIdle</span></span><a class="headerlink" href="#requirement-ConfigDaemon.RunIdle" title="Link to this definition"></a></dt>
+<dd><p>Following Run activity finalization, {{ConfigDaemon}} shall remain locked in an idle state until {{stop_token}} is modified.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.RunShutdown">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.RunShutdown</span></span><a class="headerlink" href="#requirement-ConfigDaemon.RunShutdown" title="Link to this definition"></a></dt>
+<dd><p>{{ConfigDaemon}} shall process {{stop_token}} to interrupt any waiting and initiate the application shutdown.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.ShutdownPlugins">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.ShutdownPlugins</span></span><a class="headerlink" href="#requirement-ConfigDaemon.ShutdownPlugins" title="Link to this definition"></a></dt>
+<dd><p>The {{ConfigDaemon}} shall call the {{Deinitialize()}} function exactly once for each {{Plugin}} in the collection during the execution of {{ConfigDaemon}} shutdown.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.ShutdownService">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.ShutdownService</span></span><a class="headerlink" href="#requirement-ConfigDaemon.ShutdownService" title="Link to this definition"></a></dt>
+<dd><p>The {{ConfigDaemon}} shall stop offering {{InternalConfigProviderService}} during the execution of {{ConfigDaemon}} shutdown.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="parametersetservice">
+<h2>ParameterSetService<a class="headerlink" href="#parametersetservice" title="Link to this heading"></a></h2>
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.ParameterSetServiceOffering">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.ParameterSetServiceOffering</span></span><a class="headerlink" href="#requirement-ConfigDaemon.ParameterSetServiceOffering" title="Link to this definition"></a></dt>
+<dd><p>Component shall offer a Parameter Set Service, which allows to query a Parameter Set with its Parameter Set Qualifier from the Data Model.</p>
+</dd></dl>
+
+</section>
+<section id="datamodel">
+<h2>DataModel<a class="headerlink" href="#datamodel" title="Link to this heading"></a></h2>
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.DataModel">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.DataModel</span></span><a class="headerlink" href="#requirement-ConfigDaemon.DataModel" title="Link to this definition"></a></dt>
+<dd><p>DataModel is a collection of Parameter Sets, which can be added by the Plugins.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.ParameterSets">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.ParameterSets</span></span><a class="headerlink" href="#requirement-ConfigDaemon.ParameterSets" title="Link to this definition"></a></dt>
+<dd><p>Parameters are grouped into Parameter Sets, which enables clients to obtain an aggregated state of all values within that set.</p>
+</dd></dl>
+
+<section id="datamodel-integrity">
+<h3>DataModel Integrity<a class="headerlink" href="#datamodel-integrity" title="Link to this heading"></a></h3>
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.DefaultDataModelLoading">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.DefaultDataModelLoading</span></span><a class="headerlink" href="#requirement-ConfigDaemon.DefaultDataModelLoading" title="Link to this definition"></a></dt>
+<dd><p>When {{ConfigDaemon}} is initialized, it shall load the Data Model from {{Default Parameter Set Collection file}} if {{Parameter Set Collection file}} is not available or its integrity is not successfully verified.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.ActualDataModelLoading">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.ActualDataModelLoading</span></span><a class="headerlink" href="#requirement-ConfigDaemon.ActualDataModelLoading" title="Link to this definition"></a></dt>
+<dd><p>When {{ConfigDaemon}} is initialized, it shall load the Data Model from {{Parameter Set Collection file}} if available and its integrity is verified.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.FileAccess">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.FileAccess</span></span><a class="headerlink" href="#requirement-ConfigDaemon.FileAccess" title="Link to this definition"></a></dt>
+<dd><p>Files persisted by {{ConfigDaemon}} shall be readable by {{ConfigDaemon}} and priviledged user applications and writable by {{ConfigDaemon}} only.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.DataModelChecksum">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.DataModelChecksum</span></span><a class="headerlink" href="#requirement-ConfigDaemon.DataModelChecksum" title="Link to this definition"></a></dt>
+<dd><p>A checksum shall be calculated for the content of {{Parameter Set Collection file}} stored persistently to protect it from corruption.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.DataModelVerification">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.DataModelVerification</span></span><a class="headerlink" href="#requirement-ConfigDaemon.DataModelVerification" title="Link to this definition"></a></dt>
+<dd><p>The checksum protecting {{Parameter Set Collection file}} shall be evaluated during startup of {{ConfigDaemon}} prior to loading of {{Parameter Set Collection file}} contents into the {{Data Model}} to ensure that no corruption of data has occurred.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.StoredQualifier">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.StoredQualifier</span></span><a class="headerlink" href="#requirement-ConfigDaemon.StoredQualifier" title="Link to this definition"></a></dt>
+<dd><p>Every {{Parameter Set Qualifier}} loaded from the {{Parameter Set Collection file}} shall have the value {{QUALIFYING}}.</p>
+</dd></dl>
+
+</section>
+<section id="supportedparametertypes">
+<h3>SupportedParameterTypes<a class="headerlink" href="#supportedparametertypes" title="Link to this heading"></a></h3>
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.PrimitiveTypes">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.PrimitiveTypes</span></span><a class="headerlink" href="#requirement-ConfigDaemon.PrimitiveTypes" title="Link to this definition"></a></dt>
+<dd><p>Following primitive parameter types shall be supported:
+* {{bool}}
+* {{sint8}}
+* {{sint16}}
+* {{sint32}}
+* {{sint64}}
+* {{uint8}}
+* {{uint16}}
+* {{uint32}}
+* {{uint64}}
+* {{float32}}
+* {{float64}}</p>
+<p>Note: This only applies to the Daemon Application. Plugins may also only support a subset of the types.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.ComplexTypes">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.ComplexTypes</span></span><a class="headerlink" href="#requirement-ConfigDaemon.ComplexTypes" title="Link to this definition"></a></dt>
+<dd><p>Following complex parameter types shall be supported:
+* One dimensional arrays of {{SupportedParameterTypes::PrimitiveTypes}}
+* Two dimensional arrays of {{SupportedParameterTypes::PrimitiveTypes}}</p>
+<p>Note: This only applies to the Daemon Application. Plugins may also only support a subset of the types.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.ParameterSetQualifier">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.ParameterSetQualifier</span></span><a class="headerlink" href="#requirement-ConfigDaemon.ParameterSetQualifier" title="Link to this definition"></a></dt>
+<dd><p>The ParameterSet qualifier shall be restricted to one of the following states: {{DEFAULT}},{{QUALIFYING}}, {{QUALIFIED}}, {{UNQUALIFIED}} or {{MODIFIED}}. Any other value is invalid.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="plugins">
+<h2>Plugins<a class="headerlink" href="#plugins" title="Link to this heading"></a></h2>
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.PluginResponsibility">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.PluginResponsibility</span></span><a class="headerlink" href="#requirement-ConfigDaemon.PluginResponsibility" title="Link to this definition"></a></dt>
+<dd><p>{{Plugin}} components are responsible for populating or modifing the contents of the {{ParameterSetCollection}}.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.PluginSingleParametersType">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.PluginSingleParametersType</span></span><a class="headerlink" href="#requirement-ConfigDaemon.PluginSingleParametersType" title="Link to this definition"></a></dt>
+<dd><p>{{Plugin}} shall process parameters of only one kind, e.g. coding or calibration or custom type of parameters.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.PluginCreation">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.PluginCreation</span></span><a class="headerlink" href="#requirement-ConfigDaemon.PluginCreation" title="Link to this definition"></a></dt>
+<dd><p>{{Plugin}} shall register its own {{PluginCreator}} in {{PluginCollector}} in order to be created.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.PluginInitialization">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.PluginInitialization</span></span><a class="headerlink" href="#requirement-ConfigDaemon.PluginInitialization" title="Link to this definition"></a></dt>
+<dd><p>{{Plugin}} shall implement the {{Initialize()}} function in a non-blocking manner.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigDaemon.PluginRun">
+<span class="sig-name descname"><span class="pre">ConfigDaemon.PluginRun</span></span><a class="headerlink" href="#requirement-ConfigDaemon.PluginRun" title="Link to this definition"></a></dt>
+<dd><p>{{Plugin}} recieves handles to the {{ParameterSetCollection}} and to the {{InternalConfigProviderService}} within {{Run}} method.
+This handles should be used to update the database and notify clients about parameter and qualifier changes.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../config_daemon_component.html" class="btn btn-neutral float-left" title="config_daemon_component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../config_provider_component.html" class="btn btn-neutral float-right" title="config_provider_component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

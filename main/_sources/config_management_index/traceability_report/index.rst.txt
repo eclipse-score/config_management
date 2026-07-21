@@ -1,0 +1,116 @@
+##################################
+L.O.B.S.T.E.R. Traceability Report
+##################################
+
+| Generated: 2026-07-21 05:57 UTC
+| LOBSTER Version: 1.0.4-dev
+
+.. rubric:: Tracing Policy
+
+.. graphviz::
+
+   digraph tracing_policy {
+      rankdir=TB;
+      node [shape=box, style=filled, fontname="Helvetica", margin="0.3,0.1"];
+      edge [arrowhead=open];
+   
+      "Feature Requirements" [fillcolor="#2196F3", fontcolor="white"];
+      "Forwarded AoUs" [fillcolor="#2196F3", fontcolor="white"];
+      "Component Requirements" [fillcolor="#2196F3", fontcolor="white"];
+      "Unit Test" [fillcolor="#FF9800", fontcolor="white"];
+      "Architecture" [fillcolor="#4CAF50", fontcolor="white"];
+      "Public API" [fillcolor="#4CAF50", fontcolor="white"];
+      "Failure Modes" [fillcolor="#2196F3", fontcolor="white"];
+      "Control Measures" [fillcolor="#2196F3", fontcolor="white"];
+      "Root Causes" [fillcolor="#FF9800", fontcolor="white"];
+      "Component Requirements" -> "Feature Requirements";
+      "Architecture" -> "Component Requirements";
+      "Failure Modes" -> "Public API";
+      "Root Causes" -> "Failure Modes";
+      "Root Causes" -> "Control Measures";
+   }
+
+.. rubric:: Coverage Summary
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 15 15 15
+
+   * - Category
+     - Coverage
+     - OK Items
+     - Total Items
+   * - :doc:`Feature Requirements <feature_requirements>`
+     - 85.7%
+     - 18
+     - 21
+   * - :doc:`Forwarded AoUs <forwarded_aous>`
+     - 0.0%
+     - 0
+     - 0
+   * - :doc:`Component Requirements <component_requirements>`
+     - 100.0%
+     - 39
+     - 39
+   * - :doc:`Unit Test <unit_test>`
+     - 0.0%
+     - 0
+     - 0
+   * - :doc:`Architecture <architecture>`
+     - 100.0%
+     - 2
+     - 2
+   * - :doc:`Public API <public_api>`
+     - 0.0%
+     - 0
+     - 0
+   * - :doc:`Failure Modes <failure_modes>`
+     - 0.0%
+     - 0
+     - 1
+   * - :doc:`Control Measures <control_measures>`
+     - 0.0%
+     - 0
+     - 0
+   * - :doc:`Root Causes <root_causes>`
+     - 0.0%
+     - 0
+     - 0
+
+.. rubric:: Issues
+
+* [MISSING — no trace to: Component Requirements] :ref:`AssumedSystemRequirements.SafeConfiguration <lobster-item-531da7e05584af4ce1d85be319b215539261f8fc>`
+* [MISSING — no trace to: Component Requirements] :ref:`AssumedSystemRequirements.FileBasedConfiguration <lobster-item-43cdd0fe93cc5e83fea193c3b53a4d0792dc0681>`
+* [MISSING — no trace to: Component Requirements] :ref:`ConfigManagement.ParameterModification <lobster-item-9bab7a089dd452b0b4cb0b0e836667bf94e03f4c>`
+* [MISSING — unknown target: req ConfigDaemonAPI.Method1] :ref:`ConfigDaemon.SampleFailureMode <lobster-item-2ab84598964dcc8110c609cac352221b278b25e2>`
+* [MISSING — no upward trace] :ref:`ConfigDaemon.SampleFailureMode <lobster-item-2ab84598964dcc8110c609cac352221b278b25e2>`
+* [MISSING — no trace to: Root Causes] :ref:`ConfigDaemon.SampleFailureMode <lobster-item-2ab84598964dcc8110c609cac352221b278b25e2>`
+
+.. toctree::
+   :caption: Requirements and Specification
+   :maxdepth: 1
+   :hidden:
+
+   Overview <self>
+   feature_requirements
+   forwarded_aous
+   component_requirements
+   failure_modes
+   control_measures
+
+.. toctree::
+   :caption: Implementation
+   :maxdepth: 1
+   :hidden:
+
+   architecture
+   public_api
+
+.. toctree::
+   :caption: Verification and Validation
+   :maxdepth: 1
+   :hidden:
+
+   unit_test
+   root_causes
+
