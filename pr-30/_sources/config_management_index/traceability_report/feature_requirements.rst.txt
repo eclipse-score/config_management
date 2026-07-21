@@ -1,0 +1,562 @@
+Feature Requirements
+====================
+
+**Coverage:** 85.7% (18 of 21 items OK)
+
+.. _lobster-item-531da7e05584af4ce1d85be319b215539261f8fc:
+
+.. dropdown:: [MISSING] TRLC Assumedsystemreq AssumedSystemRequirements.SafeConfiguration
+   :open:
+   :class-title: sd-bg-danger sd-text-white
+
+   .. pull-quote::
+
+      The SW-platform shall support safe configuration.
+
+      Note: This is part of 0.5 release and therefore can only support ASIL\_B. Goal is ASIL\_D.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   .. card::
+      :class-card: lobster-issue-card
+
+      * missing reference to Component Requirements
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/assumed\_system\_requirements/assumed\_system\_requirements.trlc:17:27 <../../../../../requirements/assumed_system_requirements/assumed_system_requirements.trlc#L17>`__
+
+.. _lobster-item-43cdd0fe93cc5e83fea193c3b53a4d0792dc0681:
+
+.. dropdown:: [MISSING] TRLC Assumedsystemreq AssumedSystemRequirements.FileBasedConfiguration
+   :open:
+   :class-title: sd-bg-danger sd-text-white
+
+   .. pull-quote::
+
+      The SW-platform shall support configuration of applications via files (e.g. yaml, json).
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   .. card::
+      :class-card: lobster-issue-card
+
+      * missing reference to Component Requirements
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/assumed\_system\_requirements/assumed\_system\_requirements.trlc:26:27 <../../../../../requirements/assumed_system_requirements/assumed_system_requirements.trlc#L26>`__
+
+.. _lobster-item-9bab7a089dd452b0b4cb0b0e836667bf94e03f4c:
+
+.. dropdown:: [MISSING] TRLC Featreq ConfigManagement.ParameterModification
+   :open:
+   :class-title: sd-bg-danger sd-text-white
+
+   .. pull-quote::
+
+      Parameter values shall be modifiable during runtime regarding modification procedure specific for a parameter kind.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   .. card::
+      :class-card: lobster-issue-card
+
+      * missing reference to Component Requirements
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:77:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L77>`__
+
+.. _lobster-item-d7bb479047c5906730097f078ccb8a589c7d3d38:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterDefinition
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      An individual vehicle configuration property used for vehicle specific adaptations is called Parameter.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.ParameterSets <lobster-item-9595fc01bbea6c923fa0585d00093bd854169f9a>`
+   * :ref:`ConfigDaemon.PrimitiveTypes <lobster-item-5962fe440b2ec7a5d18c70c4ac9da0e186059135>`
+   * :ref:`ConfigDaemon.ComplexTypes <lobster-item-3fe206c079179bc277b8183340971db12faf7d94>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:19:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L19>`__
+
+.. _lobster-item-107bc1065f25d5a9679894abeb92a7e72b232f51:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterSetDefinition
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Group of Parameters which belong to the same functionality and share an integrity protection is called Parameter Set.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.ParameterSetServiceOffering <lobster-item-4a5b22f8c8eda92d340a16af9f2cc24eeda4a382>`
+   * :ref:`ConfigDaemon.DataModel <lobster-item-559b57a2fc5d0089212144020097ecb7b2f1ee0b>`
+   * :ref:`ConfigDaemon.ParameterSets <lobster-item-9595fc01bbea6c923fa0585d00093bd854169f9a>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:26:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L26>`__
+
+.. _lobster-item-e5d588257488c9e47cdba41356b812bffbff67bd:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.CentralHousekeepingForParameters
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Configuration Management shall provide a central housekeeping for Parameters.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.StorageAccessibility <lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:35:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L35>`__
+
+.. _lobster-item-d0bd735c7f99606f794d522b0c5ad76380d52a2c:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterRelationToParameterSet
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Every Parameter shall be contained in exactly one Parameter Set.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.ParameterSets <lobster-item-9595fc01bbea6c923fa0585d00093bd854169f9a>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:42:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L42>`__
+
+.. _lobster-item-2038245466630b51cda4f16ee0dbf88ddad79347:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterNameUniqueness
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Parameters names shall be unique for an ECU project.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.StorageFailure <lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:49:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L49>`__
+
+.. _lobster-item-b2f0f1696e159706b4a308c01896a37b234bd58d:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterSetNameUniqueness
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Parameters Set names shall be unique for an ECU project.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.StorageFailure <lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:56:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L56>`__
+
+.. _lobster-item-6845f10335e23cd47dbef2982814af50278e8223:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterSetConfigurationContents
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Parameter Set configuration shall contain a mapping of Parameters to Parameter Sets, Parameter names and default values.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.StorageFailure <lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:63:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L63>`__
+
+.. _lobster-item-ec8bf10154ac248927613aac81f9bf8aecc31c75:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterSetConfigurationSource
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Parameter Set configuration shall be determined solely by a read-only input source, deployed on the target.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.StorageAccessibility <lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:70:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L70>`__
+
+.. _lobster-item-3f19bfd2d088ef3a1ec01de64a5b5a3342f05ab6:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterIntegrity
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The integrity of stored Parameters shall be protected and verified.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.DefaultDataModelLoading <lobster-item-9e1c57a225059741b8e79efc9164c0fe1f041b68>`
+   * :ref:`ConfigDaemon.ActualDataModelLoading <lobster-item-ae39342176962eb5b2c56fe19440fdea9e8b7337>`
+   * :ref:`ConfigDaemon.FileAccess <lobster-item-5e4ad6c4121478b84f5ffa9849adff93d94bc069>`
+   * :ref:`ConfigDaemon.DataModelChecksum <lobster-item-6ef8d7f6eadd8dc35c48a8bcb6be97f633315f00>`
+   * :ref:`ConfigDaemon.DataModelVerification <lobster-item-4283dd6d200118bcbbc53da668a4e5a642d8edc1>`
+   * :ref:`ConfigDaemon.StoredQualifier <lobster-item-63bf8378b524ea16d080796ae6caa9add330640c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:84:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L84>`__
+
+.. _lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ConfigProviderInterface
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Configuration Management shall provide a generic interface, independent of any Parameter definitions, for applications to access Parameters in read-only mode.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.InitializeService <lobster-item-44d04daa6c98bdbc48ff3894689410fb2600a658>`
+   * :ref:`ConfigDaemon.RunService <lobster-item-3872b10234f3f3112abfd71fffb03820741c006a>`
+   * :ref:`ConfigDaemon.ShutdownService <lobster-item-109009fb6ef353e062f02152f22a063b6473f6b9>`
+   * :ref:`ConfigDaemon.ParameterSetServiceOffering <lobster-item-4a5b22f8c8eda92d340a16af9f2cc24eeda4a382>`
+   * :ref:`ConfigProvider.CallbackTriggeredOnServiceAvailable <lobster-item-1818af8c26f8ad4cdd86c7468cfca9701b45cb43>`
+   * :ref:`ConfigProvider.ParameterSetRetrievalWithTimeout <lobster-item-409a148bee9eb1cdec59ae29f87a62345a3432d3>`
+   * :ref:`ConfigProvider.BatchParameterSetRetrieval <lobster-item-a293c13cbdeb04a53960c0ad4fdb73b9c58c1be0>`
+   * :ref:`ConfigProvider.WaitUntilServiceConnected <lobster-item-00bb62731425252c0d86f292d7a5b134a493715e>`
+   * :ref:`ConfigProvider.InitialQualifierStateUndefined <lobster-item-d42512cde54e0d9d5a3076285f2c37913ea4cf16>`
+   * :ref:`ConfigProvider.GetInitialQualifierStateWithTimeout <lobster-item-ee28cb03b3af1b34e5e80a051f6275abfe22d4dd>`
+   * :ref:`ConfigProvider.InitialQualifierStateChangeNotification <lobster-item-c0c1a5a4a046e21ef96c35bd977432141fa4da75>`
+   * :ref:`ConfigProvider.OperationErrorReporting <lobster-item-914601178f8244c0310c194ef8708042758cec23>`
+   * :ref:`ConfigProvider.ParameterSetGetQualifier <lobster-item-f3555db22c1fac7e944233581533086c1b7c2374>`
+   * :ref:`ConfigProvider.GetInitialQualifierState <lobster-item-adb510267d6968dea8dae6886b2fe4513208e182>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:93:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L93>`__
+
+.. _lobster-item-9e4fc34d01057a9eb9ff1e97c068210271f0363e:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterSetAccess
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      A Parameter Set shall be accessible via interface using a key-value principle, where user application passes a Parameter Set name to the interface and its value is returned as result.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigProvider.CallbackTriggeredOnServiceAvailable <lobster-item-1818af8c26f8ad4cdd86c7468cfca9701b45cb43>`
+   * :ref:`ConfigProvider.OnChangedParameterSetNotInvokedForSameData <lobster-item-cb4a0e6a9b4b8c5e1441219f49d8e1f96c9863e6>`
+   * :ref:`ConfigProvider.ParameterSetRetrievalWithTimeout <lobster-item-409a148bee9eb1cdec59ae29f87a62345a3432d3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:100:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L100>`__
+
+.. _lobster-item-c0732d12c669e775ae31ffbbfee27c0fac7f3ad7:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterSetQualifier
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      A Parameter Set shall contain a qualifier to indicate its integrity.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.ParameterSetServiceOffering <lobster-item-4a5b22f8c8eda92d340a16af9f2cc24eeda4a382>`
+   * :ref:`ConfigDaemon.ParameterSetQualifier <lobster-item-af1bb0e308a4908dffee0ce010b86105e5680380>`
+   * :ref:`ConfigProvider.OnChangedParameterSetNotInvokedForSameData <lobster-item-cb4a0e6a9b4b8c5e1441219f49d8e1f96c9863e6>`
+   * :ref:`ConfigProvider.ParameterSetGetQualifier <lobster-item-f3555db22c1fac7e944233581533086c1b7c2374>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:109:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L109>`__
+
+.. _lobster-item-4d65683af981bf04b099b3e8149fe6f2564225b6:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterInitialQualifier
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      There shall exist an overall qualifier for all Parameter Sets to indicate the state of integrity checks at the point of time of initial provision of parameters.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigProvider.InitialQualifierStateUndefined <lobster-item-d42512cde54e0d9d5a3076285f2c37913ea4cf16>`
+   * :ref:`ConfigProvider.GetInitialQualifierStateWithTimeout <lobster-item-ee28cb03b3af1b34e5e80a051f6275abfe22d4dd>`
+   * :ref:`ConfigProvider.InitialQualifierStateChangeNotification <lobster-item-c0c1a5a4a046e21ef96c35bd977432141fa4da75>`
+   * :ref:`ConfigProvider.OperationErrorReporting <lobster-item-914601178f8244c0310c194ef8708042758cec23>`
+   * :ref:`ConfigProvider.GetInitialQualifierState <lobster-item-adb510267d6968dea8dae6886b2fe4513208e182>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:116:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L116>`__
+
+.. _lobster-item-2b6b154fabab9a325cbd23128327febec1990de7:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.CompleteParameterSets
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The interface between parameter provider and application shall only exchange complete Parameter Sets.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.ParameterSetServiceOffering <lobster-item-4a5b22f8c8eda92d340a16af9f2cc24eeda4a382>`
+   * :ref:`ConfigProvider.OnChangedParameterSetNotInvokedForSameData <lobster-item-cb4a0e6a9b4b8c5e1441219f49d8e1f96c9863e6>`
+   * :ref:`ConfigProvider.BatchParameterSetRetrieval <lobster-item-a293c13cbdeb04a53960c0ad4fdb73b9c58c1be0>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:125:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L125>`__
+
+.. _lobster-item-1740cd88ca878b14882638584a3ea7eb5f50230f:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.SupportedPrimitiveParameterTypes
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The following primitive parameter types shall be supported for parameters:
+      \* {{sint8}}
+      \* {{sint16}}
+      \* {{sint32}}
+      \* {{sint64}}
+      \* {{uint8}}
+      \* {{uint16}}
+      \* {{uint32}}
+      \* {{uint64}}
+      \* {{float32}}
+      \* {{float64}}
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.PrimitiveTypes <lobster-item-5962fe440b2ec7a5d18c70c4ac9da0e186059135>`
+   * :ref:`ConfigDaemon.ComplexTypes <lobster-item-3fe206c079179bc277b8183340971db12faf7d94>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:133:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L133>`__
+
+.. _lobster-item-3058a5cff6e5cc36cf6cba3c0f05fc012277c9ec:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.SupportedComplexParameterTypes
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The following complex parameter types shall be supported for parameters:
+      \* One dimensional array of {{SupportedPrimitiveParameterTypes}}
+      \* Two dimensional array of {{SupportedPrimitiveParameterTypes}}
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.ComplexTypes <lobster-item-3fe206c079179bc277b8183340971db12faf7d94>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:151:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L151>`__
+
+.. _lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ApplicationLifecycle
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Configuration Management shall synchronize its activities with the ECU´s software execution lifecycle.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.Lifecycle <lobster-item-004106a1ab01a2f73878a7905ab776c44f163c50>`
+   * :ref:`ConfigDaemon.InitializePlugins <lobster-item-ba45a808d0e42fb977e92e01a915aa28bb2c2267>`
+   * :ref:`ConfigDaemon.InitializeService <lobster-item-44d04daa6c98bdbc48ff3894689410fb2600a658>`
+   * :ref:`ConfigDaemon.RunPlugins <lobster-item-3ebebea83a8f5d761961d4f67ab60363871fc61a>`
+   * :ref:`ConfigDaemon.RunService <lobster-item-3872b10234f3f3112abfd71fffb03820741c006a>`
+   * :ref:`ConfigDaemon.RunIdle <lobster-item-780be598c46a080c0225f964c9e39cadb3804960>`
+   * :ref:`ConfigDaemon.RunShutdown <lobster-item-ec76c59623608882001ac2ed94155ffae7ad7445>`
+   * :ref:`ConfigDaemon.ShutdownPlugins <lobster-item-8ea96e8bf8dad5cbbb7bebc60c98ceab19220d2f>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:160:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L160>`__
+
+.. _lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.PluginSpecialization
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Configuration Management shall enable the processing of Parameter Sets of one kind by a dedicated software module {{Plugin}}.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.InitializePlugins <lobster-item-ba45a808d0e42fb977e92e01a915aa28bb2c2267>`
+   * :ref:`ConfigDaemon.RunPlugins <lobster-item-3ebebea83a8f5d761961d4f67ab60363871fc61a>`
+   * :ref:`ConfigDaemon.ShutdownPlugins <lobster-item-8ea96e8bf8dad5cbbb7bebc60c98ceab19220d2f>`
+   * :ref:`ConfigDaemon.PluginResponsibility <lobster-item-7d69279427e2dcac66171ad7feb899b458e06957>`
+   * :ref:`ConfigDaemon.PluginSingleParametersType <lobster-item-cf23f40271708f973994ae679b85b14d2f4c44c3>`
+   * :ref:`ConfigDaemon.PluginCreation <lobster-item-72f4087d40c6545283ab75a95da0194039c8691b>`
+   * :ref:`ConfigDaemon.PluginInitialization <lobster-item-9f8298100b9635cdc987afdd115922b3165666fa>`
+   * :ref:`ConfigDaemon.PluginRun <lobster-item-ef3fe661471dced791b6b29b4b2c053b2e47e093>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:167:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L167>`__
+

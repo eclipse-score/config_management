@@ -1,0 +1,1269 @@
+Component Requirements
+======================
+
+**Coverage:** 100.0% (39 of 39 items OK)
+
+.. _lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.StorageAccessibility
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Files persisted by ConfigDaemon shall be writable by ConfigDaemon only.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetConfigurationSource <lobster-item-ec8bf10154ac248927613aac81f9bf8aecc31c75>`
+   * :ref:`ConfigManagement.CentralHousekeepingForParameters <lobster-item-e5d588257488c9e47cdba41356b812bffbff67bd>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:21:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L21>`__
+
+.. _lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.StorageFailure
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      In case file system is not accessible for ConfigDaemon application at startup or any other failure leads to parameter data model populated incompletely, ConfigDaemon application shall not offer any services.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetConfigurationContents <lobster-item-6845f10335e23cd47dbef2982814af50278e8223>`
+   * :ref:`ConfigManagement.ParameterSetNameUniqueness <lobster-item-b2f0f1696e159706b4a308c01896a37b234bd58d>`
+   * :ref:`ConfigManagement.ParameterNameUniqueness <lobster-item-2038245466630b51cda4f16ee0dbf88ddad79347>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:29:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L29>`__
+
+.. _lobster-item-004106a1ab01a2f73878a7905ab776c44f163c50:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.Lifecycle
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigDaemon}} shall implement {{Initialize()}} and {{Run()}} functions in order to be managed by {{LifecycleManager}}.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ApplicationLifecycle <lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:36:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L36>`__
+
+.. _lobster-item-ba45a808d0e42fb977e92e01a915aa28bb2c2267:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.InitializePlugins
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The {{ConfigDaemon}} shall setup {{Plugins}} during the execution of {{ConfigDaemon::Initialize()}}. The setup consists of the following steps:
+      \* Create {{Plugins}} by using {{PluginCollector}}.
+      \* Store created {{Plugins}} in internall collection.
+      \* Call the {{Initialize()}} function exactly once for each {{Plugin}} in the collection.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.PluginSpecialization <lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec>`
+   * :ref:`ConfigManagement.ApplicationLifecycle <lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:45:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L45>`__
+
+.. _lobster-item-44d04daa6c98bdbc48ff3894689410fb2600a658:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.InitializeService
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The {{ConfigDaemon}} shall create and initialize {{InternalConfigProviderService}} service during the execution of {{ConfigDaemon::Initialize()}}.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+   * :ref:`ConfigManagement.ApplicationLifecycle <lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:55:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L55>`__
+
+.. _lobster-item-3ebebea83a8f5d761961d4f67ab60363871fc61a:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.RunPlugins
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The {{ConfigDaemon}} shall call the {{Run()}} function exactly once for each {{Plugin}} in the collection during the execution of {{ConfigDaemon::Run()}}.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.PluginSpecialization <lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec>`
+   * :ref:`ConfigManagement.ApplicationLifecycle <lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:62:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L62>`__
+
+.. _lobster-item-3872b10234f3f3112abfd71fffb03820741c006a:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.RunService
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The {{ConfigDaemon}} shall offer {{InternalConfigProviderService}} service during the execution of {{ConfigDaemon::Run()}}.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+   * :ref:`ConfigManagement.ApplicationLifecycle <lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:69:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L69>`__
+
+.. _lobster-item-780be598c46a080c0225f964c9e39cadb3804960:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.RunIdle
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Following Run activity finalization, {{ConfigDaemon}} shall remain locked in an idle state until {{stop\_token}} is modified.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ApplicationLifecycle <lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:76:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L76>`__
+
+.. _lobster-item-ec76c59623608882001ac2ed94155ffae7ad7445:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.RunShutdown
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigDaemon}} shall process {{stop\_token}} to interrupt any waiting and initiate the application shutdown.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ApplicationLifecycle <lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:83:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L83>`__
+
+.. _lobster-item-8ea96e8bf8dad5cbbb7bebc60c98ceab19220d2f:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.ShutdownPlugins
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The {{ConfigDaemon}} shall call the {{Deinitialize()}} function exactly once for each {{Plugin}} in the collection during the execution of {{ConfigDaemon}} shutdown.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.PluginSpecialization <lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec>`
+   * :ref:`ConfigManagement.ApplicationLifecycle <lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:90:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L90>`__
+
+.. _lobster-item-109009fb6ef353e062f02152f22a063b6473f6b9:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.ShutdownService
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The {{ConfigDaemon}} shall stop offering {{InternalConfigProviderService}} during the execution of {{ConfigDaemon}} shutdown.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:97:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L97>`__
+
+.. _lobster-item-4a5b22f8c8eda92d340a16af9f2cc24eeda4a382:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.ParameterSetServiceOffering
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Component shall offer a Parameter Set Service, which allows to query a Parameter Set with its Parameter Set Qualifier from the Data Model.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.CompleteParameterSets <lobster-item-2b6b154fabab9a325cbd23128327febec1990de7>`
+   * :ref:`ConfigManagement.ParameterSetDefinition <lobster-item-107bc1065f25d5a9679894abeb92a7e72b232f51>`
+   * :ref:`ConfigManagement.ParameterSetQualifier <lobster-item-c0732d12c669e775ae31ffbbfee27c0fac7f3ad7>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:121:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L121>`__
+
+.. _lobster-item-559b57a2fc5d0089212144020097ecb7b2f1ee0b:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.DataModel
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      DataModel is a collection of Parameter Sets, which can be added by the Plugins.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetDefinition <lobster-item-107bc1065f25d5a9679894abeb92a7e72b232f51>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:133:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L133>`__
+
+.. _lobster-item-9595fc01bbea6c923fa0585d00093bd854169f9a:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.ParameterSets
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Parameters are grouped into Parameter Sets, which enables clients to obtain an aggregated state of all values within that set.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterRelationToParameterSet <lobster-item-d0bd735c7f99606f794d522b0c5ad76380d52a2c>`
+   * :ref:`ConfigManagement.ParameterSetDefinition <lobster-item-107bc1065f25d5a9679894abeb92a7e72b232f51>`
+   * :ref:`ConfigManagement.ParameterDefinition <lobster-item-d7bb479047c5906730097f078ccb8a589c7d3d38>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:141:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L141>`__
+
+.. _lobster-item-9e1c57a225059741b8e79efc9164c0fe1f041b68:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.DefaultDataModelLoading
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      When {{ConfigDaemon}} is initialized, it shall load the Data Model from {{Default Parameter Set Collection file}} if {{Parameter Set Collection file}} is not available or its integrity is not successfully verified.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterIntegrity <lobster-item-3f19bfd2d088ef3a1ec01de64a5b5a3342f05ab6>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:151:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L151>`__
+
+.. _lobster-item-ae39342176962eb5b2c56fe19440fdea9e8b7337:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.ActualDataModelLoading
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      When {{ConfigDaemon}} is initialized, it shall load the Data Model from {{Parameter Set Collection file}} if available and its integrity is verified.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterIntegrity <lobster-item-3f19bfd2d088ef3a1ec01de64a5b5a3342f05ab6>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:159:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L159>`__
+
+.. _lobster-item-5e4ad6c4121478b84f5ffa9849adff93d94bc069:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.FileAccess
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Files persisted by {{ConfigDaemon}} shall be readable by {{ConfigDaemon}} and priviledged user applications and writable by {{ConfigDaemon}} only.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterIntegrity <lobster-item-3f19bfd2d088ef3a1ec01de64a5b5a3342f05ab6>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:167:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L167>`__
+
+.. _lobster-item-6ef8d7f6eadd8dc35c48a8bcb6be97f633315f00:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.DataModelChecksum
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      A checksum shall be calculated for the content of {{Parameter Set Collection file}} stored persistently to protect it from corruption.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterIntegrity <lobster-item-3f19bfd2d088ef3a1ec01de64a5b5a3342f05ab6>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:175:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L175>`__
+
+.. _lobster-item-4283dd6d200118bcbbc53da668a4e5a642d8edc1:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.DataModelVerification
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The checksum protecting {{Parameter Set Collection file}} shall be evaluated during startup of {{ConfigDaemon}} prior to loading of {{Parameter Set Collection file}} contents into the {{Data Model}} to ensure that no corruption of data has occurred.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterIntegrity <lobster-item-3f19bfd2d088ef3a1ec01de64a5b5a3342f05ab6>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:183:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L183>`__
+
+.. _lobster-item-63bf8378b524ea16d080796ae6caa9add330640c:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.StoredQualifier
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Every {{Parameter Set Qualifier}} loaded from the {{Parameter Set Collection file}} shall have the value {{QUALIFYING}}.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterIntegrity <lobster-item-3f19bfd2d088ef3a1ec01de64a5b5a3342f05ab6>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:190:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L190>`__
+
+.. _lobster-item-5962fe440b2ec7a5d18c70c4ac9da0e186059135:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.PrimitiveTypes
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Following primitive parameter types shall be supported:
+      \* {{bool}}
+      \* {{sint8}}
+      \* {{sint16}}
+      \* {{sint32}}
+      \* {{sint64}}
+      \* {{uint8}}
+      \* {{uint16}}
+      \* {{uint32}}
+      \* {{uint64}}
+      \* {{float32}}
+      \* {{float64}}
+
+      Note: This only applies to the Daemon Application. Plugins may also only support a subset of the types.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.SupportedPrimitiveParameterTypes <lobster-item-1740cd88ca878b14882638584a3ea7eb5f50230f>`
+   * :ref:`ConfigManagement.ParameterDefinition <lobster-item-d7bb479047c5906730097f078ccb8a589c7d3d38>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:202:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L202>`__
+
+.. _lobster-item-3fe206c079179bc277b8183340971db12faf7d94:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.ComplexTypes
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Following complex parameter types shall be supported:
+      \* One dimensional arrays of {{SupportedParameterTypes::PrimitiveTypes}}
+      \* Two dimensional arrays of {{SupportedParameterTypes::PrimitiveTypes}}
+
+      Note: This only applies to the Daemon Application. Plugins may also only support a subset of the types.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.SupportedComplexParameterTypes <lobster-item-3058a5cff6e5cc36cf6cba3c0f05fc012277c9ec>`
+   * :ref:`ConfigManagement.SupportedPrimitiveParameterTypes <lobster-item-1740cd88ca878b14882638584a3ea7eb5f50230f>`
+   * :ref:`ConfigManagement.ParameterDefinition <lobster-item-d7bb479047c5906730097f078ccb8a589c7d3d38>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:223:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L223>`__
+
+.. _lobster-item-af1bb0e308a4908dffee0ce010b86105e5680380:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.ParameterSetQualifier
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The ParameterSet qualifier shall be restricted to one of the following states: {{DEFAULT}},{{QUALIFYING}}, {{QUALIFIED}}, {{UNQUALIFIED}} or {{MODIFIED}}. Any other value is invalid.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetQualifier <lobster-item-c0732d12c669e775ae31ffbbfee27c0fac7f3ad7>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:237:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L237>`__
+
+.. _lobster-item-7d69279427e2dcac66171ad7feb899b458e06957:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.PluginResponsibility
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{Plugin}} components are responsible for populating or modifing the contents of the {{ParameterSetCollection}}.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.PluginSpecialization <lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:248:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L248>`__
+
+.. _lobster-item-cf23f40271708f973994ae679b85b14d2f4c44c3:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.PluginSingleParametersType
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{Plugin}} shall process parameters of only one kind, e.g. coding or calibration or custom type of parameters.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.PluginSpecialization <lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:255:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L255>`__
+
+.. _lobster-item-72f4087d40c6545283ab75a95da0194039c8691b:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.PluginCreation
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{Plugin}} shall register its own {{PluginCreator}} in {{PluginCollector}} in order to be created.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.PluginSpecialization <lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:262:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L262>`__
+
+.. _lobster-item-9f8298100b9635cdc987afdd115922b3165666fa:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.PluginInitialization
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{Plugin}} shall implement the {{Initialize()}} function in a non-blocking manner.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.PluginSpecialization <lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:269:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L269>`__
+
+.. _lobster-item-ef3fe661471dced791b6b29b4b2c053b2e47e093:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.PluginRun
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{Plugin}} recieves handles to the {{ParameterSetCollection}} and to the {{InternalConfigProviderService}} within {{Run}} method.
+      This handles should be used to update the database and notify clients about parameter and qualifier changes.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.PluginSpecialization <lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:276:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L276>`__
+
+.. _lobster-item-1818af8c26f8ad4cdd86c7468cfca9701b45cb43:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.CallbackTriggeredOnServiceAvailable
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigProvider}} shall notify the user application once {{InternalConfigProviderService}} is available.
+
+      Note:
+      The callback indicates that:
+      \* The service has been found
+      \* ConfigProvider is ready to access ParameterSets
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAccess <lobster-item-9e4fc34d01057a9eb9ff1e97c068210271f0363e>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:25:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L25>`__
+
+.. _lobster-item-cb4a0e6a9b4b8c5e1441219f49d8e1f96c9863e6:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.OnChangedParameterSetNotInvokedForSameData
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The user application shall be notified not only when the Parameter Set's value changed but also when its {{ParameterSetQualifier}} changed.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.CompleteParameterSets <lobster-item-2b6b154fabab9a325cbd23128327febec1990de7>`
+   * :ref:`ConfigManagement.ParameterSetQualifier <lobster-item-c0732d12c669e775ae31ffbbfee27c0fac7f3ad7>`
+   * :ref:`ConfigManagement.ParameterSetAccess <lobster-item-9e4fc34d01057a9eb9ff1e97c068210271f0363e>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:42:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L42>`__
+
+.. _lobster-item-409a148bee9eb1cdec59ae29f87a62345a3432d3:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.ParameterSetRetrievalWithTimeout
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigProvider}} shall support a timeout parameter when retrieving a Parameter Set to limit the maximum waiting time.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+   * :ref:`ConfigManagement.ParameterSetAccess <lobster-item-9e4fc34d01057a9eb9ff1e97c068210271f0363e>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:50:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L50>`__
+
+.. _lobster-item-a293c13cbdeb04a53960c0ad4fdb73b9c58c1be0:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.BatchParameterSetRetrieval
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigProvider}} shall enable retrieval of multiple Parameter Sets in a single request.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.CompleteParameterSets <lobster-item-2b6b154fabab9a325cbd23128327febec1990de7>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:57:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L57>`__
+
+.. _lobster-item-00bb62731425252c0d86f292d7a5b134a493715e:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.WaitUntilServiceConnected
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigProvider}} shall provide a mechanism to wait until the service connection is available, with timeout and cancellation support.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:68:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L68>`__
+
+.. _lobster-item-d42512cde54e0d9d5a3076285f2c37913ea4cf16:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.InitialQualifierStateUndefined
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigProvider}} as part of a user application shall initialize the {{InitialQualifierState}} with value {{UNDEFINED}} at its side, which will remain as long as no update is available from {{ConfigDaemon}} application.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterInitialQualifier <lobster-item-4d65683af981bf04b099b3e8149fe6f2564225b6>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:79:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L79>`__
+
+.. _lobster-item-ee28cb03b3af1b34e5e80a051f6275abfe22d4dd:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.GetInitialQualifierStateWithTimeout
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigProvider}} shall provide the {{InitialQualifierState}} with timeout support.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterInitialQualifier <lobster-item-4d65683af981bf04b099b3e8149fe6f2564225b6>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:86:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L86>`__
+
+.. _lobster-item-c0c1a5a4a046e21ef96c35bd977432141fa4da75:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.InitialQualifierStateChangeNotification
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      The user application shall be notified when the {{InitialQualifierState}} changes.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterInitialQualifier <lobster-item-4d65683af981bf04b099b3e8149fe6f2564225b6>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:93:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L93>`__
+
+.. _lobster-item-914601178f8244c0310c194ef8708042758cec23:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.OperationErrorReporting
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigProvider}} operations related to {{InitialQualifierState}} shall indicate success or failure with error information so that the caller can react safely in case of failure.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterInitialQualifier <lobster-item-4d65683af981bf04b099b3e8149fe6f2564225b6>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:104:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L104>`__
+
+.. _lobster-item-f3555db22c1fac7e944233581533086c1b7c2374:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.ParameterSetGetQualifier
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      {{ConfigProvider}} shall enable a user application to request a Parameter Set with its {{ParameterSetQualifier}} from the {{InternalConfigProviderService}}.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetQualifier <lobster-item-c0732d12c669e775ae31ffbbfee27c0fac7f3ad7>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:118:26 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L118>`__
+
+.. _lobster-item-adb510267d6968dea8dae6886b2fe4513208e182:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.GetInitialQualifierState
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      A qualifier shall be offered to indicate the integrity of coding data for coding parameters which are attributed with ASIL B level.
+
+      Note: ConfigDaemon assumes that functions which are using the coding parameters will establish a safe state in case when such qualifier indicates that coding data not in state Qualified.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterInitialQualifier <lobster-item-4d65683af981bf04b099b3e8149fe6f2564225b6>`
+   * :ref:`ConfigManagement.ConfigProviderInterface <lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:132:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L132>`__
+

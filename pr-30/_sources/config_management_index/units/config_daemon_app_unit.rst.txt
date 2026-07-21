@@ -1,0 +1,12 @@
+
+
+config_daemon_app_unit
+======================
+
+
+Implementation
+--------------
+
+This unit is implemented by the following targets:
+
+- ``@@//score/config_management/config_daemon/code/app/details:app``
