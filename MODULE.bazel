@@ -97,7 +97,7 @@ git_override(
 )
 
 # s-core communication
-bazel_dep(name = "score_communication", version = "0.2.1")
+bazel_dep(name = "score_communication", version = "0.3.0")
 bazel_dep(name = "score_logging", version = "0.2.1")
 git_override(
     module_name = "score_logging",
