@@ -1,5 +1,104 @@
 Unit Test
 =========
 
-No items recorded at this level.
+**Coverage:** 100.0% (13 of 13 items OK)
+
+.. _lobster-item-7aab1acd9a525448847bc5ed98bf8a97a1274ed3:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppInitializeSuccess
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigDaemon.StorageAccessibility <lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:182 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L182>`__
+
+.. _lobster-item-4abaf7ca9197576817ebe9227b30132ef010372c:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToCreateFaultEventReporter
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:206 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L206>`__
+
+.. _lobster-item-07a98f0d4f2df8ef3fe621aff3165d00e37f38c3:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppSettingUmaskFailed
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:225 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L225>`__
+
+.. _lobster-item-27b7ef16b80a051de9dc90328414fcb187326047:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToCreateInternalConfigProviderService
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:244 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L244>`__
+
+.. _lobster-item-83c0b5d982056ae09eb4ca09ba62cbc768d7bd7d:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppRunSucceed
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:266 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L266>`__
+
+.. _lobster-item-221deabdd065cf1a393a29467668c104bd4e2677:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToCreatePluginCollector
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:296 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L296>`__
+
+.. _lobster-item-eaaaf3e9e4751145ecdc8b0dc1c000d09c906fb4:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToSetupPlugins
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:314 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L314>`__
+
+.. _lobster-item-fbd27fb1a761d97926a3f0762833c242f82c7c49:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeSecondPlugin
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:336 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L336>`__
+
+.. _lobster-item-f7f5a4900991f4736f590d54048db5a01085f5bc:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToRunFirstPlugin
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:357 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L357>`__
+
+.. _lobster-item-4228fe9dd5e8a8c524d722385f242ff7f9021ec0:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToRunSecondPlugin
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:380 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L380>`__
+
+.. _lobster-item-74aaa76bdd3ba642e0a52eb53bf926039eb14cbf:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeAsPluginIsNull
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:403 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L403>`__
+
+.. _lobster-item-745bbb26acf5b2d77ed7e82ab35f45bdf7c7ce1c:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonRunFailDueToLastUpdatedParameterSetSenderCreationFailure
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:427 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L427>`__
+
+.. _lobster-item-9aa592fad03f9a1ca190805af1fc07b69232e167:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToCreateParameterSetCollectionManager
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:452 <../../../../../score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L452>`__
 

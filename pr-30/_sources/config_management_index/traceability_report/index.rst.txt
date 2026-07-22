@@ -2,7 +2,7 @@
 L.O.B.S.T.E.R. Traceability Report
 ##################################
 
-| Generated: 2026-07-21 09:03 UTC
+| Generated: 2026-07-22 05:06 UTC
 | LOBSTER Version: 1.0.4-dev
 
 .. rubric:: Tracing Policy
@@ -53,9 +53,9 @@ L.O.B.S.T.E.R. Traceability Report
      - 39
      - 39
    * - :doc:`Unit Test <unit_test>`
-     - 0.0%
-     - 0
-     - 0
+     - 100.0%
+     - 13
+     - 13
    * - :doc:`Architecture <architecture>`
      - 100.0%
      - 2

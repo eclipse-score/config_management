@@ -18,6 +18,7 @@ Component Requirements
 
    **Traces to:**
 
+   * :ref:`ConfigDaemonFixture:ConfigDaemonAppInitializeSuccess <lobster-item-7aab1acd9a525448847bc5ed98bf8a97a1274ed3>`
    * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
 
    .. raw:: html

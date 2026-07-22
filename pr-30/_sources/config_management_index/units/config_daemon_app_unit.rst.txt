@@ -10,3 +10,10 @@ Implementation
 This unit is implemented by the following targets:
 
 - ``@@//score/config_management/config_daemon/code/app/details:app``
+
+Tests
+-----
+
+This unit is verified by the following test targets:
+
+- ``score/config_management/config_daemon/code/app/details/config_daemon_app_unit_score_config_management_config_daemon_code_app_details_unit_test_gtest_report_test.xml``
