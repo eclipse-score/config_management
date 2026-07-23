@@ -39,7 +39,7 @@ bazel_dep(name = "rules_rust", version = "0.68.1-score")
 bazel_dep(name = "rules_cc", version = "0.2.17")
 
 # LLVM Toolchains Rules - host configuration
-bazel_dep(name = "toolchains_llvm", version = "1.4.0")
+bazel_dep(name = "toolchains_llvm", version = "1.6.0")
 
 llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
 llvm.toolchain(
@@ -97,7 +97,13 @@ git_override(
 )
 
 # s-core communication
-bazel_dep(name = "score_communication", version = "0.2.1")
+bazel_dep(name = "score_communication")
+git_override(
+    module_name = "score_communication",
+    commit = "57eb8521f66fe0df2fc83fe5053aeeb207d89c17",
+    remote = "https://github.com/Chahult/communication.git",
+)
+
 bazel_dep(name = "score_logging", version = "0.2.1")
 git_override(
     module_name = "score_logging",
@@ -109,6 +115,11 @@ git_override(
 )
 
 bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
+git_override(
+    module_name = "score_lifecycle_health",
+    commit = "5ddb37e3f30e0d0b4366658d5ed2ef0e9adb0088",
+    remote = "https://github.com/Chahult/lifecycle.git",
+)
 
 # s-core persistency
 bazel_dep(name = "score_persistency", version = "0.3.2")

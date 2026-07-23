@@ -27,7 +27,9 @@ cc_library(
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",
     ],
-    deps = [],
+    deps = [
+        "@score_lifecycle_health//score/launch_manager/src/lifecycle_client:application",
+    ],
 )
 
 cc_library(

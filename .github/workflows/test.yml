@@ -42,6 +42,16 @@ jobs:
           repository-cache: true
           cache-save: ${{ github.event_name == 'push' }}
 
+      - name: Pre-warm Bazel cache (build test targets before running them)
+        run: |
+          python3 - <<'PYEOF'
+          import json, subprocess, sys
+          with open("score/config_management/deps_acceptlist.json") as f:
+              targets = json.load(f)["test_targets"]
+          result = subprocess.run(["bazel", "build"] + targets)
+          sys.exit(result.returncode)
+          PYEOF
+
       - name: Run tests from deps_acceptlist.json
         run: |
           python3 - <<'PYEOF'
