@@ -14,7 +14,7 @@
 #include "score/config_management/config_daemon/code/app/details/config_daemon_impl.h"
 #include "score/config_management/config_daemon/code/factory/details/factory_impl.h"
 
-#include "src/lifecycle_client_lib/include/runapplication.h"
+#include "score/mw/lifecycle/runapplication.h"
 
 #include <score/utility.hpp>
 

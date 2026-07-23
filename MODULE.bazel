@@ -117,7 +117,7 @@ git_override(
 bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
 git_override(
     module_name = "score_lifecycle_health",
-    commit = "9ae0e52a779c73144f3fc0e8c9381881610e8a5d",
+    commit = "5ddb37e3f30e0d0b4366658d5ed2ef0e9adb0088",
     remote = "https://github.com/Chahult/lifecycle.git",
 )
 
