@@ -1,0 +1,73 @@
+Requirements
+============
+ConfigProvider_Component_Requirements
+-------------------------------------
+config_provider
+^^^^^^^^^^^^^^^
+Notification
+''''''''''''
+.. requirement:definition:: ConfigProvider.CallbackTriggeredOnServiceAvailable
+
+   {{ConfigProvider}} shall notify the user application once {{InternalConfigProviderService}} is available.
+
+   Note:
+   The callback indicates that:
+   * The service has been found
+   * ConfigProvider is ready to access ParameterSets
+
+ParameterSet_Access
+'''''''''''''''''''
+.. requirement:definition:: ConfigProvider.OnChangedParameterSetNotInvokedForSameData
+
+   The user application shall be notified not only when the Parameter Set's value changed but also when its {{ParameterSetQualifier}} changed.
+
+.. requirement:definition:: ConfigProvider.ParameterSetRetrievalWithTimeout
+
+   {{ConfigProvider}} shall support a timeout parameter when retrieving a Parameter Set to limit the maximum waiting time.
+
+.. requirement:definition:: ConfigProvider.BatchParameterSetRetrieval
+
+   {{ConfigProvider}} shall enable retrieval of multiple Parameter Sets in a single request.
+
+Connection_Management
+'''''''''''''''''''''
+.. requirement:definition:: ConfigProvider.WaitUntilServiceConnected
+
+   {{ConfigProvider}} shall provide a mechanism to wait until the service connection is available, with timeout and cancellation support.
+
+InitialQualifierState_Management
+''''''''''''''''''''''''''''''''
+.. requirement:definition:: ConfigProvider.InitialQualifierStateUndefined
+
+   {{ConfigProvider}} as part of a user application shall initialize the {{InitialQualifierState}} with value {{UNDEFINED}} at its side, which will remain as long as no update is available from {{ConfigDaemon}} application.
+
+.. requirement:definition:: ConfigProvider.GetInitialQualifierStateWithTimeout
+
+   {{ConfigProvider}} shall provide the {{InitialQualifierState}} with timeout support.
+
+.. requirement:definition:: ConfigProvider.InitialQualifierStateChangeNotification
+
+   The user application shall be notified when the {{InitialQualifierState}} changes.
+
+Error_Handling
+''''''''''''''
+.. requirement:definition:: ConfigProvider.OperationErrorReporting
+
+   {{ConfigProvider}} operations related to {{InitialQualifierState}} shall indicate success or failure with error information so that the caller can react safely in case of failure.
+
+parameter_set
+^^^^^^^^^^^^^
+.. requirement:definition:: ConfigProvider.ParameterSetGetQualifier
+
+   {{ConfigProvider}} shall enable a user application to request a Parameter Set with its {{ParameterSetQualifier}} from the {{InternalConfigProviderService}}.
+
+proxies
+^^^^^^^
+InternalConfigProvider
+''''''''''''''''''''''
+.. requirement:definition:: ConfigProvider.GetInitialQualifierState
+
+   A qualifier shall be offered to indicate the integrity of coding data for coding parameters which are attributed with ASIL B level.
+
+   Note: ConfigDaemon assumes that functions which are using the coding parameters will establish a safe state in case when such qualifier indicates that coding data not in state Qualified.
+
