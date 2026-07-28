@@ -17,9 +17,9 @@
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
 
 #include "kvsvalue.hpp"
+#include "score/json/json_writer.h"
 #include "score/hash/code/common/algorithms.h"
 #include "score/hash/code/core/factory/impl/safe_hash_calculator_factory.h"
-#include "score/json/json_writer.h"
 
 #include <memory>
 #include <variant>

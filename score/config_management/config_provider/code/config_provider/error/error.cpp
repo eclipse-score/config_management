@@ -96,11 +96,42 @@ class ConfigProviderErrorDomain final : public score::result::ErrorDomain
 constexpr ConfigProviderErrorDomain kConfigProviderErrorDomain{};
 }  // namespace
 
+// The Rust bindings map these error codes back to typed `ConfigProviderError` variants by their
+// numeric value (see `From<result_rs::Error>` in the Rust `types.rs`). The enumerators are
+// unnumbered, so their values follow declaration order; these assertions pin that order so any
+// future reordering fails the C++ build and flags the Rust mapping for a matching update.
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kParsingFailed) == 0);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kObjectCastingError) == 1);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kParameterNotFound) == 2);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kValueCastingError) == 3);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kValueNotFound) == 4);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kProxyNotReady) == 5);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kProxyAccessTimeout) == 6);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kProxyReturnedNoResult) == 7);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kEmptyCallbackProvided) == 8);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kCallbackAlreadySet) == 9);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kMethodNotSupported) == 10);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kFailedToSubscribe) == 11);
+static_assert(static_cast<score::result::ErrorCode>(ConfigProviderError::kParameterSetNotFound) == 12);
+
 score::result::Error MakeError(const ConfigProviderError code, const std::string_view user_message) noexcept
 {
     return {static_cast<score::result::ErrorCode>(code), kConfigProviderErrorDomain, user_message};
 }
 
+const score::result::ErrorDomain& GetConfigProviderErrorDomain() noexcept
+{
+    return kConfigProviderErrorDomain;
+}
+
 }  // namespace config_provider
 }  // namespace config_management
 }  // namespace score
+
+// C-linkage shim consumed by the Rust bindings (see `types.rs`). Returning the domain address as
+// an opaque pointer lets Rust compare it against `result_rs::Error::domain()` to decide whether an
+// error belongs to the Configuration Provider domain before mapping its code to a typed variant.
+extern "C" const void* ConfigProviderErrorDomainPtr() noexcept
+{
+    return &score::config_management::config_provider::GetConfigProviderErrorDomain();
+}

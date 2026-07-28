@@ -426,6 +426,7 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientWait_EmptyPersistency)
 TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("lobster-tracing", "ConfigProvider.GetInitialQualifierState");
     RecordProperty("Verifies", " 11397333, 32232137");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
@@ -480,6 +481,7 @@ TEST_F(ConfigProviderTest, InitialQualifierState_InitiallyNotAvailableFromProxy_
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
+    RecordProperty("lobster-tracing", "ConfigProvider.GetInitialQualifierState");
     RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
     RecordProperty("Description",
                    "This test checks the scenario when NCD state was initially not available in proxy, but could be "
@@ -502,6 +504,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
+    RecordProperty("lobster-tracing", "ConfigProvider.GetInitialQualifierState");
     RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
     RecordProperty(
         "Description",
@@ -545,6 +548,7 @@ TEST_F(ConfigProviderTest, InitialQualifierStateWasInitiallyNotAvailableFromProx
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
+    RecordProperty("lobster-tracing", "ConfigProvider.GetInitialQualifierState");
     RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
     RecordProperty(
         "Description",
@@ -569,6 +573,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButInitialQualifierStateIsUnqual
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of boundary values");
     RecordProperty("TestType", "Interface test");
+    RecordProperty("lobster-tracing", "ConfigProvider.GetInitialQualifierState");
     RecordProperty("Verifies", "::score::config_management::config_provider::ConfigProviderImpl::GetInitialQualifierState()");
     RecordProperty(
         "Description",
@@ -680,6 +685,7 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_Persistency)
 TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("lobster-tracing", "ConfigProvider.GetInitialQualifierState");
     RecordProperty("Verifies", " 11397333, 32232137, 75487226");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
@@ -980,6 +986,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledTw
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
+    RecordProperty("lobster-tracing", "ConfigProvider.OnChangedParameterSetNotInvokedForSameData");
     RecordProperty("Verifies", "32233418");
     RecordProperty("ASIL", "QM");
     RecordProperty(

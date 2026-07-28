@@ -127,7 +127,7 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
         }
     }
 
-    utils::ScopeExit<> deinitialize_plugin_instance([this, &logger = logger_]() noexcept {
+    score::utils::ScopeExit<> deinitialize_plugin_instance([this, &logger = logger_]() noexcept {
         logger.LogInfo() << "ConfigDaemon::" << __func__ << "Exiting plugin execution scope";
 
         for (const auto& plugin : plugins_)

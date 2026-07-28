@@ -135,6 +135,7 @@ std::string GenerateDummySimpleOfParametersJsonString()
 TEST(ParameterQualifierTest, GetQualifierTest_Unqualified)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("lobster-tracing", "ConfigProvider.ParameterSetGetQualifier");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
     RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is unqualified.");
@@ -161,6 +162,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Unqualified)
 TEST(ParameterQualifierTest, GetQualifierTest_Qualified)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("lobster-tracing", "ConfigProvider.ParameterSetGetQualifier");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
     RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is qualified.");
@@ -188,6 +190,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Qualified)
 TEST(ParameterQualifierTest, GetQualifierTest_Default)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("lobster-tracing", "ConfigProvider.ParameterSetGetQualifier");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
     RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is default.");
@@ -215,6 +218,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Default)
 TEST(ParameterQualifierTest, GetQualifierTest_Modified)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("lobster-tracing", "ConfigProvider.ParameterSetGetQualifier");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
     RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is modified.");
@@ -240,6 +244,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Modified)
 TEST(ParameterQualifierTest, GetQualifierTest_Qualifying)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("lobster-tracing", "ConfigProvider.ParameterSetGetQualifier");
     RecordProperty("Verifies", "14602333");
     RecordProperty("ASIL", "B");
     RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is qualifying.");

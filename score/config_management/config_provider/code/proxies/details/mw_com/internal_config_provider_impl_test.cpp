@@ -116,6 +116,7 @@ class InternalConfigProviderGetInitialQualifierStatePassTest
 TEST_P(InternalConfigProviderGetInitialQualifierStatePassTest, GetInitialQualifierState_Pass)
 {
     RecordProperty("Priority", "3");
+    RecordProperty("lobster-tracing", "ConfigProvider.GetInitialQualifierState");
     RecordProperty("Verifies", " 11397333");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");

@@ -171,6 +171,7 @@ TEST_F(ConfigProviderFactoryTest, FoundServiceDuringCreation)
     RecordProperty("Priority", "3");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
     RecordProperty("TestType", "Requirements-based test");
+    RecordProperty("lobster-tracing", "ConfigProvider.CallbackTriggeredOnServiceAvailable");
     RecordProperty("Verifies", "23162623");
     RecordProperty("ASIL", "QM");
     RecordProperty("Description",

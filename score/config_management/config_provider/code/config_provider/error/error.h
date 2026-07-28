@@ -15,6 +15,7 @@
 
 #include "score/result/error.h"
 #include "score/result/error_code.h"
+#include "score/result/error_domain.h"
 
 namespace score
 {
@@ -43,6 +44,14 @@ enum class ConfigProviderError : score::result::ErrorCode
 
 /// @brief ADL overload to fulfill design requirements from lib/result
 score::result::Error MakeError(const ConfigProviderError code, const std::string_view user_message = "") noexcept;
+
+/// @brief Returns the singleton error domain used by all Configuration Provider errors.
+///
+/// The returned reference identifies the domain that `MakeError` attaches to every
+/// `ConfigProviderError`. Its address is stable for the whole process lifetime and is used
+/// (via the C-linkage shim in error.cpp) by the Rust bindings to recognise errors that
+/// originate from this component and map their codes back to typed variants.
+const score::result::ErrorDomain& GetConfigProviderErrorDomain() noexcept;
 
 }  // namespace config_provider
 }  // namespace config_management

@@ -116,6 +116,9 @@ score::cpp::pmr::string gExpectedParameterSet = R"({
 
 TEST_F(ParameterSetCollectionFixture, ParameterSetCollectionComplexTest)
 {
+    RecordProperty("lobster-tracing",
+                   "ConfigManagement.SupportedPrimitiveParameterTypes,ConfigManagement."
+                   "SupportedComplexParameterTypes");
     RecordProperty("Verifies", "24399695, 24400736");
     RecordProperty("ASIL", "QM");
     RecordProperty("Description",
@@ -516,6 +519,7 @@ TEST_F(ParameterSetCollectionFixture, UpdateParameterSucceedInMultiThreadingUse)
 
 TEST_F(ParameterSetCollectionFixture, SetParameterSetQualifier_Success)
 {
+    RecordProperty("lobster-tracing", "ConfigDaemon.ParameterSetServiceOffering");
     RecordProperty("Verifies", "22912892");
     RecordProperty("ASIL", "B");
     RecordProperty("Description", "Verifies that the parameter set qualifier can be set.");

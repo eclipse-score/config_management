@@ -63,6 +63,7 @@ class ParameterSetFixture : public ::testing::Test
 
 TEST_F(ParameterSetFixture, SetAndGetParameterSetQualifier)
 {
+    RecordProperty("lobster-tracing", "ConfigDaemon.ParameterSetServiceOffering");
     RecordProperty("Verifies", "22912892");
     RecordProperty("ASIL", "B");
     RecordProperty("Description", "Verifies that the parameter set qualifier can be set and read.");

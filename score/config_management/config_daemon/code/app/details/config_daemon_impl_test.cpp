@@ -316,6 +316,7 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppFailedToSetupPlugins)
     RecordProperty("Priority", "3");
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
+    RecordProperty("lobster-tracing", "ConfigDaemon.StorageFailure");
     RecordProperty("Verifies", "14351696");
     RecordProperty("ASIL", "B");
     RecordProperty("Description",
