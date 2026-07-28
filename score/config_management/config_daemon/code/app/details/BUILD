@@ -69,6 +69,7 @@ cc_test(
     visibility = [
         "//requirements:__pkg__",
         "//score/config_management/config_daemon/code/app:__pkg__",
+        "//score/config_management/config_daemon/code/app/details:__pkg__",
     ],
     deps = [
         ":app_for_unit_test",
