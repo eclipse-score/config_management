@@ -15,9 +15,13 @@
 
 component "Config Management" as config_management <<SEooC>> {
 
-    component "Config Daemon" as config_daemon <<component>>
+    component "Config Daemon" as config_daemon_component <<component>> {
+        component "App" as config_daemon_app_unit <<unit>>
+    }
 
-    component "Config Provider" as config_provider <<component>>
+    component "Config Provider" as config_provider_component <<component>> {
+        component "Details" as config_provider_details_unit <<unit>>
+    }
 
 }
 
