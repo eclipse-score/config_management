@@ -51,6 +51,7 @@ Component Requirements
 
    **Traces to:**
 
+   * :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToSetupPlugins <lobster-item-eaaaf3e9e4751145ecdc8b0dc1c000d09c906fb4>`
    * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
 
    .. raw:: html
