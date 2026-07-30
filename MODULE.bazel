@@ -39,7 +39,7 @@ bazel_dep(name = "rules_rust", version = "0.68.1-score")
 bazel_dep(name = "rules_cc", version = "0.2.17")
 
 # LLVM Toolchains Rules - host configuration
-bazel_dep(name = "toolchains_llvm", version = "1.4.0", dev_dependency = True)
+bazel_dep(name = "toolchains_llvm", version = "1.6.0", dev_dependency = True)
 
 llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm", dev_dependency = True)
 llvm.toolchain(
@@ -88,15 +88,21 @@ bazel_dep(name = "buildifier_prebuilt", version = "8.5.1")
 bazel_dep(name = "grpc-java", version = "1.70.0")
 
 # s-core base libs
-bazel_dep(name = "score_baselibs", version = "0.2.7")
+bazel_dep(name = "score_baselibs", version = "0.2.9")
 git_override(
     module_name = "score_baselibs",
-    commit = "37a4d652e67ced151ca6a8356c10fcb0a627c5b3",
+    commit = "82f9402474d6dd210fb0cfe5d1867f0d757318c4",
     remote = "https://github.com/eclipse-score/baselibs.git",
 )
 
 # s-core communication
-bazel_dep(name = "score_communication", version = "0.2.1")
+bazel_dep(name = "score_communication")
+git_override(
+    module_name = "score_communication",
+    commit = "4658ffb26a18dacdc1e903e6bad7282113c4a739",
+    remote = "https://github.com/Chahult/communication.git",
+)
+
 bazel_dep(name = "score_logging", version = "0.2.1")
 git_override(
     module_name = "score_logging",
@@ -108,6 +114,11 @@ git_override(
 )
 
 bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
+git_override(
+    module_name = "score_lifecycle_health",
+    commit = "9a68e1efa144e1a582fe7439a9d8bf842b25b826",
+    remote = "https://github.com/Chahult/lifecycle.git",
+)
 
 # s-core persistency
 bazel_dep(name = "score_persistency", version = "0.3.2")
