@@ -19,7 +19,9 @@ load(
 
 component(
     name = "config_daemon_component",
-    components = [],
+    components = [
+        "//score/config_management/config_daemon/code/app/details:config_daemon_app_unit",
+    ],
     requirements = ["//requirements/component_requirements/config_daemon:component_requirements"],
     tests = [],
     visibility = ["//visibility:public"],
@@ -27,7 +29,9 @@ component(
 
 component(
     name = "config_provider_component",
-    components = [],
+    components = [
+        "//score/config_management/config_provider/code/config_provider/details:config_provider_details_unit",
+    ],
     requirements = ["//requirements/component_requirements/config_provider:component_requirements"],
     tests = [],
     visibility = ["//visibility:public"],
