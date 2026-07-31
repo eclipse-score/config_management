@@ -21,6 +21,7 @@ on:
   merge_group:
     types: [checks_requested]
   workflow_call:
+  workflow_dispatch:
 jobs:
   qnx-build:
     name: Build and Test ${{ matrix.bazel-config }}
