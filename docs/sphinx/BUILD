@@ -13,6 +13,14 @@
 
 load("@score_tooling//bazel/rules/rules_score:rules_score.bzl", "sphinx_module")
 
+exports_files(
+    [
+        "_static/css/version_flyout.css",
+        "_static/js/version_flyout.js",
+    ],
+    visibility = ["//docs/sphinx/utils:__pkg__"],
+)
+
 sphinx_module(
     name = "sphinx_doc",
     testonly = True,
