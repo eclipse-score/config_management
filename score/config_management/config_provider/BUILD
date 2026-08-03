@@ -15,23 +15,10 @@ alias(
 )
 
 cc_library(
-    name = "config_provider_factory_impl",
-    tags = ["FUSA"],
-    visibility = ["//visibility:public"],
-    deps = ["//score/config_management/config_provider/code/config_provider/factory:factory_socal_r20_11"],
-)
-
-cc_library(
     name = "config_provider_mw_com",
     tags = ["FUSA"],
     visibility = ["//visibility:public"],
     deps = ["//score/config_management/config_provider/code/config_provider/factory:factory_mw_com"],
-)
-
-alias(
-    name = "config_provider_factory_for_unit_test",
-    actual = "//score/config_management/config_provider/code/config_provider/factory:factory_socal_r20_11_for_unit_tests",
-    visibility = ["//visibility:public"],
 )
 
 cc_unit_test_suites_for_host_and_qnx(
@@ -41,14 +28,6 @@ cc_unit_test_suites_for_host_and_qnx(
         "//score/config_management/config_provider/code/parameter_set:unit_tests",
         "//score/config_management/config_provider/code/persistency:unit_tests",
         "//score/config_management/config_provider/code/proxies:unit_tests",
-    ],
-    visibility = ["//score/config_management:__pkg__"],
-)
-
-test_suite(
-    name = "component_tests",
-    tests = [
-        "//score/config_management/config_provider/test/sct:component_tests",
     ],
     visibility = ["//score/config_management:__pkg__"],
 )
