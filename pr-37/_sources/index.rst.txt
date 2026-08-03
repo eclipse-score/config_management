@@ -1,0 +1,76 @@
+..
+   # *******************************************************************************
+   # Copyright (c) 2024 Contributors to the Eclipse Foundation
+   #
+   # See the NOTICE file(s) distributed with this work for additional
+   # information regarding copyright ownership.
+   #
+   # This program and the accompanying materials are made available under the
+   # terms of the Apache License Version 2.0 which is available at
+   # https://www.apache.org/licenses/LICENSE-2.0
+   #
+   # SPDX-License-Identifier: Apache-2.0
+   # *******************************************************************************
+
+Config Management Documentation
+================================
+
+This documentation describes the structure, usage and configuration of the
+Config Management module.
+
+.. contents:: Table of Contents
+   :depth: 2
+   :local:
+
+Overview
+--------
+
+This repository provides a standardized setup for the Config Management module
+using **C++** and **Bazel** as a build system.
+
+.. toctree::
+   :caption: Dependability
+   :maxdepth: 2
+
+   config_management_index/index
+
+
+Project Layout
+--------------
+
+The module includes the following top-level structure:
+
+- `src/`: Main C++ sources
+- `tests/`: Unit and integration tests
+- `examples/`: Usage examples
+- `docs/`: Documentation using Sphinx
+- `.github/workflows/`: CI/CD pipelines
+
+Quick Start
+-----------
+
+To build the module:
+
+.. code-block:: bash
+
+   bazel build //src/...
+
+To run tests:
+
+.. code-block:: bash
+
+   bazel test //tests/...
+
+Configuration
+-------------
+
+The `project_config.bzl` file defines metadata used by Bazel macros.
+
+Example:
+
+.. code-block:: python
+
+   PROJECT_CONFIG = {
+       "asil_level": "QM",
+       "source_code": ["cpp"]
+   }

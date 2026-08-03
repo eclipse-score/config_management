@@ -1,0 +1,12 @@
+
+
+config_provider_details_unit
+============================
+
+
+Implementation
+--------------
+
+This unit is implemented by the following targets:
+
+- ``@@//score/config_management/config_provider/code/config_provider/details:details``
