@@ -30,14 +30,101 @@ on:
 
 jobs:
   build-docs:
-    uses: eclipse-score/cicd-workflows/.github/workflows/docs.yml@main
-    permissions:
-      contents: write
-      pages: write
-      pull-requests: write
-      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    with:
-      # the bazel-target depends on your repo specific docs_targets configuration (e.g. "suffix")
-      bazel-target: "//:docs -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
-      retention-days: 3
+      - name: Set up Bazel
+        uses: bazel-contrib/setup-bazel@0.9.1
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/}"
+            echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+            echo "is_tag=true" >> "$GITHUB_OUTPUT"
+          elif [[ "${GITHUB_REF}" == refs/heads/main ]]; then
+            echo "version=latest" >> "$GITHUB_OUTPUT"
+            echo "is_tag=false" >> "$GITHUB_OUTPUT"
+          else
+            # PR — use pr-<number> for pull_request_target
+            if [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
+              echo "version=pr-${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+            else
+              BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+              BRANCH_NAME="${BRANCH_NAME//\//-}"
+              echo "version=preview/${BRANCH_NAME}" >> "$GITHUB_OUTPUT"
+            fi
+            echo "is_tag=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and package Sphinx documentation
+        uses: ./.github/actions/10_docs/build_sphinx_package
+        with:
+          docs-version: ${{ steps.version.outputs.version }}
+          docs-base-url: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          lobster-source-root: https://github.com/${{ github.repository }}/blob/main/
+          repository-name: ${{ github.event.repository.name }}
+          output-dir: docs_output
+          archive-name: docs-${{ steps.version.outputs.version }}.tar.gz
+
+      - name: Download previously released versions
+        if: github.event_name != 'pull_request_target'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p publish
+          for tag in $(gh api "repos/${{ github.repository }}/releases" --paginate --jq '.[].tag_name' | grep '^v'); do
+            if gh release download "${tag}" --pattern "docs-${tag}.tar.gz" --dir /tmp 2>/dev/null; then
+              mkdir -p "publish/${tag}"
+              tar xzf "/tmp/docs-${tag}.tar.gz" -C "publish/${tag}"
+              rm -f "/tmp/docs-${tag}.tar.gz"
+              echo "Restored ${tag} from release artifact"
+            else
+              echo "::warning::No docs artifact found for release ${tag}"
+            fi
+          done
+
+      - name: Assemble publish tree
+        if: github.event_name != 'pull_request_target'
+        run: |
+          bazel run //docs/sphinx/utils:assemble_publish_tree -- \
+            --version     "${{ steps.version.outputs.version }}" \
+            --is-tag      "${{ steps.version.outputs.is_tag }}" \
+            --docs-output docs_output \
+            --publish-dir publish \
+            --repo-url    "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" \
+            --root-index  docs/sphinx/_gh_pages/index.html
+
+      - name: Upload documentation artifact (PRs)
+        if: github.event_name == 'pull_request_target'
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages-${{ github.event.pull_request.head.sha }}
+          path: docs_output/
+          retention-days: 3
+          if-no-files-found: error
+
+      - name: Upload Pages artifact (push/merge)
+        if: github.event_name != 'pull_request_target'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: publish
+
+  deploy-pages:
+    needs: build-docs
+    if: github.event_name != 'pull_request_target'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
