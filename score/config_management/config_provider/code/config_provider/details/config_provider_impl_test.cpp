@@ -182,7 +182,7 @@ class ConfigProviderTest : public ::testing::Test
     auto CreateConfigProviderWithAvailableCallback(IsAvailableNotificationCallback callback)
     {
         return std::make_unique<ConfigProviderImpl>(
-            mw::service::OptionalProxyData<IInternalConfigProvider>{promise_.GetInterruptibleFuture().value()},
+            promise_.GetInterruptibleFuture().value(),
             stop_source_.get_token(),
             score::cpp::pmr::get_default_resource(),
             score::cpp::nullopt,  // default max_samples_limit
@@ -196,7 +196,7 @@ class ConfigProviderTest : public ::testing::Test
         IsAvailableNotificationCallback callback)
     {
         return std::make_unique<ConfigProviderImpl>(
-            mw::service::OptionalProxyData<IInternalConfigProvider>{promise_.GetInterruptibleFuture().value()},
+            promise_.GetInterruptibleFuture().value(),
             stop_source_.get_token(),
             score::cpp::pmr::get_default_resource(),
             score::cpp::nullopt,

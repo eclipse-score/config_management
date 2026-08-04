@@ -182,7 +182,8 @@ class ConfigProviderFactory final
         logger_.LogDebug() << "ConfigProviderFactory:: Create ConfigProviderImpl";
         auto config_provider = score::cpp::pmr::make_unique<ConfigProviderImpl>(
             memory_resource,
-            proxy_container.template Extract<mw::service::Optional<IInternalConfigProvider>>(),
+            static_cast<mw::service::ProxyFuture<std::unique_ptr<IInternalConfigProvider>>>(
+                proxy_container.template Extract<mw::service::Optional<IInternalConfigProvider>>()),
             token,
             memory_resource,
             max_samples_limit,

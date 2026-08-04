@@ -13,9 +13,9 @@
 
 #include "score/config_management/config_daemon/code/app/config_daemon.h"
 
-#include "src/lifecycle_client_lib/include/test/ut/mocks/applicationcontextmock.h"
-#include "src/lifecycle_client_lib/include/test/ut/mocks/mwlifecyclemanagermock.h"
-#include "src/lifecycle_client_lib/include/test/ut/mocks/lifecyclemanagermock.h"
+#include "score/mw/lifecycle/applicationcontextmock.h"
+#include "score/mw/lifecycle/lifecyclemanagermock.h"
+#include "score/mw/lifecycle/mwlifecyclemanagermock.h"
 
 #include <sys/wait.h>
 #include <unistd.h>

@@ -110,28 +110,26 @@ void InternalConfigProviderService::StartService()
 {
     mw::log::LogDebug() << "InternalConfigProviderService::" << __func__;
     auto handler =
-        [this](mw_com_icp_types::ParameterSetName parameter_set_name) -> mw_com_icp_types::ParameterSetContent {
+        [this](mw_com_icp_types::ParameterSetContent& result,
+               const mw_com_icp_types::ParameterSetName& parameter_set_name) {
         // Truncate at first null terminator to avoid trailing nulls
         auto* null_terminator = std::find(parameter_set_name.begin(), parameter_set_name.end(), '\0');
         std::string param_name{parameter_set_name.begin(), null_terminator};
         auto param_set_result = internal_config_provider_service_reactor_->GetParameterSet(param_name);
-        mw_com_icp_types::ParameterSetContent ret_val{};
 
         if (param_set_result.has_value() == true)
         {
             const auto& value = param_set_result.value();
-            // Only copy actual content, limiting to ret_val size
-            const std::size_t copy_size = std::min(value.size(), ret_val.size());
-            std::copy_n(value.begin(), copy_size, ret_val.begin());
+            // Only copy actual content, limiting to result size
+            const std::size_t copy_size = std::min(value.size(), result.size());
+            std::copy_n(value.begin(), copy_size, result.begin());
         }
         else
         {
             logger_.LogError() << "InternalConfigProviderService::" << __func__ << "Key not found";
             constexpr std::string_view kErrorMsg = "Key not found";
-            std::copy(kErrorMsg.begin(), kErrorMsg.end(), ret_val.begin());
+            std::copy(kErrorMsg.begin(), kErrorMsg.end(), result.begin());
         }
-
-        return ret_val;
     };
     std::ignore = icp_skeleton_.get_parameterset.RegisterHandler(std::move(handler));
     const auto offer_service_result = icp_skeleton_.OfferService();

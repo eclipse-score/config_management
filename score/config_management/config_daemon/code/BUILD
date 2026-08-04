@@ -41,8 +41,9 @@ cc_test(
     tags = ["unit"],
     deps = [
         "//score/config_management/config_daemon/code/app/details:app_for_unit_test",
-        "@score_lifecycle_health//src/lifecycle_client_lib:applicationcontext_mock",
-        "@score_lifecycle_health//src/lifecycle_client_lib:lifecycle_mock",
+        "@score_lifecycle_health//score/launch_manager:applicationcontext_mock_cc",
+        "@score_lifecycle_health//score/launch_manager:lifecycle_mock_cc",
+        "@score_lifecycle_health//score/launch_manager:runapplication_cc",
     ] + select({
         ":is_score_variant": ["//score/config_management/config_daemon/code/factory/details:mw_factory_for_unit_test"],
         "//conditions:default": ["//score/config_management/config_daemon/code/factory/details:ara_factory_for_unit_test"],
