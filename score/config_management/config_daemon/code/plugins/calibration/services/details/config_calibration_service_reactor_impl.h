@@ -33,7 +33,7 @@ class ConfigCalibrationServiceReactorImpl final : public ConfigCalibrationServic
     explicit ConfigCalibrationServiceReactorImpl(
         const std::shared_ptr<data_model::IParameterSetCollection> parameter_data,
         LastUpdatedParameterSetSender last_updated_parameter_set_sender,
-        const std::shared_ptr<CalibrationUpdateObserver> calibration_update_observer) noexcept;
+        const std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> calibration_update_observer) noexcept;
 
     Result<void> UpdateParameterSet(const score::cpp::string_view parameter_set_name,
                                     const score::cpp::string_view parameter_set) noexcept override;
@@ -43,7 +43,7 @@ class ConfigCalibrationServiceReactorImpl final : public ConfigCalibrationServic
 
     std::shared_ptr<data_model::IParameterSetCollection> parameter_data_;
     LastUpdatedParameterSetSender last_updated_parameter_set_sender_;
-    std::shared_ptr<CalibrationUpdateObserver> calibration_update_observer_;
+    std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> calibration_update_observer_;
     bool dtc_already_set_to_failed_;
 };
 

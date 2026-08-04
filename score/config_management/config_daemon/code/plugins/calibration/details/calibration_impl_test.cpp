@@ -75,7 +75,7 @@ class CalibrationTest : public ::testing::Test
         calibration_enabled_handler_ =
             std::make_unique<CalibrationImpl::CalibrationEnabledHandler>(calibration_service_toggler_mock_);
         parameter_set_collection_mock_ = std::make_shared<data_model::ParameterSetCollectionManagerMock>();
-        calibration_update_observer_mock_ = std::make_shared<CalibrationUpdateObserverMock>();
+        calibration_update_observer_mock_ = std::make_shared<runtime_calibration::CalibrationUpdateObserverMock>();
         param_set_mapping_mock_ = std::make_shared<score::config_management::config_daemon::coding::ParamSetMappingMock>();
         fault_event_reporter_mock_ = std::make_shared<FaultEventReporterMock>();
 
@@ -118,7 +118,7 @@ class CalibrationTest : public ::testing::Test
     std::unique_ptr<CalibrationImpl::CalibrationEnabledHandler> calibration_enabled_handler_;
     mw::log::RecorderMock recorder_mock_{};
     std::shared_ptr<data_model::ParameterSetCollectionManagerMock> parameter_set_collection_mock_;
-    std::shared_ptr<CalibrationUpdateObserverMock> calibration_update_observer_mock_;
+    std::shared_ptr<runtime_calibration::CalibrationUpdateObserverMock> calibration_update_observer_mock_;
     std::shared_ptr<score::config_management::config_daemon::coding::ParamSetMappingMock> param_set_mapping_mock_;
     std::shared_ptr<FaultEventReporterMock> fault_event_reporter_mock_;
 };

@@ -45,7 +45,7 @@ constexpr auto kConfigCalibrationServiceId = "ConfigDaemon/ConfigDaemon_RootSwc/
 std::unique_ptr<score::mw::service::ProvidedServicesBase> FactoryImpl::CreateCalibrationService(
     const std::shared_ptr<score::config_management::config_daemon::data_model::IParameterSetCollection> parameter_data,
     LastUpdatedParameterSetSender last_updated_parameter_set_sender,
-    const std::shared_ptr<CalibrationUpdateObserver> calibration_update_observer) const
+    const std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> calibration_update_observer) const
 {
     const ::mw::core::InstanceSpecifier instance_specifier{kConfigCalibrationServiceId};
     auto preconstruct_result = ConfigCalibrationSkeleton::Preconstruct(instance_specifier);
@@ -81,9 +81,9 @@ std::shared_ptr<ServiceToggler> FactoryImpl::CreateServiceToggler(
     return std::make_shared<ServiceTogglerImpl>(std::move(calibration_service));
 }
 
-std::shared_ptr<CalibrationUpdateObserver> FactoryImpl::CreateCalibrationUpdateObserver() const
+std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> FactoryImpl::CreateCalibrationUpdateObserver() const
 {
-    return std::make_shared<CalibrationUpdateObserverImpl>();
+    return std::make_shared<runtime_calibration::CalibrationUpdateObserverImpl>();
 }
 
 std::unique_ptr<score::mw::diag::DTC> FactoryImpl::CreateClearableDtcIntegrityError() const

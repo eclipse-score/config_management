@@ -84,7 +84,7 @@ class CalibrationImpl final : public IPlugin
     std::shared_ptr<score::config_management::config_daemon::data_model::IParameterSetCollection> parameterset_collection_;
     LastUpdatedParameterSetSender last_updated_parameter_set_sender_;
     mw::service::OptionalProxyData<ISecureDebug> secure_debug_proxy_data_;
-    std::shared_ptr<CalibrationUpdateObserver> calibration_update_observer_;
+    std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> calibration_update_observer_;
     std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter_;
     std::unique_ptr<score::config_management::config_daemon::calibration::Factory> factory_;
     std::shared_ptr<score::config_management::config_daemon::coding::IParamSetMapping> parameter_set_mapping_;

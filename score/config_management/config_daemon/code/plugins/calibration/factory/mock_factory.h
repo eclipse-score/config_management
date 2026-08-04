@@ -37,13 +37,16 @@ class MockFactory final : public Factory
         CreateCalibrationService,
         (const std::shared_ptr<score::config_management::config_daemon::data_model::IParameterSetCollection> parameter_data,
          LastUpdatedParameterSetSender last_updated_parameter_set_sender,
-         const std::shared_ptr<CalibrationUpdateObserver> calibration_update_observer),
+         const std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> calibration_update_observer),
         (const, override));
     MOCK_METHOD(std::shared_ptr<ServiceToggler>,
                 CreateServiceToggler,
                 (std::unique_ptr<score::mw::service::ProvidedServicesBase> calibration_service),
                 (const, override));
-    MOCK_METHOD(std::shared_ptr<CalibrationUpdateObserver>, CreateCalibrationUpdateObserver, (), (const, override));
+    MOCK_METHOD(std::shared_ptr<runtime_calibration::CalibrationUpdateObserver>,
+                CreateCalibrationUpdateObserver,
+                (),
+                (const, override));
     MOCK_METHOD(CalibrationProxies, CreateCalibrationProxies, (), (const, override));
     MOCK_METHOD(std::shared_ptr<ParameterLoader>,
                 CreateParameterLoader,

@@ -52,12 +52,12 @@ class Factory
     virtual std::unique_ptr<score::mw::service::ProvidedServicesBase> CreateCalibrationService(
         const std::shared_ptr<score::config_management::config_daemon::data_model::IParameterSetCollection> parameter_data,
         LastUpdatedParameterSetSender last_updated_parameter_set_sender,
-        const std::shared_ptr<CalibrationUpdateObserver> calibration_update_observer) const = 0;
+        const std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> calibration_update_observer) const = 0;
 
     virtual std::shared_ptr<ServiceToggler> CreateServiceToggler(
         std::unique_ptr<score::mw::service::ProvidedServicesBase> calibration_service) const = 0;
 
-    virtual std::shared_ptr<CalibrationUpdateObserver> CreateCalibrationUpdateObserver() const = 0;
+    virtual std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> CreateCalibrationUpdateObserver() const = 0;
     virtual std::unique_ptr<score::mw::diag::DTC> CreateClearableDtcIntegrityError() const = 0;
     virtual std::unique_ptr<score::mw::diag::DTC> CreateClearableDtcDefaultValuesInUse() const = 0;
     virtual std::shared_ptr<ParameterLoader> CreateParameterLoader(

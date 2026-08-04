@@ -41,7 +41,7 @@ class ConfigCalibrationServiceReactorImplTest : public ::testing::Test
   protected:
     void SetUp() override
     {
-        calibration_update_observer_mock_ = std::make_shared<CalibrationUpdateObserverMock>();
+        calibration_update_observer_mock_ = std::make_shared<runtime_calibration::CalibrationUpdateObserverMock>();
         parameter_data_handler_mock_ = std::make_shared<data_model::ParameterSetCollectionMock>();
         config_calibration_service_reactor_ =
             std::make_shared<ConfigCalibrationServiceReactorImpl>(parameter_data_handler_mock_,
@@ -78,7 +78,7 @@ class ConfigCalibrationServiceReactorImplTest : public ::testing::Test
         EXPECT_EQ(res.error(), update_parameter_set_error);
     }
 
-    std::shared_ptr<CalibrationUpdateObserverMock> calibration_update_observer_mock_;
+    std::shared_ptr<runtime_calibration::CalibrationUpdateObserverMock> calibration_update_observer_mock_;
     std::shared_ptr<data_model::ParameterSetCollectionMock> parameter_data_handler_mock_;
     testing::MockFunction<bool(const std::string_view)> last_updated_parameter_set_sender_;
     std::shared_ptr<ConfigCalibrationServiceReactorImpl> config_calibration_service_reactor_;
@@ -275,7 +275,7 @@ TEST(SimpleConfigCalibrationServiceTest, testCalibrationUpdateObserverNotReporte
     RecordProperty("DerivationTechnique", "Analyzing architecture and design");
     RecordProperty("Description",
                    "This test verifies that ConfigCalibrationService construction does not report DTC state changes.");
-    auto calibration_update_observer_mock = std::make_shared<CalibrationUpdateObserverMock>();
+    auto calibration_update_observer_mock = std::make_shared<runtime_calibration::CalibrationUpdateObserverMock>();
     EXPECT_CALL(*calibration_update_observer_mock, ReportParameterUpdate()).Times(0);
     auto parameter_data_handler_mock = std::make_shared<data_model::ParameterSetCollectionMock>();
     auto last_updated_parameter_set_sender = [](const std::string_view) noexcept {
@@ -305,7 +305,7 @@ TEST(SimpleConfigCalibrationServiceTest, testParameterDataIsNullptr)
         }
     )";
 
-    auto calibration_update_observer_mock = std::make_shared<CalibrationUpdateObserverMock>();
+    auto calibration_update_observer_mock = std::make_shared<runtime_calibration::CalibrationUpdateObserverMock>();
     auto last_updated_parameter_set_sender = [](const std::string_view) noexcept {
         return true;
     };
@@ -335,7 +335,7 @@ TEST(SimpleConfigCalibrationServiceTest, testInternalConfigProviderIsNullptr)
         }
     )";
 
-    auto calibration_update_observer_mock = std::make_shared<CalibrationUpdateObserverMock>();
+    auto calibration_update_observer_mock = std::make_shared<runtime_calibration::CalibrationUpdateObserverMock>();
     auto parameter_data_handler_mock = std::make_shared<data_model::ParameterSetCollectionMock>();
     auto config_calibration_service_reactor = std::make_shared<ConfigCalibrationServiceReactorImpl>(
         parameter_data_handler_mock, LastUpdatedParameterSetSender{}, calibration_update_observer_mock);

@@ -113,7 +113,7 @@ TEST(Factory, CreateCalibrationService)
     auto last_updated_parameter_set_sender = [](const std::string_view) noexcept {
         return true;
     };
-    auto calibration_update_observer_mock = std::make_shared<CalibrationUpdateObserverMock>();
+    auto calibration_update_observer_mock = std::make_shared<runtime_calibration::CalibrationUpdateObserverMock>();
 
     FactoryImpl unit;
     auto provided_service = unit.CreateCalibrationService(std::move(parameterset_collection_mock),
@@ -137,7 +137,7 @@ TEST(Factory, CreateCalibrationServiceFailDueToInvalidConfigCalibrationServiceId
     auto last_updated_parameter_set_sender = [](const std::string_view) noexcept {
         return true;
     };
-    auto calibration_update_observer_mock = std::make_shared<CalibrationUpdateObserverMock>();
+    auto calibration_update_observer_mock = std::make_shared<runtime_calibration::CalibrationUpdateObserverMock>();
     // Expect ConfigCalibrationSkeleton::Preconstruct return construction token
     EXPECT_CALL(*ConfigCalibrationSkeleton::GetConstructionMockInstance(),
                 Preconstruct(::testing::An<mw::core::InstanceSpecifier>(), testing::_))

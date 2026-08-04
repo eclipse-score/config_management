@@ -28,7 +28,7 @@ using DataModelError = data_model::DataModelError;
 ConfigCalibrationServiceReactorImpl::ConfigCalibrationServiceReactorImpl(
     const std::shared_ptr<data_model::IParameterSetCollection> parameter_data,
     LastUpdatedParameterSetSender last_updated_parameter_set_sender,
-    const std::shared_ptr<CalibrationUpdateObserver> calibration_update_observer) noexcept
+    const std::shared_ptr<runtime_calibration::CalibrationUpdateObserver> calibration_update_observer) noexcept
     : ConfigCalibrationServiceReactor(),
       parameter_data_(parameter_data),
       last_updated_parameter_set_sender_(std::move(last_updated_parameter_set_sender)),
