@@ -117,7 +117,7 @@ imagefs.toolchain(
 use_repo(imagefs, "score_qnx_aarch64_ifs_toolchain", "score_qnx_x86_64_ifs_toolchain")
 
 # Ferrocene (safety-certified Rust) — needed for Rust targets on QNX
-bazel_dep(name = "score_toolchains_rust", version = "0.9.1", dev_dependency = True)
+bazel_dep(name = "score_toolchains_rust", version = "0.10.0", dev_dependency = True)
 
 # tooling
 bazel_dep(name = "score_tooling", version = "1.2.0")
