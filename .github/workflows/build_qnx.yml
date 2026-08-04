@@ -1,0 +1,55 @@
+# *******************************************************************************
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# SPDX-License-Identifier: Apache-2.0
+# *******************************************************************************
+
+name: QNX Build & Test
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - main
+  merge_group:
+    types: [checks_requested]
+  workflow_call:
+  workflow_dispatch:
+jobs:
+  qnx-build:
+    name: Build and Test ${{ matrix.bazel-config }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - bazel-config: x86_64-qnx
+            bazel-test-target: >-
+              //score/config_management/config_daemon/code/data_model/details:unit_test //score/config_management/config_daemon/code/data_model/error:unit_test //score/config_management/config_daemon/code/data_model/parameter_set_storage/details:unit_test //score/config_management/config_daemon/code/data_model/parameter_set_storage/error:unit_test //score/config_management/config_daemon/code/fault_event_reporter/details:score_impl_unit_test //score/config_management/config_daemon/code/plugins/demo_json/details:demo_json_plugin_impl_test //score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:demo_parameter_loader_impl_test //score/config_management/config_daemon/code/plugins/demo_json/plugin_creator:demo_json_plugin_creator_test //score/config_management/config_daemon/code/plugins/plugin_collector/details:unit_test //score/config_management/config_daemon/code/services/details:unit_test //score/config_management/config_provider/code/config_provider/error:unit_test //score/config_management/config_provider/code/parameter_set:unit_test //score/config_management/config_provider/code/persistency/details:unit_test //score/config_management/config_provider/code/persistency/error:unit_test //tests/cpp:cpp_test_main
+          - bazel-config: arm64-qnx
+            bazel-test-target: >-
+              //score/config_management/config_daemon/code/data_model/details:unit_test //score/config_management/config_daemon/code/data_model/error:unit_test //score/config_management/config_daemon/code/data_model/parameter_set_storage/details:unit_test //score/config_management/config_daemon/code/data_model/parameter_set_storage/error:unit_test //score/config_management/config_daemon/code/fault_event_reporter/details:score_impl_unit_test //score/config_management/config_daemon/code/plugins/demo_json/details:demo_json_plugin_impl_test //score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:demo_parameter_loader_impl_test //score/config_management/config_daemon/code/plugins/demo_json/plugin_creator:demo_json_plugin_creator_test //score/config_management/config_daemon/code/plugins/plugin_collector/details:unit_test //score/config_management/config_daemon/code/services/details:unit_test //score/config_management/config_provider/code/config_provider/error:unit_test //score/config_management/config_provider/code/parameter_set:unit_test //score/config_management/config_provider/code/persistency/details:unit_test //score/config_management/config_provider/code/persistency/error:unit_test //tests/cpp:cpp_test_main
+            extra-bazel-test-flags: "--test_timeout=120,600,1800,7200"
+    uses: eclipse-score/cicd-workflows/.github/workflows/qnx-build.yml@af347722c7ae3ed85518895c11268d96ac728f62
+    permissions:
+      contents: read
+      pull-requests: read
+    with:
+      # Build targets from deps_acceptlist.json buildable_targets
+      bazel-target: >-
+        //score/config_management/config_daemon/code/app:interface //score/config_management/config_daemon/code/app:mock //score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl //score/config_management/config_daemon/code/data_model/details:unit_test //score/config_management/config_daemon/code/data_model/error:error //score/config_management/config_daemon/code/data_model/error:unit_test //score/config_management/config_daemon/code/data_model:parameter_set_qualifier //score/config_management/config_daemon/code/data_model:parameterset_collection //score/config_management/config_daemon/code/data_model:parameterset_collection_mock //score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection //score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection_mock //score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl //score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl_for_test //score/config_management/config_daemon/code/fault_event_reporter:fault_event_reporter //score/config_management/config_daemon/code/fault_event_reporter:fault_event_score_types //score/config_management/config_daemon/code/fault_event_reporter:mock //score/config_management/config_daemon/code:is_score_variant //score/config_management/config_daemon/code/json_helper/details:details //score/config_management/config_daemon/code/json_helper:json_helper //score/config_management/config_daemon/code/json_helper:mock //score/config_management/config_daemon/code/plugins/plugin_collector:mock //score/config_management/config_daemon/code/plugins:plugin_creator //score/config_management/config_daemon/code/plugins:plugin_creator_mock //score/config_management/config_daemon/code:score_variant //score/config_management/config_daemon/code/services:internal_config_provider_reactor //score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock //score/config_management/config_daemon/code/types/initial_qualifier_state:initial_qualifier_state //score/config_management/config_provider/code/config_provider/error:error //score/config_management/config_provider/code/config_provider/error:unit_test //score/config_management/config_provider/code/config_provider/factory:test_mw_com_config //score/config_management/config_provider/code/parameter_set:parameter_set //score/config_management/config_provider/code/persistency/error:error //score/config_management/config_provider/code/proxies/details:test_mw_com_config
+      bazel-config: ${{ matrix.bazel-config }}
+      bazel-test-target: ${{ matrix.bazel-test-target }}
+      extra-bazel-test-flags: ${{ matrix.extra-bazel-test-flags }}
+      credential-helper: "scripts/internal/qnx_creds.py"
+      bazel-disk-cache: ${{ matrix.bazel-config }}
+    secrets:
+      score-qnx-license: ${{ secrets.SCORE_QNX_LICENSE }}
+      score-qnx-user: ${{ secrets.SCORE_QNX_USER }}
+      score-qnx-password: ${{ secrets.SCORE_QNX_PASSWORD }}

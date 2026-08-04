@@ -51,3 +51,39 @@ coverage --combined_report=lcov
 coverage --cache_test_results=no
 coverage --copt=-fprofile-update=atomic
 coverage --linkopt=-fprofile-update=atomic
+
+# QNX credential helper — downloads QCC from qnx.com using SCORE_QNX_USER / SCORE_QNX_PASSWORD
+# env vars (set in CI secrets) or ~/.netrc (for local builds with a QNX account)
+build --credential_helper=*.qnx.com=%workspace%/scripts/internal/qnx_creds.py
+build --credential_helper_timeout=60s
+
+# Common flags for QNX cross-compilation
+# Sets Ferrocene as the host Rust toolchain so proc-macro crates stay ABI-compatible
+build:toolchain_common --incompatible_strict_action_env
+build:toolchain_common --host_platform=@score_bazel_platforms//:x86_64-linux
+build:toolchain_common --extra_toolchains=@score_toolchains_rust//toolchains/ferrocene:ferrocene_x86_64_unknown_linux_gnu
+
+# Disables remote DLT transport (not available inside QEMU unit test environment)
+build:stub --@score_baselibs//score/mw/log/flags:KRemote_Logging=False
+
+# Target configuration: QNX x86_64 (QEMU native speed)
+build:x86_64-qnx --config=stub
+build:x86_64-qnx --config=toolchain_common
+build:x86_64-qnx --platforms=@score_bazel_platforms//:x86_64-qnx-sdp_8.0.0-posix
+build:x86_64-qnx --extra_toolchains=@score_qcc_x86_64_toolchain//:x86_64-qnx-sdp_8.0.0
+build:x86_64-qnx --extra_toolchains=@score_toolchains_rust//toolchains/ferrocene:ferrocene_x86_64_pc_nto_qnx800
+build:x86_64-qnx --extra_toolchains=@score_qnx_x86_64_ifs_toolchain//:ifs-x86_64-qnx-sdp_8.0.0
+test:x86_64-qnx --run_under=@score_qnx_unit_tests//src:run_under_qnx
+test:x86_64-qnx --test_lang_filters=cc,rust
+
+# Target configuration: QNX aarch64 (QEMU emulation — slower, extended timeouts needed)
+build:arm64-qnx --config=stub
+build:arm64-qnx --config=toolchain_common
+build:arm64-qnx --incompatible_strict_action_env
+build:arm64-qnx --platforms=@score_bazel_platforms//:aarch64-qnx-sdp_8.0.0-posix
+build:arm64-qnx --extra_toolchains=@score_qcc_aarch64_toolchain//:aarch64-qnx-sdp_8.0.0
+build:arm64-qnx --extra_toolchains=@score_toolchains_rust//toolchains/ferrocene:ferrocene_aarch64_unknown_nto_qnx800
+build:arm64-qnx --extra_toolchains=@score_qnx_aarch64_ifs_toolchain//:ifs-aarch64-qnx-sdp_8.0.0
+test:arm64-qnx --run_under=@score_qnx_unit_tests//src:run_under_qnx
+test:arm64-qnx --test_timeout=300
+test:arm64-qnx --test_lang_filters=cc,rust
