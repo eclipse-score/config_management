@@ -172,7 +172,7 @@ git_override(
 )
 
 # s-core persistency
-bazel_dep(name = "score_persistency", version = "0.3.2")
+bazel_dep(name = "score_persistency", version = "0.3.4")
 
 # TRLC dependency — commit matches score_tooling ade2a09e
 bazel_dep(name = "trlc", version = "0.0.0", dev_dependency = True)
