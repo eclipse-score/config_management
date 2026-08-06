@@ -39,5 +39,6 @@ jobs:
 
     with:
       # the bazel-target depends on your repo specific docs_targets configuration (e.g. "suffix")
-      bazel-target: "//:docs -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
+      # --define=LOBSTER_SOURCE_ROOT sets the GitHub blob URL prefix for source links in the LOBSTER traceability report
+      bazel-target: "//:docs --define=LOBSTER_SOURCE_ROOT=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/blob/main/ -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
       retention-days: 3
