@@ -24,6 +24,7 @@ on:
   workflow_dispatch:
 jobs:
   qnx-build:
+    if: false # temporarily disable QNX builds until QNX SDP secrets are configured
     name: Build and Test ${{ matrix.bazel-config }}
     strategy:
       fail-fast: false
