@@ -15,7 +15,7 @@
 +
 +unit(
 +    name = "config_provider_details_unit",
-+    tests = [],
++    tests = [":unit_test"],
 +    unit_design = [],
 +    visibility = ["//score/config_management/dependability:__pkg__"],
 +    implementation = [":details"],
