@@ -24,6 +24,8 @@ on:
 
 jobs:
   docs-cleanup:
-    uses: eclipse-score/cicd-workflows/.github/workflows/docs-cleanup.yml@main
+    # Pinned to a commit SHA (not @main) so upstream changes to this reusable workflow
+    # cannot silently alter our CI behavior; bump deliberately and re-verify when needed.
+    uses: eclipse-score/cicd-workflows/.github/workflows/docs-cleanup.yml@0621768ffa46b58b0fd9606b80f0c67602721816 # main branch (2026-08-10)
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
