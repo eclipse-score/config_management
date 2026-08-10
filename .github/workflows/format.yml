@@ -21,6 +21,8 @@ on:
 
 jobs:
   formatting-check:
-    uses: eclipse-score/cicd-workflows/.github/workflows/format.yml@main
+    # Pinned to a commit SHA (not @main) so upstream changes to this reusable workflow
+    # cannot silently alter our CI behavior; bump deliberately and re-verify when needed.
+    uses: eclipse-score/cicd-workflows/.github/workflows/format.yml@0621768ffa46b58b0fd9606b80f0c67602721816 # main branch (2026-08-10)
     with:
       bazel-target: "test //:format.check" # optional, this is the default

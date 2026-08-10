@@ -1,0 +1,57 @@
+--- a/score/config_management/config_provider/code/config_provider/details/BUILD
++++ b/score/config_management/config_provider/code/config_provider/details/BUILD
+@@ -1,6 +1,7 @@
+ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+ load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
+ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
++load("@score_tooling//bazel/rules/rules_score:rules_score.bzl", "unit")
+ 
+ cc_library(
+     name = "details",
+@@ -55,3 +56,11 @@
+     ],
+     visibility = ["//score/config_management/config_provider:__subpackages__"],
+ )
++
++unit(
++    name = "config_provider_details_unit",
++    tests = [":unit_test"],
++    unit_design = [],
++    visibility = ["//score/config_management/dependability:__pkg__"],
++    implementation = [":details"],
++)
+--- a/score/config_management/config_daemon/code/app/details/BUILD
++++ b/score/config_management/config_daemon/code/app/details/BUILD
+@@ -13,6 +13,7 @@
+ 
+ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
++load("@score_tooling//bazel/rules/rules_score:rules_score.bzl", "unit")
+ 
+ cc_library(
+     name = "app",
+@@ -85,3 +86,11 @@
+         "@score_lifecycle_health//score/launch_manager:lifecycle_mock_cc",
+     ],
+ )
++
++unit(
++    name = "config_daemon_app_unit",
++    tests = [":unit_test"],
++    unit_design = [],
++    visibility = ["//score/config_management/dependability:__pkg__"],
++    implementation = [":app"],
++)
+--- a/score/config_management/config_daemon/code/app/BUILD
++++ b/score/config_management/config_daemon/code/app/BUILD
+@@ -27,7 +27,9 @@
+     visibility = [
+         "//score/config_management/config_daemon/code:__subpackages__",
+     ],
+-    deps = [],
++    deps = [
++        "@score_lifecycle_health//score/launch_manager:application_cc",
++    ],
+ )
+ 
+ cc_library(

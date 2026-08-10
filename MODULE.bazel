@@ -10,10 +10,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-module(
-    name = "score_config_management",
-    version = "1.0",
-)
+module(name = "score_config_management")
 
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
 bazel_dep(name = "rules_python", version = "1.8.5")
@@ -167,12 +164,17 @@ git_override(
 bazel_dep(name = "score_lifecycle_health", version = "0.2.0")
 git_override(
     module_name = "score_lifecycle_health",
-    commit = "9a68e1efa144e1a582fe7439a9d8bf842b25b826",
-    remote = "https://github.com/Chahult/lifecycle.git",
+    commit = "7fb5140d39aca047a01880b4aa0a8ddd16d73f0f",
+    remote = "https://github.com/eclipse-score/lifecycle.git",
 )
 
 # s-core persistency
 bazel_dep(name = "score_persistency", version = "0.3.2")
+single_version_override(
+    module_name = "score_persistency",
+    patch_strip = 1,
+    patches = ["//bazel/patches:score_persistency_fix_string_view_to_string.patch"],
+)
 
 # TRLC dependency — commit matches score_tooling ade2a09e
 bazel_dep(name = "trlc", version = "0.0.0", dev_dependency = True)

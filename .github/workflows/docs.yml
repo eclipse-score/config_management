@@ -30,7 +30,14 @@ on:
 
 jobs:
   build-docs:
-    uses: eclipse-score/cicd-workflows/.github/workflows/docs.yml@main
+    # Pinned to the same known-good pre-#124 commit SHA that baselibs/logging/communication
+    # use (eclipse-score/cicd-workflows#124 rewrote+split this workflow and, per
+    # eclipse-score/cicd-workflows#179, broke pull_request_target checkout for the new
+    # version; #179 is only a temporary band-aid upstream). This older revision builds
+    # AND deploys docs in a single reusable workflow and correctly checks out the real
+    # PR head (github.event.pull_request.head.ref) regardless of pull_request_target,
+    # so no separate docs-publish.yml or manual checkout workaround is needed here.
+    uses: eclipse-score/cicd-workflows/.github/workflows/docs.yml@af347722c7ae3ed85518895c11268d96ac728f62
     permissions:
       contents: write
       pages: write
@@ -39,5 +46,13 @@ jobs:
 
     with:
       # the bazel-target depends on your repo specific docs_targets configuration (e.g. "suffix")
-      bazel-target: "//:docs -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
+      # --define=LOBSTER_SOURCE_ROOT sets the GitHub blob URL prefix for source links in the LOBSTER traceability report
+      # TEMPORARY WORKAROUND (patch): score/config_management/** is synced from an internal source and cannot be
+      # edited directly from OSS, so the LOBSTER unit() wiring lives only in bazel/patches/wire_unit_test_to_lobster.patch.
+      # The reusable docs workflow exposes no pre-build hook, so we apply the patch as a side effect of a
+      # command substitution (redirected to stderr so it contributes nothing to the bazel command line) before
+      # `bazel run` executes, purely so the generated report reflects the intended wiring. The --check guard
+      # makes this a no-op (skips silently) once the real change lands via sync, so it never fails the build.
+      # Remove this workaround once the patch's content is synced into score/config_management/ for real.
+      bazel-target: "$(git apply --check bazel/patches/wire_unit_test_to_lobster.patch 2>/dev/null && git apply bazel/patches/wire_unit_test_to_lobster.patch 1>&2) //:docs --define=LOBSTER_SOURCE_ROOT=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/blob/main/ -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
       retention-days: 3
