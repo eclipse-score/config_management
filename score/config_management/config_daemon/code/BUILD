@@ -12,7 +12,7 @@
 # *******************************************************************************
 
 load("@bazel_skylib//rules:common_settings.bzl", "bool_flag")
-load("@rules_cc//cc:defs.bzl", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_test")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_unit_test_suites_for_host_and_qnx")
 load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
 load(":custom.bzl", "load_custom_targets", "load_custom_test_suites")
@@ -68,3 +68,14 @@ cc_unit_test_suites_for_host_and_qnx(
 )
 
 load_custom_targets()
+
+cc_binary(
+    name = "config_daemon",
+    srcs = ["main.cpp"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//score/config_management/config_daemon/code/app/details:app",
+        "//score/config_management/config_daemon/code/factory/details:mw_factory",
+        "@score_lifecycle_health//score/launch_manager:runapplication_cc",
+    ],
+)
