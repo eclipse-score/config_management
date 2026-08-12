@@ -39,6 +39,7 @@ cc_test(
         ":details_mw_com",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/concurrency:notification",
     ],
 )
 

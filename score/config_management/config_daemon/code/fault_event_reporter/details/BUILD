@@ -44,7 +44,10 @@ cc_test(
     visibility = [
         "//score/config_management/config_daemon:__subpackages__",
     ],
-    deps = [":details_score_impl_for_test"],
+    deps = [
+        ":details_score_impl_for_test",
+        "@score_baselibs//score/concurrency/future",
+    ],
 )
 
 load_custom_targets()

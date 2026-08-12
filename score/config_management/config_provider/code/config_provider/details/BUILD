@@ -43,7 +43,9 @@ cc_test(
         "//score/config_management/config_provider/code/persistency/error",
         "//score/config_management/config_provider/code/proxies:mock",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/concurrency:interruptible_wait",
         "@score_baselibs//score/concurrency:notification",
+        "@score_baselibs//score/concurrency/future",
         "@score_baselibs//score/mw/log:recorder_mock",
     ],
 )
