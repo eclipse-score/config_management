@@ -42,40 +42,17 @@ jobs:
           repository-cache: true
           cache-save: ${{ github.event_name == 'push' }}
 
-      - name: Run clang-tidy checks from deps_acceptlist.json
+      - name: Apply OSS-only patches
+        # TEMPORARY WORKAROUND (patch): score/config_management/** is synced from an internal source and cannot be
+        # edited directly from OSS. bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch adapts the
+        # config_provider proxy wiring to the OSS score_communication ProxyFuture API and drops internal-only
+        # (non-OSS) targets. The --check guard makes this a no-op once the change lands via sync.
         run: |
-          python3 - <<'PYEOF'
-          import json, subprocess, sys
+          git apply --check bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch 2>/dev/null && \
+            git apply bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch || true
 
-          ACCEPTLIST = "score/config_management/deps_acceptlist.json"
-
-          with open(ACCEPTLIST) as f:
-              targets = json.load(f)["clang_tidy_targets"]
-
-          failures = []
-          for target in targets:
-              try:
-                  result = subprocess.run(
-                      ["bazel", "build", target],
-                      capture_output=True, text=True,
-                      timeout=600,
-                  )
-              except subprocess.TimeoutExpired:
-                  failures.append(target)
-                  print(f"  TIMEOUT  {target}")
-                  continue
-              if result.returncode == 0:
-                  print(f"  OK    {target}")
-              else:
-                  failures.append(target)
-                  print(f"  FAIL  {target}")
-                  print(result.stderr[-2000:])
-
-          print(f"\n{len(targets) - len(failures)}/{len(targets)} clang-tidy targets passed.")
-
-          if failures:
-              print("\nStatic analysis failed for the following targets:")
-              for t in failures:
-                  print(f"  {t}")
-              sys.exit(1)
-          PYEOF
+      - name: Run clang-tidy checks
+        run: |
+          bazel build \
+            //score/config_management/config_daemon:clang_tidy_extra_checks \
+            //score/config_management/config_provider:clang_tidy_extra_checks

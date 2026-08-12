@@ -42,11 +42,23 @@ jobs:
         uses: eclipse-score/cicd-actions/setup-bazel-cache@659dcbed63f6b7fbde88c7850125ea0a0a92f939
         with:
           unique-cache-name: ${{ github.workflow }}-${{ github.job }}
+      - name: Apply OSS-only patches
+        # TEMPORARY WORKAROUND (patch): score/config_management/** is synced from an internal source and cannot be
+        # edited directly from OSS. bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch adapts the
+        # config_provider proxy wiring to the OSS score_communication ProxyFuture API and drops internal-only
+        # (non-OSS) targets. The --check guard makes this a no-op once the change lands via sync.
+        run: |
+          git apply --check bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch 2>/dev/null && \
+            git apply bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch || true
       - name: Run Bazel Coverage
         run: |
-          readarray -t TARGETS < <(python3 -c \
-            "import json; [print(t) for t in json.load(open('score/config_management/deps_acceptlist.json'))['test_targets']]")
-          bazel coverage --config=host_gcc "${TARGETS[@]}"
+          bazel coverage \
+            --config=host_gcc \
+            --test_tag_filters=-mw_com \
+            //score/config_management/... \
+            -- \
+            -//score/config_management/config_provider/code/config_provider/factory:unit_tests_mw_com \
+            -//score/config_management/dependability/...
       - name: Generate HTML Coverage Report
         run: |
           genhtml "$(bazel info output_path)/_coverage/_coverage_report.dat" \
