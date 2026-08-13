@@ -1,0 +1,752 @@
+Unit Test
+=========
+
+**Coverage:** 100.0% (93 of 93 items OK)
+
+.. _lobster-item-7aab1acd9a525448847bc5ed98bf8a97a1274ed3:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppInitializeSuccess
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigDaemon.StorageAccessibility <lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:182 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L182>`__
+
+.. _lobster-item-4abaf7ca9197576817ebe9227b30132ef010372c:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToCreateFaultEventReporter
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:206 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L206>`__
+
+.. _lobster-item-07a98f0d4f2df8ef3fe621aff3165d00e37f38c3:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppSettingUmaskFailed
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:225 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L225>`__
+
+.. _lobster-item-27b7ef16b80a051de9dc90328414fcb187326047:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToCreateInternalConfigProviderService
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:244 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L244>`__
+
+.. _lobster-item-83c0b5d982056ae09eb4ca09ba62cbc768d7bd7d:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppRunSucceed
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:266 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L266>`__
+
+.. _lobster-item-221deabdd065cf1a393a29467668c104bd4e2677:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToCreatePluginCollector
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:296 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L296>`__
+
+.. _lobster-item-eaaaf3e9e4751145ecdc8b0dc1c000d09c906fb4:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToSetupPlugins
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigDaemon.StorageFailure <lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:314 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L314>`__
+
+.. _lobster-item-fbd27fb1a761d97926a3f0762833c242f82c7c49:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeSecondPlugin
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:337 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L337>`__
+
+.. _lobster-item-f7f5a4900991f4736f590d54048db5a01085f5bc:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToRunFirstPlugin
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:358 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L358>`__
+
+.. _lobster-item-4228fe9dd5e8a8c524d722385f242ff7f9021ec0:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToRunSecondPlugin
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:381 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L381>`__
+
+.. _lobster-item-74aaa76bdd3ba642e0a52eb53bf926039eb14cbf:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeAsPluginIsNull
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:404 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L404>`__
+
+.. _lobster-item-745bbb26acf5b2d77ed7e82ab35f45bdf7c7ce1c:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonRunFailDueToLastUpdatedParameterSetSenderCreationFailure
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:428 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L428>`__
+
+.. _lobster-item-9aa592fad03f9a1ca190805af1fc07b69232e167:
+
+.. dropdown:: [OK] GoogleTest Test ConfigDaemonFixture:ConfigDaemonAppFailedToCreateParameterSetCollectionManager
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_daemon/code/app/details/config\_daemon\_impl\_test.cpp:453 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_daemon/code/app/details/config_daemon_impl_test.cpp#L453>`__
+
+.. _lobster-item-fc7bc955b1f0550ec6d0cf927fb2bd456946209f:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingBlocked\_ClientDoNotWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.InitialQualifierStateUndefined <lobster-item-d42512cde54e0d9d5a3076285f2c37913ea4cf16>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:234 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L234>`__
+
+.. _lobster-item-ca599d836c20804c68e9af664436c1a433168fde:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingFailed\_ClientDoNotWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.InitialQualifierStateUndefined <lobster-item-d42512cde54e0d9d5a3076285f2c37913ea4cf16>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:264 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L264>`__
+
+.. _lobster-item-6c1b0da1e83513dd98ed47772cd36fe5ac7207b7:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingBlocked\_DestroyRightAway\_NoPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:294 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L294>`__
+
+.. _lobster-item-4c3e815954e3d6c2487f673dae32a3f18e5c4ca5:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingBlocked\_DestroyAfterWait\_NoPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:318 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L318>`__
+
+.. _lobster-item-cd7fdea21332db2b2fb7a32c02b4c48fde0f7671:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingBlocked\_RequestStop\_NoPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:345 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L345>`__
+
+.. _lobster-item-0630d08e71931e55880c9cdd91aab798e75be841:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingBlocked\_ClientWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:381 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L381>`__
+
+.. _lobster-item-b3bdf64ebf5a5c93e035984db0ccfac2b1cb9409:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingFailed\_ClientWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:403 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L403>`__
+
+.. _lobster-item-8e9215b631b1351d11fb7fa697de0d0235a3fbe7:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingSuccess\_ClientWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.GetInitialQualifierState <lobster-item-adb510267d6968dea8dae6886b2fe4513208e182>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:426 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L426>`__
+
+.. _lobster-item-2c99a73fc55f2e05c5eded06c2ddc2b5c4be1a56:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:InitialQualifierState\_InitiallyNotAvailableFromProxy\_ClientWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.GetInitialQualifierState <lobster-item-adb510267d6968dea8dae6886b2fe4513208e182>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:479 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L479>`__
+
+.. _lobster-item-2b01c6f498d9640b72b059a2fa9268b10d838fa0:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingSuccessButNcdIsUnqualified\_ClientWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.GetInitialQualifierState <lobster-item-adb510267d6968dea8dae6886b2fe4513208e182>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:502 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L502>`__
+
+.. _lobster-item-b27a66509b2f7a2cf6351d6804e2dc7d9bcece75:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:InitialQualifierStateWasInitiallyNotAvailableFromProxy\_ClientWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.GetInitialQualifierState <lobster-item-adb510267d6968dea8dae6886b2fe4513208e182>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:546 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L546>`__
+
+.. _lobster-item-cc7f4c7b0d051084df2cc28f24964102de94aa48:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingSuccessButInitialQualifierStateIsUnqualified\_ClientWait\_EmptyPersistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.GetInitialQualifierState <lobster-item-adb510267d6968dea8dae6886b2fe4513208e182>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:571 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L571>`__
+
+.. _lobster-item-9515ef4bbbad14d2314d6b9f719e21d326415197:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingBlocked\_ClientDoNotWait\_Persistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:617 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L617>`__
+
+.. _lobster-item-f86e844cb6f333c2f8d0fcf5f7e46e676fa6332e:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingFailed\_ClientDoNotWait\_Persistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:651 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L651>`__
+
+.. _lobster-item-c7e9644995b79dc675eae7d739d2a248f5deee99:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingSuccess\_ClientWait\_Persistency
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.GetInitialQualifierState <lobster-item-adb510267d6968dea8dae6886b2fe4513208e182>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:685 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L685>`__
+
+.. _lobster-item-03ed368c1a5bf21fde71377c48232e272bca171f:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:SubscribeBeforeGettingDataFromProxy
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:747 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L747>`__
+
+.. _lobster-item-2e51ae02b6cea34b95c710f70abeb53244553154:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:FailedToSubscribe
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:782 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L782>`__
+
+.. _lobster-item-b4a16e056a510f8e94dfe8aa3d6cc72abb807e93:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:SubscribeWithEmptyCallback
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:821 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L821>`__
+
+.. _lobster-item-060f791cacf9ed4b67fdb7e07edb576e5b34fa46:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:Success\_LastUpdatedParameterSetReceiveHandler
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:860 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L860>`__
+
+.. _lobster-item-b27705be5a71a6bb0d678d25b95845cfacca4bb1:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:Success\_UserCallbackOverridesEmptyCallback
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:894 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L894>`__
+
+.. _lobster-item-8b2d219e3c5d949c640929afeb101a4548d6c745:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:Success\_LastUpdatedParameterSetReceiveHandlerCalledForParameterSetWithNoCallback
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:932 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L932>`__
+
+.. _lobster-item-08ee967fba2dfbf31c304466759473610ececd99:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:Success\_LastUpdatedParameterSetReceiveHandlerCalledTwiceWithSameParameterSet
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.OnChangedParameterSetNotInvokedForSameData <lobster-item-cb4a0e6a9b4b8c5e1441219f49d8e1f96c9863e6>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:984 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L984>`__
+
+.. _lobster-item-5c58149b3df312c0ab6d119f21865fd549d1daed:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:Success\_LastUpdatedParameterSetReceiveHandlerCalledTwice
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1049 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1049>`__
+
+.. _lobster-item-a1584fa80963612e4e1b24a7cd09b9236e036364:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:LastUpdatedParameterSetReceiveHandlerFailedToGetParameters
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1118 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1118>`__
+
+.. _lobster-item-d0b51dd4fecfbe0205ede32ea97aaa7996423410:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:DuplicateSetParameterSetCallbackFails
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1155 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1155>`__
+
+.. _lobster-item-b5e2bd30bd957592227d714ff48315526e111ffb:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:DuplicateSetParameterSetCallbackFailsOnChangedParameterSetCbk
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1185 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1185>`__
+
+.. _lobster-item-4082cb78064e893e626b1826227fed7b678fda7e:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:CallOnChangedParameterSetCbkWithEmptyCallback
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1214 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1214>`__
+
+.. _lobster-item-6431bf41eb22696fb3965e790d934a13c2e34671:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:ProxySearchingSuccess\_ClientWait\_EmptyPersistency\_WrongPsName
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1234 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1234>`__
+
+.. _lobster-item-69def1ef3bc815fbf576fd9f34b252782392c717:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:SuccessLastUpdatedParameterSetPersistedInCache
+   :class-title: sd-bg-success sd-text-white
+
+   **Derived from:**
+
+   * :ref:`ConfigProvider.InitialQualifierStateUndefined <lobster-item-d42512cde54e0d9d5a3076285f2c37913ea4cf16>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1264 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1264>`__
+
+.. _lobster-item-b8f81ad159564ce5798d70b1382d5630ae4ffc77:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:WaitUntilConnected\_success
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1316 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1316>`__
+
+.. _lobster-item-641c215ddf616869f5d07cb833d2be24f786d185:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:WaitUntilConnected\_timeout
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1336 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1336>`__
+
+.. _lobster-item-316b3209e9f90d31e4ffd7f1e8254238b0553639:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:WaitUntilConnected\_StopRequested
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1354 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1354>`__
+
+.. _lobster-item-ca272b76c37607faa1b7755c9a7f78b42d1c17eb:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:Test\_FailedFetchInitialParameterSetValuesFrom
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1379 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1379>`__
+
+.. _lobster-item-29e11d46b24351003ba133c39d3fda9047cc4c1a:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:Test\_FailLastUpdatedParameterSetReceiveHandler
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1399 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1399>`__
+
+.. _lobster-item-1ab47494e22738e5ed2a7f34242ab2b24b107470:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:LastUpdatedParameterSetFailedGetParameterSet
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1426 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1426>`__
+
+.. _lobster-item-870594b6ad656ed9756431089b8425238062ecaf:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:GetParameterSetsByNameList\_ProxyNotReady
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1456 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1456>`__
+
+.. _lobster-item-d39553f59690da6d628da86a46d89e9be91a89b7:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:GetParameterSetsByNameList\_WithProxy
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1478 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1478>`__
+
+.. _lobster-item-81c691cdda0b7709faf8a34482c74a79cfd5faf7:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:GetParameterSetsByNameList\_ConcurrentAccess
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1534 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1534>`__
+
+.. _lobster-item-41b284d9e91b9087c9acc316156612ae97cf345a:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:GetParameterSet\_ConcurrentAccess
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1619 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1619>`__
+
+.. _lobster-item-425c148e3ad0eafb620e3416c00640bfe4a1aecb:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/0
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-3b8196fd06cf9204f737a106219e6301617b67d6:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/1
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-4ac93c633e464d7ec0de5fe3ad4dd2001173722d:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/2
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-0c84ee9a5231ab5b0d2e79c73344f52b21694da7:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/3
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-5e8c591ef2b9b9248be40e9d72fe2e41cca9f772:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/4
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-7a7d949389efcd31e5c26b0fa9c7aa2a72eb1934:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/5
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-b0e47f61987faf30f9cd519319ca55d2d3042fb3:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/6
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-fc64c42e88aa68fff7efdfdf6f96edfef7d5a122:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/7
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-c3172364bd3170b7520f27fef794b05b430da926:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/8
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-8be6576ee3a1c0c56b0fe243f85856e71b29d42f:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider1/9
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1683 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1683>`__
+
+.. _lobster-item-96527d8acdf61f470c89be267b29dcd1cb3880b1:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/0
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-ccbd9bd7b415ef4510321bcaa96fea3280cb3b46:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/1
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-65c8d5ca1e9f1635fda13c5dd1c8b0c71ea58035:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/2
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-d2218a9ce2615ebdba91f8bc73874b4c96f88405:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/3
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-e2bbdeffbb03bd10f59f07963dca38d1d4f019dd:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/4
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-568526db4fd44e4f311fc31dacd4eb54e2e95255:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/5
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-f661820eecb5cad04c165ae6981886f4b345ae91:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/6
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-2c73647682ea26ae4000f8949f4bbaca5d1b063b:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/7
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-48376c8c372016b50f19d4793eef11e64976e26c:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/8
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-ad4173e4c5fbec38a73c072788e7c5ab2bfa6e37:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedInternalConfigProvider2/9
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1762 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1762>`__
+
+.. _lobster-item-9ac258365fdff4d95b9d2673c9e3f4365d6a514e:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/0
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-f0a4276fddadc0de6f48ac59c1b031d15ef86db8:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/1
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-7eabec2328ce7e5b021993413ad8c2aa48fdc108:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/2
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-3a803e142592a1f4b2e73ee59fd67e3e454dda71:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/3
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-f9da761a7410ad3ba5ce390477c4682adf1fb6ab:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/4
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-ef9e9cec0fe1be1cbc873d9bc3f89eb1f387e603:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/5
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-21010be7a19cb6dfeaa55c1d72925970fdc696dd:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/6
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-0189a1a78a597cb4f04ab57826f0e68e1dc123c8:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/7
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-a0e1500bb5e23e725e77bf9c31114c0e8e48e849:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/8
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-6827c0df6c9203a781947853560499f7792d8314:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedParameterSet/9
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1815 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1815>`__
+
+.. _lobster-item-a538128e67eea87d156187eacd9e2c937f8ade7a:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/0
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-7ecaf7860fa175c44cab6fe6aceee60c114f01e9:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/1
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-795eba727b56d7bdd7a01bb714d26b65fd0be804:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/2
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-b9f748a28ca17d7cf6032e0b44e99fcb18ce9599:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/3
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-d0588cdd901af5cb3584cba71c45e6cf8669b1b3:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/4
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-ae81d0b936729f7fab211ba5611856855a00cf09:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/5
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-749a2f277dfe5c38428aa627cc1663276ce0c18e:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/6
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-eb3aadf57bc5bd4cf45b06c13568632fc367e7ae:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/7
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-773b5e285528fdda9bb0382255ac1044c3244126:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/8
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-ab8fdcc473dec96f325f81d3a1fef4423f442812:
+
+.. dropdown:: [OK] GoogleTest Test RepeatTenTimes/RepeatableConfigProviderTest:TestSharedClientHandlers/9
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1878 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1878>`__
+
+.. _lobster-item-77c9c34650a334535d0ff61b9a662b4d0c0cb577:
+
+.. dropdown:: [OK] GoogleTest Test ConfigProviderTest:GetParameterSetsByNameList\_ReturnsCachedValueWithDebugLogging
+   :class-title: sd-bg-success sd-text-white
+
+   **Source:** `score/config\_management/config\_provider/code/config\_provider/details/config\_provider\_impl\_test.cpp:1997 <https://github.com/eclipse-score/config_management/blob/main/score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp#L1997>`__
+
