@@ -94,7 +94,8 @@ TEST_F(TestFactoryMwImpl, CreateInternalConfigProviderServiceSuccess)
     auto provided_service_container = unit_->CreateInternalConfigProviderService(parameter_data);
 
     ASSERT_EQ(provided_service_container.NumServices(), 1);
-    auto* services = provided_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceDecorator>();
+    auto* services =
+        provided_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceBuilder::DecoratorType>();
     ASSERT_NE(services, nullptr) << "Failed to get ProvidedServices from ProviderServicesContainer";
 
     auto* internal_config_provider_service = services->Get<InternalConfigProviderService>();
@@ -121,7 +122,8 @@ TEST_F(TestFactoryMwImpl, CreateInternalConfigProviderService_InvalidParameterDa
 
     ASSERT_EQ(provided_service_container.NumServices(), 1);
 
-    auto* services = provided_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceDecorator>();
+    auto* services =
+        provided_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceBuilder::DecoratorType>();
     ASSERT_NE(services, nullptr);
 
     auto* internal_config_provider_service = services->Get<InternalConfigProviderService>();
