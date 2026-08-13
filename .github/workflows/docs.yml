@@ -48,11 +48,17 @@ jobs:
       # the bazel-target depends on your repo specific docs_targets configuration (e.g. "suffix")
       # --define=LOBSTER_SOURCE_ROOT sets the GitHub blob URL prefix for source links in the LOBSTER traceability report
       # TEMPORARY WORKAROUND (patch): score/config_management/** is synced from an internal source and cannot be
-      # edited directly from OSS, so the LOBSTER unit() wiring lives only in bazel/patches/wire_unit_test_to_lobster.patch.
-      # The reusable docs workflow exposes no pre-build hook, so we apply the patch as a side effect of a
-      # command substitution (redirected to stderr so it contributes nothing to the bazel command line) before
-      # `bazel run` executes, purely so the generated report reflects the intended wiring. The --check guard
-      # makes this a no-op (skips silently) once the real change lands via sync, so it never fails the build.
-      # Remove this workaround once the patch's content is synced into score/config_management/ for real.
-      bazel-target: "$(git apply --check bazel/patches/wire_unit_test_to_lobster.patch 2>/dev/null && git apply bazel/patches/wire_unit_test_to_lobster.patch 1>&2) //:docs --define=LOBSTER_SOURCE_ROOT=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/blob/main/ -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
+      # edited directly from OSS, so two fixes live only as patches applied here:
+      #  - bazel/patches/wire_unit_test_to_lobster.patch: the LOBSTER unit() wiring (config_daemon_app_unit /
+      #    config_provider_details_unit) that score/config_management/dependability/BUILD's component() targets
+      #    reference.
+      #  - bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch: adapts config_provider's proxy
+      #    wiring to the OSS score_communication ProxyFuture API and drops internal-only targets; without it the
+      #    unit()-wrapped :details library (pulled in transitively by //:docs via dependability) fails to compile.
+      # The reusable docs workflow exposes no pre-build hook, so we apply both patches as a side effect of
+      # command substitutions (redirected to stderr so they contribute nothing to the bazel command line) before
+      # `bazel run` executes. The --check guards make this a no-op (skips silently) once the real changes land
+      # via sync, so it never fails the build. Remove each workaround once its patch's content is synced into
+      # score/config_management/ for real.
+      bazel-target: "$(git apply --check bazel/patches/wire_unit_test_to_lobster.patch 2>/dev/null && git apply bazel/patches/wire_unit_test_to_lobster.patch 1>&2)$(git apply --check bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch 2>/dev/null && git apply bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch 1>&2) //:docs --define=LOBSTER_SOURCE_ROOT=https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/blob/main/ -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
       retention-days: 3
