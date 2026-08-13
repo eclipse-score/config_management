@@ -111,7 +111,19 @@ Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParamete
                            << "Failed to find parameter in set";
         return MakeUnexpected(ConfigProviderError::kParameterNotFound);
     }
-    return std::cref(set_it->second);
+
+    const auto& parameter_json = set_it->second;
+    const auto typed_parameter_result = parameter_json.As<json::Object>();
+    if (typed_parameter_result.has_value())
+    {
+        const auto& typed_parameter = typed_parameter_result.value().get();
+        const auto value_iterator = typed_parameter.find("value");
+        if (value_iterator != typed_parameter.end())
+        {
+            return std::cref(value_iterator->second);
+        }
+    }
+    return std::cref(parameter_json);
 }
 
 score::Result<std::string> ParameterSet::FormatAsKeyValuePairs() const

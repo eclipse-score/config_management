@@ -1359,6 +1359,26 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParametersNotAnObject)
     EXPECT_EQ(result, ConfigProviderError::kObjectCastingError);
 }
 
+TEST(SimpleParameterSetTest, TypedParameterValueAndDataTypeAreAvailable)
+{
+    const std::string text = R"(
+    {
+        "parameters": {
+            "parameter": {
+                "value": 5,
+                "data_type": "sint32"
+            }
+        },
+        "qualifier": 0
+    })";
+    json::JsonParser json_parser{};
+    ParameterSet parameter_set{std::move(json_parser.FromBuffer(text).value())};
+
+    const auto value_result = parameter_set.GetParameterAs<int>("parameter");
+    ASSERT_TRUE(value_result.has_value());
+    EXPECT_EQ(value_result.value(), 5);
+}
+
 }  // namespace test
 }  // namespace config_provider
 }  // namespace config_management
