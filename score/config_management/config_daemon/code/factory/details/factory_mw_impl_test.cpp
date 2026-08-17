@@ -164,14 +164,15 @@ TEST_F(TestFactoryMwImpl, CreateLastUpdatedParameterSetSenderFail)
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::CreateLastUpdatedParameterSetSender()");
     RecordProperty("Description",
-                   "This test ensures that CreateLastUpdatedParameterSetSender() returns empty callback if "
-                   "ProvidedServiceContainer does not contain InternalConfigProviderService");
+                   "This test ensures that CreateLastUpdatedParameterSetSender() returns a no-op (non-empty) "
+                   "callback if ProvidedServiceContainer does not contain InternalConfigProviderService");
 
     using ProvidedServices = mw::service::backend::mw_com::ProvidedServices;
 
     mw::service::ProvidedServiceContainer mock_service_container{ProvidedServices{}};
     auto last_updated_parameterset_sender = unit_->CreateLastUpdatedParameterSetSender(mock_service_container);
-    ASSERT_TRUE(last_updated_parameterset_sender.empty());
+    ASSERT_FALSE(last_updated_parameterset_sender.empty());
+    EXPECT_FALSE(std::invoke(last_updated_parameterset_sender, "parameter_set_name"));
 }
 
 TEST_F(TestFactoryMwImpl, CreateInitialQualifierStateSender)
@@ -208,16 +209,16 @@ TEST_F(TestFactoryMwImpl, CreateInitialQualifierStateSenderFail)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", "::score::config_management::config_daemon::Factory::CreateInitialQualifierStateSender()");
-    RecordProperty(
-        "Description",
-        "This test ensures that CreateInitialQualifierStateSender() returns empty callback if ProvidedServiceContainer"
-        "does not contain InternalConfigProviderService");
+    RecordProperty("Description",
+                   "This test ensures that CreateInitialQualifierStateSender() returns a no-op (non-empty) callback if "
+                   "ProvidedServiceContainer does not contain InternalConfigProviderService");
 
     using ProvidedServices = mw::service::backend::mw_com::ProvidedServices;
 
     mw::service::ProvidedServiceContainer mock_service_container{ProvidedServices{}};
     auto initial_qualifier_state_sender = unit_->CreateInitialQualifierStateSender(mock_service_container);
-    ASSERT_TRUE(initial_qualifier_state_sender.empty());
+    ASSERT_FALSE(initial_qualifier_state_sender.empty());
+    std::invoke(initial_qualifier_state_sender, InitialQualifierState::kQualified);
 }
 
 TEST_F(TestFactoryMwImpl, CreateParameterSetCollectionManager)
