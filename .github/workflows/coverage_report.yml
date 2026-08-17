@@ -42,14 +42,6 @@ jobs:
         uses: eclipse-score/cicd-actions/setup-bazel-cache@659dcbed63f6b7fbde88c7850125ea0a0a92f939
         with:
           unique-cache-name: ${{ github.workflow }}-${{ github.job }}
-      - name: Apply OSS-only patches
-        # TEMPORARY WORKAROUND (patch): score/config_management/** is synced from an internal source and cannot be
-        # edited directly from OSS. bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch adds
-        # lifecycle/health deps not yet available via sync and drops internal-only (non-OSS) targets. The
-        # --check guard makes this a no-op once the change lands via sync.
-        run: |
-          git apply --check bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch 2>/dev/null && \
-            git apply bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch || true
       - name: Run Bazel Coverage
         run: |
           bazel coverage \
@@ -57,16 +49,8 @@ jobs:
             --test_tag_filters=-mw_com \
             //score/config_management/... \
             -- \
-            -//score/config_management/config_provider:unit_tests_host \
-            -//score/config_management/config_provider/code/config_provider:unit_tests_host \
-            -//score/config_management/config_provider/code/config_provider/details/... \
-            -//score/config_management/config_provider/code/config_provider/factory/... \
-            -//score/config_management/config_provider:config_provider_mw_com \
-            -//score/config_management/dependability/... \
-            //score/config_management/config_provider/code/config_provider/error/... \
-            //score/config_management/config_provider/code/parameter_set/... \
-            //score/config_management/config_provider/code/persistency/... \
-            //score/config_management/config_provider/code/proxies/...
+            -//score/config_management/config_provider/... \
+            -//score/config_management/dependability/...
       - name: Generate HTML Coverage Report
         run: |
           genhtml "$(bazel info output_path)/_coverage/_coverage_report.dat" \

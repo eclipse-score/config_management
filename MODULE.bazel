@@ -147,8 +147,8 @@ git_override(
 bazel_dep(name = "score_communication")
 git_override(
     module_name = "score_communication",
-    commit = "899981566d9b07b625e7a76d755f04bda47379d7",
-    remote = "https://github.com/eclipse-score/communication.git",
+    commit = "4658ffb26a18dacdc1e903e6bad7282113c4a739",
+    remote = "https://github.com/Chahult/communication.git",
 )
 
 bazel_dep(name = "score_logging", version = "0.2.1")

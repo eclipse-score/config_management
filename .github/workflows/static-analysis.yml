@@ -42,15 +42,6 @@ jobs:
           repository-cache: true
           cache-save: ${{ github.event_name == 'push' }}
 
-      - name: Apply OSS-only patches
-        # TEMPORARY WORKAROUND (patch): score/config_management/** is synced from an internal source and cannot be
-        # edited directly from OSS. bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch adapts the
-        # config_provider proxy wiring to the OSS score_communication ProxyFuture API and drops internal-only
-        # (non-OSS) targets. The --check guard makes this a no-op once the change lands via sync.
-        run: |
-          git apply --check bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch 2>/dev/null && \
-            git apply bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch || true
-
       - name: Run clang-tidy checks
         run: |
           bazel build \
