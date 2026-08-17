@@ -72,7 +72,7 @@ LastUpdatedParameterSetSender Factory::CreateLastUpdatedParameterSetSender(
     mw::service::ProvidedServiceContainer& services)
 {
     auto* const provided_service_container =
-        services.GetServices<mw::service::backend::mw_com::ProvidedServiceBuilder::DecoratorType>();
+        services.GetServices<mw::service::backend::mw_com::ProvidedServiceDecorator>();
     if ((provided_service_container != nullptr) && provided_service_container->Has<IInternalConfigProviderService>())
     {
         return [internal_config_provider_service{provided_service_container->Get<IInternalConfigProviderService>()}](
@@ -91,7 +91,7 @@ LastUpdatedParameterSetSender Factory::CreateLastUpdatedParameterSetSender(
 InitialQualifierStateSender Factory::CreateInitialQualifierStateSender(mw::service::ProvidedServiceContainer& services)
 {
     auto* const provided_service_container =
-        services.GetServices<mw::service::backend::mw_com::ProvidedServiceBuilder::DecoratorType>();
+        services.GetServices<mw::service::backend::mw_com::ProvidedServiceDecorator>();
     if ((provided_service_container != nullptr) && provided_service_container->Has<IInternalConfigProviderService>())
     {
         return [internal_config_provider_service{provided_service_container->Get<IInternalConfigProviderService>()}](

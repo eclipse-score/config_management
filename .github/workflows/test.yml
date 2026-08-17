@@ -44,9 +44,9 @@ jobs:
 
       - name: Apply OSS-only patches
         # TEMPORARY WORKAROUND (patch): score/config_management/** is synced from an internal source and cannot be
-        # edited directly from OSS. bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch adapts the
-        # config_provider proxy wiring to the OSS score_communication ProxyFuture API and drops internal-only
-        # (non-OSS) targets. The --check guard makes this a no-op once the change lands via sync.
+        # edited directly from OSS. bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch adds
+        # lifecycle/health deps not yet available via sync and drops internal-only (non-OSS) targets. The
+        # --check guard makes this a no-op once the change lands via sync.
         run: |
           git apply --check bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch 2>/dev/null && \
             git apply bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch || true
@@ -58,5 +58,13 @@ jobs:
             --test_tag_filters=-mw_com \
             //score/config_management/... \
             -- \
-            -//score/config_management/config_provider/code/config_provider/factory:unit_tests_mw_com \
-            -//score/config_management/dependability/...
+            -//score/config_management/config_provider:unit_tests_host \
+            -//score/config_management/config_provider/code/config_provider:unit_tests_host \
+            -//score/config_management/config_provider/code/config_provider/details/... \
+            -//score/config_management/config_provider/code/config_provider/factory/... \
+            -//score/config_management/config_provider:config_provider_mw_com \
+            -//score/config_management/dependability/... \
+            //score/config_management/config_provider/code/config_provider/error/... \
+            //score/config_management/config_provider/code/parameter_set/... \
+            //score/config_management/config_provider/code/persistency/... \
+            //score/config_management/config_provider/code/proxies/...

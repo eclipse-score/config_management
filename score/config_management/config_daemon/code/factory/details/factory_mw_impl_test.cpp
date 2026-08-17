@@ -95,7 +95,7 @@ TEST_F(TestFactoryMwImpl, CreateInternalConfigProviderServiceSuccess)
 
     ASSERT_EQ(provided_service_container.NumServices(), 1);
     auto* services =
-        provided_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceBuilder::DecoratorType>();
+        provided_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceDecorator>();
     ASSERT_NE(services, nullptr) << "Failed to get ProvidedServices from ProviderServicesContainer";
 
     auto* internal_config_provider_service = services->Get<InternalConfigProviderService>();
@@ -123,7 +123,7 @@ TEST_F(TestFactoryMwImpl, CreateInternalConfigProviderService_InvalidParameterDa
     ASSERT_EQ(provided_service_container.NumServices(), 1);
 
     auto* services =
-        provided_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceBuilder::DecoratorType>();
+        provided_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceDecorator>();
     ASSERT_NE(services, nullptr);
 
     auto* internal_config_provider_service = services->Get<InternalConfigProviderService>();
@@ -151,7 +151,8 @@ TEST_F(TestFactoryMwImpl, CreateLastUpdatedParameterSetSender)
 
     auto last_updated_parameterset_sender = unit_->CreateLastUpdatedParameterSetSender(mock_service_container);
     ASSERT_FALSE(last_updated_parameterset_sender.empty());
-    auto* provided_services = mock_service_container.GetServices<ProvidedServiceBuilder::DecoratorType>();
+    auto* provided_services =
+        mock_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceDecorator>();
     EXPECT_CALL(
         dynamic_cast<InternalConfigProviderServiceMock&>(*provided_services->Get<IInternalConfigProviderService>()),
         SendLastUpdatedParameterSet("parameter_set_name"))
@@ -196,7 +197,8 @@ TEST_F(TestFactoryMwImpl, CreateInitialQualifierStateSender)
     auto initial_qualifier_state_sender = unit_->CreateInitialQualifierStateSender(mock_service_container);
     ASSERT_FALSE(initial_qualifier_state_sender.empty());
 
-    auto* provided_services = mock_service_container.GetServices<ProvidedServiceBuilder::DecoratorType>();
+    auto* provided_services =
+        mock_service_container.GetServices<mw::service::backend::mw_com::ProvidedServiceDecorator>();
 
     EXPECT_CALL(
         dynamic_cast<InternalConfigProviderServiceMock&>(*provided_services->Get<IInternalConfigProviderService>()),
