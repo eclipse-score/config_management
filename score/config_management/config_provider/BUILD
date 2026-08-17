@@ -18,7 +18,10 @@ cc_library(
     name = "config_provider_factory_impl",
     tags = ["FUSA"],
     visibility = ["//visibility:public"],
-    deps = ["//score/config_management/config_provider/code/config_provider/factory:factory_socal_r20_11"],
+    deps = select({
+        "//score/config_management/config_daemon/code:is_score_variant": [],
+        "//conditions:default": ["//score/config_management/config_provider/code/config_provider/factory:factory_socal_r20_11"],
+    }),
 )
 
 cc_library(
@@ -30,7 +33,10 @@ cc_library(
 
 alias(
     name = "config_provider_factory_for_unit_test",
-    actual = "//score/config_management/config_provider/code/config_provider/factory:factory_socal_r20_11_for_unit_tests",
+    actual = select({
+        "//score/config_management/config_daemon/code:is_score_variant": "//score/config_management/config_provider/code/config_provider/factory:factory_mw_com",
+        "//conditions:default": "//score/config_management/config_provider/code/config_provider/factory:factory_socal_r20_11_for_unit_tests",
+    }),
     visibility = ["//visibility:public"],
 )
 

@@ -80,7 +80,14 @@ LastUpdatedParameterSetSender Factory::CreateLastUpdatedParameterSetSender(
             return internal_config_provider_service->SendLastUpdatedParameterSet(parameter_set_name);
         };
     }
-    return {};
+    // Not fatal: the underlying service backend may not (yet) provide a real implementation
+    // (e.g. stub-only mw::service). Return a no-op callback instead of an empty one so callers
+    // relying on a valid callback keep working.
+    mw::log::LogWarn() << "Factory::" << __func__
+                       << ": InternalConfigProviderService unavailable, using no-op callback";
+    return [](const std::string_view) noexcept -> bool {
+        return false;
+    };
 }
 
 InitialQualifierStateSender Factory::CreateInitialQualifierStateSender(mw::service::ProvidedServiceContainer& services)
@@ -94,7 +101,10 @@ InitialQualifierStateSender Factory::CreateInitialQualifierStateSender(mw::servi
             internal_config_provider_service->SetInitialQualifierState(initial_qualifier_state);
         };
     }
-    return {};
+    // Not fatal: see comment above.
+    mw::log::LogWarn() << "Factory::" << __func__
+                       << ": InternalConfigProviderService unavailable, using no-op callback";
+    return [](const config_daemon::InitialQualifierState) noexcept -> void {};
 }
 
 std::shared_ptr<data_model::IParameterSetCollectionManager> Factory::CreateParameterSetCollectionManager(
