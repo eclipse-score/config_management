@@ -36,7 +36,7 @@ build:host_gcc --platforms=@score_bazel_platforms//:x86_64-linux-gcc_12.2.0-posi
 # removes the deprecated usages from their public headers.
 build --copt=-Wno-deprecated-declarations
 # Same flag for exec/tool configurations (unit() rule compiles test binaries as
-# tools; score_lifecycle_health also uses the deprecated StringLiteral there).
+# tools; score_lifecycle also uses the deprecated StringLiteral there).
 build --host_copt=-Wno-deprecated-declarations
 # score_logging commit 3ad4fab (May 15) introduced an unused 'result' variable in
 # data_router_message_client_impl.cpp (PThreadBlockSigTerm return value discarded).

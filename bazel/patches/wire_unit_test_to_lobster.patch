@@ -31,7 +31,7 @@
  cc_library(
      name = "app",
 @@ -85,3 +86,11 @@
-         "@score_lifecycle_health//score/launch_manager:lifecycle_mock_cc",
+         "@score_lifecycle//score/launch_manager:mock_lifecycle_cc",
      ],
  )
 +
@@ -50,7 +50,7 @@
      ],
 -    deps = [],
 +    deps = [
-+        "@score_lifecycle_health//score/launch_manager:application_cc",
++        "@score_lifecycle//score/launch_manager:application_cc",
 +    ],
  )
  
