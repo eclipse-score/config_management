@@ -164,7 +164,7 @@ git_override(
 bazel_dep(name = "score_lifecycle", version = "0.5.0")
 
 # s-core persistency
-bazel_dep(name = "score_persistency", version = "0.3.2")
+bazel_dep(name = "score_persistency", version = "0.3.5")
 single_version_override(
     module_name = "score_persistency",
     patch_strip = 1,
