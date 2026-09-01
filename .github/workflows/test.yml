@@ -42,50 +42,21 @@ jobs:
           repository-cache: true
           cache-save: ${{ github.event_name == 'push' }}
 
-      - name: Pre-warm Bazel cache (build test targets before running them)
+      - name: Apply OSS-only patches
+        # TEMPORARY WORKAROUND (patch): score/config_management/** is synced from an internal source and cannot be
+        # edited directly from OSS. bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch adapts the
+        # config_provider proxy wiring to the OSS score_communication ProxyFuture API and drops internal-only
+        # (non-OSS) targets. The --check guard makes this a no-op once the change lands via sync.
         run: |
-          python3 - <<'PYEOF'
-          import json, subprocess, sys
-          with open("score/config_management/deps_acceptlist.json") as f:
-              targets = json.load(f)["test_targets"]
-          result = subprocess.run(["bazel", "build"] + targets)
-          sys.exit(result.returncode)
-          PYEOF
+          git apply --check bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch 2>/dev/null && \
+            git apply bazel/patches/001-adapt-proxy-api-and-remove-internal-targets.patch || true
 
-      - name: Run tests from deps_acceptlist.json
+      - name: Run all unit tests
         run: |
-          python3 - <<'PYEOF'
-          import json, subprocess, sys
-
-          ACCEPTLIST = "score/config_management/deps_acceptlist.json"
-
-          with open(ACCEPTLIST) as f:
-              targets = json.load(f)["test_targets"]
-
-          failures = []
-          for target in targets:
-              try:
-                  result = subprocess.run(
-                      ["bazel", "test", target],
-                      capture_output=True, text=True,
-                      timeout=600,
-                  )
-              except subprocess.TimeoutExpired:
-                  failures.append(target)
-                  print(f"  TIMEOUT  {target}")
-                  continue
-              if result.returncode == 0:
-                  print(f"  PASS  {target}")
-              else:
-                  failures.append(target)
-                  print(f"  FAIL  {target}")
-                  print(result.stderr[-2000:])
-
-          print(f"\n{len(targets) - len(failures)}/{len(targets)} tests passed.")
-
-          if failures:
-              print("\nTests failed for the following targets:")
-              for t in failures:
-                  print(f"  {t}")
-              sys.exit(1)
-          PYEOF
+          bazel test \
+            --config=host_gcc \
+            --test_tag_filters=-mw_com \
+            //score/config_management/... \
+            -- \
+            -//score/config_management/config_provider/code/config_provider/factory:unit_tests_mw_com \
+            -//score/config_management/dependability/...
