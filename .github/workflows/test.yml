@@ -42,50 +42,12 @@ jobs:
           repository-cache: true
           cache-save: ${{ github.event_name == 'push' }}
 
-      - name: Pre-warm Bazel cache (build test targets before running them)
+      - name: Run all unit tests
         run: |
-          python3 - <<'PYEOF'
-          import json, subprocess, sys
-          with open("score/config_management/deps_acceptlist.json") as f:
-              targets = json.load(f)["test_targets"]
-          result = subprocess.run(["bazel", "build"] + targets)
-          sys.exit(result.returncode)
-          PYEOF
-
-      - name: Run tests from deps_acceptlist.json
-        run: |
-          python3 - <<'PYEOF'
-          import json, subprocess, sys
-
-          ACCEPTLIST = "score/config_management/deps_acceptlist.json"
-
-          with open(ACCEPTLIST) as f:
-              targets = json.load(f)["test_targets"]
-
-          failures = []
-          for target in targets:
-              try:
-                  result = subprocess.run(
-                      ["bazel", "test", target],
-                      capture_output=True, text=True,
-                      timeout=600,
-                  )
-              except subprocess.TimeoutExpired:
-                  failures.append(target)
-                  print(f"  TIMEOUT  {target}")
-                  continue
-              if result.returncode == 0:
-                  print(f"  PASS  {target}")
-              else:
-                  failures.append(target)
-                  print(f"  FAIL  {target}")
-                  print(result.stderr[-2000:])
-
-          print(f"\n{len(targets) - len(failures)}/{len(targets)} tests passed.")
-
-          if failures:
-              print("\nTests failed for the following targets:")
-              for t in failures:
-                  print(f"  {t}")
-              sys.exit(1)
-          PYEOF
+          bazel test \
+            --config=host_gcc \
+            --test_tag_filters=-mw_com \
+            //score/config_management/... \
+            -- \
+            -//score/config_management/config_provider/... \
+            -//score/config_management/dependability/...

@@ -44,9 +44,13 @@ jobs:
           unique-cache-name: ${{ github.workflow }}-${{ github.job }}
       - name: Run Bazel Coverage
         run: |
-          readarray -t TARGETS < <(python3 -c \
-            "import json; [print(t) for t in json.load(open('score/config_management/deps_acceptlist.json'))['test_targets']]")
-          bazel coverage --config=host_gcc "${TARGETS[@]}"
+          bazel coverage \
+            --config=host_gcc \
+            --test_tag_filters=-mw_com \
+            //score/config_management/... \
+            -- \
+            -//score/config_management/config_provider/... \
+            -//score/config_management/dependability/...
       - name: Generate HTML Coverage Report
         run: |
           genhtml "$(bazel info output_path)/_coverage/_coverage_report.dat" \
