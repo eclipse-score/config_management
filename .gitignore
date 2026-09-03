@@ -53,3 +53,6 @@ styles/
 .venv
 __pycache__/
 /.coverage
+
+# LLVM coverage report outputs
+/coverage*/

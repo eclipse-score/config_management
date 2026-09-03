@@ -11,8 +11,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@score_tooling//:defs.bzl", "copyright_checker", "dash_license_checker", "setup_starpls", "use_format_targets")
+load("@score_tooling//:defs.bzl", "copyright_checker", "dash_license_checker", "setup_starpls")
+load("@score_tooling//third_party/format:macros.bzl", "use_format_targets")
 load("//:project_config.bzl", "PROJECT_CONFIG")
+
+# The LLVM coverage pipeline (//tools/coverage) resolves the workspace root
+# through MODULE.bazel at report time.
+exports_files(["MODULE.bazel"])
 
 setup_starpls(
     name = "starpls_server",
@@ -22,10 +27,10 @@ setup_starpls(
 copyright_checker(
     name = "copyright",
     srcs = [
+        "BUILD",
+        "MODULE.bazel",
         "src",
         "tests",
-        "//:BUILD",
-        "//:MODULE.bazel",
     ],
     config = "@score_tooling//cr_checker/resources:config",
     template = "@score_tooling//cr_checker/resources:templates",

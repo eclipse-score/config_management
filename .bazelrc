@@ -46,11 +46,8 @@ build --per_file_copt=external/.*@-Wno-unused-variable
 # Same for exec/tool configuration builds triggered by unit() rules.
 build --host_per_file_copt=external/.*@-Wno-unused-variable
 
-coverage --features=coverage
-coverage --combined_report=lcov
-coverage --cache_test_results=no
-coverage --copt=-fprofile-update=atomic
-coverage --linkopt=-fprofile-update=atomic
+# LLVM source-based coverage (@score_tooling//coverage): --config=llvm_cov
+import %workspace%/tools/coverage/coverage.bazelrc
 
 # QNX credential helper — downloads QCC from qnx.com using SCORE_QNX_USER / SCORE_QNX_PASSWORD
 # env vars (set in CI secrets) or ~/.netrc (for local builds with a QNX account)

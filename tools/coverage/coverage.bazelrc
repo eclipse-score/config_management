@@ -1,0 +1,47 @@
+# *******************************************************************************
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# SPDX-License-Identifier: Apache-2.0
+# *******************************************************************************
+# LLVM source-based coverage (C++) via @score_tooling//coverage.
+# Use with: bazel coverage --config=llvm_cov <test targets> --build_tests_only
+#
+# Do NOT combine with --config=host_gcc: the last --extra_toolchains wins
+# resolution and GCC produces no LLVM covmap. The repo has no Bazel Rust
+# targets today; when Rust lands, add the Ferrocene toolchain and the
+# rustc coverage flags here (see other S-CORE adoptions).
+
+# The scope target lists ~17 production libraries whose visibility is
+# restricted to their own subtrees (CI builds them as top-level targets,
+# which bypasses visibility; a deps edge does not). Granting visibility on
+# all of them would touch a dozen team-owned BUILD files, so visibility
+# checking is disabled for the coverage config ONLY - the scope aggregator
+# never links these targets, and every regular build/test job still
+# enforces visibility.
+coverage:llvm_cov --check_visibility=false
+
+coverage:llvm_cov --nocache_test_results
+coverage:llvm_cov --cxxopt=-O0
+coverage:llvm_cov --combined_report=lcov
+coverage:llvm_cov --experimental_fetch_all_coverage_outputs
+coverage:llvm_cov --dynamic_mode=off
+coverage:llvm_cov --experimental_generate_llvm_lcov
+coverage:llvm_cov --experimental_use_llvm_covmap
+
+# Coverage-only Clang 22 instance (regular builds keep the default 19.1.0).
+coverage:llvm_cov --extra_toolchains=@llvm_toolchain_coverage//:cc-toolchain-x86_64-linux
+
+coverage:llvm_cov --coverage_output_generator=@score_tooling//coverage:merger
+coverage:llvm_cov --coverage_report_generator=//tools/coverage:reporter_wrapper
+coverage:llvm_cov --test_env=GENERATE_LLVM_LCOV=0
+coverage:llvm_cov --test_env=COVERAGE_GCOV_PATH=/usr/bin/true
+coverage:llvm_cov --test_env=LLVM_PROFILE_CONTINUOUS_MODE=1
+coverage:llvm_cov --features=enable_llvm_coverage_for_death_tests
+coverage:llvm_cov --features=coverage

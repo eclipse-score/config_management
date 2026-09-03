@@ -8,8 +8,9 @@ load(
 # ============================================================================
 libclang_toolchain(
     name = "score_config_management_libclang",
-    cxx_builtin_include = "@llvm_toolchain_llvm//:cxx_builtin_include",
-    extra_config_site = "@llvm_toolchain_llvm//:extra_config_site",
+    # score_tooling 2.x API: the parser derives builtin include dirs and
+    # config-site flags from the cc_toolchain instead of explicit attrs.
+    cc_toolchain = "@llvm_toolchain//:cc-clang-x86_64-linux",
     libclang = "@llvm_toolchain_llvm//:lib/libclang.so",
 )
 

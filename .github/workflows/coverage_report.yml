@@ -34,33 +34,31 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
-      - name: Install lcov
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y lcov
       - name: Setup Bazel Cache
         uses: eclipse-score/cicd-actions/setup-bazel-cache@659dcbed63f6b7fbde88c7850125ea0a0a92f939
         with:
           unique-cache-name: ${{ github.workflow }}-${{ github.job }}
-      - name: Run Bazel Coverage
+      - name: Check coverage scope completeness
+        run: ./.github/tools/check_coverage_scope.sh
+      - name: Run Bazel Coverage (LLVM, line + branch)
         run: |
           readarray -t TARGETS < <(python3 -c \
             "import json; [print(t) for t in json.load(open('score/config_management/deps_acceptlist.json'))['test_targets']]")
-          bazel coverage --config=host_gcc "${TARGETS[@]}"
+          bazel coverage --config=llvm_cov --build_tests_only "${TARGETS[@]}"
       - name: Generate HTML Coverage Report
+        env:
+          # Report-only at introduction; ratchet once a baseline is agreed.
+          COVERAGE_THRESHOLD: "0"
         run: |
-          genhtml "$(bazel info output_path)/_coverage/_coverage_report.dat" \
-            -o=cpp_coverage \
-            --show-details \
-            --source-directory="$(bazel info execution_root)" \
-            --legend \
-            --function-coverage \
-            --branch-coverage
-        shell: bash
+          bazel run @score_tooling//coverage:generate_coverage_html -- \
+            --yaml tools/coverage/coverage_justifications.yaml \
+            --testlogs-subdir score \
+            --archive-dir coverage_artifact
       - name: Upload Coverage Artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
+          # Name kept from the gcov flow so downstream consumers keep working.
           name: ${{ github.event.repository.name }}_cpp_coverage_report
-          path: cpp_coverage/
+          path: coverage_artifact/
           include-hidden-files: true
           retention-days: 10
