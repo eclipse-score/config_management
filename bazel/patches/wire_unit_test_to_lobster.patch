@@ -8,11 +8,12 @@
  
  cc_library(
      name = "details",
-@@ -55,3 +56,11 @@
+@@ -21,6 +22,14 @@
+         "@score_communication//score/mw/service:proxy_data",
+         "@score_logging//score/mw/log",
      ],
-     visibility = ["//score/config_management/config_provider:__subpackages__"],
  )
-+
+ 
 +unit(
 +    name = "config_provider_details_unit",
 +    tests = [":unit_test"],
@@ -20,6 +21,9 @@
 +    visibility = ["//score/config_management/dependability:__pkg__"],
 +    implementation = [":details"],
 +)
++
+ cc_test(
+     name = "unit_test",
 --- a/score/config_management/config_daemon/code/app/details/BUILD
 +++ b/score/config_management/config_daemon/code/app/details/BUILD
 @@ -13,6 +13,7 @@
