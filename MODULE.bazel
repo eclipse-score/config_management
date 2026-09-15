@@ -147,7 +147,7 @@ git_override(
 bazel_dep(name = "score_communication")
 git_override(
     module_name = "score_communication",
-    commit = "4658ffb26a18dacdc1e903e6bad7282113c4a739",
+    commit = "c81e4afa48a665a07bd5db1a601a0d90441c7fc7",
     remote = "https://github.com/Chahult/communication.git",
 )
 
