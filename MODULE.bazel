@@ -52,8 +52,8 @@ register_toolchains(
 )
 
 # Score C++ toolchain — used for --config=host_gcc in CI (tests, static-analysis)
-bazel_dep(name = "score_bazel_platforms", version = "1.0.0", dev_dependency = True)
-bazel_dep(name = "score_bazel_cpp_toolchains", version = "0.5.4", dev_dependency = True)
+bazel_dep(name = "score_bazel_platforms", version = "1.1.0", dev_dependency = True)
+bazel_dep(name = "score_bazel_cpp_toolchains", version = "1.0.3", dev_dependency = True)
 
 gcc = use_extension("@score_bazel_cpp_toolchains//extensions:gcc.bzl", "gcc", dev_dependency = True)
 gcc.toolchain(
@@ -92,7 +92,7 @@ use_repo(
 
 # UTs on QNX — run_under wrapper that boots QEMU
 bazel_dep(name = "score_qnx_unit_tests", version = "0.2.0", dev_dependency = True)
-bazel_dep(name = "score_rules_imagefs", version = "0.0.4", dev_dependency = True)
+bazel_dep(name = "score_rules_imagefs", version = "0.1.0", dev_dependency = True)
 
 imagefs = use_extension("@score_rules_imagefs//extensions:imagefs.bzl", "imagefs", dev_dependency = True)
 imagefs.toolchain(
@@ -144,13 +144,7 @@ git_override(
 )
 
 # s-core communication
-bazel_dep(name = "score_communication")
-git_override(
-    module_name = "score_communication",
-    commit = "4658ffb26a18dacdc1e903e6bad7282113c4a739",
-    remote = "https://github.com/Chahult/communication.git",
-)
-
+bazel_dep(name = "score_communication", version = "0.4.0")
 bazel_dep(name = "score_logging", version = "0.2.1")
 git_override(
     module_name = "score_logging",
@@ -161,10 +155,10 @@ git_override(
     remote = "https://github.com/eclipse-score/logging.git",
 )
 
-bazel_dep(name = "score_lifecycle", version = "0.5.0")
+bazel_dep(name = "score_lifecycle", version = "0.6.1")
 
 # s-core persistency
-bazel_dep(name = "score_persistency", version = "0.3.2")
+bazel_dep(name = "score_persistency", version = "0.3.5")
 single_version_override(
     module_name = "score_persistency",
     patch_strip = 1,

@@ -23,7 +23,7 @@
 #include "score/mw/log/logger.h"
 
 #include "score/concurrency/condition_variable.h"
-#include "score/mw/service/proxy_data.h"
+#include "score/mw/service/proxy_future.h"
 
 #include <score/jthread.hpp>
 #include <score/memory.hpp>
@@ -87,7 +87,7 @@ class ConfigProviderImpl final : public ConfigProvider
     bool IsAwaitingProxyConnection() const noexcept;
 
     ConfigProviderImpl(
-        mw::service::OptionalProxyData<IInternalConfigProvider> proxy_data,
+        mw::service::ProxyFuture<std::unique_ptr<IInternalConfigProvider>> proxy_future,
         score::cpp::stop_token user_stop_token,
         score::cpp::pmr::memory_resource* const memory_resource,
         score::cpp::optional<std::size_t> max_samples_limit,
