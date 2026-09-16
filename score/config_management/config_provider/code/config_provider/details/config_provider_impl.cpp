@@ -46,7 +46,7 @@ std::string GetParameterSetValue(mw::log::Logger& logger, const ParameterSet& pa
 }  // namespace
 
 ConfigProviderImpl::ConfigProviderImpl(
-    mw::service::OptionalProxyData<IInternalConfigProvider> proxy_data,
+    mw::service::ProxyFuture<std::unique_ptr<IInternalConfigProvider>> proxy_future,
     score::cpp::stop_token user_stop_token,
     score::cpp::pmr::memory_resource* const memory_resource,
     score::cpp::optional<std::size_t> max_samples_limit,
@@ -78,22 +78,23 @@ ConfigProviderImpl::ConfigProviderImpl(
     score::cpp::ignore = proxy_available_thread_.emplace(
         [this](const score::cpp::stop_token jthread_stop_token,
                decltype(callback) notification_callback,
-               decltype(proxy_data) pd) mutable {
-            auto proxy_holder = pd.GetProxyFuture().Get(jthread_stop_token);
-            pd.StopServiceDiscovery();
-            if (proxy_holder.has_value())
+               decltype(proxy_future) pf) mutable {
+            auto proxy_holder = pf.Get(jthread_stop_token);
+            if (proxy_holder.has_value() && (proxy_holder.value() != nullptr))
             {
                 logger_.LogInfo() << "ProxyAvailableThread: InternalConfigProvider proxy is connected";
                 SetupInternalConfigProvider(
-                    std::move(proxy_holder).value(), std::move(notification_callback), jthread_stop_token);
+                    std::shared_ptr<IInternalConfigProvider>(std::move(proxy_holder).value()),
+                    std::move(notification_callback),
+                    jthread_stop_token);
             }
             else
             {
-                logger_.LogInfo() << "ProxyAvailableThread: No proxy found: " << proxy_holder.error().Message();
+                logger_.LogInfo() << "ProxyAvailableThread: No proxy found";
             }
         },
         std::move(callback),
-        std::move(proxy_data));
+        std::move(proxy_future));
 
     score::cpp::ignore = stop_callback_.emplace(user_stop_token, [this]() {
         score::cpp::ignore = proxy_available_thread_->request_stop();
