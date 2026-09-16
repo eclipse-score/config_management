@@ -1,0 +1,19 @@
+
+
+config_provider_details_unit
+============================
+
+
+Implementation
+--------------
+
+This unit is implemented by the following targets:
+
+- ``@@//score/config_management/config_provider/code/config_provider/details:details``
+
+Tests
+-----
+
+This unit is verified by the following test targets:
+
+- ``score/config_management/config_provider/code/config_provider/details/config_provider_details_unit_score_config_management_config_provider_code_config_provider_details_unit_test_gtest_report_test.xml``
