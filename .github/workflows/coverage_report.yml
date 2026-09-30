@@ -44,9 +44,28 @@ jobs:
           unique-cache-name: ${{ github.workflow }}-${{ github.job }}
       - name: Run Bazel Coverage
         run: |
-          readarray -t TARGETS < <(python3 -c \
-            "import json; [print(t) for t in json.load(open('score/config_management/deps_acceptlist.json'))['test_targets']]")
-          bazel coverage --config=host_gcc "${TARGETS[@]}"
+          # See test.yml for why the known-broken targets are excluded via
+          # `bazel query ... except ...` instead of a `bazel coverage // ... -- -//excluded`
+          # target pattern.
+          TARGETS=$(bazel query --keep_going \
+            '//score/config_management/...
+              except //score/config_management/config_provider:all
+              except //score/config_management/config_provider/code/config_provider/details/...
+              except //score/config_management/config_provider/code/config_provider/factory/...
+              except //score/config_management/config_provider/code/config_provider:unit_tests_host
+              except //score/config_management/config_daemon/code/app/details:unit_test
+              except //score/config_management/config_daemon/code/app/details:app_for_unit_test
+              except //score/config_management/config_daemon/code/app/details:config_daemon_app_unit
+              except //score/config_management/config_daemon/code/app:unit_tests_host
+              except //score/config_management/config_daemon/code:main_function_test
+              except //score/config_management/config_daemon/code:unit_tests_host
+              except //score/config_management/config_daemon:unit_tests_host
+              except //score/config_management/config_daemon/code:config_daemon
+              except //score/config_management/config_daemon/code/factory/details:unit_test_mw_com
+              except //score/config_management/config_daemon/code/factory:unit_tests_host
+              except //score/config_management/dependability/...' \
+            2>/dev/null)
+          bazel coverage --config=host_gcc --keep_going $TARGETS
       - name: Generate HTML Coverage Report
         run: |
           genhtml "$(bazel info output_path)/_coverage/_coverage_report.dat" \

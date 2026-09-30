@@ -27,6 +27,7 @@ config_setting(
     flag_values = {":score_variant": "true"},
     visibility = [
         "//score/config_management/config_daemon:__subpackages__",
+        "//score/config_management/config_provider:__subpackages__",
     ],
 )
 
@@ -76,6 +77,7 @@ cc_binary(
     deps = [
         "//score/config_management/config_daemon/code/app/details:app",
         "//score/config_management/config_daemon/code/factory/details:mw_factory",
+        "@score_lifecycle//score/launch_manager:lifecyclemanager_cc",
         "@score_lifecycle//score/launch_manager:runapplication_cc",
     ],
 )
