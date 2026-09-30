@@ -29,9 +29,10 @@ component(
 
 component(
     name = "config_provider_component",
-    components = [
-        "//score/config_management/config_provider/code/config_provider/details:config_provider_details_unit",
-    ],
+    # TODO: score_communication does not yet provide the GetProxyFuture()/StopServiceDiscovery()
+    # API that config_provider_impl.cpp needs (owned by the mw::service team), so
+    # config_provider_details_unit is left out here until that API lands upstream.
+    components = [],
     requirements = ["//requirements/component_requirements/config_provider:component_requirements"],
     tests = [],
     visibility = ["//visibility:public"],

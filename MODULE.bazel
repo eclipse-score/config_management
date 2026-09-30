@@ -144,13 +144,7 @@ git_override(
 )
 
 # s-core communication
-bazel_dep(name = "score_communication")
-git_override(
-    module_name = "score_communication",
-    commit = "4658ffb26a18dacdc1e903e6bad7282113c4a739",
-    remote = "https://github.com/Chahult/communication.git",
-)
-
+bazel_dep(name = "score_communication", version = "0.4.0")
 bazel_dep(name = "score_logging", version = "0.2.1")
 git_override(
     module_name = "score_logging",

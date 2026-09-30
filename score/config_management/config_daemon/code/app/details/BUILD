@@ -13,6 +13,7 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
+load("@score_tooling//bazel/rules/rules_score:rules_score.bzl", "unit")
 
 cc_library(
     name = "app",
@@ -86,3 +87,12 @@ cc_test(
         "@score_lifecycle//score/launch_manager:mock_lifecycle_cc",
     ],
 )
+
+unit(
+    name = "config_daemon_app_unit",
+    tests = [":unit_test"],
+    unit_design = [],
+    visibility = ["//score/config_management/dependability:__pkg__"],
+    implementation = [":app"],
+)
+
