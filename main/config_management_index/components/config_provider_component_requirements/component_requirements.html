@@ -13,11 +13,11 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_style.css?v=92936fa5" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/modern.css?v=803738c0" />
 
   
@@ -202,6 +202,44 @@ The callback indicates that:
 <span class="sig-name descname"><span class="pre">ConfigProvider.GetInitialQualifierState</span></span><a class="headerlink" href="#requirement-ConfigProvider.GetInitialQualifierState" title="Link to this definition"></a></dt>
 <dd><p>A qualifier shall be offered to indicate the integrity of coding data for coding parameters which are attributed with ASIL B level.</p>
 <p>Note: ConfigDaemon assumes that functions which are using the coding parameters will establish a safe state in case when such qualifier indicates that coding data not in state Qualified.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigProvider.DefinitionMaxArgument">
+<span class="sig-name descname"><span class="pre">ConfigProvider.DefinitionMaxArgument</span></span><a class="headerlink" href="#requirement-ConfigProvider.DefinitionMaxArgument" title="Link to this definition"></a></dt>
+<dd><p>User specific maximal parameter set name length to be used as method argument shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it’s contained in the buffer needs configuration <cite>buffer_size_needs.json</cite>. If there is no valid input for parameter set list provided, maximal length shall be the one of the overall longest parameter set name from the buffer needs configuration.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigProvider.DefinitionUserSpecificMaxRetValue">
+<span class="sig-name descname"><span class="pre">ConfigProvider.DefinitionUserSpecificMaxRetValue</span></span><a class="headerlink" href="#requirement-ConfigProvider.DefinitionUserSpecificMaxRetValue" title="Link to this definition"></a></dt>
+<dd><p>User specific largest parameter set payload to be used as maximal method return value shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it’s contained in the buffer needs configuration <cite>buffer_size_needs.json</cite>. If there is no valid input for parameter set list provided, largest parameter set payload size shall be the one of the overall largest parameter set payload from the buffer needs configuration.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigProvider.AdditionalProxyNeedsRegistration">
+<span class="sig-name descname"><span class="pre">ConfigProvider.AdditionalProxyNeedsRegistration</span></span><a class="headerlink" href="#requirement-ConfigProvider.AdditionalProxyNeedsRegistration" title="Link to this definition"></a></dt>
+<dd><p>Memory buffer needs shall be passed as <cite>additional_shm_size</cite> argument to proxy construction method. The needs are equal to the sum of:
+* User specific maximal parameter set name length, and
+* User specific largest parameter set payload size.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigProvider.ReservePsNameArgumentBuffer">
+<span class="sig-name descname"><span class="pre">ConfigProvider.ReservePsNameArgumentBuffer</span></span><a class="headerlink" href="#requirement-ConfigProvider.ReservePsNameArgumentBuffer" title="Link to this definition"></a></dt>
+<dd><p>User specific maximal parameter set name length shall be reserved exactly once as memory buffer for the <cite>parameter set name</cite> method’s argument.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigProvider.GuardPsNameArgumentBuffer">
+<span class="sig-name descname"><span class="pre">ConfigProvider.GuardPsNameArgumentBuffer</span></span><a class="headerlink" href="#requirement-ConfigProvider.GuardPsNameArgumentBuffer" title="Link to this definition"></a></dt>
+<dd><p>Parameter set name shall only be passed as argument if it’s smaller or equal to the user specific maximal parameter set name length. Otherwise, no method calls with this parameter set name shall take place and an error shall be raised.</p>
+</dd></dl>
+
+<dl class="requirement definition">
+<dt class="sig sig-object requirement" id="requirement-ConfigProvider.PassMaxPayloadSizeArg">
+<span class="sig-name descname"><span class="pre">ConfigProvider.PassMaxPayloadSizeArg</span></span><a class="headerlink" href="#requirement-ConfigProvider.PassMaxPayloadSizeArg" title="Link to this definition"></a></dt>
+<dd><p>Client shall pass the user specific largest parameter set payload size to server as argument of GetParameterSet() method of InternalConfigProvider service.</p>
 </dd></dl>
 
 </section>

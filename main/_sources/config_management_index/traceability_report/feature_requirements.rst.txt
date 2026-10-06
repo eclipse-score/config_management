@@ -1,7 +1,7 @@
 Feature Requirements
 ====================
 
-**Coverage:** 85.7% (18 of 21 items OK)
+**Coverage:** 86.4% (19 of 22 items OK)
 
 .. _lobster-item-531da7e05584af4ce1d85be319b215539261f8fc:
 
@@ -30,7 +30,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/assumed\_system\_requirements/assumed\_system\_requirements.trlc:17:27 <../../../../../requirements/assumed_system_requirements/assumed_system_requirements.trlc#L17>`__
+   **Source:** `requirements/assumed\_system\_requirements/assumed\_system\_requirements.trlc:17:27 <https://github.com/eclipse-score/config_management/blob/main/requirements/assumed_system_requirements/assumed_system_requirements.trlc#L17>`__
 
 .. _lobster-item-43cdd0fe93cc5e83fea193c3b53a4d0792dc0681:
 
@@ -57,7 +57,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/assumed\_system\_requirements/assumed\_system\_requirements.trlc:26:27 <../../../../../requirements/assumed_system_requirements/assumed_system_requirements.trlc#L26>`__
+   **Source:** `requirements/assumed\_system\_requirements/assumed\_system\_requirements.trlc:26:27 <https://github.com/eclipse-score/config_management/blob/main/requirements/assumed_system_requirements/assumed_system_requirements.trlc#L26>`__
 
 .. _lobster-item-9bab7a089dd452b0b4cb0b0e836667bf94e03f4c:
 
@@ -84,7 +84,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:77:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L77>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:77:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L77>`__
 
 .. _lobster-item-d7bb479047c5906730097f078ccb8a589c7d3d38:
 
@@ -109,7 +109,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:19:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L19>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:19:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L19>`__
 
 .. _lobster-item-107bc1065f25d5a9679894abeb92a7e72b232f51:
 
@@ -134,7 +134,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:26:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L26>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:26:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L26>`__
 
 .. _lobster-item-e5d588257488c9e47cdba41356b812bffbff67bd:
 
@@ -157,7 +157,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:35:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L35>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:35:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L35>`__
 
 .. _lobster-item-d0bd735c7f99606f794d522b0c5ad76380d52a2c:
 
@@ -180,7 +180,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:42:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L42>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:42:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L42>`__
 
 .. _lobster-item-2038245466630b51cda4f16ee0dbf88ddad79347:
 
@@ -203,7 +203,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:49:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L49>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:49:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L49>`__
 
 .. _lobster-item-b2f0f1696e159706b4a308c01896a37b234bd58d:
 
@@ -226,7 +226,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:56:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L56>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:56:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L56>`__
 
 .. _lobster-item-6845f10335e23cd47dbef2982814af50278e8223:
 
@@ -249,7 +249,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:63:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L63>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:63:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L63>`__
 
 .. _lobster-item-ec8bf10154ac248927613aac81f9bf8aecc31c75:
 
@@ -272,7 +272,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:70:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L70>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:70:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L70>`__
 
 .. _lobster-item-3f19bfd2d088ef3a1ec01de64a5b5a3342f05ab6:
 
@@ -300,7 +300,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:84:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L84>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:84:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L84>`__
 
 .. _lobster-item-12d739a0a442d30689b5f225f9c0616656b0956b:
 
@@ -336,7 +336,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:93:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L93>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:93:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L93>`__
 
 .. _lobster-item-9e4fc34d01057a9eb9ff1e97c068210271f0363e:
 
@@ -361,7 +361,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:100:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L100>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:100:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L100>`__
 
 .. _lobster-item-c0732d12c669e775ae31ffbbfee27c0fac7f3ad7:
 
@@ -387,7 +387,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:109:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L109>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:109:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L109>`__
 
 .. _lobster-item-4d65683af981bf04b099b3e8149fe6f2564225b6:
 
@@ -414,7 +414,37 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:116:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L116>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:116:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L116>`__
+
+.. _lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19:
+
+.. dropdown:: [OK] TRLC Featreq ConfigManagement.ParameterSetAquisitionAvailability
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Parameter set acquisition method shall be used in a controlled way to prevent any application termination as cause of communication misconfiguration.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemon.ReservePayloadRetValueBuffer <lobster-item-e1b882bf2cf0667234dd2349906afc880a97d019>`
+   * :ref:`ConfigDaemon.GuardPayloadRetValueBuffer <lobster-item-0de474451a90148890eddc68864852270c6601f3>`
+   * :ref:`ConfigProvider.DefinitionMaxArgument <lobster-item-d4babb39e30e1a2ecd41403cac3bb0428abc6fe1>`
+   * :ref:`ConfigProvider.DefinitionUserSpecificMaxRetValue <lobster-item-333e9cc0bd675e5ee610354100fc86ecd8abae7b>`
+   * :ref:`ConfigProvider.AdditionalProxyNeedsRegistration <lobster-item-bd068e79cea87278e59c4eb44b03cad8a288ebc2>`
+   * :ref:`ConfigProvider.ReservePsNameArgumentBuffer <lobster-item-58cbe8b105bd41f4813f945ed162ca906f753b50>`
+   * :ref:`ConfigProvider.GuardPsNameArgumentBuffer <lobster-item-80891cbb59c775eaa8c15e5245323325e36a4b3d>`
+   * :ref:`ConfigProvider.PassMaxPayloadSizeArg <lobster-item-7ede5e36baec3b6d7d19079c8968d06f9435f63a>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:123:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L123>`__
 
 .. _lobster-item-2b6b154fabab9a325cbd23128327febec1990de7:
 
@@ -439,7 +469,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:125:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L125>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:132:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L132>`__
 
 .. _lobster-item-1740cd88ca878b14882638584a3ea7eb5f50230f:
 
@@ -473,7 +503,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:133:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L133>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:140:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L140>`__
 
 .. _lobster-item-3058a5cff6e5cc36cf6cba3c0f05fc012277c9ec:
 
@@ -498,7 +528,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:151:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L151>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:158:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L158>`__
 
 .. _lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c:
 
@@ -528,7 +558,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:160:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L160>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:167:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L167>`__
 
 .. _lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec:
 
@@ -558,5 +588,5 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:167:18 <../../../../../requirements/feature_requirements/feature_requirements.trlc#L167>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:174:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L174>`__
 

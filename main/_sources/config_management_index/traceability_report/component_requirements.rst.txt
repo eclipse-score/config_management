@@ -1,7 +1,7 @@
 Component Requirements
 ======================
 
-**Coverage:** 100.0% (39 of 39 items OK)
+**Coverage:** 100.0% (47 of 47 items OK)
 
 .. _lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1:
 
@@ -33,7 +33,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:21:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L21>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:21:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L21>`__
 
 .. _lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a:
 
@@ -66,7 +66,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:29:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L29>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:29:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L29>`__
 
 .. _lobster-item-004106a1ab01a2f73878a7905ab776c44f163c50:
 
@@ -97,7 +97,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:36:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L36>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:36:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L36>`__
 
 .. _lobster-item-ba45a808d0e42fb977e92e01a915aa28bb2c2267:
 
@@ -132,7 +132,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:45:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L45>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:45:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L45>`__
 
 .. _lobster-item-44d04daa6c98bdbc48ff3894689410fb2600a658:
 
@@ -164,7 +164,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:55:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L55>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:55:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L55>`__
 
 .. _lobster-item-3ebebea83a8f5d761961d4f67ab60363871fc61a:
 
@@ -196,7 +196,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:62:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L62>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:62:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L62>`__
 
 .. _lobster-item-3872b10234f3f3112abfd71fffb03820741c006a:
 
@@ -228,7 +228,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:69:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L69>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:69:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L69>`__
 
 .. _lobster-item-780be598c46a080c0225f964c9e39cadb3804960:
 
@@ -259,7 +259,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:76:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L76>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:76:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L76>`__
 
 .. _lobster-item-ec76c59623608882001ac2ed94155ffae7ad7445:
 
@@ -290,7 +290,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:83:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L83>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:83:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L83>`__
 
 .. _lobster-item-8ea96e8bf8dad5cbbb7bebc60c98ceab19220d2f:
 
@@ -322,7 +322,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:90:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L90>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:90:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L90>`__
 
 .. _lobster-item-109009fb6ef353e062f02152f22a063b6473f6b9:
 
@@ -353,7 +353,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:97:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L97>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:97:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L97>`__
 
 .. _lobster-item-4a5b22f8c8eda92d340a16af9f2cc24eeda4a382:
 
@@ -387,7 +387,69 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:121:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L121>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:121:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L121>`__
+
+.. _lobster-item-e1b882bf2cf0667234dd2349906afc880a97d019:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.ReservePayloadRetValueBuffer
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      User specific largest parameter set payload size shall be reserved exactly once as memory buffer for the {{parameter set payload}} as method's return value on the first invocation of its registered handler for {{GetParameterSet()}} method.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAquisitionAvailability <lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:128:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L128>`__
+
+.. _lobster-item-0de474451a90148890eddc68864852270c6601f3:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.GuardPayloadRetValueBuffer
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Parameter set payload shall only be passed as return value if it's smaller or equal to the user specific largest parameter set payload size. Otherwise, method call shall be replied with an empty return value, and an error shall be raised.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAquisitionAvailability <lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:135:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L135>`__
 
 .. _lobster-item-559b57a2fc5d0089212144020097ecb7b2f1ee0b:
 
@@ -418,7 +480,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:133:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L133>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:147:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L147>`__
 
 .. _lobster-item-9595fc01bbea6c923fa0585d00093bd854169f9a:
 
@@ -451,7 +513,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:141:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L141>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:155:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L155>`__
 
 .. _lobster-item-9e1c57a225059741b8e79efc9164c0fe1f041b68:
 
@@ -482,7 +544,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:151:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L151>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:165:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L165>`__
 
 .. _lobster-item-ae39342176962eb5b2c56fe19440fdea9e8b7337:
 
@@ -513,7 +575,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:159:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L159>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:173:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L173>`__
 
 .. _lobster-item-5e4ad6c4121478b84f5ffa9849adff93d94bc069:
 
@@ -544,7 +606,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:167:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L167>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:181:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L181>`__
 
 .. _lobster-item-6ef8d7f6eadd8dc35c48a8bcb6be97f633315f00:
 
@@ -575,7 +637,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:175:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L175>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:189:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L189>`__
 
 .. _lobster-item-4283dd6d200118bcbbc53da668a4e5a642d8edc1:
 
@@ -606,7 +668,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:183:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L183>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:197:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L197>`__
 
 .. _lobster-item-63bf8378b524ea16d080796ae6caa9add330640c:
 
@@ -637,7 +699,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:190:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L190>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:204:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L204>`__
 
 .. _lobster-item-5962fe440b2ec7a5d18c70c4ac9da0e186059135:
 
@@ -682,7 +744,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:202:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L202>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:216:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L216>`__
 
 .. _lobster-item-3fe206c079179bc277b8183340971db12faf7d94:
 
@@ -719,7 +781,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:223:26 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L223>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:237:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L237>`__
 
 .. _lobster-item-af1bb0e308a4908dffee0ce010b86105e5680380:
 
@@ -750,7 +812,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:237:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L237>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:251:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L251>`__
 
 .. _lobster-item-7d69279427e2dcac66171ad7feb899b458e06957:
 
@@ -781,7 +843,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:248:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L248>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:262:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L262>`__
 
 .. _lobster-item-cf23f40271708f973994ae679b85b14d2f4c44c3:
 
@@ -812,7 +874,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:255:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L255>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:269:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L269>`__
 
 .. _lobster-item-72f4087d40c6545283ab75a95da0194039c8691b:
 
@@ -843,7 +905,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:262:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L262>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:276:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L276>`__
 
 .. _lobster-item-9f8298100b9635cdc987afdd115922b3165666fa:
 
@@ -874,7 +936,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:269:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L269>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:283:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L283>`__
 
 .. _lobster-item-ef3fe661471dced791b6b29b4b2c053b2e47e093:
 
@@ -906,7 +968,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:276:22 <../../../../../requirements/component_requirements/config_daemon/component_requirements.trlc#L276>`__
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:290:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L290>`__
 
 .. _lobster-item-1818af8c26f8ad4cdd86c7468cfca9701b45cb43:
 
@@ -943,7 +1005,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:25:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L25>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:25:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L25>`__
 
 .. _lobster-item-cb4a0e6a9b4b8c5e1441219f49d8e1f96c9863e6:
 
@@ -976,7 +1038,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:42:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L42>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:42:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L42>`__
 
 .. _lobster-item-409a148bee9eb1cdec59ae29f87a62345a3432d3:
 
@@ -1008,7 +1070,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:50:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L50>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:50:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L50>`__
 
 .. _lobster-item-a293c13cbdeb04a53960c0ad4fdb73b9c58c1be0:
 
@@ -1040,7 +1102,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:57:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L57>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:57:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L57>`__
 
 .. _lobster-item-00bb62731425252c0d86f292d7a5b134a493715e:
 
@@ -1071,7 +1133,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:68:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L68>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:68:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L68>`__
 
 .. _lobster-item-d42512cde54e0d9d5a3076285f2c37913ea4cf16:
 
@@ -1103,7 +1165,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:79:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L79>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:79:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L79>`__
 
 .. _lobster-item-ee28cb03b3af1b34e5e80a051f6275abfe22d4dd:
 
@@ -1135,7 +1197,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:86:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L86>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:86:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L86>`__
 
 .. _lobster-item-c0c1a5a4a046e21ef96c35bd977432141fa4da75:
 
@@ -1167,7 +1229,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:93:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L93>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:93:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L93>`__
 
 .. _lobster-item-914601178f8244c0310c194ef8708042758cec23:
 
@@ -1199,7 +1261,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:104:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L104>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:104:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L104>`__
 
 .. _lobster-item-f3555db22c1fac7e944233581533086c1b7c2374:
 
@@ -1231,7 +1293,7 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:118:26 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L118>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:118:26 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L118>`__
 
 .. _lobster-item-adb510267d6968dea8dae6886b2fe4513208e182:
 
@@ -1265,5 +1327,193 @@ Component Requirements
 
       <hr>
 
-   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:132:30 <../../../../../requirements/component_requirements/config_provider/component_requirements.trlc#L132>`__
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:132:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L132>`__
+
+.. _lobster-item-d4babb39e30e1a2ecd41403cac3bb0428abc6fe1:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.DefinitionMaxArgument
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      User specific maximal parameter set name length to be used as method argument shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration \`buffer\_size\_needs.json\`. If there is no valid input for parameter set list provided, maximal length shall be the one of the overall longest parameter set name from the buffer needs configuration.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAquisitionAvailability <lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:141:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L141>`__
+
+.. _lobster-item-333e9cc0bd675e5ee610354100fc86ecd8abae7b:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.DefinitionUserSpecificMaxRetValue
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      User specific largest parameter set payload to be used as maximal method return value shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration \`buffer\_size\_needs.json\`. If there is no valid input for parameter set list provided, largest parameter set payload size shall be the one of the overall largest parameter set payload from the buffer needs configuration.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAquisitionAvailability <lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:148:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L148>`__
+
+.. _lobster-item-bd068e79cea87278e59c4eb44b03cad8a288ebc2:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.AdditionalProxyNeedsRegistration
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Memory buffer needs shall be passed as \`additional\_shm\_size\` argument to proxy construction method. The needs are equal to the sum of:
+      \* User specific maximal parameter set name length, and
+      \* User specific largest parameter set payload size.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAquisitionAvailability <lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:155:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L155>`__
+
+.. _lobster-item-58cbe8b105bd41f4813f945ed162ca906f753b50:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.ReservePsNameArgumentBuffer
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      User specific maximal parameter set name length shall be reserved exactly once as memory buffer for the \`parameter set name\` method's argument.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAquisitionAvailability <lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:164:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L164>`__
+
+.. _lobster-item-80891cbb59c775eaa8c15e5245323325e36a4b3d:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.GuardPsNameArgumentBuffer
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Parameter set name shall only be passed as argument if it's smaller or equal to the user specific maximal parameter set name length. Otherwise, no method calls with this parameter set name shall take place and an error shall be raised.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAquisitionAvailability <lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:171:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L171>`__
+
+.. _lobster-item-7ede5e36baec3b6d7d19079c8968d06f9435f63a:
+
+.. dropdown:: [OK] TRLC Compreq ConfigProvider.PassMaxPayloadSizeArg
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Client shall pass the user specific largest parameter set payload size to server as argument of GetParameterSet() method of InternalConfigProvider service.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`//score/config\_management/dependability:config\_provider\_component <lobster-item-7712ea7eba212c71358c246b959d88986fe09de3>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetAquisitionAvailability <lobster-item-c95bce95b3f62b61e47cdf64ce41f4235bc1ea19>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:178:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L178>`__
 

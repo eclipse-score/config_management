@@ -71,3 +71,29 @@ InternalConfigProvider
 
    Note: ConfigDaemon assumes that functions which are using the coding parameters will establish a safe state in case when such qualifier indicates that coding data not in state Qualified.
 
+.. requirement:definition:: ConfigProvider.DefinitionMaxArgument
+
+   User specific maximal parameter set name length to be used as method argument shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration `buffer_size_needs.json`. If there is no valid input for parameter set list provided, maximal length shall be the one of the overall longest parameter set name from the buffer needs configuration.
+
+.. requirement:definition:: ConfigProvider.DefinitionUserSpecificMaxRetValue
+
+   User specific largest parameter set payload to be used as maximal method return value shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration `buffer_size_needs.json`. If there is no valid input for parameter set list provided, largest parameter set payload size shall be the one of the overall largest parameter set payload from the buffer needs configuration.
+
+.. requirement:definition:: ConfigProvider.AdditionalProxyNeedsRegistration
+
+   Memory buffer needs shall be passed as `additional_shm_size` argument to proxy construction method. The needs are equal to the sum of:
+   * User specific maximal parameter set name length, and
+   * User specific largest parameter set payload size.
+
+.. requirement:definition:: ConfigProvider.ReservePsNameArgumentBuffer
+
+   User specific maximal parameter set name length shall be reserved exactly once as memory buffer for the `parameter set name` method's argument.
+
+.. requirement:definition:: ConfigProvider.GuardPsNameArgumentBuffer
+
+   Parameter set name shall only be passed as argument if it's smaller or equal to the user specific maximal parameter set name length. Otherwise, no method calls with this parameter set name shall take place and an error shall be raised.
+
+.. requirement:definition:: ConfigProvider.PassMaxPayloadSizeArg
+
+   Client shall pass the user specific largest parameter set payload size to server as argument of GetParameterSet() method of InternalConfigProvider service.
+

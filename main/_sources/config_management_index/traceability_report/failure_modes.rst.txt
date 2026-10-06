@@ -40,5 +40,5 @@ Failure Modes
 
       <hr>
 
-   **Source:** `requirements/safety\_analysis/failure\_modes.trlc:17:22 <../../../../../requirements/safety_analysis/failure_modes.trlc#L17>`__
+   **Source:** `requirements/safety\_analysis/failure\_modes.trlc:17:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/safety_analysis/failure_modes.trlc#L17>`__
 

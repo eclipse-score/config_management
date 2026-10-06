@@ -57,6 +57,14 @@ ParameterSetService
 
    Component shall offer a Parameter Set Service, which allows to query a Parameter Set with its Parameter Set Qualifier from the Data Model.
 
+.. requirement:definition:: ConfigDaemon.ReservePayloadRetValueBuffer
+
+   User specific largest parameter set payload size shall be reserved exactly once as memory buffer for the {{parameter set payload}} as method's return value on the first invocation of its registered handler for {{GetParameterSet()}} method.
+
+.. requirement:definition:: ConfigDaemon.GuardPayloadRetValueBuffer
+
+   Parameter set payload shall only be passed as return value if it's smaller or equal to the user specific largest parameter set payload size. Otherwise, method call shall be replied with an empty return value, and an error shall be raised.
+
 DataModel
 ---------
 .. requirement:definition:: ConfigDaemon.DataModel

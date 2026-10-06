@@ -56,6 +56,10 @@ Requirements
 
    There shall exist an overall qualifier for all Parameter Sets to indicate the state of integrity checks at the point of time of initial provision of parameters.
 
+.. requirement:definition:: ConfigManagement.ParameterSetAquisitionAvailability
+
+   Parameter set acquisition method shall be used in a controlled way to prevent any application termination as cause of communication misconfiguration.
+
 .. requirement:definition:: ConfigManagement.CompleteParameterSets
 
    The interface between parameter provider and application shall only exchange complete Parameter Sets.
