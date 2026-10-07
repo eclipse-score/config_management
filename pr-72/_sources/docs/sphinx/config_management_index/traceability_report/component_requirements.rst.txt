@@ -1,84 +1,7 @@
 Component Requirements
 ======================
 
-**Coverage:** 0.0% (0 of 47 items OK)
-
-.. _lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1:
-
-.. dropdown:: [PARTIAL] TRLC Compreq ConfigDaemon.StorageAccessibility
-   :open:
-   :class-title: sd-bg-warning
-
-   .. pull-quote::
-
-      Files persisted by ConfigDaemon shall be writable by ConfigDaemon only.
-
-   .. raw:: html
-
-      <hr>
-
-   **Traces to:**
-
-   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
-
-   .. card::
-      :class-card: lobster-issue-card
-
-      * missing reference to Unit Test
-
-   .. raw:: html
-
-      <hr>
-
-   **Derived from:**
-
-   * :ref:`ConfigManagement.ParameterSetConfigurationSource <lobster-item-ec8bf10154ac248927613aac81f9bf8aecc31c75>`
-   * :ref:`ConfigManagement.CentralHousekeepingForParameters <lobster-item-e5d588257488c9e47cdba41356b812bffbff67bd>`
-
-   .. raw:: html
-
-      <hr>
-
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:21:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L21>`__
-
-.. _lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a:
-
-.. dropdown:: [PARTIAL] TRLC Compreq ConfigDaemon.StorageFailure
-   :open:
-   :class-title: sd-bg-warning
-
-   .. pull-quote::
-
-      In case file system is not accessible for ConfigDaemon application at startup or any other failure leads to parameter data model populated incompletely, ConfigDaemon application shall not offer any services.
-
-   .. raw:: html
-
-      <hr>
-
-   **Traces to:**
-
-   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
-
-   .. card::
-      :class-card: lobster-issue-card
-
-      * missing reference to Unit Test
-
-   .. raw:: html
-
-      <hr>
-
-   **Derived from:**
-
-   * :ref:`ConfigManagement.ParameterSetConfigurationContents <lobster-item-6845f10335e23cd47dbef2982814af50278e8223>`
-   * :ref:`ConfigManagement.ParameterSetNameUniqueness <lobster-item-b2f0f1696e159706b4a308c01896a37b234bd58d>`
-   * :ref:`ConfigManagement.ParameterNameUniqueness <lobster-item-2038245466630b51cda4f16ee0dbf88ddad79347>`
-
-   .. raw:: html
-
-      <hr>
-
-   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:29:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L29>`__
+**Coverage:** 4.3% (2 of 47 items OK)
 
 .. _lobster-item-004106a1ab01a2f73878a7905ab776c44f163c50:
 
@@ -1798,4 +1721,71 @@ Component Requirements
       <hr>
 
    **Source:** `requirements/component\_requirements/config\_provider/component\_requirements.trlc:178:30 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_provider/component_requirements.trlc#L178>`__
+
+.. _lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.StorageAccessibility
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      Files persisted by ConfigDaemon shall be writable by ConfigDaemon only.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemonFixture:ConfigDaemonAppInitializeSuccess <lobster-item-7aab1acd9a525448847bc5ed98bf8a97a1274ed3>`
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetConfigurationSource <lobster-item-ec8bf10154ac248927613aac81f9bf8aecc31c75>`
+   * :ref:`ConfigManagement.CentralHousekeepingForParameters <lobster-item-e5d588257488c9e47cdba41356b812bffbff67bd>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:21:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L21>`__
+
+.. _lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a:
+
+.. dropdown:: [OK] TRLC Compreq ConfigDaemon.StorageFailure
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      In case file system is not accessible for ConfigDaemon application at startup or any other failure leads to parameter data model populated incompletely, ConfigDaemon application shall not offer any services.
+
+   .. raw:: html
+
+      <hr>
+
+   **Traces to:**
+
+   * :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToSetupPlugins <lobster-item-eaaaf3e9e4751145ecdc8b0dc1c000d09c906fb4>`
+   * :ref:`//score/config\_management/dependability:config\_daemon\_component <lobster-item-03b6c77190c7e5feaa9b3bae2f6a175af9f28adc>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Derived from:**
+
+   * :ref:`ConfigManagement.ParameterSetConfigurationContents <lobster-item-6845f10335e23cd47dbef2982814af50278e8223>`
+   * :ref:`ConfigManagement.ParameterSetNameUniqueness <lobster-item-b2f0f1696e159706b4a308c01896a37b234bd58d>`
+   * :ref:`ConfigManagement.ParameterNameUniqueness <lobster-item-2038245466630b51cda4f16ee0dbf88ddad79347>`
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/component\_requirements/config\_daemon/component\_requirements.trlc:29:22 <https://github.com/eclipse-score/config_management/blob/main/requirements/component_requirements/config_daemon/component_requirements.trlc#L29>`__
 

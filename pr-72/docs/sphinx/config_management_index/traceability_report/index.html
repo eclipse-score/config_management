@@ -90,11 +90,11 @@
   <section id="l-o-b-s-t-e-r-traceability-report">
 <h1>L.O.B.S.T.E.R. Traceability Report<a class="headerlink" href="#l-o-b-s-t-e-r-traceability-report" title="Link to this heading"></a></h1>
 <div class="line-block">
-<div class="line">Generated: 2026-10-07 06:17 UTC</div>
+<div class="line">Generated: 2026-10-07 10:00 UTC</div>
 <div class="line">LOBSTER Version: 1.0.4-dev</div>
 </div>
 <p class="rubric">Tracing Policy</p>
-<div class="graphviz"><object data="../../../../_images/graphviz-30a4fec6e5800ef384271f7b7ed7b45ed4a9daaf.svg" type="image/svg+xml" class="graphviz">
+<div class="graphviz"><object data="../../../../_images/graphviz-55f450b2d3c956b2cedcae61f0a5adf147cc965a.svg" type="image/svg+xml" class="graphviz">
 <p class="warning">digraph tracing_policy {
    rankdir=TB;
    node [shape=box, style=filled, fontname=&quot;Helvetica&quot;, margin=&quot;0.3,0.1&quot;];
@@ -131,14 +131,14 @@
 <td><p>22</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="component_requirements.html"><span class="doc">Component Requirements</span></a></p></td>
-<td><p>0.0%</p></td>
-<td><p>0</p></td>
+<td><p>4.3%</p></td>
+<td><p>2</p></td>
 <td><p>47</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="unit_test.html"><span class="doc">Unit Test</span></a></p></td>
-<td><p>0.0%</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
+<td><p>15.4%</p></td>
+<td><p>2</p></td>
+<td><p>13</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="architecture.html"><span class="doc">Architecture</span></a></p></td>
 <td><p>100.0%</p></td>
@@ -156,8 +156,6 @@
 <ul class="simple">
 <li><p>[MISSING — no trace to: Component Requirements] <a class="reference internal" href="feature_requirements.html#lobster-item-531da7e05584af4ce1d85be319b215539261f8fc"><span class="std std-ref">AssumedSystemRequirements.SafeConfiguration</span></a></p></li>
 <li><p>[MISSING — no trace to: Component Requirements] <a class="reference internal" href="feature_requirements.html#lobster-item-43cdd0fe93cc5e83fea193c3b53a4d0792dc0681"><span class="std std-ref">AssumedSystemRequirements.FileBasedConfiguration</span></a></p></li>
-<li><p>[PARTIAL — no trace to: Unit Test] <a class="reference internal" href="component_requirements.html#lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1"><span class="std std-ref">ConfigDaemon.StorageAccessibility</span></a></p></li>
-<li><p>[PARTIAL — no trace to: Unit Test] <a class="reference internal" href="component_requirements.html#lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a"><span class="std std-ref">ConfigDaemon.StorageFailure</span></a></p></li>
 <li><p>[PARTIAL — no trace to: Unit Test] <a class="reference internal" href="component_requirements.html#lobster-item-004106a1ab01a2f73878a7905ab776c44f163c50"><span class="std std-ref">ConfigDaemon.Lifecycle</span></a></p></li>
 <li><p>[PARTIAL — no trace to: Unit Test] <a class="reference internal" href="component_requirements.html#lobster-item-ba45a808d0e42fb977e92e01a915aa28bb2c2267"><span class="std std-ref">ConfigDaemon.InitializePlugins</span></a></p></li>
 <li><p>[PARTIAL — no trace to: Unit Test] <a class="reference internal" href="component_requirements.html#lobster-item-44d04daa6c98bdbc48ff3894689410fb2600a658"><span class="std std-ref">ConfigDaemon.InitializeService</span></a></p></li>
@@ -205,6 +203,17 @@
 <li><p>[PARTIAL — no trace to: Unit Test] <a class="reference internal" href="component_requirements.html#lobster-item-7ede5e36baec3b6d7d19079c8968d06f9435f63a"><span class="std std-ref">ConfigProvider.PassMaxPayloadSizeArg</span></a></p></li>
 <li><p>[MISSING — no trace to: Component Requirements] <a class="reference internal" href="feature_requirements.html#lobster-item-9bab7a089dd452b0b4cb0b0e836667bf94e03f4c"><span class="std std-ref">ConfigManagement.ParameterModification</span></a></p></li>
 <li><p>[MISSING — unknown target: req ConfigDaemonAPI.Method1] <a class="reference internal" href="failure_modes.html#lobster-item-2ab84598964dcc8110c609cac352221b278b25e2"><span class="std std-ref">ConfigDaemon.SampleFailureMode</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-4abaf7ca9197576817ebe9227b30132ef010372c"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToCreateFaultEventReporter</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-07a98f0d4f2df8ef3fe621aff3165d00e37f38c3"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppSettingUmaskFailed</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-27b7ef16b80a051de9dc90328414fcb187326047"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToCreateInternalConfigProviderService</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-83c0b5d982056ae09eb4ca09ba62cbc768d7bd7d"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppRunSucceed</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-221deabdd065cf1a393a29467668c104bd4e2677"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToCreatePluginCollector</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-fbd27fb1a761d97926a3f0762833c242f82c7c49"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeSecondPlugin</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-f7f5a4900991f4736f590d54048db5a01085f5bc"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToRunFirstPlugin</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-4228fe9dd5e8a8c524d722385f242ff7f9021ec0"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToRunSecondPlugin</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-74aaa76bdd3ba642e0a52eb53bf926039eb14cbf"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeAsPluginIsNull</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-745bbb26acf5b2d77ed7e82ab35f45bdf7c7ce1c"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonRunFailDueToLastUpdatedParameterSetSenderCreationFailure</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-9aa592fad03f9a1ca190805af1fc07b69232e167"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToCreateParameterSetCollectionManager</span></a></p></li>
 </ul>
 <div class="toctree-wrapper compound">
 </div>

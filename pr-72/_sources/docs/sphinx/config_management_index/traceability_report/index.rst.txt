@@ -2,7 +2,7 @@
 L.O.B.S.T.E.R. Traceability Report
 ##################################
 
-| Generated: 2026-10-07 06:17 UTC
+| Generated: 2026-10-07 10:00 UTC
 | LOBSTER Version: 1.0.4-dev
 
 .. rubric:: Tracing Policy
@@ -39,13 +39,13 @@ L.O.B.S.T.E.R. Traceability Report
      - 19
      - 22
    * - :doc:`Component Requirements <component_requirements>`
-     - 0.0%
-     - 0
+     - 4.3%
+     - 2
      - 47
    * - :doc:`Unit Test <unit_test>`
-     - 0.0%
-     - 0
-     - 0
+     - 15.4%
+     - 2
+     - 13
    * - :doc:`Architecture <architecture>`
      - 100.0%
      - 2
@@ -59,8 +59,6 @@ L.O.B.S.T.E.R. Traceability Report
 
 * [MISSING — no trace to: Component Requirements] :ref:`AssumedSystemRequirements.SafeConfiguration <lobster-item-531da7e05584af4ce1d85be319b215539261f8fc>`
 * [MISSING — no trace to: Component Requirements] :ref:`AssumedSystemRequirements.FileBasedConfiguration <lobster-item-43cdd0fe93cc5e83fea193c3b53a4d0792dc0681>`
-* [PARTIAL — no trace to: Unit Test] :ref:`ConfigDaemon.StorageAccessibility <lobster-item-72ccf2962419c3a990f6928224d439091e6f07c1>`
-* [PARTIAL — no trace to: Unit Test] :ref:`ConfigDaemon.StorageFailure <lobster-item-a3d21d665c9b4351ca89975124f8a5d1cc83ba9a>`
 * [PARTIAL — no trace to: Unit Test] :ref:`ConfigDaemon.Lifecycle <lobster-item-004106a1ab01a2f73878a7905ab776c44f163c50>`
 * [PARTIAL — no trace to: Unit Test] :ref:`ConfigDaemon.InitializePlugins <lobster-item-ba45a808d0e42fb977e92e01a915aa28bb2c2267>`
 * [PARTIAL — no trace to: Unit Test] :ref:`ConfigDaemon.InitializeService <lobster-item-44d04daa6c98bdbc48ff3894689410fb2600a658>`
@@ -108,6 +106,17 @@ L.O.B.S.T.E.R. Traceability Report
 * [PARTIAL — no trace to: Unit Test] :ref:`ConfigProvider.PassMaxPayloadSizeArg <lobster-item-7ede5e36baec3b6d7d19079c8968d06f9435f63a>`
 * [MISSING — no trace to: Component Requirements] :ref:`ConfigManagement.ParameterModification <lobster-item-9bab7a089dd452b0b4cb0b0e836667bf94e03f4c>`
 * [MISSING — unknown target: req ConfigDaemonAPI.Method1] :ref:`ConfigDaemon.SampleFailureMode <lobster-item-2ab84598964dcc8110c609cac352221b278b25e2>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToCreateFaultEventReporter <lobster-item-4abaf7ca9197576817ebe9227b30132ef010372c>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppSettingUmaskFailed <lobster-item-07a98f0d4f2df8ef3fe621aff3165d00e37f38c3>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToCreateInternalConfigProviderService <lobster-item-27b7ef16b80a051de9dc90328414fcb187326047>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppRunSucceed <lobster-item-83c0b5d982056ae09eb4ca09ba62cbc768d7bd7d>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToCreatePluginCollector <lobster-item-221deabdd065cf1a393a29467668c104bd4e2677>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeSecondPlugin <lobster-item-fbd27fb1a761d97926a3f0762833c242f82c7c49>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToRunFirstPlugin <lobster-item-f7f5a4900991f4736f590d54048db5a01085f5bc>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToRunSecondPlugin <lobster-item-4228fe9dd5e8a8c524d722385f242ff7f9021ec0>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeAsPluginIsNull <lobster-item-74aaa76bdd3ba642e0a52eb53bf926039eb14cbf>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonRunFailDueToLastUpdatedParameterSetSenderCreationFailure <lobster-item-745bbb26acf5b2d77ed7e82ab35f45bdf7c7ce1c>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToCreateParameterSetCollectionManager <lobster-item-9aa592fad03f9a1ca190805af1fc07b69232e167>`
 
 .. toctree::
    :caption: Requirements and Specification
