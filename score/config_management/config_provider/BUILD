@@ -51,6 +51,15 @@ cc_unit_test_suites_for_host_and_qnx(
     visibility = ["//score/config_management:__pkg__"],
 )
 
+# test_suite.tests is not select()-able in Bazel, so the "test/sct" component
+# test reference (internal-only, excluded from OSS export) is dropped to an
+# empty list here instead, matching the SPP->OSS Copybara export transform.
+test_suite(
+    name = "component_tests",
+    tests = [],
+    visibility = ["//score/config_management:__pkg__"],
+)
+
 clang_tidy_extra_checks(
     name = "clang_tidy_extra_checks",
     extra_features = [
