@@ -46,5 +46,9 @@
   {
     "version": "pr-81",
     "url": "https://eclipse-score.github.io/config_management/pr-81/"
+  },
+  {
+    "version": "pr-82",
+    "url": "https://eclipse-score.github.io/config_management/pr-82/"
   }
 ]
