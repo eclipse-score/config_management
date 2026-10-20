@@ -11,7 +11,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-load("@score_tooling//coverage:defs.bzl", "score_coverage_reporter", "score_coverage_scope")
+load("@score_coverage//:defs.bzl", "score_coverage_reporter", "score_coverage_scope")
 
 # Coverage scope: every production library reachable in CI's wildcard build
 # (//score/config_management/... minus the known-broken targets tracked in
@@ -39,7 +39,6 @@ score_coverage_scope(
         "//score/config_management/config_daemon/code/factory/details:mw_factory",
         "//score/config_management/config_daemon/code/fault_event_reporter",
         "//score/config_management/config_daemon/code/fault_event_reporter:fault_event_score_types",
-        "//score/config_management/config_daemon/code/fault_event_reporter:fault_event_types",
         "//score/config_management/config_daemon/code/fault_event_reporter/details:details_score_impl",
         "//score/config_management/config_daemon/code/json_helper",
         "//score/config_management/config_daemon/code/json_helper/details",

@@ -10,7 +10,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-# LLVM source-based coverage (C++) via @score_tooling//coverage.
+# LLVM source-based coverage (C++) via @score_coverage (the qualified S-CORE coverage
+# tool), guide: https://eclipse-score.github.io/coverage_tool/main/manual/user_manual.html
 # Use with: bazel coverage --config=llvm_cov <test targets> --build_tests_only
 #
 # Do NOT combine with --config=host_gcc: the last --extra_toolchains wins
@@ -28,6 +29,12 @@
 coverage:llvm_cov --check_visibility=false
 
 coverage:llvm_cov --nocache_test_results
+# Instrument everything under //score. Left unset, Bazel guesses the filter from the
+# packages of the test targets (stripping only a trailing "/tests"); a library tested from
+# a "test" subpackage is then compiled without counters unless one of its deps happens to
+# be instrumented (score_coverage 0.3.1, user manual step 4).
+coverage:llvm_cov --instrumentation_filter=^//score[/:]
+
 coverage:llvm_cov --cxxopt=-O0
 coverage:llvm_cov --combined_report=lcov
 coverage:llvm_cov --experimental_fetch_all_coverage_outputs
@@ -38,10 +45,16 @@ coverage:llvm_cov --experimental_use_llvm_covmap
 # Coverage-only Clang 22 instance (regular builds keep the default 19.1.0).
 coverage:llvm_cov --extra_toolchains=@llvm_toolchain_coverage//:cc-toolchain-x86_64-linux
 
-coverage:llvm_cov --coverage_output_generator=@score_tooling//coverage:merger
+coverage:llvm_cov --coverage_output_generator=@score_coverage//:merger
 coverage:llvm_cov --coverage_report_generator=//tools/coverage:reporter_wrapper
 coverage:llvm_cov --test_env=GENERATE_LLVM_LCOV=0
 coverage:llvm_cov --test_env=COVERAGE_GCOV_PATH=/usr/bin/true
 coverage:llvm_cov --test_env=LLVM_PROFILE_CONTINUOUS_MODE=1
 coverage:llvm_cov --features=enable_llvm_coverage_for_death_tests
 coverage:llvm_cov --features=coverage
+
+# Headers of libraries with `includes = [...]` (score_kvs_stub) reach clang as -isystem, and
+# clang records no coverage for functions defined in system headers. The flag turns that
+# exclusion off; the real system headers it also instruments stay out of the report through
+# the scope (score_coverage >= 0.4.1, user manual "Headers published through includes").
+coverage:llvm_cov --copt=-mllvm --copt=-system-headers-coverage

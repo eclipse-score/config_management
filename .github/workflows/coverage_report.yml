@@ -65,7 +65,7 @@ jobs:
           # Report-only at introduction; ratchet once a baseline is agreed.
           COVERAGE_THRESHOLD: "0"
         run: |
-          bazel run @score_tooling//coverage:generate_coverage_html -- \
+          bazel run @score_coverage//:generate_coverage_html -- \
             --yaml tools/coverage/coverage_justifications.yaml \
             --testlogs-subdir score \
             --archive-dir coverage_artifact

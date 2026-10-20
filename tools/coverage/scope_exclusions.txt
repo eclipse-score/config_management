@@ -20,3 +20,8 @@
 # exist to support unit tests of their real counterparts (already in scope).
 //score/config_management/config_provider/code/config_provider:config_provider_mock
 //score/config_management/config_provider/code/proxies:mock
+
+# Header-only library whose single header (fault_event_bmw_types.h) is not
+# part of this repository (internal, stripped on export): nothing here can
+# compile it, and the reporter cannot stage a file that does not exist.
+//score/config_management/config_daemon/code/fault_event_reporter:fault_event_types
