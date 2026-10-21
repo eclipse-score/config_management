@@ -109,3 +109,21 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
         ),
     ]
 ]
+
+# Extension point: replace these to inject an SPP-specific factory implementation
+# (e.g. ara_factory) at import time instead of patching/excluding targets via Copybara.
+label_flag(
+    name = "factory_variant",
+    build_setting_default = ":mw_factory",
+    visibility = [
+        "//score/config_management/config_daemon:__subpackages__",
+    ],
+)
+
+label_flag(
+    name = "factory_variant_for_unit_test",
+    build_setting_default = ":mw_factory_for_unit_test",
+    visibility = [
+        "//score/config_management/config_daemon:__subpackages__",
+    ],
+)
