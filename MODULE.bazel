@@ -153,6 +153,13 @@ bazel_dep(name = "score_baselibs", version = "0.2.14")
 
 # s-core communication
 bazel_dep(name = "score_communication", version = "0.5.0")
+
+# New mw::com APIs are not in a published release yet.
+git_override(
+    module_name = "score_communication",
+    commit = "a0b6e64f7089fa9df570890d58f16dc8fb4b371c",
+    remote = "https://github.com/eclipse-score/communication.git",
+)
 bazel_dep(name = "score_logging", version = "0.2.4")
 bazel_dep(name = "score_lifecycle", version = "0.7.0")
 
