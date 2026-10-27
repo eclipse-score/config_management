@@ -13,11 +13,3 @@ Static Design
    :maxdepth: 1
 
    architectural_design/static_design
-
-Dependability Analysis
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. toctree::
-   :maxdepth: 1
-
-   dependability_analysis/fmea
