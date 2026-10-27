@@ -90,11 +90,11 @@
   <section id="l-o-b-s-t-e-r-traceability-report">
 <h1>L.O.B.S.T.E.R. Traceability Report<a class="headerlink" href="#l-o-b-s-t-e-r-traceability-report" title="Link to this heading"></a></h1>
 <div class="line-block">
-<div class="line">Generated: 2026-10-09 06:03 UTC</div>
+<div class="line">Generated: 2026-10-27 12:30 UTC</div>
 <div class="line">LOBSTER Version: 1.0.4-dev</div>
 </div>
 <p class="rubric">Tracing Policy</p>
-<div class="graphviz"><object data="../../../../_images/graphviz-55f450b2d3c956b2cedcae61f0a5adf147cc965a.svg" type="image/svg+xml" class="graphviz">
+<div class="graphviz"><object data="../../../../_images/graphviz-e32ba894c12f19e7d5a7162a4651b164bba335de.svg" type="image/svg+xml" class="graphviz">
 <p class="warning">digraph tracing_policy {
    rankdir=TB;
    node [shape=box, style=filled, fontname=&quot;Helvetica&quot;, margin=&quot;0.3,0.1&quot;];
@@ -104,7 +104,6 @@
    &quot;Component Requirements&quot; [fillcolor=&quot;#2196F3&quot;, fontcolor=&quot;white&quot;];
    &quot;Unit Test&quot; [fillcolor=&quot;#FF9800&quot;, fontcolor=&quot;white&quot;];
    &quot;Architecture&quot; [fillcolor=&quot;#4CAF50&quot;, fontcolor=&quot;white&quot;];
-   &quot;Failure Modes&quot; [fillcolor=&quot;#2196F3&quot;, fontcolor=&quot;white&quot;];
    &quot;Component Requirements&quot; -&gt; &quot;Feature Requirements&quot;;
    &quot;Unit Test&quot; -&gt; &quot;Component Requirements&quot;;
    &quot;Architecture&quot; -&gt; &quot;Component Requirements&quot;;
@@ -144,11 +143,6 @@
 <td><p>100.0%</p></td>
 <td><p>2</p></td>
 <td><p>2</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="failure_modes.html"><span class="doc">Failure Modes</span></a></p></td>
-<td><p>0.0%</p></td>
-<td><p>0</p></td>
-<td><p>1</p></td>
 </tr>
 </tbody>
 </table>
@@ -202,10 +196,9 @@
 <li><p>[PARTIAL — no trace to: Unit Test] <a class="reference internal" href="component_requirements.html#lobster-item-80891cbb59c775eaa8c15e5245323325e36a4b3d"><span class="std std-ref">ConfigProvider.GuardPsNameArgumentBuffer</span></a></p></li>
 <li><p>[PARTIAL — no trace to: Unit Test] <a class="reference internal" href="component_requirements.html#lobster-item-7ede5e36baec3b6d7d19079c8968d06f9435f63a"><span class="std std-ref">ConfigProvider.PassMaxPayloadSizeArg</span></a></p></li>
 <li><p>[MISSING — no trace to: Component Requirements] <a class="reference internal" href="feature_requirements.html#lobster-item-9bab7a089dd452b0b4cb0b0e836667bf94e03f4c"><span class="std std-ref">ConfigManagement.ParameterModification</span></a></p></li>
-<li><p>[MISSING — unknown target: req ConfigDaemonAPI.Method1] <a class="reference internal" href="failure_modes.html#lobster-item-2ab84598964dcc8110c609cac352221b278b25e2"><span class="std std-ref">ConfigDaemon.SampleFailureMode</span></a></p></li>
 <li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-4abaf7ca9197576817ebe9227b30132ef010372c"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToCreateFaultEventReporter</span></a></p></li>
 <li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-07a98f0d4f2df8ef3fe621aff3165d00e37f38c3"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppSettingUmaskFailed</span></a></p></li>
-<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-27b7ef16b80a051de9dc90328414fcb187326047"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToCreateInternalConfigProviderService</span></a></p></li>
+<li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-40765f9a9487e9edbcf066c9e29aa72cf916e5d5"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppRunFailsWhenInternalConfigProviderServiceContainerIsEmpty</span></a></p></li>
 <li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-83c0b5d982056ae09eb4ca09ba62cbc768d7bd7d"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppRunSucceed</span></a></p></li>
 <li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-221deabdd065cf1a393a29467668c104bd4e2677"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToCreatePluginCollector</span></a></p></li>
 <li><p>[MISSING — no upward trace] <a class="reference internal" href="unit_test.html#lobster-item-fbd27fb1a761d97926a3f0762833c242f82c7c49"><span class="std std-ref">ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeSecondPlugin</span></a></p></li>
