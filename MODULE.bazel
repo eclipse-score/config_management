@@ -76,7 +76,7 @@ bazel_dep(name = "score_bazel_cpp_toolchains", version = "1.0.3", dev_dependency
 
 # score_devcontainer 1.11.1 was yanked upstream (retagged release, checksum mismatch);
 # force resolution to the fixed 1.11.2 release.
-bazel_dep(name = "score_devcontainer", version = "1.11.2", dev_dependency = True)
+bazel_dep(name = "score_devcontainer", version = "1.11.3", dev_dependency = True)
 
 gcc = use_extension("@score_bazel_cpp_toolchains//extensions:gcc.bzl", "gcc", dev_dependency = True)
 gcc.toolchain(
