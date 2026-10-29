@@ -169,7 +169,7 @@ git_override(
 )
 
 bazel_dep(name = "score_logging", version = "0.2.4")
-bazel_dep(name = "score_lifecycle", version = "0.7.0")
+bazel_dep(name = "score_lifecycle", version = "0.9.0")
 
 # s-core persistency
 bazel_dep(name = "score_persistency", version = "0.3.5")
