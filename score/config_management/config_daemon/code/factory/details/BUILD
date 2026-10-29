@@ -180,6 +180,7 @@ cc_gtest_unit_test(
             "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
             "//score/config_management/config_daemon/code/plugins/plugin_collector:mock",
             "//score/config_management/config_daemon/code/services:mock",
+            "@rules_cc//cc/runfiles",
             "@score_baselibs//score/language/futurecpp",
         ] + deps,
     )

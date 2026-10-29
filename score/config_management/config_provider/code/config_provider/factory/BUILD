@@ -60,9 +60,8 @@ cc_library(
     hdrs = ["factory_mw_com.h"],
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
-    visibility = [
-        "//score/config_management/config_provider:__subpackages__",
-    ],
+    # Public: consumed externally (e.g. SPP's config_provider_factory_impl alias migration).
+    visibility = ["//visibility:public"],
     deps = [
         ":buffer_size_report",
         ":semi_dynamic_single_instantiation_strategy",
@@ -93,6 +92,7 @@ cc_test(
         ":factory_mw_com",
         "//score/config_management/config_provider/code/persistency:mock",
         "@googletest//:gtest_main",
+        "@rules_cc//cc/runfiles",
         "@score_baselibs//score/json:json_parser",
     ],
 )

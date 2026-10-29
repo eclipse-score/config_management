@@ -19,6 +19,8 @@
 #include "score/mw/com/runtime.h"
 #include "score/mw/com/runtime_configuration.h"
 
+#include "rules_cc/cc/runfiles/runfiles.h"
+
 #include <gtest/gtest.h>
 
 #include <cstdio>
@@ -63,8 +65,16 @@ class ConfigProviderFactoryTest : public ::testing::Test
         buffer_size_report_file.close();
 
         score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
-            "./score/config_management/config_provider/code/proxies/details/mw_com/"
-            "test_mw_com_config.json"};
+            [] {
+                std::string error;
+                // Resolves correctly whether config_management is the root module or an external bzlmod dependency.
+                const std::unique_ptr<rules_cc::cc::runfiles::Runfiles> runfiles{
+                    rules_cc::cc::runfiles::Runfiles::CreateForTest(BAZEL_CURRENT_REPOSITORY, &error)};
+                EXPECT_NE(runfiles, nullptr) << error;
+                return runfiles->Rlocation(
+                    "score_config_management/score/config_management/config_provider/code/proxies/details/mw_com/"
+                    "test_mw_com_config.json");
+            }()};
         score::mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton = CreateService();
