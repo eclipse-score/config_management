@@ -65,11 +65,6 @@ llvm.toolchain(
 )
 use_repo(llvm, "llvm_toolchain", "llvm_toolchain_coverage", "llvm_toolchain_coverage_llvm", "llvm_toolchain_llvm")
 
-register_toolchains(
-    "@llvm_toolchain//:all",
-    dev_dependency = True,
-)
-
 # Score C++ toolchain — used for --config=host_gcc in CI (tests, static-analysis)
 bazel_dep(name = "score_bazel_platforms", version = "1.1.0", dev_dependency = True)
 bazel_dep(name = "score_bazel_cpp_toolchains", version = "1.0.3", dev_dependency = True)
