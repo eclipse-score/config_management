@@ -22,7 +22,7 @@ common --extra_toolchains=//bazel/toolchains:score_config_management_libclang_to
 # Host GCC toolchain — used by CI (tests.yml, static-analysis.yml)
 # score_bazel_cpp_toolchains gcc module extension generates @score_gcc_x86_64_toolchain
 build:host_gcc --extra_toolchains=@score_gcc_x86_64_toolchain//:x86_64-linux-gcc_12.2.0
-build:host_gcc --host_platform=@score_bazel_platforms//:x86_64-linux
+build:host_gcc --host_platform=@score_bazel_platforms//:x86_64-linux-gcc_12.2.0-posix
 # Set target platform to gcc_12.2.0-posix so GCC toolchain's target_compatible_with
 # constraint is satisfied and GCC is actually selected (LLVM is the default otherwise).
 build:host_gcc --platforms=@score_bazel_platforms//:x86_64-linux-gcc_12.2.0-posix
