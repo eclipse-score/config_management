@@ -25,5 +25,4 @@ jobs:
     # cannot silently alter our CI behavior; bump deliberately and re-verify when needed.
     uses: eclipse-score/cicd-workflows/.github/workflows/format.yml@0621768ffa46b58b0fd9606b80f0c67602721816 # main branch (2026-08-10)
     with:
-      # host_gcc links with GCC; the default LLVM ld.lld needs libxml2.so.2, which the runner lacks.
-      bazel-target: "test --test_output=errors --config=host_gcc //:format.check"
+      bazel-target: "test //:format.check" # optional, this is the default
