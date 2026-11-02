@@ -469,7 +469,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:132:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L132>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:133:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L133>`__
 
 .. _lobster-item-1740cd88ca878b14882638584a3ea7eb5f50230f:
 
@@ -479,6 +479,7 @@ Feature Requirements
    .. pull-quote::
 
       The following primitive parameter types shall be supported for parameters:
+      \* {{bool}}
       \* {{sint8}}
       \* {{sint16}}
       \* {{sint32}}
@@ -503,7 +504,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:140:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L140>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:141:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L141>`__
 
 .. _lobster-item-3058a5cff6e5cc36cf6cba3c0f05fc012277c9ec:
 
@@ -528,7 +529,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:158:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L158>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:160:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L160>`__
 
 .. _lobster-item-4b8d30ebf0c9e3afe2fa5d00b1ff7f36fa036f7c:
 
@@ -558,7 +559,7 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:167:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L167>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:169:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L169>`__
 
 .. _lobster-item-27de5489fea41d0480f8e15e14d80de0f97651ec:
 
@@ -588,5 +589,5 @@ Feature Requirements
 
       <hr>
 
-   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:174:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L174>`__
+   **Source:** `requirements/feature\_requirements/feature\_requirements.trlc:176:18 <https://github.com/eclipse-score/config_management/blob/main/requirements/feature_requirements/feature_requirements.trlc#L176>`__
 

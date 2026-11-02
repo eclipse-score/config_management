@@ -67,6 +67,7 @@ Feature Requirements
 .. requirement:definition:: ConfigManagement.SupportedPrimitiveParameterTypes
 
    The following primitive parameter types shall be supported for parameters:
+   * {{bool}}
    * {{sint8}}
    * {{sint16}}
    * {{sint32}}
