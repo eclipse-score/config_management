@@ -43,7 +43,12 @@ cc_library(
     ],
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
-    visibility = ["//visibility:public"],
+    visibility = [
+        "//platform/aas/intc/lifecycle_state_machine:__subpackages__",
+        "//platform/aas/sysfunc/SoftwareUpdate:__subpackages__",
+        "//score/config_management/config_daemon:__subpackages__",
+        "//score/config_management/config_provider:__subpackages__",
+    ],
     deps = [
         ":runtime_sized_array",
         "@score_communication//score/memory/shared:polymorphic_offset_ptr_allocator",

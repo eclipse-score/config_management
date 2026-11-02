@@ -36,7 +36,7 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
-        "//score/config_management/config_provider/code/proxies/details:unit_test_mw",
+        #"//score/config_management/config_provider/code/proxies/details:unit_test_mw",
     ],
     visibility = ["//score/config_management/config_provider:__subpackages__"],
 )

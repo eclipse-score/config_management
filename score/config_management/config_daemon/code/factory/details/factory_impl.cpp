@@ -13,9 +13,12 @@
 
 #include "score/config_management/config_daemon/code/factory/details/factory_impl.h"
 #include "score/config_management/config_daemon/code/factory/details/infrastructure_factory_impl.h"
-#include "score/config_management/config_daemon/code/factory/details/service_factory_impl.h"
 #include "score/config_management/config_daemon/code/plugins/plugin_collector/details/plugin_collector_impl.h"
+#include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_impl.h"
+#include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_reactor_impl.h"
+#include "score/mw/log/logging.h"
 
+#include <score/utility.hpp>
 #include <memory>
 
 namespace score
@@ -25,29 +28,67 @@ namespace config_management
 namespace config_daemon
 {
 
-FactoryImpl::FactoryImpl()
-    : Factory{},
-      service_factory_{std::make_unique<ServiceFactoryImpl>()},
-      infrastructure_factory_{std::make_unique<InfrastructureFactoryImpl>()}
+namespace
 {
-}
+
+const auto kICPServiceInstanceSpecifierName =
+    score::mw::com::InstanceSpecifier::Create(
+        std::string("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort"))
+        .value();
+}  // namespace
+
+FactoryImpl::FactoryImpl() : Factory{}, infrastructure_factory_{std::make_unique<InfrastructureFactoryImpl>()} {}
 
 mw::service::ProvidedServicesContainer FactoryImpl::CreateInternalConfigProviderService(
     const std::shared_ptr<data_model::IParameterSetCollection> read_only_parameter_data_interface) const
 {
-    return service_factory_->CreateInternalConfigProviderService(read_only_parameter_data_interface);
+    auto service_reactor =
+        std::make_unique<InternalConfigProviderServiceReactorImpl>(read_only_parameter_data_interface);
+
+    mw::service::ProvidedServicesContainer services{};
+    auto skeleton_result = InternalConfigProviderSkeleton::Create(kICPServiceInstanceSpecifierName);
+    if (skeleton_result.has_value())
+    {
+        const auto emplace_result = services.Emplace<InternalConfigProviderService>(
+            "InternalConfigProviderService", std::move(service_reactor), std::move(skeleton_result).value());
+        if (!emplace_result.has_value())
+        {
+            mw::log::LogError() << "FactoryImpl::" << __func__
+                                << ": Failed to start InternalConfigProviderService:" << emplace_result.error();
+        }
+    }
+    else
+    {
+        mw::log::LogError() << "FactoryImpl::" << __func__
+                            << ": Failed to create InternalConfigProviderSkeleton:" << skeleton_result.error();
+    }
+    return services;
 }
 
 LastUpdatedParameterSetSender FactoryImpl::CreateLastUpdatedParameterSetSender(
     mw::service::ProvidedServicesContainer& services)
 {
-    return service_factory_->CreateLastUpdatedParameterSetSender(services);
+    if (auto* const service = services.Get<IInternalConfigProviderService>(); service != nullptr)
+    {
+        return [service](const std::string_view parameter_set_name) noexcept -> bool {
+            return service->SendLastUpdatedParameterSet(parameter_set_name);
+        };
+    }
+    return [](const std::string_view) noexcept -> bool {
+        return false;
+    };
 }
 
 InitialQualifierStateSender FactoryImpl::CreateInitialQualifierStateSender(
     mw::service::ProvidedServicesContainer& services)
 {
-    return service_factory_->CreateInitialQualifierStateSender(services);
+    if (auto* const service = services.Get<IInternalConfigProviderService>(); service != nullptr)
+    {
+        return [service](const config_daemon::InitialQualifierState initial_qualifier_state) noexcept -> void {
+            service->SetInitialQualifierState(initial_qualifier_state);
+        };
+    }
+    return [](const config_daemon::InitialQualifierState) noexcept -> void {};
 }
 
 std::shared_ptr<data_model::IParameterSetCollectionManager> FactoryImpl::CreateParameterSetCollectionManager(

@@ -17,7 +17,7 @@
 #include "score/config_management/config_provider/code/config_provider/factory/buffer_size_report.h"
 #include "score/config_management/config_provider/code/config_provider/factory/semi_dynamic_single_instantiation_strategy.h"
 #include "score/config_management/config_provider/code/persistency/details/persistency_impl.h"
-#include "score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl.h"
+#include "score/config_management/config_provider/code/proxies/details/internal_config_provider_impl.h"
 #include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
 
 #include "score/json/json_parser.h"
@@ -50,12 +50,6 @@ class ConfigProviderFactory final
   public:
     ConfigProviderFactory();
 
-    /// @param buffer_size_report_path Overrides where buffer_size_report.json is read from (see
-    /// BufferSizeReport::GetMaxBufferSizeInfo()). Only needed by callers that can't rely on the production
-    /// default (kDefaultBufferSizeReportPath) resolving correctly - e.g. in-process SCT test bindings that run
-    /// outside of sctf's sandboxed mount namespace and must instead point at their own deployed copy.
-    explicit ConfigProviderFactory(std::string_view buffer_size_report_path);
-
     ~ConfigProviderFactory() = default;
     ConfigProviderFactory(ConfigProviderFactory&&) = delete;
     ConfigProviderFactory(const ConfigProviderFactory&) = delete;
@@ -63,13 +57,18 @@ class ConfigProviderFactory final
     ConfigProviderFactory& operator=(ConfigProviderFactory&&) & = delete;
     ConfigProviderFactory& operator=(const ConfigProviderFactory&) & = delete;
 
+    /// @param buffer_size_report_path Overrides where buffer_size_report.json is read from (see
+    /// BufferSizeReport::GetMaxBufferSizeInfo()). Only needed by callers that can't rely on the production
+    /// default (kDefaultBufferSizeReportPath) resolving correctly - e.g. in-process SCT test bindings that run
+    /// outside of sctf's sandboxed mount namespace and must instead point at their own deployed copy.
     template <typename InternalConfigProviderPort>
     score::cpp::pmr::unique_ptr<ConfigProvider> Create(
         score::cpp::stop_token token,
         std::chrono::milliseconds timeout,
         const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        IsAvailableNotificationCallback&& callback = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
+        std::string_view buffer_size_report_path = kDefaultBufferSizeReportPath) const
     {
         return CreateInternal<InternalConfigProviderPort>(token,
                                                           timeout,
@@ -78,16 +77,19 @@ class ConfigProviderFactory final
                                                           memory_resource,
                                                           std::move(callback),
                                                           score::cpp::pmr::make_unique<PersistencyImpl>(memory_resource),
-                                                          initial_parameter_set_name_list);
+                                                          initial_parameter_set_name_list,
+                                                          buffer_size_report_path);
     }
 
+    /// @param buffer_size_report_path See the other Create() overload's parameter of the same name.
     template <typename InternalConfigProviderPort>
     score::cpp::pmr::unique_ptr<ConfigProvider> Create(
         score::cpp::stop_token token,
         score::cpp::pmr::unique_ptr<Persistency> persistency,
         const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        IsAvailableNotificationCallback&& callback = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
+        std::string_view buffer_size_report_path = kDefaultBufferSizeReportPath) const
     {
         return CreateInternal<InternalConfigProviderPort>(token,
                                                           std::chrono::milliseconds(0U),
@@ -96,7 +98,8 @@ class ConfigProviderFactory final
                                                           memory_resource,
                                                           std::move(callback),
                                                           std::move(persistency),
-                                                          initial_parameter_set_name_list);
+                                                          initial_parameter_set_name_list,
+                                                          buffer_size_report_path);
     }
 
     template <typename InternalConfigProviderPort>
@@ -119,7 +122,8 @@ class ConfigProviderFactory final
                                                           memory_resource,
                                                           std::move(callback),
                                                           score::cpp::pmr::make_unique<PersistencyImpl>(memory_resource),
-                                                          score::cpp::nullopt);
+                                                          score::cpp::nullopt,
+                                                          kDefaultBufferSizeReportPath);
     }
 
     template <typename InternalConfigProviderPort>
@@ -142,7 +146,8 @@ class ConfigProviderFactory final
                                                           memory_resource,
                                                           std::move(callback),
                                                           std::move(persistency),
-                                                          score::cpp::nullopt);
+                                                          score::cpp::nullopt,
+                                                          kDefaultBufferSizeReportPath);
     }
 
     template <typename InternalConfigProviderPort>
@@ -163,7 +168,8 @@ class ConfigProviderFactory final
                                                           memory_resource,
                                                           std::move(callback),
                                                           score::cpp::pmr::make_unique<PersistencyImpl>(memory_resource),
-                                                          score::cpp::nullopt);
+                                                          score::cpp::nullopt,
+                                                          kDefaultBufferSizeReportPath);
     }
 
     template <typename InternalConfigProviderPort>
@@ -184,7 +190,8 @@ class ConfigProviderFactory final
                                                           memory_resource,
                                                           std::move(callback),
                                                           std::move(persistency),
-                                                          score::cpp::nullopt);
+                                                          score::cpp::nullopt,
+                                                          kDefaultBufferSizeReportPath);
     }
 
   private:
@@ -197,7 +204,8 @@ class ConfigProviderFactory final
         score::cpp::pmr::memory_resource* const memory_resource,
         IsAvailableNotificationCallback&& callback,
         score::cpp::pmr::unique_ptr<Persistency> persistency,
-        score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list) const
+        score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list,
+        std::string_view buffer_size_report_path) const
     {
         using InternalConfigProviderStrategy =
             SemiDynamicSingleInstantiationStrategy<IInternalConfigProvider,
@@ -216,7 +224,7 @@ class ConfigProviderFactory final
         const auto shm_sizing_result = BufferSizeReport::GetMaxBufferSizeInfo(initial_parameter_set_name_list,
                                                                               memory_resource,
                                                                               std::make_shared<json::JsonParser>(),
-                                                                              buffer_size_report_path_);
+                                                                              buffer_size_report_path);
         // Falling back to conservative default sizes (rather than returning nullptr) keeps ConfigProvider usable
         // even if buffer_size_report.json is missing or malformed. kMinParameterSetContentBufferSize is a true
         // floor - always big enough for the skeleton's sentinel content - but there is no equivalent bound for
@@ -270,7 +278,6 @@ class ConfigProviderFactory final
     }
 
     mw::log::Logger& logger_;
-    std::string buffer_size_report_path_;
 };
 
 }  // namespace config_provider

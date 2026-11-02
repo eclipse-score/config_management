@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#include "score/config_management/config_daemon/code/services/details/mw_com/internal_config_provider_service_impl.h"
+#include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_impl.h"
 
 #include "score/mw/log/logging.h"
 

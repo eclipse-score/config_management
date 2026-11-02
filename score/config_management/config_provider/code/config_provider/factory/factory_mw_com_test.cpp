@@ -12,6 +12,7 @@
 // *******************************************************************************
 #include "score/config_management/config_provider/code/config_provider/factory/factory_mw_com.h"
 #include "score/config_management/config_provider/code/persistency/persistency_mock.h"
+#include "score/config_management/config_provider/code/proxies/details/test_mw_com_config_json.h"
 #include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
 
 #include "score/json/json_parser.h"
@@ -42,7 +43,12 @@ struct DummyPort
     }
 };
 
-const std::string kICPSpecifier{"ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppRPort"};
+// test_mw_com_config.json now declares two separate serviceInstances entries:
+// the PPort instance (events/fields/methods, offered by the skeleton below) and the RPort instance (methods only,
+// consumed via DummyPort above by ConfigProviderFactory::Create<DummyPort>() as the proxy side). The skeleton must
+// use the PPort specifier - it's the only entry that actually declares last_updated_parameter_set/
+// initial_qualifier_state in its LolaServiceInstanceDeployment.
+const std::string kICPSpecifier{"ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppPPort"};
 using MwComSkeleton = score::mw::com::AsSkeleton<score::config_management::config_daemon::InternalConfigProviderInterface>;
 using MwComInitialQualifierStateType = score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState;
 
@@ -62,9 +68,15 @@ class ConfigProviderFactoryTest : public ::testing::Test
         buffer_size_report_file << R"({"buffer_size_mapping": {"DummyParameterSet": 16425}})";
         buffer_size_report_file.close();
 
-        score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
-            "./score/config_management/config_provider/code/proxies/details/mw_com/"
-            "test_mw_com_config.json"};
+        // Written to a temp file so no runfiles or working-directory-relative path is needed.
+        const std::string config_path =
+            std::string{test_tmpdir != nullptr ? test_tmpdir : "/tmp"} + "/test_mw_com_config.json";
+        {
+            std::ofstream config_file{config_path};
+            config_file << kTestMwComConfigJson;
+            ASSERT_TRUE(config_file.good()) << "Cannot write " << config_path;
+        }
+        score::mw::com::runtime::RuntimeConfiguration runtime_configuration{config_path};
         score::mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton = CreateService();
@@ -112,7 +124,7 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_DefaultPolling_NoPersiste
         "Description",
         "This test verifies successful creation of default polling without persistency via config provider factory.");
     // Given that no persistency or polling related parameters are provided during creation
-    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{buffer_size_report_path};
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{};
     auto config_provider =
         config_provider_factory.Create<DummyPort>({},                                // default stop_token
                                                   std::chrono::milliseconds(0U),     // zero timeout
@@ -121,6 +133,8 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_DefaultPolling_NoPersiste
         );
     // Expect that a valid ConfigProvider object still can be created.
     ASSERT_NE(nullptr, config_provider) << "Factory did not return a valid ConfigProvider object";
+    EXPECT_NE(nullptr, dynamic_cast<ConfigProviderImpl*>(config_provider.get()))
+        << "ConfigProvider object is not a ConfigProviderImpl instance";
 }
 
 TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_CustomPolling_NoPersistency)
@@ -133,7 +147,7 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_CustomPolling_NoPersisten
         "Description",
         "This test verifies successful creation of custom polling without persistency via config provider factory.");
     // Given that polling related parameters is provided, but no persistency is provided during creation
-    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{buffer_size_report_path};
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{};
     auto config_provider =
         config_provider_factory.Create<DummyPort>({},                             // default stop_token
                                                   std::chrono::milliseconds(0U),  // zero timeout
@@ -144,6 +158,8 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_CustomPolling_NoPersisten
         );
     // Expect that a valid ConfigProvider object still can be created.
     ASSERT_NE(nullptr, config_provider) << "Factory did not return a valid ConfigProvider object";
+    EXPECT_NE(nullptr, dynamic_cast<ConfigProviderImpl*>(config_provider.get()))
+        << "ConfigProvider object is not a ConfigProviderImpl instance";
 }
 
 TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_DefaultPolling_Persistency)
@@ -156,7 +172,7 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_DefaultPolling_Persistenc
                    "This test verifies successful creation of default polling with valid persistency via config "
                    "provider factory.");
     // Given that persistency is provided, but no polling related parameters is provided during creation
-    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{buffer_size_report_path};
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{};
     auto persistency_mock = score::cpp::pmr::make_unique<PersistencyMock>(score::cpp::pmr::get_default_resource());
     auto config_provider =
         config_provider_factory.Create<DummyPort>({},                                // default stop_token
@@ -166,6 +182,8 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_DefaultPolling_Persistenc
         );
     // Expect that a valid ConfigProvider object still can be created.
     ASSERT_NE(nullptr, config_provider) << "Factory did not return a valid ConfigProvider object";
+    EXPECT_NE(nullptr, dynamic_cast<ConfigProviderImpl*>(config_provider.get()))
+        << "ConfigProvider object is not a ConfigProviderImpl instance";
 }
 
 TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_CustomPolling_Persistency)
@@ -178,7 +196,7 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_CustomPolling_Persistency
         "Description",
         "This test verifies successful creation of custom polling with valid persistency via config provider factory.");
     // Given that both persistency and polling related parameters are provided during creation
-    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{buffer_size_report_path};
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{};
     auto persistency_mock = score::cpp::pmr::make_unique<PersistencyMock>(score::cpp::pmr::get_default_resource());
     auto config_provider =
         config_provider_factory.Create<DummyPort>({},                           // default stop_token
@@ -190,6 +208,8 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_CustomPolling_Persistency
         );
     // Expect that a valid ConfigProvider object still can be created.
     ASSERT_NE(nullptr, config_provider) << "Factory did not return a valid ConfigProvider object";
+    EXPECT_NE(nullptr, dynamic_cast<ConfigProviderImpl*>(config_provider.get()))
+        << "ConfigProvider object is not a ConfigProviderImpl instance";
 }
 
 TEST_F(ConfigProviderFactoryTest, FoundServiceDuringCreation)
@@ -204,7 +224,7 @@ TEST_F(ConfigProviderFactoryTest, FoundServiceDuringCreation)
                    "23162623: This test ensures that callback is triggered when service becomes available");
 
     // Given the service can be found during creation
-    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{buffer_size_report_path};
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{};
     std::atomic<bool> callback_is_called_upon_found{false};
     std::condition_variable callback_cv;
     std::mutex callback_mutex;
@@ -235,15 +255,19 @@ TEST_F(ConfigProviderFactoryTest, CreateConfigProvider_MissingBufferSizeReport_F
                    "(falling back to default buffer sizes instead of returning nullptr) when "
                    "buffer_size_report.json cannot be found.");
     // Given that buffer_size_report_path points at a file that does not exist
-    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{buffer_size_report_path + "_missing"};
-    auto config_provider =
-        config_provider_factory.Create<DummyPort>({},                                // default stop_token
-                                                  std::chrono::milliseconds(0U),     // zero timeout
-                                                  score::cpp::pmr::get_default_resource(),  // default memory resource
-                                                  []() noexcept {}                   // empty callback
-        );
+    score::config_management::config_provider::ConfigProviderFactory config_provider_factory{};
+    auto config_provider = config_provider_factory.Create<DummyPort>(
+        {},                                    // default stop_token
+        std::chrono::milliseconds(0U),         // zero timeout
+        score::cpp::pmr::vector<std::string_view>{},  // empty parameter set name list
+        score::cpp::pmr::get_default_resource(),      // default memory resource
+        []() noexcept {},                      // empty callback
+        buffer_size_report_path + "_missing"   // path to a non-existent file
+    );
     // Then a valid ConfigProvider object is still created, using default buffer sizes instead of failing entirely.
     ASSERT_NE(nullptr, config_provider) << "Factory did not fall back to default buffer sizes as expected";
+    EXPECT_NE(nullptr, dynamic_cast<ConfigProviderImpl*>(config_provider.get()))
+        << "ConfigProvider object is not a ConfigProviderImpl instance";
 }
 
 }  // namespace test

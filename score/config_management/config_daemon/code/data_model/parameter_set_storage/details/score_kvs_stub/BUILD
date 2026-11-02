@@ -14,8 +14,8 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
 # Stub replacements for score-persistency headers (kvs.hpp / kvsbuilder.hpp / kvsvalue.hpp).
-# Used when compiling score-variant source files (e.g. factory_mw_com_impl.cpp,
-# parameter_set_storage_score_impl.cpp) under the SPP toolchain where the real
+# Used when compiling score-variant source files (e.g. parameter_set_storage_score_impl.cpp)
+# under the SPP toolchain where the real
 # score-baselibs / score-persistency headers would cause namespace clashes.
 #
 # The stubs expose exactly the same types and method signatures used by those files

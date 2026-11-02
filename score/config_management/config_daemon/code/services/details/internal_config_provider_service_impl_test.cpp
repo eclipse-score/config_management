@@ -11,12 +11,15 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#include "score/config_management/config_daemon/code/services/details/mw_com/internal_config_provider_service_impl.h"
+#include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_impl.h"
+#include "score/config_management/config_daemon/code/services/details/mw_com_config_json.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service_reactor_mock.h"
 #include "score/mw/com/runtime.h"
 #include "score/mw/com/runtime_configuration.h"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <fstream>
 #include <memory>
 
 namespace score
@@ -38,8 +41,14 @@ class InternalConfigProviderServiceMwComTest : public ::testing::Test
   protected:
     static void SetUpTestSuite()
     {
-        score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
-            "./score/config_management/config_daemon/config/mw_com_config.json"};
+        // Written to a temp file so no runfiles or working-directory-relative path is needed.
+        const std::string config_path = testing::TempDir() + "mw_com_config.json";
+        {
+            std::ofstream config_file{config_path};
+            config_file << kMwComConfigJson;
+            ASSERT_TRUE(config_file.good()) << "Cannot write " << config_path;
+        }
+        score::mw::com::runtime::RuntimeConfiguration runtime_configuration{config_path};
         score::mw::com::runtime::InitializeRuntime(runtime_configuration);
     }
     void SetUp() override
