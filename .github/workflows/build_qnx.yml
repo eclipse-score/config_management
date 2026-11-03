@@ -36,7 +36,7 @@ jobs:
             bazel-test-target: >-
               //score/config_management/config_daemon/code/app/details:unit_test //score/config_management/config_daemon/code/data_model/details:unit_test //score/config_management/config_daemon/code/data_model/details:unit_test_manager //score/config_management/config_daemon/code/data_model/error:unit_test //score/config_management/config_daemon/code/data_model/parameter_set_storage/details:unit_test //score/config_management/config_daemon/code/data_model/parameter_set_storage/details:unit_test_score //score/config_management/config_daemon/code/data_model/parameter_set_storage/error:unit_test //score/config_management/config_daemon/code/fault_event_reporter/details:score_impl_unit_test //score/config_management/config_daemon/code/plugins/demo_json/details:demo_json_plugin_impl_test //score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:demo_parameter_loader_impl_test //score/config_management/config_daemon/code/plugins/demo_json/plugin_creator:demo_json_plugin_creator_test //score/config_management/config_daemon/code/plugins/plugin_collector/details:unit_test //score/config_management/config_daemon/code/services/details/mw_com:unit_test //score/config_management/config_daemon/code/services/details:unit_test //score/config_management/config_provider/code/config_provider/error:unit_test //score/config_management/config_provider/code/parameter_set:unit_test //score/config_management/config_provider/code/persistency/details:unit_test //score/config_management/config_provider/code/persistency/error:unit_test //score/config_management/config_provider/code/proxies/details:unit_test_mw //tests/cpp:cpp_test_main
             extra-bazel-test-flags: "--test_timeout=120,600,1800,7200"
-    uses: eclipse-score/cicd-workflows/.github/workflows/qnx-build.yml@6e412c740f3d97e50354cd95fbf3b902de134e5e # main branch (2026-10-13)
+    uses: eclipse-score/cicd-workflows/.github/workflows/qnx-build.yml@5d0175286293af3d26617db2422ee5267c4dda9a # main branch (2026-10-28)
     permissions:
       contents: read
       pull-requests: read
@@ -51,6 +51,9 @@ jobs:
       extra-bazel-test-flags: ${{ matrix.extra-bazel-test-flags }}
       credential-helper: "scripts/internal/qnx_creds.py"
       bazel-disk-cache: ${{ matrix.bazel-config }}
+      # Both matrix legs download the QNX SDP from qnx.com at once; default 3x30s retries were not enough.
+      fetch-attempts: 5
+      fetch-retry-delay: 120
     secrets:
       score-qnx-license: ${{ secrets.SCORE_QNX_LICENSE }}
       score-qnx-user: ${{ secrets.SCORE_QNX_USER }}
