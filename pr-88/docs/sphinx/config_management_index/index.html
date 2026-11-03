@@ -13,11 +13,11 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_style.css?v=92936fa5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_style.css?v=92936fa5" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-needs/modern.css?v=803738c0" />
 
   
@@ -93,62 +93,70 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="assumed_system.html">Assumed System</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="assumed_system_requirements/assumed_system_requirements.html">Assumed System Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="assumptions_of_use/assumptions_of_use.html">Assumptions of Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assumed_system_requirements/_main/requirements/assumed_system_requirements/assumed_system_requirements/assumed_system_requirements.html">Assumed System Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assumptions_of_use/_main/requirements/safety_analysis/assumptions_of_use/assumptions_of_use.html">Assumptions of Use</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="software_arch.html">Software Architectural Level</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="feature_requirements/feature_requirements/feature_requirements.html">Feature Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_requirements/_main/requirements/feature_requirements/feature_requirements/feature_requirements/feature_requirements.html">Feature Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="software_arch.html#static-design">Static Design</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="architectural_design/static_design.html">Static Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architectural_design/_main/score/config_management/dependability/software_architectural_design/software_architectural_design/static/static_design.html">Static Design</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="software_arch.html#dependability-analysis">Dependability Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dependability_analysis/_main/requirements/safety_analysis/dependability_analysis/safety_analysis.html">safety_analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dependability_analysis/_main/requirements/safety_analysis/dependability_analysis/safety_analysis.html#failure-modes">Failure Modes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dependability_analysis/_main/requirements/safety_analysis/dependability_analysis/safety_analysis.html#safety-measures">Safety Measures</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="components.html">Components</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="components/config_daemon_component.html">config_daemon_component</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="components/config_daemon_component.html#component-requirements">Component Requirements</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="components/config_daemon_component_requirements/component_requirements.html">Component Requirements</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="components/config_daemon_component_requirements/component_requirements.html#application">Application</a><ul>
-<li class="toctree-l6"><a class="reference internal" href="components/config_daemon_component_requirements/component_requirements.html#applicationstages">ApplicationStages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/index.html"><code class="docutils literal notranslate"><span class="pre">//score/config_management/dependability:config_daemon_component</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/index.html#component-requirements">Component Requirements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/requirements/component_requirements.html">Component Requirements</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/requirements/component_requirements.html#application">Application</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/requirements/component_requirements.html#applicationstages">ApplicationStages</a></li>
 </ul>
 </li>
-<li class="toctree-l5"><a class="reference internal" href="components/config_daemon_component_requirements/component_requirements.html#parametersetservice">ParameterSetService</a></li>
-<li class="toctree-l5"><a class="reference internal" href="components/config_daemon_component_requirements/component_requirements.html#datamodel">DataModel</a><ul>
-<li class="toctree-l6"><a class="reference internal" href="components/config_daemon_component_requirements/component_requirements.html#datamodel-integrity">DataModel Integrity</a></li>
-<li class="toctree-l6"><a class="reference internal" href="components/config_daemon_component_requirements/component_requirements.html#supportedparametertypes">SupportedParameterTypes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/requirements/component_requirements.html#parametersetservice">ParameterSetService</a></li>
+<li class="toctree-l5"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/requirements/component_requirements.html#datamodel">DataModel</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/requirements/component_requirements.html#datamodel-integrity">DataModel Integrity</a></li>
+<li class="toctree-l6"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/requirements/component_requirements.html#supportedparametertypes">SupportedParameterTypes</a></li>
 </ul>
 </li>
-<li class="toctree-l5"><a class="reference internal" href="components/config_daemon_component_requirements/component_requirements.html#plugins">Plugins</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="components/config_daemon_component.html#units">Units</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="units/config_daemon_app_unit.html">config_daemon_app_unit</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="units/config_daemon_app_unit.html#implementation">Implementation</a></li>
-<li class="toctree-l5"><a class="reference internal" href="units/config_daemon_app_unit.html#tests">Tests</a></li>
+<li class="toctree-l5"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/requirements/component_requirements.html#plugins">Plugins</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="components/_main/score/config_management/dependability/config_daemon_component/index.html#units">Units</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="units/_main/score/config_management/config_daemon/code/app/details/config_daemon_app_unit/index.html"><code class="docutils literal notranslate"><span class="pre">//score/config_management/config_daemon/code/app/details:config_daemon_app_unit</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="units/_main/score/config_management/config_daemon/code/app/details/config_daemon_app_unit/index.html#implementation">Implementation</a></li>
+<li class="toctree-l5"><a class="reference internal" href="units/_main/score/config_management/config_daemon/code/app/details/config_daemon_app_unit/index.html#tests">Tests</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="components/config_provider_component.html">config_provider_component</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="components/config_provider_component.html#component-requirements">Component Requirements</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html">Component Requirements</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#configprovider-component-requirements">ConfigProvider_Component_Requirements</a><ul>
-<li class="toctree-l6"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#config-provider">config_provider</a><ul>
-<li class="toctree-l7"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#notification">Notification</a></li>
-<li class="toctree-l7"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#parameterset-access">ParameterSet_Access</a></li>
-<li class="toctree-l7"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#connection-management">Connection_Management</a></li>
-<li class="toctree-l7"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#initialqualifierstate-management">InitialQualifierState_Management</a></li>
-<li class="toctree-l7"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#error-handling">Error_Handling</a></li>
 </ul>
 </li>
-<li class="toctree-l6"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#parameter-set">parameter_set</a></li>
-<li class="toctree-l6"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#proxies">proxies</a><ul>
-<li class="toctree-l7"><a class="reference internal" href="components/config_provider_component_requirements/component_requirements.html#internalconfigprovider">InternalConfigProvider</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/index.html"><code class="docutils literal notranslate"><span class="pre">//score/config_management/dependability:config_provider_component</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/index.html#component-requirements">Component Requirements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html">Component Requirements</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#configprovider-component-requirements">ConfigProvider_Component_Requirements</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#config-provider">config_provider</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#notification">Notification</a></li>
+<li class="toctree-l7"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#parameterset-access">ParameterSet_Access</a></li>
+<li class="toctree-l7"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#connection-management">Connection_Management</a></li>
+<li class="toctree-l7"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#initialqualifierstate-management">InitialQualifierState_Management</a></li>
+<li class="toctree-l7"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#error-handling">Error_Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#parameter-set">parameter_set</a></li>
+<li class="toctree-l6"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#proxies">proxies</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="components/_main/score/config_management/dependability/config_provider_component/requirements/component_requirements.html#internalconfigprovider">InternalConfigProvider</a></li>
 </ul>
 </li>
 </ul>
