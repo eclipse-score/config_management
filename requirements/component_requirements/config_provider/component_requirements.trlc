@@ -42,7 +42,7 @@ section "ConfigProvider_Component_Requirements" {
             ScoreReq.CompReq OnChangedParameterSetNotInvokedForSameData {
                 description = '''The user application shall be notified not only when the Parameter Set's value changed but also when its {{ParameterSetQualifier}} changed.'''
 
-                safety = ScoreReq.Asil.QM
+                safety = ScoreReq.Asil.B
                 derived_from = [ConfigManagement.ParameterSetAccess@1, ConfigManagement.ParameterSetQualifier@1, ConfigManagement.CompleteParameterSets@1]
                 version = 1
             }
@@ -56,7 +56,7 @@ section "ConfigProvider_Component_Requirements" {
 
             ScoreReq.CompReq BatchParameterSetRetrieval {
                 description = '''{{ConfigProvider}} shall enable retrieval of multiple Parameter Sets in a single request.'''
-                safety = ScoreReq.Asil.QM
+                safety = ScoreReq.Asil.B
                 derived_from = [ConfigManagement.ConfigProviderInterface@1, ConfigManagement.CompleteParameterSets@1]
                 version = 1
             }
@@ -140,14 +140,14 @@ section "ConfigProvider_Component_Requirements" {
 
             ScoreReq.CompReq DefinitionMaxArgument {
                 description = '''User specific maximal parameter set name length to be used as method argument shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration `buffer_size_needs.json`. If there is no valid input for parameter set list provided, maximal length shall be the one of the overall longest parameter set name from the buffer needs configuration.'''
-                safety = ScoreReq.Asil.QM
+                safety = ScoreReq.Asil.B
                 derived_from = [ConfigManagement.ParameterSetAquisitionAvailability@1]
                 version = 1
             }
 
             ScoreReq.CompReq DefinitionUserSpecificMaxRetValue {
                 description = '''User specific largest parameter set payload to be used as maximal method return value shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration `buffer_size_needs.json`. If there is no valid input for parameter set list provided, largest parameter set payload size shall be the one of the overall largest parameter set payload from the buffer needs configuration.'''
-                safety = ScoreReq.Asil.QM
+                safety = ScoreReq.Asil.B
                 derived_from = [ConfigManagement.ParameterSetAquisitionAvailability@1]
                 version = 1
             }
@@ -156,28 +156,28 @@ section "ConfigProvider_Component_Requirements" {
                 description = '''Memory buffer needs shall be passed as `additional_shm_size` argument to proxy construction method. The needs are equal to the sum of:
                 * User specific maximal parameter set name length, and
                 * User specific largest parameter set payload size.'''
-                safety = ScoreReq.Asil.QM
+                safety = ScoreReq.Asil.B
                 derived_from = [ConfigManagement.ParameterSetAquisitionAvailability@1]
                 version = 1
             }
 
             ScoreReq.CompReq ReservePsNameArgumentBuffer {
                 description = '''User specific maximal parameter set name length shall be reserved exactly once as memory buffer for the `parameter set name` method's argument.'''
-                safety = ScoreReq.Asil.QM
+                safety = ScoreReq.Asil.B
                 derived_from = [ConfigManagement.ParameterSetAquisitionAvailability@1]
                 version = 1
             }
 
             ScoreReq.CompReq GuardPsNameArgumentBuffer {
                 description = '''Parameter set name shall only be passed as argument if it's smaller or equal to the user specific maximal parameter set name length. Otherwise, no method calls with this parameter set name shall take place and an error shall be raised.'''
-                safety = ScoreReq.Asil.QM
+                safety = ScoreReq.Asil.B
                 derived_from = [ConfigManagement.ParameterSetAquisitionAvailability@1]
                 version = 1
             }
 
             ScoreReq.CompReq PassMaxPayloadSizeArg {
                 description = '''Client shall pass the user specific largest parameter set payload size to server as argument of GetParameterSet() method of InternalConfigProvider service.'''
-                safety = ScoreReq.Asil.QM
+                safety = ScoreReq.Asil.B
                 derived_from = [ConfigManagement.ParameterSetAquisitionAvailability@1]
                 version = 1
             }
