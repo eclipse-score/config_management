@@ -127,14 +127,14 @@ section "ParameterSetService" {
 
     ScoreReq.CompReq ReservePayloadRetValueBuffer {
         description = '''User specific largest parameter set payload size shall be reserved exactly once as memory buffer for the {{parameter set payload}} as method's return value on the first invocation of its registered handler for {{GetParameterSet()}} method.'''
-        safety = ScoreReq.Asil.QM
+        safety = ScoreReq.Asil.B
         derived_from = [ConfigManagement.ParameterSetAquisitionAvailability@1]
         version = 1
     }
 
     ScoreReq.CompReq GuardPayloadRetValueBuffer {
         description = '''Parameter set payload shall only be passed as return value if it's smaller or equal to the user specific largest parameter set payload size. Otherwise, method call shall be replied with an empty return value, and an error shall be raised.'''
-        safety = ScoreReq.Asil.QM
+        safety = ScoreReq.Asil.B
         derived_from = [ConfigManagement.ParameterSetAquisitionAvailability@1]
         version = 1
     }

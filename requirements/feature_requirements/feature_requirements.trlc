@@ -122,7 +122,7 @@ ScoreReq.FeatReq ParameterInitialQualifier {
 
 ScoreReq.FeatReq ParameterSetAquisitionAvailability {
     description = "Parameter set acquisition method shall be used in a controlled way to prevent any application termination as cause of communication misconfiguration."
-    safety = ScoreReq.Asil.QM
+    safety = ScoreReq.Asil.B
     // Todo: Should derive from Communication.Dependability.Safety.MonotonicSemiDynamicMemoryAllocation@1.
     derived_from = [AssumedSystemRequirements.SafeConfiguration@1]
     version = 1
@@ -132,7 +132,7 @@ ScoreReq.FeatReq ParameterSetAquisitionAvailability {
 /* broken_link_c/issue/15804755 */
 ScoreReq.FeatReq CompleteParameterSets {
     description = """The interface between parameter provider and application shall only exchange complete Parameter Sets."""
-    safety = ScoreReq.Asil.QM
+    safety = ScoreReq.Asil.B
     derived_from = [AssumedSystemRequirements.SafeConfiguration@1]
     version = 1
 }
