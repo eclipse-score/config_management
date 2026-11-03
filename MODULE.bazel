@@ -71,7 +71,7 @@ bazel_dep(name = "score_bazel_cpp_toolchains", version = "1.0.3", dev_dependency
 
 # score_devcontainer 1.11.1 was yanked upstream (retagged release, checksum mismatch);
 # force resolution to the fixed 1.11.2 release.
-bazel_dep(name = "score_devcontainer", version = "1.11.2", dev_dependency = True)
+bazel_dep(name = "score_devcontainer", version = "1.11.4", dev_dependency = True)
 
 gcc = use_extension("@score_bazel_cpp_toolchains//extensions:gcc.bzl", "gcc", dev_dependency = True)
 gcc.toolchain(
@@ -109,7 +109,7 @@ use_repo(
 )
 
 # UTs on QNX — run_under wrapper that boots QEMU
-bazel_dep(name = "score_qnx_unit_tests", version = "0.2.0", dev_dependency = True)
+bazel_dep(name = "score_qnx_unit_tests", version = "0.3.0", dev_dependency = True)
 bazel_dep(name = "score_rules_imagefs", version = "0.1.0", dev_dependency = True)
 
 imagefs = use_extension("@score_rules_imagefs//extensions:imagefs.bzl", "imagefs", dev_dependency = True)
