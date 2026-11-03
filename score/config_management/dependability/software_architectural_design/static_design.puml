@@ -11,16 +11,16 @@
 ' SPDX-License-Identifier: Apache-2.0
 ' *******************************************************************************
 
-@startuml
+@startuml static_design
 
-component "Config Management" as config_management <<SEooC>> {
+component config_management <<SEooC>> {
 
-    component "Config Daemon" as config_daemon_component <<component>> {
-        component "App" as config_daemon_app_unit <<unit>>
+    component config_daemon_component <<component>> {
+        component config_daemon_app_unit <<unit>>
     }
 
-    component "Config Provider" as config_provider_component <<component>> {
-        component "Details" as config_provider_details_unit <<unit>>
+    component config_provider_component <<component>> {
+        component config_provider_details_unit <<unit>>
     }
 
 }

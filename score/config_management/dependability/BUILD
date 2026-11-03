@@ -41,7 +41,6 @@ component(
 dependable_element(
     name = "config_management",
     architectural_design = ["//score/config_management/dependability/software_architectural_design:software_architectural_design"],
-    assumptions_of_use = ["//requirements/safety_analysis:assumptions_of_use"],
     components = [
         ":config_daemon_component",
         ":config_provider_component",

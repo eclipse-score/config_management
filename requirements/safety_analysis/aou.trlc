@@ -17,6 +17,5 @@ import ScoreReq
 ScoreReq.AoU SampleAoU {
     description = "It shall be made sure that this SampleAoU never ends up anywhere"
     safety = ScoreReq.Asil.B
-    mitigates = "ShmemCreatedWrongName"
     version = 1
 }
