@@ -55,7 +55,7 @@ const auto kInstanceSpecifier = score::mw::com::InstanceSpecifier::Create(kPortI
 
 /// @brief Own, minimal fake for the `MwComProxy` template parameter of `SemiDynamicSingleInstantiationStrategy`.
 ///
-/// @details `SemiDynamicSingleInstantiationStrategy::Find()` routes proxy creation through
+/// @details `SemiDynamicSingleInstantiationStrategy::StartFind()` routes proxy creation through
 ///          `score::mw::com::impl::ProxyWithSemiDynamicMethodFactory<MwComProxy>::Create`, which is hard-coded to
 ///          take a `score::mw::com::impl::HandleType` (the real, vendored library type) rather than
 ///          `MwComProxy::HandleType`. Consequently, `HandleType` must alias the real library type for this fake to
@@ -234,25 +234,25 @@ TEST_F(SemiDynamicSingleInstantiationStrategyFixture, StartAndStopFindServiceAre
     EXPECT_CALL(proxy_mock, StartFindService(_, _)).Times(0);
     EXPECT_CALL(proxy_mock, StopFindService(_)).Times(0);
 
-    // When creating a Strategy without calling Find()
+    // When creating a Strategy without calling StartFind()
     Strategy strategy{kAdditionalShmSizeBytes};
 }
 
 TEST_F(SemiDynamicSingleInstantiationStrategyFixture, StopFindDoesNotCrashWhenFindWasNeverCalled)
 {
-    // Given a Strategy instance for which Find() was never called
+    // Given a Strategy instance for which StartFind() was never called
     Strategy strategy{kAdditionalShmSizeBytes};
 
     // When calling StopFind()
     strategy.StopFind();
 
-    // Then StopFindService is never called, since Find() was never started
+    // Then StopFindService is never called, since StartFind() was never started
     EXPECT_EQ(stop_find_service_invocations, 0U);
 }
 
 TEST_F(SemiDynamicSingleInstantiationStrategyFixture, DestructionDoesNotCrashWhenFindWasNeverCalled)
 {
-    // Given a Strategy instance for which Find() was never called
+    // Given a Strategy instance for which StartFind() was never called
     // When it goes out of scope
     {
         Strategy strategy{kAdditionalShmSizeBytes};
@@ -270,8 +270,8 @@ TEST_F(SemiDynamicSingleInstantiationStrategyFixture, CallingFindWillCallStartFi
     // Given a Strategy instance
     Strategy strategy{kAdditionalShmSizeBytes};
 
-    // When calling Find()
-    strategy.Find(CreateBuilderCallback());
+    // When calling StartFind()
+    strategy.StartFind(CreateBuilderCallback());
 }
 
 TEST_F(SemiDynamicSingleInstantiationStrategyFixture, UserCallbackNotInvokedWhenServiceIsSearchedButNotFound)
@@ -279,8 +279,8 @@ TEST_F(SemiDynamicSingleInstantiationStrategyFixture, UserCallbackNotInvokedWhen
     // Given a Strategy instance
     Strategy strategy{kAdditionalShmSizeBytes};
 
-    // When calling Find() but no service is found
-    strategy.Find(CreateBuilderCallback());
+    // When calling StartFind() but no service is found
+    strategy.StartFind(CreateBuilderCallback());
 
     // Then the user callback is never invoked
     EXPECT_EQ(found_invocations, 0U);
@@ -291,9 +291,9 @@ TEST_F(SemiDynamicSingleInstantiationStrategyFixture, CallingStopFindWillCallSto
     // Expecting that StopFindService will be called
     EXPECT_CALL(proxy_mock, StopFindService(_)).Times(1);
 
-    // Given a Strategy instance which has started Find()
+    // Given a Strategy instance which has started StartFind()
     Strategy strategy{kAdditionalShmSizeBytes};
-    strategy.Find(CreateBuilderCallback());
+    strategy.StartFind(CreateBuilderCallback());
 
     // When calling StopFind()
     EXPECT_EQ(stop_find_service_invocations, 0U);
@@ -303,9 +303,9 @@ TEST_F(SemiDynamicSingleInstantiationStrategyFixture, CallingStopFindWillCallSto
 
 TEST_F(SemiDynamicSingleInstantiationStrategyFixture, StopFindCanBeCalledMultipleTimesWithoutCrashing)
 {
-    // Given a Strategy instance which has started Find()
+    // Given a Strategy instance which has started StartFind()
     Strategy strategy{kAdditionalShmSizeBytes};
-    strategy.Find(CreateBuilderCallback());
+    strategy.StartFind(CreateBuilderCallback());
 
     // When calling StopFind() repeatedly
     // Then StopFindService is only invoked once, since the second call finds no active find-service handle anymore
@@ -319,9 +319,9 @@ TEST_F(SemiDynamicSingleInstantiationStrategyFixture, StopFindWillBeCalledOnDest
     // Expecting that StopFindService will be called
     EXPECT_CALL(proxy_mock, StopFindService(_)).Times(1);
 
-    // Given a Strategy instance which has started Find()
+    // Given a Strategy instance which has started StartFind()
     auto strategy = std::make_unique<Strategy>(kAdditionalShmSizeBytes);
-    strategy->Find(CreateBuilderCallback());
+    strategy->StartFind(CreateBuilderCallback());
 
     // When destroying the Strategy
     EXPECT_EQ(stop_find_service_invocations, 0U);

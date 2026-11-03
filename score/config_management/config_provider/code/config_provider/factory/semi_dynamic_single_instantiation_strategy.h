@@ -66,8 +66,8 @@ constexpr bool IsValidPortIdentifierType() noexcept
 /// @note This strategy is specific to `ConfigProvider`'s "semi-dynamic" `get_parameter_set` method which requires an
 ///       additional, pre-allocated shared-memory pool. It therefore lives alongside `ConfigProviderFactory` instead
 ///       of the generic `mw::service::backend::mw_com` strategies.
-template <typename Proxy, typename ProxyImpl, typename MwComProxy, typename PortIdentifier = void>
-class SemiDynamicSingleInstantiationStrategy final : public mw::service::FindServiceStrategy
+template <typename ProxyBase, typename ProxyImpl, typename MwComProxy, typename PortIdentifier = void>
+class SemiDynamicSingleInstantiationStrategy final : public mw::service::FindServiceStrategy<ProxyBase>
 {
     static_assert(std::is_void_v<PortIdentifier> || detail::IsValidPortIdentifierType<PortIdentifier>(),
                   "template parameter `PortIdentifier` lacks a static method "
@@ -76,7 +76,7 @@ class SemiDynamicSingleInstantiationStrategy final : public mw::service::FindSer
     using HandleType = typename MwComProxy::HandleType;
 
   public:
-    using BaseProxy = Proxy;
+    using typename mw::service::FindServiceStrategy<ProxyBase>::OnServiceFoundCallback;
 
     template <typename PortIdentifierProvider = PortIdentifier,
               std::enable_if_t<std::is_void_v<PortIdentifierProvider>, bool> = true>
@@ -114,7 +114,7 @@ class SemiDynamicSingleInstantiationStrategy final : public mw::service::FindSer
         return port_identifier_;
     }
 
-    void Find(std::unique_ptr<typename mw::service::ProxyBuilderBase<Proxy>::BuilderCallback> on_found)
+    void StartFind(std::unique_ptr<OnServiceFoundCallback> on_found) override
     {
         const std::lock_guard lock{mutex_};
 
@@ -124,13 +124,12 @@ class SemiDynamicSingleInstantiationStrategy final : public mw::service::FindSer
         class CallbackState
         {
           public:
-            CallbackState(std::unique_ptr<typename mw::service::ProxyBuilderBase<Proxy>::BuilderCallback>&& callback,
-                          const std::size_t additional_shm_size)
+            CallbackState(std::unique_ptr<OnServiceFoundCallback>&& callback, const std::size_t additional_shm_size)
                 : on_found{std::move(callback)}, additional_shm_size_bytes{additional_shm_size}
             {
             }
 
-            std::unique_ptr<typename mw::service::ProxyBuilderBase<Proxy>::BuilderCallback> on_found;
+            std::unique_ptr<OnServiceFoundCallback> on_found;
             std::size_t additional_shm_size_bytes;
         };
 

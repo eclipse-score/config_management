@@ -10,7 +10,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#include "score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl.h"
+#include "score/config_management/config_provider/code/proxies/details/internal_config_provider_impl.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
 #include "score/json/json_parser.h"

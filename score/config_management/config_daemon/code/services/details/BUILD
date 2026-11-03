@@ -71,3 +71,89 @@ cc_test(
         "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
+
+[
+    cc_library(
+        name = "internal_config_provider_service" + name,
+        testonly = test_only,
+        srcs = [
+            "internal_config_provider_service_impl.cpp",
+        ],
+        hdrs = [
+            "internal_config_provider_service_impl.h",
+        ],
+        features = COMPILER_WARNING_FEATURES,
+        tags = ["FUSA"],
+        visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
+        deps = [
+            "//score/config_management/config_daemon/code/data_model/error",
+            "//score/config_management/config_daemon/code/services",
+            "//score/config_management/lib/mw_com_types:internal_config_provider_type",
+            "@score_logging//score/mw/log",
+        ] + dep,
+    )
+    for name, dep, test_only in [
+        (
+            "_impl",
+            [
+                "@score_baselibs//score/result",
+                "@score_communication//score/mw/com",
+                "//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
+                "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+            ],
+            False,
+        ),
+        (
+            "_for_unit_test",
+            [
+                "//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
+                "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+            ],
+            True,
+        ),
+    ]
+]
+
+genrule(
+    name = "mw_com_config_json_header",
+    testonly = True,
+    srcs = ["//score/config_management/config_daemon/config:mw_com_config"],
+    outs = ["mw_com_config_json.h"],
+    cmd = """G=$$(printf %s "$@" | sed 's#^.*/bin/##' | tr -c 'A-Za-z0-9' '_' | tr 'a-z' 'A-Z')
+{
+    echo "#ifndef $$G"
+    echo "#define $$G"
+    echo 'constexpr char kMwComConfigJson[] = R"JSON('
+    cat $(SRCS)
+    echo ')JSON";'
+    echo "#endif  // $$G"
+} > $@""",
+)
+
+cc_library(
+    name = "mw_com_config_json",
+    testonly = True,
+    hdrs = [":mw_com_config_json_header"],
+    visibility = ["//score/config_management/config_daemon/code/factory/details:__pkg__"],
+)
+
+cc_test(
+    name = "unit_test_internal_config_provider_service_impl",
+    srcs = [
+        "internal_config_provider_service_impl_test.cpp",
+    ],
+    features = COMPILER_WARNING_FEATURES + [
+        "aborts_upon_exception",
+    ],
+    tags = [
+        "exclusive",  # Sandboxing is not properly working with LoLa message passing 2.0 (Ticket-217341)
+        "mw_com",
+        "unit",
+    ],
+    visibility = ["//score/config_management/config_daemon/code/services/details:__pkg__"],
+    deps = [
+        ":internal_config_provider_service_for_unit_test",
+        ":mw_com_config_json",
+        "@googletest//:gtest_main",
+    ],
+)

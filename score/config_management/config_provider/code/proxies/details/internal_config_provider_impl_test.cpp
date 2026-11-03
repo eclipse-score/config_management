@@ -10,7 +10,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#include "score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl.h"
+#include "score/config_management/config_provider/code/proxies/details/internal_config_provider_impl.h"
+#include "score/config_management/config_provider/code/proxies/details/test_mw_com_config_json.h"
 #include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
 
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
@@ -22,6 +23,7 @@
 
 #include <gtest/gtest.h>
 
+#include <fstream>
 #include <future>
 
 #include <iostream>
@@ -39,7 +41,10 @@ namespace
 
 const std::chrono::milliseconds kZeroTimeout{0};
 
-const std::string kICPSpecifier{"ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppRPort"};
+const std::string kProxyICPSpecifier{
+    "ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppRPort"};
+const std::string kSkeletonICPSpecifier{
+    "ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppPPort"};
 using MwComSkeleton = score::mw::com::AsSkeleton<score::config_management::config_daemon::InternalConfigProviderInterface>;
 using MwComInitialQualifierStateType = score::config_management::config_daemon::mw_com_icp_types::InitialQualifierState;
 
@@ -50,9 +55,14 @@ class InternalConfigProviderTest : public ::testing::Test
 
     void SetUp() override
     {
-        score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
-            "./score/config_management/config_provider/code/proxies/details/mw_com/"
-            "test_mw_com_config.json"};
+        // Written to a temp file so no runfiles or working-directory-relative path is needed.
+        const std::string config_path = testing::TempDir() + "test_mw_com_config.json";
+        {
+            std::ofstream config_file{config_path};
+            config_file << kTestMwComConfigJson;
+            ASSERT_TRUE(config_file.good()) << "Cannot write " << config_path;
+        }
+        score::mw::com::runtime::RuntimeConfiguration runtime_configuration{config_path};
         score::mw::com::runtime::InitializeRuntime(runtime_configuration);
 
         skeleton_ = CreateService();
@@ -78,7 +88,7 @@ class InternalConfigProviderTest : public ::testing::Test
     std::unique_ptr<MwComSkeleton> CreateService() const
     {
         // Prepare skeleton to offer the service
-        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(std::string(kICPSpecifier));
+        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(std::string(kSkeletonICPSpecifier));
         // ASSERT_TRUE(instance_specifier_result.has_value());
 
         auto service_result = MwComSkeleton::Create(std::move(instance_specifier_result).value());
@@ -97,13 +107,13 @@ class InternalConfigProviderTest : public ::testing::Test
 
     std::unique_ptr<MWProxy> CreateProxy() const
     {
-        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(std::string(kICPSpecifier));
+        auto instance_specifier_result = score::mw::com::InstanceSpecifier::Create(std::string(kProxyICPSpecifier));
 
         const auto proxy_handles_result = MWProxy::FindService(std::move(instance_specifier_result).value());
         const auto& proxy_handles = proxy_handles_result.value();
         if (proxy_handles.empty())
         {
-            throw std::runtime_error("FindService() did not return any service handles for " + kICPSpecifier);
+            throw std::runtime_error("FindService() did not return any service handles for " + kProxyICPSpecifier);
         }
 
         return std::make_unique<MWProxy>(MWProxy::Create(proxy_handles.front()).value());

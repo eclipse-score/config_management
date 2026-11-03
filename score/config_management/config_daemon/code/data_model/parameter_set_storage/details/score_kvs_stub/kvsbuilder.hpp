@@ -12,7 +12,6 @@
 // *******************************************************************************
 
 // Stub replacing score-persistency's kvsbuilder.hpp for SPP compilation.
-// Only the subset of the API used by factory_mw_com_impl.cpp is provided.
 
 #ifndef SCORE_LIB_KVS_KVSBUILDER_HPP
 #define SCORE_LIB_KVS_KVSBUILDER_HPP

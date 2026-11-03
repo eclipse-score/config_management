@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#ifndef SCORE_LIB_KVS_KVS_HPP
-#define SCORE_LIB_KVS_KVS_HPP
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_HPP
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_HPP
 
 #include "kvsvalue.hpp"
 
@@ -30,8 +30,7 @@ struct InstanceId
     std::size_t id{0U};
 };
 
-// Stub for score-persistency's Kvs. Concrete so make_unique<Kvs>(unique_ptr<Kvs>) in
-// factory_mw_com_impl.cpp compiles. MockKvs subclasses and overrides the virtual methods for tests.
+// Stub for score-persistency's Kvs.
 class Kvs
 {
   public:
@@ -66,4 +65,4 @@ class Kvs
 
 }  // namespace score::mw::per::kvs
 
-#endif  // SCORE_LIB_KVS_KVS_HPP
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_HPP

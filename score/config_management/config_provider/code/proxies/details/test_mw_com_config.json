@@ -34,7 +34,7 @@
   ],
   "serviceInstances": [
     {
-      "instanceSpecifier": "ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppRPort",
+      "instanceSpecifier": "ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppPPort",
       "serviceTypeName": "config_management/config_daemon/InternalConfigProviderService",
       "version": {
         "major": 1,
@@ -43,7 +43,7 @@
       "instances": [
         {
           "instanceId": 1,
-          "asil-level": "QM",
+          "asil-level": "B",
           "binding": "SHM",
           "events": [
             {
@@ -68,6 +68,30 @@
           ]
         }
       ]
+    },
+    {
+      "instanceSpecifier": "ConfigDaemonCustomer/ConfigDaemonCustomer_RootSwc/InternalConfigProviderAppRPort",
+      "serviceTypeName": "config_management/config_daemon/InternalConfigProviderService",
+      "version": {
+        "major": 1,
+        "minor": 0
+      },
+      "instances": [
+        {
+          "instanceId": 1,
+          "asil-level": "B",
+          "binding": "SHM",
+          "methods": [
+            {
+              "methodName": "get_parameter_set",
+              "queueSize": 1
+            }
+          ]
+        }
+      ]
     }
-  ]
+  ],
+  "global": {
+        "asil-level": "B"
+  }
 }
