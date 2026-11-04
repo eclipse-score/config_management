@@ -61,5 +61,6 @@ cc_test(
     deps = [
         ":details_mw_com_test",
         "@googletest//:gtest_main",
+        "@rules_cc//cc/runfiles",
     ],
 )
