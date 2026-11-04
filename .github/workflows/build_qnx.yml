@@ -51,19 +51,7 @@ jobs:
       # .github/tools/check_qnx_unit_test_selection.sh (run by test.yml) fails when an exclusion is stale
       # or when a cc_test lacks the `unit` tag and would therefore silently never run on QNX.
       bazel-test-target: >-
-        //score/config_management/... //tests/cpp/...
-        -//score/config_management/dependability/...
-        -//score/config_management/config_daemon/code/factory/details:unit_test_factory_impl
-        -//score/config_management/config_daemon/code/factory/details:unit_test_infrastructure_factory_score
-        -//score/config_management/config_daemon/code/factory/details:unit_test_mw_com
-        -//score/config_management/config_daemon/code:main_function_test
-        -//score/config_management/config_provider/code/config_provider/details:unit_test
-        -//score/config_management/config_provider/code/config_provider/factory:unit_tests_buffer_size_report
-        -//score/config_management/config_provider/code/config_provider/factory:unit_tests_mw_com
-        -//score/config_management/config_provider/code/config_provider/factory:unit_tests_semi_dynamic_single_instantiation_strategy
-        -//score/config_management/lib/mw_com_types:runtime_sized_array_test
-        -//score/config_management/lib/parameter_set_json_serializer/details:parameter_set_json_serializer_impl_test
-        -//score/config_management/lib/parameter_set_json_serializer/error:error_test
+        //score/config_management/... //tests/cpp/... -//score/config_management/dependability/... -//score/config_management/config_daemon/code/factory/details:unit_test_factory_impl -//score/config_management/config_daemon/code/factory/details:unit_test_infrastructure_factory_score -//score/config_management/config_daemon/code/factory/details:unit_test_mw_com -//score/config_management/config_daemon/code:main_function_test -//score/config_management/config_provider/code/config_provider/details:unit_test -//score/config_management/config_provider/code/config_provider/factory:unit_tests_buffer_size_report -//score/config_management/config_provider/code/config_provider/factory:unit_tests_mw_com -//score/config_management/config_provider/code/config_provider/factory:unit_tests_semi_dynamic_single_instantiation_strategy -//score/config_management/lib/mw_com_types:runtime_sized_array_test -//score/config_management/lib/parameter_set_json_serializer/details:parameter_set_json_serializer_impl_test -//score/config_management/lib/parameter_set_json_serializer/error:error_test
       extra-bazel-test-flags: --build_tests_only --test_tag_filters=unit ${{ matrix.extra-bazel-test-flags }}
       credential-helper: "scripts/internal/qnx_creds.py"
       bazel-disk-cache: ${{ matrix.bazel-config }}
