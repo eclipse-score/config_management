@@ -167,7 +167,7 @@ bazel_dep(name = "score_logging", version = "0.2.4")
 bazel_dep(name = "score_lifecycle", version = "0.7.0")
 
 # s-core persistency
-bazel_dep(name = "score_persistency", version = "0.3.5")
+bazel_dep(name = "score_persistency", version = "0.4.0")
 
 # TRLC / lobster: versions matching score_tooling 3.0.2
 bazel_dep(name = "trlc", version = "3.1.1", dev_dependency = True)

@@ -14,20 +14,35 @@
 #ifndef SCORE_LIB_KVS_KVS_HPP
 #define SCORE_LIB_KVS_KVS_HPP
 
-#include "kvsvalue.hpp"
+#include "score/kvs/kvs_value.h"
 
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/error/parameter_set_storage_error.h"
 
+#include <cstdint>
 #include <memory>
 #include <string_view>
 
-namespace score::mw::per::kvs
+namespace score::kvs
 {
 
 struct InstanceId
 {
     explicit InstanceId(std::size_t id) : id{id} {}
     std::size_t id{0U};
+};
+
+enum class KvsDefaults : std::uint8_t
+{
+    kRequired = 0,
+    kOptional = 1,
+    kIgnored = 2,
+};
+
+enum class KvsLoad : std::uint8_t
+{
+    kRequired = 0,
+    kOptional = 1,
+    kIgnored = 2,
 };
 
 // Stub for score-persistency's Kvs. Concrete so make_unique<Kvs>(unique_ptr<Kvs>) in
@@ -44,26 +59,24 @@ class Kvs
     Kvs(Kvs&&) noexcept = delete;
     Kvs& operator=(Kvs&&) noexcept = delete;
 
-    // NOLINTBEGIN(readability-identifier-naming)
-    virtual score::Result<KvsValue> get_value(std::string_view /*key*/) noexcept
+    virtual score::Result<KvsValue> GetValue(std::string_view /*key*/) const noexcept
     {
         return score::MakeUnexpected<KvsValue>(
             score::MakeUnexpected(::score::config_management::config_daemon::data_model::ParameterSetStorageError::kDataNotFound)
                 .error());
     }
-    virtual score::Result<void> set_value(std::string_view /*key*/, const KvsValue& /*value*/) noexcept
+    virtual score::Result<void> SetValue(std::string_view /*key*/, const KvsValue& /*value*/) noexcept
     {
         return score::MakeUnexpected(
             ::score::config_management::config_daemon::data_model::ParameterSetStorageError::kUnableToSaveToPersistency);
     }
-    virtual score::Result<void> flush() noexcept
+    virtual score::Result<void> Flush() noexcept
     {
         return score::MakeUnexpected(
             ::score::config_management::config_daemon::data_model::ParameterSetStorageError::kUnableToSaveToPersistency);
     }
-    // NOLINTEND(readability-identifier-naming)
 };
 
-}  // namespace score::mw::per::kvs
+}  // namespace score::kvs
 
 #endif  // SCORE_LIB_KVS_KVS_HPP
