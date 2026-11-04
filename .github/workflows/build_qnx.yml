@@ -41,8 +41,7 @@ jobs:
       # which cannot be built for QNX declares target_compatible_with = ["@platforms//os:linux"], Bazel
       # then skips it.
       bazel-target: >-
-        //score/config_management/... //tests/cpp/...
-        -//score/config_management/dependability/...
+        //score/config_management/... //tests/cpp/... -//score/config_management/dependability/...
       bazel-config: ${{ matrix.bazel-config }}
       # Unit tests are selected by Bazel itself: every cc_test tagged `unit` (cc_unit_test and
       # cc_gtest_unit_test add the tag) below //score/config_management/... plus the //tests/cpp smoke
@@ -52,8 +51,7 @@ jobs:
       # .github/tools/check_qnx_unit_test_selection.sh (run by test.yml) fails when a cc_test lacks the
       # `unit` tag and would therefore silently never run on QNX.
       bazel-test-target: >-
-        //score/config_management/... //tests/cpp/...
-        -//score/config_management/dependability/...
+        //score/config_management/... //tests/cpp/... -//score/config_management/dependability/...
       extra-bazel-test-flags: --build_tests_only --test_tag_filters=unit ${{ matrix.extra-bazel-test-flags }}
       credential-helper: "scripts/internal/qnx_creds.py"
       bazel-disk-cache: ${{ matrix.bazel-config }}
