@@ -42,6 +42,9 @@ jobs:
           repository-cache: true
           cache-save: ${{ github.event_name == 'push' }}
 
+      - name: Check QNX unit test selection
+        run: ./.github/tools/check_qnx_unit_test_selection.sh
+
       - name: Run all unit tests
         run: |
           TARGETS=$(bazel query --keep_going \
