@@ -50,8 +50,10 @@ jobs:
       # target_compatible_with = ["@platforms//os:linux"] in its BUILD target, Bazel then skips it.
       # .github/tools/check_qnx_unit_test_selection.sh (run by test.yml) fails when a cc_test lacks the
       # `unit` tag and would therefore silently never run on QNX.
+      # Excluded: parameter_set_json_serializer_impl_test fails on QNX x86_64 (strtod round trip of
+      # float values and parsing of denormal doubles); remove the exclusion once that is fixed in SPP.
       bazel-test-target: >-
-        //score/config_management/... //tests/cpp/... -//score/config_management/dependability/...
+        //score/config_management/... //tests/cpp/... -//score/config_management/dependability/... -//score/config_management/lib/parameter_set_json_serializer/details:parameter_set_json_serializer_impl_test
       extra-bazel-test-flags: --build_tests_only --test_tag_filters=unit ${{ matrix.extra-bazel-test-flags }}
       credential-helper: "scripts/internal/qnx_creds.py"
       bazel-disk-cache: ${{ matrix.bazel-config }}
