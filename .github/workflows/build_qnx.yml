@@ -29,9 +29,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Each test boots a QNX VM; small tests take up to ~90 s (x86_64) / ~150 s (arm64) on the runner.
           - bazel-config: x86_64-qnx
+            extra-bazel-test-flags: "--test_timeout=180,600,1800,7200"
           - bazel-config: arm64-qnx
-            extra-bazel-test-flags: "--test_timeout=120,600,1800,7200"
+            extra-bazel-test-flags: "--test_timeout=450,900,1800,7200"
     uses: eclipse-score/cicd-workflows/.github/workflows/qnx-build.yml@5d0175286293af3d26617db2422ee5267c4dda9a # main branch (2026-10-28)
     permissions:
       contents: read
