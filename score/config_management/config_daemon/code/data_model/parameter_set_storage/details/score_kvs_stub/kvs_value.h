@@ -22,7 +22,7 @@
 #include <variant>
 #include <vector>
 
-namespace score::mw::per::kvs
+namespace score::kvs
 {
 
 class KvsValue final
@@ -31,24 +31,22 @@ class KvsValue final
     using Array = std::vector<std::shared_ptr<KvsValue>>;
     using Object = std::unordered_map<std::string, std::shared_ptr<KvsValue>>;
 
-    // NOLINTBEGIN(readability-identifier-naming) — enum constants mirror real score-persistency KvsValue::Type
     enum class Type
     {
-        i32,
-        u32,
-        i64,
-        u64,
-        f64,
-        Boolean,
-        String,
-        Null,
-        Array,
-        Object
+        kI32,
+        kU32,
+        kI64,
+        kU64,
+        kF64,
+        kBoolean,
+        kString,
+        kNull,
+        kArray,
+        kObject
     };
-    // NOLINTEND(readability-identifier-naming)
 
-    explicit KvsValue(const std::string& str) : value_{str}, type_{Type::String} {}
-    explicit KvsValue(std::string&& str) : value_{std::move(str)}, type_{Type::String} {}
+    explicit KvsValue(const std::string& str) : value_{str}, type_{Type::kString} {}
+    explicit KvsValue(std::string&& str) : value_{std::move(str)}, type_{Type::kString} {}
     explicit KvsValue(Type type) : value_{std::string{}}, type_{type} {}
 
     KvsValue(const KvsValue&) = default;
@@ -56,23 +54,21 @@ class KvsValue final
     KvsValue(KvsValue&&) noexcept = default;
     KvsValue& operator=(KvsValue&&) noexcept = default;
 
-    // NOLINTBEGIN(readability-identifier-naming) — method names mirror real score-persistency KvsValue API
-    Type getType() const noexcept
+    Type GetType() const noexcept
     {
         return type_;
     }
 
-    const std::variant<std::string>& getValue() const noexcept
+    const std::variant<std::string>& GetValue() const noexcept
     {
         return value_;
     }
-    // NOLINTEND(readability-identifier-naming)
 
   private:
     std::variant<std::string> value_;
-    Type type_{Type::Null};
+    Type type_{Type::kNull};
 };
 
-}  // namespace score::mw::per::kvs
+}  // namespace score::kvs
 
 #endif  // SCORE_LIB_KVS_KVSVALUE_HPP

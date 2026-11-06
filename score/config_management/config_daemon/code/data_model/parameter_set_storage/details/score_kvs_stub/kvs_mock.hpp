@@ -14,23 +14,21 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP
 #define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP
 
-#include "kvs.hpp"
+#include "score/kvs/kvs.h"
 
 #include <gmock/gmock.h>
 
-namespace score::mw::per::kvs
+namespace score::kvs
 {
 
 class MockKvs final : public Kvs
 {
   public:
-    // NOLINTBEGIN(readability-identifier-naming)
-    MOCK_METHOD(score::Result<KvsValue>, get_value, (std::string_view key), (noexcept, override));
-    MOCK_METHOD(score::Result<void>, set_value, (std::string_view key, const KvsValue& value), (noexcept, override));
-    MOCK_METHOD(score::Result<void>, flush, (), (noexcept, override));
-    // NOLINTEND(readability-identifier-naming)
+    MOCK_METHOD(score::Result<KvsValue>, GetValue, (std::string_view key), (const, noexcept, override));
+    MOCK_METHOD(score::Result<void>, SetValue, (std::string_view key, const KvsValue& value), (noexcept, override));
+    MOCK_METHOD(score::Result<void>, Flush, (), (noexcept, override));
 };
 
-}  // namespace score::mw::per::kvs
+}  // namespace score::kvs
 
 #endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PARAMETER_SET_STORAGE_DETAILS_SCORE_KVS_STUB_KVS_MOCK_HPP

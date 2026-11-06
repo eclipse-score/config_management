@@ -16,7 +16,7 @@
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/error/parameter_set_storage_error.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
 
-#include "kvsvalue.hpp"
+#include "score/kvs/kvs_value.h"
 #include "score/hash/code/common/algorithms.h"
 #include "score/hash/code/core/factory/impl/safe_hash_calculator_factory.h"
 #include "score/json/json_writer.h"
@@ -39,7 +39,7 @@ namespace
 constexpr std::string_view kParameterSetHashKvsKey{"ActualParameterHashKey"};
 }  // namespace
 
-ParameterSetStorageScoreImpl::ParameterSetStorageScoreImpl(std::unique_ptr<score::mw::per::kvs::Kvs> kvs) noexcept
+ParameterSetStorageScoreImpl::ParameterSetStorageScoreImpl(std::unique_ptr<score::kvs::Kvs> kvs) noexcept
     : IParameterSetStorage{}, kvs_{std::move(kvs)}
 {
 }
@@ -91,13 +91,13 @@ score::Result<void> ParameterSetStorageScoreImpl::StoreParameterSetCollection(
 
 score::Result<void> ParameterSetStorageScoreImpl::PersistParameterSetCollectionHash(const std::string& hash) noexcept
 {
-    const auto set_result = kvs_->set_value(kParameterSetHashKvsKey, score::mw::per::kvs::KvsValue{hash});
+    const auto set_result = kvs_->SetValue(kParameterSetHashKvsKey, score::kvs::KvsValue{hash});
     if (!set_result.has_value())
     {
         return score::MakeUnexpected(ParameterSetStorageError::kUnableToSaveToPersistency,
                                      "Failed to set hash in score KVS");
     }
-    const auto flush_result = kvs_->flush();
+    const auto flush_result = kvs_->Flush();
     if (!flush_result.has_value())
     {
         return score::MakeUnexpected(ParameterSetStorageError::kUnableToSaveToPersistency,
@@ -108,18 +108,18 @@ score::Result<void> ParameterSetStorageScoreImpl::PersistParameterSetCollectionH
 
 score::Result<std::string> ParameterSetStorageScoreImpl::ReadParameterSetCollectionHash() const noexcept
 {
-    const auto get_result = kvs_->get_value(kParameterSetHashKvsKey);
+    const auto get_result = kvs_->GetValue(kParameterSetHashKvsKey);
     if (!get_result.has_value())
     {
         return score::MakeUnexpected(ParameterSetStorageError::kDataNotFound, "Hash not found in score KVS");
     }
     const auto& kvsvalue = get_result.value();
-    if (kvsvalue.getType() != score::mw::per::kvs::KvsValue::Type::String)
+    if (kvsvalue.GetType() != score::kvs::KvsValue::Type::kString)
     {
         return score::MakeUnexpected(ParameterSetStorageError::kDataNotFound,
                                      "Hash value in score KVS has unexpected type");
     }
-    return std::get<std::string>(kvsvalue.getValue());
+    return std::get<std::string>(kvsvalue.GetValue());
 }
 
 score::Result<bool> ParameterSetStorageScoreImpl::LoadParameterSetCollection(
