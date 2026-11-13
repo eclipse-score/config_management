@@ -34,7 +34,7 @@ class InternalConfigProviderServiceMock : public IInternalConfigProviderService
     InternalConfigProviderServiceMock& operator=(const InternalConfigProviderServiceMock&) noexcept = delete;
     virtual ~InternalConfigProviderServiceMock() noexcept = default;
 
-    MOCK_METHOD(Result<void>, Start, (), (override));
+    MOCK_METHOD(score::Result<void>, Start, (), (override));
     MOCK_METHOD(void, Stop, (), (noexcept, override));
 
     MOCK_METHOD(void, SetInitialQualifierState, (const InitialQualifierState), (noexcept, override));

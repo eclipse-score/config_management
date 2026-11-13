@@ -28,9 +28,9 @@ class ParameterSetJsonSerializerImpl final : public ParameterSetJsonSerializer
   public:
     ParameterSetJsonSerializerImpl() = default;
 
-    Result<score::cpp::pmr::string> SerializeParameters(const json::Object& parameters) const override;
-    Result<score::cpp::pmr::string> SerializeParameterSet(const json::Object& parameters,
-                                                   std::uint8_t qualifier) const override;
+    score::Result<score::cpp::pmr::string> SerializeParameters(const score::json::Object& parameters) const override;
+    score::Result<score::cpp::pmr::string> SerializeParameterSet(const score::json::Object& parameters,
+                                                          std::uint8_t qualifier) const override;
 };
 
 }  // namespace config_management

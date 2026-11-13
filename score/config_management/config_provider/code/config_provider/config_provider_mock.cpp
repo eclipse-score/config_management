@@ -21,7 +21,21 @@ namespace config_management
 namespace config_provider
 {
 
-ConfigProviderMock::ConfigProviderMock() = default;
+ConfigProviderMock::ConfigProviderMock()
+{
+    gLastCreated.store(this);
+}
+
+ConfigProviderMock::~ConfigProviderMock() noexcept
+{
+    ConfigProviderMock* expected{this};
+    gLastCreated.compare_exchange_strong(expected, nullptr);
+}
+
+ConfigProviderMock* ConfigProviderMock::GetLastCreated() noexcept
+{
+    return gLastCreated.load();
+}
 
 }  // namespace config_provider
 }  // namespace config_management

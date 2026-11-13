@@ -14,6 +14,7 @@
 #define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PERSISTENCY_PERSISTENCY_H
 
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
+
 #include "score/result/result.h"
 
 #include <score/memory.hpp>

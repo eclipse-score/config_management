@@ -14,7 +14,6 @@
 #include "score/config_management/config_daemon/code/app/config_daemon.h"
 
 #include "score/mw/lifecycle/mock_application_context.h"
-#include "score/mw/lifecycle/mock_mw_lifecycle_manager.h"
 #include "score/mw/lifecycle/mock_lifecycle_manager.h"
 
 #include <sys/wait.h>
@@ -37,7 +36,6 @@ class TestMainFunction
   public:
     TestMainFunction()
     {
-        mw_lifecycle_manager_mock_ = std::make_unique<score::mw::lifecycle::MwLifeCycleManagerMock>();
         application_context_mock_ = std::make_unique<score::mw::lifecycle::ApplicationContextMock>();
         lifecycle_manager_mock_ = std::make_unique<score::mw::lifecycle::LifeCycleManagerMock>();
 
@@ -70,11 +68,9 @@ class TestMainFunction
 
         lifecycle_manager_mock_.reset();
         application_context_mock_.reset();
-        mw_lifecycle_manager_mock_.reset();
     }
 
   private:
-    std::unique_ptr<score::mw::lifecycle::MwLifeCycleManagerMock> mw_lifecycle_manager_mock_{};
     std::unique_ptr<score::mw::lifecycle::ApplicationContextMock> application_context_mock_{};
     std::unique_ptr<score::mw::lifecycle::LifeCycleManagerMock> lifecycle_manager_mock_{};
 

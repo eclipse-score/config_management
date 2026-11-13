@@ -14,21 +14,19 @@
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
+#include "score/config_management/config_provider/code/persistency/error/persistency_error.h"
 #include "score/config_management/config_provider/code/persistency/persistency_mock.h"
 #include "score/config_management/config_provider/code/proxies/internal_config_provider_mock.h"
 
-#include "score/config_management/config_provider/code/persistency/error/persistency_error.h"
+#include "score/mw/log/logging.h"
+#include "score/mw/log/recorder_mock.h"
 
 #include "score/concurrency/future/interruptible_promise.h"
 #include "score/concurrency/interruptible_wait.h"
 #include "score/concurrency/notification.h"
-
 #include "score/json/json_parser.h"
-#include "score/mw/log/logging.h"
-#include "score/mw/log/recorder_mock.h"
 
 #include <gtest/gtest.h>
-
 #include <future>
 #include <memory>
 #include <type_traits>
@@ -63,7 +61,7 @@ class ConfigProviderTest : public ::testing::Test
     void SetUp() override
     {
         persistency_ = score::cpp::pmr::make_unique<PersistencyMock>(score::cpp::pmr::get_default_resource());
-        correct_parameter_set_from_proxy_ = json::JsonParser{}.FromBuffer(R"(
+        correct_parameter_set_from_proxy_ = score::json::JsonParser{}.FromBuffer(R"(
         {
             "parameters": {
                 "parameter_name": 55
@@ -71,7 +69,7 @@ class ConfigProviderTest : public ::testing::Test
             "qualifier": 1
         }
         )");
-        updated_parameter_set_from_proxy_ = json::JsonParser{}.FromBuffer(R"(
+        updated_parameter_set_from_proxy_ = score::json::JsonParser{}.FromBuffer(R"(
         {
             "parameters": {
                 "parameter_name": 56
@@ -113,7 +111,7 @@ class ConfigProviderTest : public ::testing::Test
                         },
                         "qualifier": 0
                     })";
-                json::JsonParser json_parser{};
+                score::json::JsonParser json_parser{};
                 auto persisted_parameter_set =
                     std::make_shared<const ParameterSet>(json_parser.FromBuffer(param_set_json).value());
 
@@ -157,23 +155,23 @@ class ConfigProviderTest : public ::testing::Test
                     GetParameterSet(StringViewCompare(set_name), ConfigProviderImpl::kDefaultResponseTimeout, _))
             .WillRepeatedly(Invoke([&content](const std::string_view,
                                               const std::chrono::milliseconds,
-                                              const AdditionalShmSizing&) -> Result<json::Any> {
+                                              const AdditionalShmSizing&) -> score::Result<score::json::Any> {
                 if (content.has_value())
                 {
                     auto temp = content.value().CloneByValue();
-                    return Result<json::Any>{std::move(temp)};
+                    return score::Result<score::json::Any>{std::move(temp)};
                 }
-                return Unexpected{content.error()};
+                return score::Unexpected{content.error()};
             }));
 
         EXPECT_CALL(
             *icp_mock_,
             GetParameterSet(StringViewCompare("wrong_set_name"), ConfigProviderImpl::kDefaultResponseTimeout, _))
-            .WillRepeatedly(Return(ByMove(MakeUnexpected(ConfigProviderError::kProxyReturnedNoResult))));
+            .WillRepeatedly(Return(ByMove(score::MakeUnexpected(ConfigProviderError::kProxyReturnedNoResult))));
         EXPECT_CALL(
             *icp_mock_,
             GetParameterSet(StringViewCompare("invalid_parameter_set"), ConfigProviderImpl::kDefaultResponseTimeout, _))
-            .WillRepeatedly(Return(ByMove(Result<json::Any>{json::Any{}})));
+            .WillRepeatedly(Return(ByMove(score::Result<score::json::Any>{score::json::Any{}})));
 
         EXPECT_CALL(*icp_mock_, GetInitialQualifierState(ConfigProviderImpl::kDefaultResponseTimeout))
             .WillRepeatedly(Return(final_initial_qualifier_state));
@@ -254,12 +252,12 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_EmptyPersistenc
     EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error and cannot fetch from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     EXPECT_TRUE(
         config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
             .has_value());
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     stop_source_.request_stop();
 }
 
@@ -285,12 +283,12 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_EmptyPersistency
     EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error and cannot fetch from persistency
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     EXPECT_TRUE(
         config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
             .has_value());
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
 }
 
 TEST_F(ConfigProviderTest, ProxySearchingBlocked_DestroyRightAway_NoPersistency)
@@ -451,13 +449,13 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency)
     EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     // Then GetParameterSet() would return ProxyNotReady error
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     EXPECT_TRUE(
         config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
             .has_value());
     // Then CheckParameterSetUpdates() would return ProxyNotReady error
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kQualified);
     // Given the proxy searching thread found the proxy
     BlockUntilProxyIsReady(stop_source_.get_token());
@@ -474,7 +472,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency)
               parameter_qualifier_from_proxy_);
 
     EXPECT_EQ(config_provider->OnChangedParameterSet(parameter_set_name_, nullptr).error(),
-              MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
+              score::MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
     EXPECT_TRUE(config_provider->CheckParameterSetUpdates().has_value());
 }
 
@@ -520,12 +518,12 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
 
     EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     EXPECT_TRUE(
         config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
             .has_value());
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kUnqualified);
     BlockUntilProxyIsReady(stop_source_.get_token());
 
@@ -541,7 +539,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButNcdIsUnqualified_ClientWait_E
               parameter_qualifier_from_proxy_);
 
     EXPECT_EQ(config_provider->OnChangedParameterSet(parameter_set_name_, nullptr).error(),
-              MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
+              score::MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
     EXPECT_TRUE(config_provider->CheckParameterSetUpdates().has_value());
 }
 
@@ -591,12 +589,12 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButInitialQualifierStateIsUnqual
     // Then GetInitialQualifierState returns undefined before proxy is available
     EXPECT_EQ(config_provider->GetInitialQualifierState(std::nullopt), InitialQualifierState::kUndefined);
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     EXPECT_TRUE(
         config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
             .has_value());
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     // When proxy becomes available with unqualified InitialQualifierState
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kUnqualified);
     BlockUntilProxyIsReady(stop_source_.get_token());
@@ -612,7 +610,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccessButInitialQualifierStateIsUnqual
               parameter_qualifier_from_proxy_);
 
     EXPECT_EQ(config_provider->OnChangedParameterSet(parameter_set_name_, nullptr).error(),
-              MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
+              score::MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
     EXPECT_TRUE(config_provider->CheckParameterSetUpdates().has_value());
 }
 
@@ -646,7 +644,7 @@ TEST_F(ConfigProviderTest, ProxySearchingBlocked_ClientDoNotWait_Persistency)
         config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
             .has_value());
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
     stop_source_.request_stop();
 }
 
@@ -681,7 +679,7 @@ TEST_F(ConfigProviderTest, ProxySearchingFailed_ClientDoNotWait_Persistency)
         config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
             .has_value());
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
 }
 
 TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
@@ -724,7 +722,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
         config_provider->OnChangedParameterSet(parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {})
             .has_value());
     EXPECT_EQ(config_provider->CheckParameterSetUpdates().error(),
-              MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyNotReady).error());
 
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_, InitialQualifierState::kQualified);
     BlockUntilProxyIsReady(stop_source_.get_token());
@@ -741,7 +739,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_Persistency)
     EXPECT_EQ(config_provider->GetParameterSet(parameter_set_name_).value()->GetQualifier().value(),
               parameter_qualifier_from_proxy_);
     EXPECT_EQ(config_provider->OnChangedParameterSet(parameter_set_name_, nullptr).error(),
-              MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
+              score::MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
     EXPECT_TRUE(config_provider->CheckParameterSetUpdates().has_value());
     EXPECT_EQ(config_provider->GetCachedParameterSetsCount(), 1U);
 }
@@ -947,7 +945,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledFo
     });
 
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
-    auto json_result_1 = json::JsonParser{}.FromBuffer(R"(
+    auto json_result_1 = score::json::JsonParser{}.FromBuffer(R"(
     {
         "parameters": {
             "parameter_name": 55
@@ -955,7 +953,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledFo
         "qualifier": 3
     }
     )");
-    auto json_result_2 = json::JsonParser{}.FromBuffer(R"(
+    auto json_result_2 = score::json::JsonParser{}.FromBuffer(R"(
     {
         "parameters": {
             "parameter_name": 55
@@ -998,7 +996,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledTw
 
     // Given a ConfigProvider instance with proxy and parameter set updates
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
-    auto json_result_1 = json::JsonParser{}.FromBuffer(R"(
+    auto json_result_1 = score::json::JsonParser{}.FromBuffer(R"(
     {
         "parameters": {
             "parameter_name": 1
@@ -1007,7 +1005,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledTw
     }
     )");
 
-    auto json_result_2 = json::JsonParser{}.FromBuffer(R"(
+    auto json_result_2 = score::json::JsonParser{}.FromBuffer(R"(
     {
         "parameters": {
             "parameter_name": 2
@@ -1061,7 +1059,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledTw
 
     // Given a ConfigProvider instance with proxy ready
     SetUpProxy(parameter_set_name_, correct_parameter_set_from_proxy_);
-    auto json_result_1 = json::JsonParser{}.FromBuffer(R"(
+    auto json_result_1 = score::json::JsonParser{}.FromBuffer(R"(
     {
         "parameters": {
             "parameter_name": 55
@@ -1069,7 +1067,7 @@ TEST_F(ConfigProviderTest, Success_LastUpdatedParameterSetReceiveHandlerCalledTw
         "qualifier": 3
     }
     )");
-    auto json_result_2 = json::JsonParser{}.FromBuffer(R"(
+    auto json_result_2 = score::json::JsonParser{}.FromBuffer(R"(
     {
         "parameters": {
             "parameter_name": 66
@@ -1184,7 +1182,7 @@ TEST_F(ConfigProviderTest, DuplicateSetParameterSetCallbackFails)
     const auto parameter_set_result2 = config_provider->OnChangedParameterSet(
         parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {});
     EXPECT_FALSE(parameter_set_result2.has_value());
-    EXPECT_EQ(parameter_set_result2.error(), MakeUnexpected(ConfigProviderError::kCallbackAlreadySet).error());
+    EXPECT_EQ(parameter_set_result2.error(), score::MakeUnexpected(ConfigProviderError::kCallbackAlreadySet).error());
 }
 
 TEST_F(ConfigProviderTest, DuplicateSetParameterSetCallbackFailsOnChangedParameterSetCbk)
@@ -1213,7 +1211,7 @@ TEST_F(ConfigProviderTest, DuplicateSetParameterSetCallbackFailsOnChangedParamet
     const auto parameter_set_result2 = config_provider->OnChangedParameterSetCbk(
         parameter_set_name_, [](std::shared_ptr<const ParameterSet>) noexcept {});
     EXPECT_FALSE(parameter_set_result2.has_value());
-    EXPECT_EQ(parameter_set_result2.error(), MakeUnexpected(ConfigProviderError::kCallbackAlreadySet).error());
+    EXPECT_EQ(parameter_set_result2.error(), score::MakeUnexpected(ConfigProviderError::kCallbackAlreadySet).error());
 }
 
 TEST_F(ConfigProviderTest, CallOnChangedParameterSetCbkWithEmptyCallback)
@@ -1233,7 +1231,7 @@ TEST_F(ConfigProviderTest, CallOnChangedParameterSetCbkWithEmptyCallback)
     // When OnChangedParameterSetCbk is called with null callback
     // Then it returns error for empty callback provided
     EXPECT_EQ(config_provider->OnChangedParameterSetCbk(parameter_set_name_, nullptr).error(),
-              MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
+              score::MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided).error());
 }
 
 TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency_WrongPsName)
@@ -1260,7 +1258,7 @@ TEST_F(ConfigProviderTest, ProxySearchingSuccess_ClientWait_EmptyPersistency_Wro
     // When trying to get a non-existing ParameterSet
     // Then expect kProxyReturnedNoResult error
     EXPECT_EQ(config_provider->GetParameterSet("wrong_set_name", std::nullopt).error(),
-              MakeUnexpected(ConfigProviderError::kProxyReturnedNoResult).error());
+              score::MakeUnexpected(ConfigProviderError::kProxyReturnedNoResult).error());
 
     // below needed only for debug logging coverage
     EXPECT_TRUE(config_provider->GetParameterSet("invalid_parameter_set", std::nullopt).has_value());
@@ -1393,7 +1391,7 @@ TEST_F(ConfigProviderTest, Test_FailedFetchInitialParameterSetValuesFrom)
     auto config_provider = CreateConfigProviderWithAvailableCallback([this]() noexcept {
         UnblockMakeProxyAvailable();
     });
-    score::Result<score::json::Any> value_not_found_result{MakeUnexpected(ConfigProviderError::kValueNotFound)};
+    score::Result<score::json::Any> value_not_found_result{score::MakeUnexpected(ConfigProviderError::kValueNotFound)};
     SetUpProxy(parameter_set_name_, value_not_found_result);
     BlockUntilProxyIsReady(stop_source_.get_token());
     // Given a ConfigProvider instance which finds a proxy, which would return error when GetParameterSet is called
@@ -1454,7 +1452,7 @@ TEST_F(ConfigProviderTest, LastUpdatedParameterSetFailedGetParameterSet)
     // When the registered_on_changed_parameter_set_callback_ is called with registered name
     // Then GetParameterSet function would be triggered with this name
     EXPECT_CALL(*icp_mock_, GetParameterSet(std::string_view(parameter_set_name_), _, _))
-        .WillOnce(Return(ByMove(MakeUnexpected(ConfigProviderError::kProxyReturnedNoResult))));
+        .WillOnce(Return(ByMove(score::MakeUnexpected(ConfigProviderError::kProxyReturnedNoResult))));
     registered_on_changed_parameter_set_callback_(parameter_set_name_);
 }
 
@@ -1476,7 +1474,8 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_ProxyNotReady)
     for (const auto& [name, value] : result)
     {
         EXPECT_FALSE(value.has_value());
-        EXPECT_EQ(value.error(), MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready").error());
+        EXPECT_EQ(value.error(),
+                  score::MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready").error());
     }
 }
 
@@ -1500,15 +1499,15 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_WithProxy)
     BlockUntilProxyIsReady(stop_source_.get_token());
 
     // Then GetParameterSetsByNameList would get cached value for "parameter_set_name_"
-    auto json_result = json::JsonParser{}.FromBuffer(R"({"parameters":{"parameter_name":123},"qualifier":1})");
+    auto json_result = score::json::JsonParser{}.FromBuffer(R"({"parameters":{"parameter_name":123},"qualifier":1})");
     EXPECT_CALL(*icp_mock_, GetParameterSet(StringViewCompare("new_set"), _, _))
         .WillOnce(Return(ByMove(std::move(json_result))));
 
     // Then GetParameterSet would get error for "missing_set" which is a key not existing in persistency nor
     // retrievable from proxy
     EXPECT_CALL(*icp_mock_, GetParameterSet(StringViewCompare("missing_set"), _, _))
-        .WillOnce(
-            Return(ByMove(MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found"))));
+        .WillOnce(Return(
+            ByMove(score::MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found"))));
 
     score::cpp::pmr::vector<std::string_view> set_names{std::string_view(parameter_set_name_), "missing_set", "new_set"};
     // When GetParameterSetsByNameList is called
@@ -1530,7 +1529,7 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_WithProxy)
 
     EXPECT_FALSE(result.at("missing_set").has_value());
     EXPECT_EQ(result.at("missing_set").error(),
-              MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found").error());
+              score::MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found").error());
 
     EXPECT_TRUE(result.at("new_set").has_value());
     EXPECT_EQ(result.at("new_set").value()->GetParameterAs<std::uint32_t>("parameter_name").value(), 123);
@@ -1551,14 +1550,14 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_ConcurrentAccess)
     });
     BlockUntilProxyIsReady(stop_source_.get_token());
 
-    auto json_result = json::JsonParser{}.FromBuffer(R"({"parameters":{"parameter_name":123},"qualifier":1})");
+    auto json_result = score::json::JsonParser{}.FromBuffer(R"({"parameters":{"parameter_name":123},"qualifier":1})");
     EXPECT_CALL(*icp_mock_, GetParameterSet(StringViewCompare("new_set"), _, _))
         .WillRepeatedly(Invoke([](const std::string_view, const std::chrono::milliseconds, const AdditionalShmSizing&) {
-            return json::JsonParser{}.FromBuffer(R"({"parameters":{"parameter_name":123},"qualifier":1})");
+            return score::json::JsonParser{}.FromBuffer(R"({"parameters":{"parameter_name":123},"qualifier":1})");
         }));
     EXPECT_CALL(*icp_mock_, GetParameterSet(StringViewCompare("missing_set"), _, _))
         .WillRepeatedly(Invoke([](const std::string_view, const std::chrono::milliseconds, const AdditionalShmSizing&) {
-            return MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found");
+            return score::MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found");
         }));
 
     score::cpp::pmr::vector<std::string_view> set_names{std::string_view(parameter_set_name_), "missing_set", "new_set"};
@@ -1614,7 +1613,7 @@ TEST_F(ConfigProviderTest, GetParameterSetsByNameList_ConcurrentAccess)
 
         EXPECT_FALSE(result.at("missing_set").has_value());
         EXPECT_EQ(result.at("missing_set").error(),
-                  MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found").error());
+                  score::MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found").error());
 
         EXPECT_TRUE(result.at("new_set").has_value());
         EXPECT_EQ(result.at("new_set").value()->GetParameterAs<std::uint32_t>("parameter_name").value(), 123);
@@ -1638,7 +1637,7 @@ TEST_F(ConfigProviderTest, GetParameterSet_ConcurrentAccess)
 
     constexpr size_t kThreadCount = 3;
     std::vector<std::thread> threads;
-    std::vector<Result<std::shared_ptr<const ParameterSet>>> results(kThreadCount);
+    std::vector<score::Result<std::shared_ptr<const ParameterSet>>> results(kThreadCount);
 
     // Coordination primitives
     std::mutex start_mutex;
@@ -1953,12 +1952,12 @@ INSTANTIATE_TEST_SUITE_P(RepeatTenTimes, RepeatableConfigProviderTest, ::testing
 // * Build fails if a public signature is removed or changed (compile error acts as guard).
 // * Update: add one trivial usage per newly added public symbol.
 // * Migration (add → deprecate → remove): add new symbol; add usage here; run
-//   spp_promote_test; deprecate old; wait release window; remove old + usage;
+//   the promote test; deprecate old; wait release window; remove old + usage;
 //   update docs if semantics changed. Keep changes incremental.
 // * Reviewer non‑breaking steps when an existing API changes:
-//     1. Run spp_promote_test to see if any downstream repos still use the old method.
+//     1. Run the promote test to see if any downstream repos still use the old method.
 //     2. Introduce the new version beside the old; add BOTH usages here.
-//     3. After all users migrate (verified again via spp_promote_test):
+//     3. After all users migrate (verified again via the promote test):
 //        - Remove old usage from this function.
 //        - Remove / modify the old API symbol.
 //     4. If any users remain, do NOT alter/remove the old symbol or its usage.

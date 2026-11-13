@@ -71,3 +71,90 @@ cc_test(
         "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )
+
+[
+    cc_library(
+        name = "internal_config_provider_service" + name,
+        testonly = test_only,
+        srcs = [
+            "internal_config_provider_service_impl.cpp",
+        ],
+        hdrs = [
+            "internal_config_provider_service_impl.h",
+        ],
+        features = COMPILER_WARNING_FEATURES,
+        tags = ["FUSA"],
+        visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
+        deps = [
+            "//score/config_management/config_daemon/code/data_model/error",
+            "//score/config_management/config_daemon/code/services",
+            "//score/config_management/lib/mw_com_types:internal_config_provider_type",
+            "@score_logging//score/mw/log",
+        ] + dep,
+    )
+    for name, dep, test_only in [
+        (
+            "_impl",
+            [
+                ":internal_config_provider_skeleton",
+                "//score/config_management/config_daemon/code/services:internal_config_provider_reactor",
+                "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+                "@score_baselibs//score/result",
+                "@score_communication//score/mw/com",
+            ],
+            False,
+        ),
+        (
+            "_for_unit_test",
+            [
+                ":internal_config_provider_skeleton_fake_for_unit_test",
+                "//score/config_management/config_daemon/code/services:internal_config_provider_reactor_mock",
+                "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
+            ],
+            True,
+        ),
+    ]
+]
+
+cc_library(
+    name = "internal_config_provider_skeleton",
+    hdrs = ["internal_config_provider_skeleton.h"],
+    features = COMPILER_WARNING_FEATURES,
+    tags = ["FUSA"],
+    visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
+    deps = [
+        "//score/config_management/lib/mw_com_types:internal_config_provider_type",
+        "@score_communication//score/mw/com",
+    ],
+)
+
+cc_library(
+    name = "internal_config_provider_skeleton_fake_for_unit_test",
+    testonly = True,
+    hdrs = ["fake/internal_config_provider_skeleton.h"],
+    features = COMPILER_WARNING_FEATURES,
+    include_prefix = "score/config_management/config_daemon/code/services/details",
+    strip_include_prefix = "fake",
+    visibility = ["//score/config_management/config_daemon/code:__subpackages__"],
+    deps = [
+        "//score/config_management/lib/mw_com_types:internal_config_provider_type",
+        "@score_baselibs//score/result",
+        "@score_communication//score/mw/com",
+    ],
+)
+
+cc_test(
+    name = "unit_test_internal_config_provider_service_impl",
+    srcs = [
+        "internal_config_provider_service_impl_test.cpp",
+    ],
+    features = COMPILER_WARNING_FEATURES + [
+        "aborts_upon_exception",
+    ],
+    tags = ["unit"],
+    visibility = ["//score/config_management/config_daemon/code/services/details:__pkg__"],
+    deps = [
+        ":internal_config_provider_service_for_unit_test",
+        "@googletest//:gtest_main",
+    ],
+)

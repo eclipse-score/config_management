@@ -44,7 +44,7 @@ cc_library(
         ":config_provider",
         "//score/config_management/config_provider/code/parameter_set",
         "@googletest//:gtest",
-        "@score_baselibs//score/json:json_parser",
+        "@score_baselibs//score/json",
         "@score_baselibs//score/language/futurecpp",
     ],
 )

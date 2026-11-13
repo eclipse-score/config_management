@@ -48,7 +48,7 @@ COMMON_FEATURES = [
             "details_score",
             False,
             [
-                "@score_persistency//:kvs_cpp",
+                "@score_persistency//score/kvs",
             ],
         ),
         (

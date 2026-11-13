@@ -16,7 +16,7 @@
 
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/parameter_set_storage.h"
 
-#include "kvs.hpp"
+#include "score/kvs/kvs.h"
 
 #include <memory>
 #include <string>
@@ -37,7 +37,7 @@ class ParameterSetStorageScoreImpl final : public IParameterSetStorage
 {
   public:
     /// @brief Construct the storage impl, taking ownership of an opened Kvs instance.
-    explicit ParameterSetStorageScoreImpl(std::unique_ptr<score::mw::per::kvs::Kvs> kvs) noexcept;
+    explicit ParameterSetStorageScoreImpl(std::unique_ptr<score::kvs::Kvs> kvs) noexcept;
 
     score::Result<void> StoreParameterSetCollection(data_model::IParameterSetCollection& collection) noexcept override;
 
@@ -48,7 +48,7 @@ class ParameterSetStorageScoreImpl final : public IParameterSetStorage
   private:
     score::Result<std::string> ReadParameterSetCollectionHash() const noexcept;
     score::Result<void> PersistParameterSetCollectionHash(const std::string& hash) noexcept;
-    std::unique_ptr<score::mw::per::kvs::Kvs> kvs_;
+    std::unique_ptr<score::kvs::Kvs> kvs_;
 };
 
 }  // namespace data_model

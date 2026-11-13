@@ -10,8 +10,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-#ifndef SCORE_AAS_CONFIG_MANAGEMENT_LIB_MW_COM_TYPES_RUNTIME_SIZED_ARRAY_H
-#define SCORE_AAS_CONFIG_MANAGEMENT_LIB_MW_COM_TYPES_RUNTIME_SIZED_ARRAY_H
+#ifndef SCORE_CONFIG_MANAGEMENT_LIB_MW_COM_TYPES_RUNTIME_SIZED_ARRAY_H
+#define SCORE_CONFIG_MANAGEMENT_LIB_MW_COM_TYPES_RUNTIME_SIZED_ARRAY_H
 
 #include <score/assert.hpp>
 
@@ -169,4 +169,4 @@ inline const ElementType& RuntimeSizedArray<ElementType, Allocator>::at(const si
 
 }  // namespace score::config_management::config_daemon::mw_com_icp_types
 
-#endif  // SCORE_AAS_CONFIG_MANAGEMENT_LIB_MW_COM_TYPES_RUNTIME_SIZED_ARRAY_H
+#endif  // SCORE_CONFIG_MANAGEMENT_LIB_MW_COM_TYPES_RUNTIME_SIZED_ARRAY_H

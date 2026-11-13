@@ -16,7 +16,6 @@
 
 #include "score/config_management/config_daemon/code/factory/factory.h"
 #include "score/config_management/config_daemon/code/factory/infrastructure_factory.h"
-#include "score/config_management/config_daemon/code/factory/service_factory.h"
 
 #include <memory>
 
@@ -52,7 +51,6 @@ class FactoryImpl final : public Factory
     std::unique_ptr<IPluginCollector> CreatePluginCollector() const override;
 
   private:
-    std::unique_ptr<ServiceFactory> service_factory_;
     std::unique_ptr<InfrastructureFactory> infrastructure_factory_;
 };
 
