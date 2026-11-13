@@ -12,8 +12,8 @@
 // *******************************************************************************
 
 #include "score/config_management/lib/parameter_set_json_serializer/details/parameter_set_json_serializer_impl.h"
-
 #include "score/config_management/lib/parameter_set_json_serializer/error/error.h"
+
 #include "score/json/internal/model/any.h"
 #include "score/json/internal/model/number.h"
 
@@ -94,14 +94,14 @@ void AppendEscaped(const std::string_view value, score::cpp::pmr::string& out)
     out += '"';
 }
 
-Result<void> AppendDouble(const double value, score::cpp::pmr::string& out)
+score::Result<void> AppendDouble(const double value, score::cpp::pmr::string& out)
 {
     // JSON (RFC 8259) has no token for NaN/Infinity; streaming them via operator<< would emit "nan"/"inf"/"-inf"
     // (formatting is locale/platform-dependent), producing invalid JSON that would break any conformant parser.
     // Refuse to guess a value (e.g. by falling back to `null`) and report an error instead.
     if (!std::isfinite(value))
     {
-        return MakeUnexpected(ParameterSetJsonSerializerError::kNonFiniteNumber);
+        return score::MakeUnexpected<void>(ParameterSetJsonSerializerError::kNonFiniteNumber);
     }
     std::ostringstream stream{};
     // Force the classic (C) locale so the decimal separator is always '.', independent of any globally imbued
@@ -115,9 +115,9 @@ Result<void> AppendDouble(const double value, score::cpp::pmr::string& out)
 }
 
 // Forward declaration: AppendValue and AppendList are mutually recursive (nested lists).
-Result<void> AppendValue(const json::Any& value, score::cpp::pmr::string& out);
+score::Result<void> AppendValue(const score::json::Any& value, score::cpp::pmr::string& out);
 
-Result<void> AppendParameters(const json::Object& parameters, score::cpp::pmr::string& out)
+score::Result<void> AppendParameters(const score::json::Object& parameters, score::cpp::pmr::string& out)
 {
     // STRUCT-02: one member per parameter, member name = parameter name, member value = parameter value.
     out += '{';
@@ -143,7 +143,7 @@ Result<void> AppendParameters(const json::Object& parameters, score::cpp::pmr::s
     return {};
 }
 
-Result<void> AppendList(const json::List& list, score::cpp::pmr::string& out)
+score::Result<void> AppendList(const score::json::List& list, score::cpp::pmr::string& out)
 {
     // STRUCT-04: one nesting level per dimension; element order (first dimension outermost) is preserved.
     out += '[';
@@ -166,15 +166,15 @@ Result<void> AppendList(const json::List& list, score::cpp::pmr::string& out)
     return {};
 }
 
-Result<void> AppendNumber(const json::Number& number, score::cpp::pmr::string& out)
+score::Result<void> AppendNumber(const score::json::Number& number, score::cpp::pmr::string& out)
 {
-    // json::Number hides its actual underlying arithmetic type. The only way to recover a value from it is to
+    // score::json::Number hides its actual underlying arithmetic type. The only way to recover a value from it is to
     // probe the supported alternatives via As<T>() and use the first one that succeeds without loss.
     //
     // This class is only ever used on JSON produced by parsing a JSON string via the score::json parser, which
     // guarantees that every number is stored either as an unsigned/signed integer (as small as it fits) or, for
-    // floating-point numbers, always as a 'double' (never as a 'float'). Hand-constructed json::Object trees that
-    // hold a 'float' value are out of scope for this class and are not probed for here.
+    // floating-point numbers, always as a 'double' (never as a 'float'). Hand-constructed score::json::Object trees
+    // that hold a 'float' value are out of scope for this class and are not probed for here.
     if (const auto unsigned_value = number.As<std::uint64_t>(); unsigned_value.has_value())
     {
         out += std::to_string(unsigned_value.value());
@@ -189,20 +189,20 @@ Result<void> AppendNumber(const json::Number& number, score::cpp::pmr::string& o
     {
         return AppendDouble(double_value.value(), out);
     }
-    // Every alternative of json::ArithmeticType that the parser can produce is expected to convert losslessly to
+    // Every alternative of score::json::ArithmeticType that the parser can produce is expected to convert losslessly to
     // at least one of the types probed above. If none did, refuse to guess a value (which could silently write an
     // incorrect number into the output) and report an error instead.
-    return MakeUnexpected(ParameterSetJsonSerializerError::kUnsupportedNumberType);
+    return score::MakeUnexpected<void>(ParameterSetJsonSerializerError::kUnsupportedNumberType);
 }
 
-Result<void> AppendValue(const json::Any& value, score::cpp::pmr::string& out)
+score::Result<void> AppendValue(const score::json::Any& value, score::cpp::pmr::string& out)
 {
     // A parameter value is a scalar (number or boolean) or a (nested) list thereof (STRUCT-02, STRUCT-04).
-    if (const auto list = value.As<json::List>(); list.has_value())
+    if (const auto list = value.As<score::json::List>(); list.has_value())
     {
         return AppendList(list.value().get(), out);
     }
-    if (const auto number = value.As<json::Number>(); number.has_value())
+    if (const auto number = value.As<score::json::Number>(); number.has_value())
     {
         return AppendNumber(number.value().get(), out);
     }
@@ -211,40 +211,42 @@ Result<void> AppendValue(const json::Any& value, score::cpp::pmr::string& out)
         out += boolean_value.value() ? "true" : "false";
         return {};
     }
-    // Any other value (e.g. a json::Object, json::Null or a string) is not a valid parameter value as per the
-    // contract and has no budget in the size formula. Refuse to emit it, as that could exceed the buffer size
+    // Any other value (e.g. a score::json::Object, score::json::Null or a string) is not a valid parameter value as per
+    // the contract and has no budget in the size formula. Refuse to emit it, as that could exceed the buffer size
     // computed at build time; report an error instead.
-    return MakeUnexpected(ParameterSetJsonSerializerError::kUnsupportedValueType);
+    return score::MakeUnexpected<void>(ParameterSetJsonSerializerError::kUnsupportedValueType);
 }
 
 }  // namespace
 
-Result<score::cpp::pmr::string> ParameterSetJsonSerializerImpl::SerializeParameters(const json::Object& parameters) const
+score::Result<score::cpp::pmr::string> ParameterSetJsonSerializerImpl::SerializeParameters(
+    const score::json::Object& parameters) const
 {
     score::cpp::pmr::string buffer{};
     const auto result = AppendParameters(parameters, buffer);
     if (!result.has_value())
     {
-        return MakeUnexpected<score::cpp::pmr::string>(result.error());
+        return score::MakeUnexpected<score::cpp::pmr::string>(result.error());
     }
     return buffer;
 }
 
-Result<score::cpp::pmr::string> ParameterSetJsonSerializerImpl::SerializeParameterSet(const json::Object& parameters,
-                                                                               const std::uint8_t qualifier) const
+score::Result<score::cpp::pmr::string> ParameterSetJsonSerializerImpl::SerializeParameterSet(
+    const score::json::Object& parameters,
+    const std::uint8_t qualifier) const
 {
     // BUD-02: the qualifier is budgeted with 1 octet. Refuse any value that is not a single decimal digit, as it would
     // exceed the buffer size computed at build time.
     if (qualifier > kMaxQualifier)
     {
-        return MakeUnexpected(ParameterSetJsonSerializerError::kQualifierOutOfRange);
+        return score::MakeUnexpected<score::cpp::pmr::string>(ParameterSetJsonSerializerError::kQualifierOutOfRange);
     }
     // STRUCT-01: exactly the two members "parameters" and "qualifier".
     score::cpp::pmr::string buffer{R"({"parameters":)"};
     const auto result = AppendParameters(parameters, buffer);
     if (!result.has_value())
     {
-        return MakeUnexpected<score::cpp::pmr::string>(result.error());
+        return score::MakeUnexpected<score::cpp::pmr::string>(result.error());
     }
     // STRUCT-03 / BUD-02: numeric underlying value of the qualifier. Widen explicitly so that the value is never
     // formatted as a character.

@@ -1,0 +1,32 @@
+@startuml
+
+!includesub ../assets/app/config_daemon.puml!ConfigDaemon
+!includesub ../assets/app/config_daemon.puml!IConfigDaemon
+!includesub ../assets/factory/factory.puml!IFactory
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!IParameterSetCollection
+!includesub ../assets/plugins/plugin.puml!IPlugin
+!includesub ../assets/services/internal_config_provider_service.puml!InternalConfigProviderService
+
+!startsub ConfigDaemonStaticArchitecture
+
+title "ConfigDaemon Static Architecture"
+
+skinparam linetype ortho
+class "mw::service::ProvidedServicesContainer" as ProvidedServicesContainer
+
+
+ConfigDaemon -up-|> IConfigDaemon
+ConfigDaemon o-right- IParameterSetCollection
+ConfigDaemon o-down- IPlugin
+ConfigDaemon o-left- IFactory
+ProvidedServicesContainer o-up- InternalConfigProviderService
+ConfigDaemon o-up- ProvidedServicesContainer
+
+IFactory --> IParameterSetCollection: create
+IFactory -up-> ProvidedServicesContainer: create
+InternalConfigProviderService .up.> IParameterSetCollection: read from
+IPlugin .right.> IParameterSetCollection: update to
+
+!endsub
+
+@enduml

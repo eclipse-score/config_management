@@ -1,0 +1,20 @@
+@startuml
+
+skinparam linetype ortho
+
+
+!includesub ../assets/fault_event_reporter/fault_event_reporter.puml!IFaultEventReporter
+!includesub ../assets/fault_event_reporter/fault_event_reporter.puml!FaultEventReporter
+!includesub ../assets/fault_event_reporter/fault_event_reporter.puml!FaultEventId
+!includesub ../assets/fault_event_reporter/factory/factory.puml!IFactory
+!includesub ../assets/fault_event_reporter/factory/factory.puml!Factory
+!includesub ../assets/proxies/fault_event_proxy/fault_event_proxy.puml!IFaultEventProxy
+!includesub ../assets/proxies/fault_event_proxy/fault_event_proxy.puml!FaultEventProxy
+
+
+FaultEventReporter *-- IFactory
+FaultEventReporter o-- IFaultEventProxy
+IFactory *-- FaultEventProxy
+FaultEventReporter .down.> FaultEventId
+
+@enduml

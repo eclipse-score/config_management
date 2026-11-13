@@ -18,8 +18,9 @@
 #include "score/config_management/config_daemon/code/fault_event_reporter/details/fault_event_reporter_score_impl.h"
 #include "score/config_management/config_daemon/code/json_helper/details/json_helper_impl.h"
 
-#include "kvsbuilder.hpp"
 #include "score/mw/log/logging.h"
+
+#include "score/kvs/kvs_builder.h"
 
 #include <memory>
 
@@ -38,11 +39,11 @@ InfrastructureFactoryImpl::InfrastructureFactoryImpl()
 std::shared_ptr<data_model::IParameterSetCollectionManager>
 InfrastructureFactoryImpl::CreateParameterSetCollectionManager(std::vector<std::shared_ptr<IPlugin>>& plugins) const
 {
-    auto kvs_result = score::mw::per::kvs::KvsBuilder(score::mw::per::kvs::InstanceId{0U})
-                          .need_defaults_flag(false)
-                          .need_kvs_flag(false)
-                          .dir("/persistent/trusted/ConfigDaemon")
-                          .build();
+    auto kvs_result = score::kvs::KvsBuilder(score::kvs::InstanceId{0U})
+                          .Defaults(score::kvs::KvsDefaults::kOptional)
+                          .KvsLoad(score::kvs::KvsLoad::kOptional)
+                          .WorkingDir("/persistent/trusted/ConfigDaemon")
+                          .Build();
     if (!kvs_result.has_value())
     {
         mw::log::LogError() << "InfrastructureFactoryImpl::" << __func__
@@ -50,7 +51,7 @@ InfrastructureFactoryImpl::CreateParameterSetCollectionManager(std::vector<std::
         return nullptr;
     }
     auto storage = std::make_unique<data_model::ParameterSetStorageScoreImpl>(
-        std::make_unique<score::mw::per::kvs::Kvs>(std::move(kvs_result).value()));
+        std::make_unique<score::kvs::Kvs>(std::move(kvs_result).value()));
 
     auto primary_collection = std::make_shared<data_model::ParameterSetCollection>();
     return std::make_shared<data_model::ParameterSetCollectionManager>(

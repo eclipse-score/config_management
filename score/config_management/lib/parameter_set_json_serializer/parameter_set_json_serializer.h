@@ -51,7 +51,7 @@ class ParameterSetJsonSerializer
     /// @brief Serializes the parameters as one JSON object with one member per parameter (ConfigCalibration payload).
     /// @param parameters One member per parameter: member name = parameter name, member value = parameter value.
     /// @return The serialized payload, or an error if a parameter value cannot be serialized as per the contract.
-    virtual Result<score::cpp::pmr::string> SerializeParameters(const json::Object& parameters) const = 0;
+    virtual score::Result<score::cpp::pmr::string> SerializeParameters(const score::json::Object& parameters) const = 0;
 
     /// @brief Serializes the parameters and qualifier as {"parameters":{...},"qualifier":<n>}
     /// (InternalConfigProvider payload).
@@ -59,8 +59,8 @@ class ParameterSetJsonSerializer
     /// @param qualifier  The underlying value of the ParameterSetQualifier, a single decimal digit (0..9, BUD-02).
     /// @return The serialized payload, or an error if the qualifier is greater than 9 or a parameter value cannot be
     /// serialized as per the contract.
-    virtual Result<score::cpp::pmr::string> SerializeParameterSet(const json::Object& parameters,
-                                                           std::uint8_t qualifier) const = 0;
+    virtual score::Result<score::cpp::pmr::string> SerializeParameterSet(const score::json::Object& parameters,
+                                                                  std::uint8_t qualifier) const = 0;
 };
 
 }  // namespace config_management

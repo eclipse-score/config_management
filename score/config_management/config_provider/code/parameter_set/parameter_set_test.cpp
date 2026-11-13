@@ -11,6 +11,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
+
 #include "score/json/json_parser.h"
 
 #include <gtest/gtest.h>
@@ -31,9 +32,9 @@ namespace test
 // * Build fails if a public signature is removed or changed.
 // * Update: add one trivial usage per newly added public method or alias.
 // * Migration (add → deprecate → remove): add new symbol; add usage here; run
-//   spp_promote_test; deprecate old; wait release window; remove old + usage.
+//   the promote test; deprecate old; wait release window; remove old + usage.
 // * Reviewer non‑breaking steps:
-//     1. Run spp_promote_test for downstream usages.
+//     1. Run the promote test for downstream usages.
 //     2. Add new method beside old; include BOTH in coverage.
 //     3. After migration, drop old usage + method.
 //     4. If downstream remains, keep old method/usage unchanged.
@@ -144,7 +145,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Unqualified)
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is unqualified
     const auto* str = R"(
     {
@@ -171,7 +172,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Qualified)
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is qualified
     const auto* str = R"(
     {
@@ -199,7 +200,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Default)
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is default
     const auto* str = R"(
     {
@@ -226,7 +227,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Modified)
     RecordProperty("Description", "14602333: Verifies that the parameter set qualifier is modified.");
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is modified
     const auto* str = R"(
     {
@@ -253,7 +254,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Qualifying)
     RecordProperty("TestType", "Requirements-based test");
     RecordProperty("DerivationTechnique", "Analysis of requirements");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is qualifying
     const auto* str = R"(
     {
@@ -287,7 +288,7 @@ TEST_P(GetQualifierFromStringTest, ReturnsExpectedQualifier)
 
     const auto& [qualifier_string, expected_qualifier] = GetParam();
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is encoded as a human-readable string
     const auto str = std::string{R"(
     {
@@ -323,7 +324,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_UnknownString)
     RecordProperty("TestType", "Fault injection test");
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is a string not matching any known qualifier name
     const auto* str = R"(
     {
@@ -350,7 +351,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_Invalid)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetQualifiers()");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is an invalid integer
     const auto* str = R"(
     {
@@ -376,7 +377,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_WrongJsonType)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetQualifiers()");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set qualifier is of wrong json type
     const auto* str = R"(
     {
@@ -401,7 +402,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_NotAnObject)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetQualifiers()");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     score::json::Any set_json{false};
     // Given the parameter set is not a JSON object
     ParameterSet parameter_set{std::move(set_json)};
@@ -420,7 +421,7 @@ TEST(ParameterQualifierTest, GetQualifierTest_NoQualifier)
     RecordProperty("DerivationTechnique", "Error guessing based on knowledge or experience");
     RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetQualifiers()");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     // Given the parameter set is missing the qualifier
     const auto* str = R"(
     {
@@ -463,7 +464,7 @@ TEST(SimpleParameterSetTest, ConstructionWithParamJson)
     RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     RecordProperty("Description", "This test verifies successful operation of GetParameterAs function");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto string = GenerateDummyParameterSetJsonString();
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(string).value())};
     // Given the parameter set contains a parameter named "parameter_name" with integer value 55
@@ -540,7 +541,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsPass)
     "alg_abort_distance_unsupported_type_2dArray" : [[1, 2], null]
     })";
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     ParameterSet parameter_set_input{std::move(json_parser.FromBuffer(json_input_string).value())};
 
     parameter_set_expected_formatted_string.erase(
@@ -570,7 +571,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsInvalidJsonFormat)
 
     // Given the parameter set with invalid json format
     const auto* const json_input = R"("live")";
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(json_input).value())};
 
     // Expect the FormatAsKeyValuePairs function to return an ObjectCastingError
@@ -607,7 +608,7 @@ TEST(ParameterSetFormatTest, FormatAsKeyValuePairsParametersKeywordNotFound)
     }
     })";
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(json_input).value())};
 
     // Then expect the FormatAsKeyValuePairs function to return a ParsingFailed error
@@ -624,7 +625,7 @@ TEST(SimpleParameterSetTest, GetParametersAsString)
     RecordProperty("Description",
                    "This test verifies success of conversion of parameters data from parameter set to string");
     // Given a parameter set contains simple parameters
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto complete_json = GenerateDummySimpleParameterSetJsonString();
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(complete_json).value())};
     auto parameter_get_from_parameter_set = parameter_set.GetParametersAsString().value();
@@ -690,7 +691,7 @@ TEST(SimpleParameterSetTest, GetParametersAsString_ConvertJsonToStringFailed)
     {
         "parameters": ""
     })";
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(text).value())};
     // Then expect GetParametersAsString would return object casting error
     auto result = parameter_set.GetParametersAsString().error();
@@ -738,7 +739,7 @@ class ParameterSetTest : public ::testing::Test
   public:
     void SetUp() override
     {
-        json::JsonParser json_parser{};
+        score::json::JsonParser json_parser{};
         auto string = GenerateDummyJsonString();
         auto json_result = json_parser.FromBuffer(string);
 
@@ -839,7 +840,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesAsDecimal)
                          "This test verifies success of GetParameterAs method with different float types when float "
                          "presented as decimal");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto result = this->GetParameterSet().template GetParameterAs<TypeParam>("float_as_decimal");
 
     ASSERT_TRUE(result.has_value());
@@ -858,7 +859,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesAsInteger)
                          "This test verifies success of GetParameterAs method with different float types when float "
                          "presented as integer");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto result = this->GetParameterSet().template GetParameterAs<TypeParam>("float_as_integer");
 
     ASSERT_TRUE(result.has_value());
@@ -876,7 +877,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesCompareIntegerAn
                          "This test verifies success of GetParameterAs method with different float types when "
                          "comparing float presented as integer and decimal");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto result_as_integer = this->GetParameterSet().template GetParameterAs<TypeParam>("float_as_integer");
     auto result_as_decimal = this->GetParameterSet().template GetParameterAs<TypeParam>("float_as_decimal");
 
@@ -893,7 +894,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAs_FloatTypesBigInFloatType)
     this->RecordProperty("Verifies", "::score::config_management::config_provider::ParameterSet::GetParameterAs()");
     this->RecordProperty("DerivationTechnique", "Analysis of boundary values");
     this->RecordProperty("Description", "This test verifies success of GetParameterAs method with big float number");
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto result = this->GetParameterSet().template GetParameterAs<TypeParam>("float_big_num");
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result.value(), json_parser.FromBuffer("123456789123456789.0").value().As<TypeParam>().value());
@@ -915,7 +916,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesAsDecimalFo
         this->GetParameterSet().template GetParameterAs<ParameterSet::Array<TypeParam>>("array_float_as_decimal");
     ASSERT_TRUE(result.has_value());
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto parse_result = json_parser.FromBuffer(std::move(expected_array));
 
     ASSERT_TRUE(parse_result.has_value()) << "Failed to parse JSON string";
@@ -948,7 +949,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesAsIntegerFo
         this->GetParameterSet().template GetParameterAs<ParameterSet::Array<TypeParam>>("array_float_as_integer");
     ASSERT_TRUE(result.has_value());
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto parse_result = json_parser.FromBuffer(std::move(expected_array));
 
     ASSERT_TRUE(parse_result.has_value()) << "Failed to parse JSON string";
@@ -981,7 +982,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsArray_FloatTypesWithMixedIn
         "array_float_mixed_integer_and_decimal");
     ASSERT_TRUE(result.has_value());
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto parse_result = json_parser.FromBuffer(std::move(expected_array));
 
     ASSERT_TRUE(parse_result.has_value()) << "Failed to parse JSON string";
@@ -1014,7 +1015,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsTwoDimensionalArray_FloatTy
         "array2d_float_as_decimal");
     ASSERT_TRUE(result.has_value());
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto parse_result = json_parser.FromBuffer(expected_array);
     ASSERT_TRUE(parse_result.has_value()) << "Failed to parse JSON string";
 
@@ -1056,7 +1057,7 @@ TYPED_TEST(FloatTypedParameterSetTest, GetParameterAsTwoDimensionalArray_FloatTy
         "array2d_float_as_integer");
     ASSERT_TRUE(result.has_value());
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto parse_result = json_parser.FromBuffer(expected_array);
     ASSERT_TRUE(parse_result.has_value()) << "Failed to parse JSON string";
 
@@ -1099,7 +1100,7 @@ TYPED_TEST(FloatTypedParameterSetTest,
         "array2d_float_mixed_integer_and_decimal");
     ASSERT_TRUE(result.has_value());
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     auto parse_result = json_parser.FromBuffer(expected_array);
     ASSERT_TRUE(parse_result.has_value()) << "Failed to parse JSON string";
 
@@ -1139,7 +1140,7 @@ TEST_F(ParameterSetTest, TestContainsSameContent)
                    "content, regardless of its qualifier."
                    "Otherwise, this function would return false.");
 
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     const auto* content_v1_qualifier_v1 = R"(
     {
         "parameters": {
@@ -1424,7 +1425,7 @@ TEST(SimpleParameterSetTest, GetParameterAs_ParametersNotAnObject)
         "parameters": 5,
         "qualifier": 0
     })";
-    json::JsonParser json_parser{};
+    score::json::JsonParser json_parser{};
     ParameterSet parameter_set{std::move(json_parser.FromBuffer(text).value())};
     auto result = parameter_set.GetParameterAs<bool>("parameter").error();
     // Then expect ObjectCasting error

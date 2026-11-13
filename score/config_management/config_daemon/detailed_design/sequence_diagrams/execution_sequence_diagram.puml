@@ -1,0 +1,123 @@
+@startuml
+skinparam SequenceMessageAlignment center
+title ConfigDaemon Execution Sequence Diagram
+
+participant main
+participant LifeCycleManager
+participant ConfigDaemon
+participant Factory
+participant ParameterSetCollection
+participant PluginCollector
+participant PluginCreator
+participant Plugin
+participant InternalConfigProviderService
+' ' !includesub ../sequence_diagrams/startup_procedure_score_details.puml!ParticipantDetails
+participant "mw::com" as COM
+
+group Construction stage
+create Factory
+main -> Factory: create
+Factory --> main
+
+create ConfigDaemon
+main -> ConfigDaemon: create
+ConfigDaemon -> Factory : CreateParameterSetCollection()
+create ParameterSetCollection
+Factory --> ParameterSetCollection: create
+ParameterSetCollection --> Factory
+Factory --> ConfigDaemon
+ConfigDaemon --> main
+
+create LifeCycleManager
+main -> LifeCycleManager: create
+LifeCycleManager --> main
+end group
+
+
+
+main -> LifeCycleManager: run
+activate LifeCycleManager
+
+
+group Initialization stage
+LifeCycleManager -> ConfigDaemon: Initialize(context)
+activate ConfigDaemon
+ConfigDaemon -> Factory : CreatePluginCollector()
+activate Factory
+create PluginCollector
+Factory -> PluginCollector : create
+create PluginCreator
+PluginCollector -> PluginCreator : create
+PluginCreator --> PluginCollector
+PluginCollector --> Factory
+Factory --> ConfigDaemon
+
+ConfigDaemon -> PluginCollector : CreatePlugins()
+activate PluginCollector
+
+loop For each PluginCreator
+  PluginCollector -> PluginCreator : CreatePlugin()
+  create Plugin
+  PluginCreator -> Plugin : create
+  Plugin --> PluginCreator
+  PluginCreator --> PluginCollector
+' ' !includesub ../sequence_diagrams/startup_procedure_score_details.puml!PluginsCreation
+
+end loop
+
+PluginCollector --> Factory
+Factory --> ConfigDaemon
+deactivate PluginCollector
+
+deactivate Factory
+ConfigDaemon --> LifeCycleManager
+deactivate ConfigDaemon
+end group
+
+group Run stage
+LifeCycleManager -> ConfigDaemon: Run(stop_token)
+activate ConfigDaemon
+ConfigDaemon -> Factory : CreateInternalConfigProviderService()
+activate Factory
+create InternalConfigProviderService
+Factory -> InternalConfigProviderService : create (ProvidedServicesContainer::Emplace)
+InternalConfigProviderService --> Factory
+Factory -> InternalConfigProviderService : Start()
+activate InternalConfigProviderService
+InternalConfigProviderService -> COM : InternalConfigProviderSkeleton::OfferService()
+COM --> InternalConfigProviderService
+InternalConfigProviderService --> Factory
+deactivate InternalConfigProviderService
+Factory --> ConfigDaemon : ProvidedServicesContainer
+deactivate Factory
+loop For each Plugin
+  ConfigDaemon -> Plugin : Run()
+  activate Plugin
+  Plugin --> ConfigDaemon
+  deactivate Plugin
+' ' !includesub ../sequence_diagrams/startup_procedure_score_details.puml!PluginsRun
+end loop
+
+ConfigDaemon -> ConfigDaemon: wait_until_stop_requested()
+' ConfigDaemon --> LifeCycleManager
+
+LifeCycleManager -> ConfigDaemon: request stop
+ConfigDaemon -> InternalConfigProviderService : Stop() (ProvidedServicesContainer::StopAll)
+activate InternalConfigProviderService
+InternalConfigProviderService -> COM : InternalConfigProviderSkeleton::StopOfferService()
+COM --> InternalConfigProviderService
+InternalConfigProviderService --> ConfigDaemon
+deactivate InternalConfigProviderService
+loop For each Plugin
+  ConfigDaemon -> Plugin : Deinitialize()
+  activate Plugin
+  Plugin --> ConfigDaemon
+  deactivate Plugin
+' ' !includesub ../sequence_diagrams/startup_procedure_score_details.puml!PluginsRun
+end loop
+ConfigDaemon --> LifeCycleManager
+end group
+
+LifeCycleManager --> main: kExitCodeSuccess
+
+@enduml

@@ -10,7 +10,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#include "score/config_management/config_provider/code/config_provider/factory/factory_mw_com.h"
+
+#ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_DETAILS_INTERNAL_CONFIG_PROVIDER_PROXY_H
+#define SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_DETAILS_INTERNAL_CONFIG_PROVIDER_PROXY_H
+
+#include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
 
 namespace score
 {
@@ -19,16 +23,11 @@ namespace config_management
 namespace config_provider
 {
 
-ConfigProviderFactory::ConfigProviderFactory()
-    : logger_{mw::log::CreateLogger(std::string_view("CfgP"))}, buffer_size_report_path_{kDefaultBufferSizeReportPath}
-{
-}
-
-ConfigProviderFactory::ConfigProviderFactory(std::string_view buffer_size_report_path)
-    : logger_{mw::log::CreateLogger(std::string_view("CfgP"))}, buffer_size_report_path_{buffer_size_report_path}
-{
-}
+using InternalConfigProviderProxy =
+    ::score::mw::com::AsProxy<score::config_management::config_daemon::InternalConfigProviderInterface>;
 
 }  // namespace config_provider
 }  // namespace config_management
 }  // namespace score
+
+#endif  // SCORE_CONFIG_MANAGEMENT_CONFIG_PROVIDER_CODE_PROXIES_DETAILS_INTERNAL_CONFIG_PROVIDER_PROXY_H

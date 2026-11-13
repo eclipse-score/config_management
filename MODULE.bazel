@@ -147,19 +147,15 @@ bazel_dep(name = "buildifier_prebuilt", version = "8.5.1", dev_dependency = True
 bazel_dep(name = "grpc-java", version = "1.70.0")
 
 # s-core base libs
-bazel_dep(name = "score_baselibs", version = "0.2.14")
+bazel_dep(name = "score_baselibs", version = "0.2.18")
 
 # s-core communication
 bazel_dep(name = "score_communication", version = "0.5.0")
 
-# New mw::com APIs are not in a published release yet. Pinned to the earliest
-# commit with ProvidedServicesContainer (2026-10-01) rather than a later one,
-# since this commit still requires score_tooling@2.2.2 - newer commits bump to
-# score_tooling@2.3.1 (removes the `fmea` rule we use) and a much larger set
-# of transitive deps, which broke the exec-platform Rust toolchain used by docs.
+# New mw::com / mw::service APIs are not in a published release yet; pinned to communication main.
 git_override(
     module_name = "score_communication",
-    commit = "522cf18c557beabd3c8b6ce7fd805418fb37c045",
+    commit = "cb816c359803ded5c71792371fefdc901a8a39af",
     remote = "https://github.com/eclipse-score/communication.git",
 )
 
@@ -167,7 +163,7 @@ bazel_dep(name = "score_logging", version = "0.2.4")
 bazel_dep(name = "score_lifecycle", version = "0.7.0")
 
 # s-core persistency
-bazel_dep(name = "score_persistency", version = "0.3.5")
+bazel_dep(name = "score_persistency", version = "0.4.1")
 
 # TRLC / lobster: versions matching score_tooling 3.0.2
 bazel_dep(name = "trlc", version = "3.1.1", dev_dependency = True)

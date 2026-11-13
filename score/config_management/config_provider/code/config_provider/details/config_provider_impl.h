@@ -60,25 +60,25 @@ class ConfigProviderImpl final : public ConfigProvider
      * Gets the parameter set by the set's name
      */
     using ConfigProvider::GetParameterSet;
-    Result<std::shared_ptr<const ParameterSet>> GetParameterSet(const std::string_view set_name) override;
+    score::Result<std::shared_ptr<const ParameterSet>> GetParameterSet(const std::string_view set_name) override;
 
-    Result<std::shared_ptr<const ParameterSet>> GetParameterSet(
+    score::Result<std::shared_ptr<const ParameterSet>> GetParameterSet(
         const std::string_view set_name,
         const std::optional<std::chrono::milliseconds> timeout) override;
 
     ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                const std::optional<std::chrono::milliseconds> timeout) override;
-    Result<void> OnChangedParameterSet(const std::string& set_name,
-                                       OnChangedParameterSetCallback&& callback) noexcept override;
+    score::Result<void> OnChangedParameterSet(const std::string& set_name,
+                                              OnChangedParameterSetCallback&& callback) noexcept override;
 
-    Result<void> OnChangedParameterSetCbk(std::string_view set_name,
-                                          OnChangedParameterSetCallback&& callback) noexcept override;
+    score::Result<void> OnChangedParameterSetCbk(std::string_view set_name,
+                                                 OnChangedParameterSetCallback&& callback) noexcept override;
 
     InitialQualifierState GetInitialQualifierState(
         const std::optional<std::chrono::milliseconds> timeout) noexcept override;
 
     /// @brief Checks if any ParameterSet updates is available and stimulate polling routine.
-    Result<void> CheckParameterSetUpdates() const noexcept override;
+    score::Result<void> CheckParameterSetUpdates() const noexcept override;
 
     bool WaitUntilConnected(const std::chrono::milliseconds timeout,
                             const score::cpp::stop_token& stop_token) noexcept override;
@@ -103,13 +103,13 @@ class ConfigProviderImpl final : public ConfigProvider
                                      const score::cpp::stop_token& stop_token);
     void CacheInitialQualifierState(const InitialQualifierState initial_qualifier_state) noexcept;
     void LastUpdatedParameterSetReceiveHandler(const std::string_view set_name);
-    Result<std::shared_ptr<const ParameterSet>> GetParameterSetFromInternalConfigProvider(
+    score::Result<std::shared_ptr<const ParameterSet>> GetParameterSetFromInternalConfigProvider(
         const std::string_view set_name,
         const IInternalConfigProvider& internal_config_provider,
         const std::chrono::milliseconds timeout);
     ParameterMap FetchInitialParameterSetValuesFrom(const IInternalConfigProvider& internal_config_provider);
-    Result<void> RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
-                                                          OnChangedParameterSetCallback&& callback);
+    score::Result<void> RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
+                                                                 OnChangedParameterSetCallback&& callback);
     void RegisterCallbacksForPersistedParameterSetNames();
     void WriteInitialParameterSetValuesToPersistentCache(ParameterMap updated_parameter_sets);
 

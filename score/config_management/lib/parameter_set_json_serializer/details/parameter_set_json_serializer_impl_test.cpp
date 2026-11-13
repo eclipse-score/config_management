@@ -80,18 +80,18 @@ class CommaDecimalPointNumpunct : public std::numpunct<char>
     }
 };
 
-// Parses the given JSON text into a json::Object, exactly like the real production code path does. Test inputs are
-// created through this helper rather than by assembling json::Any values directly, unless the input cannot be
-// expressed through the parser (documented at the respective test).
-json::Object ParseObject(const std::string_view json_text)
+// Parses the given JSON text into a score::json::Object, exactly like the real production code path does. Test inputs
+// are created through this helper rather than by assembling score::json::Any values directly, unless the input cannot
+// be expressed through the parser (documented at the respective test).
+score::json::Object ParseObject(const std::string_view json_text)
 {
-    auto parse_result = json::JsonParser{}.FromBuffer(json_text);
+    auto parse_result = score::json::JsonParser{}.FromBuffer(json_text);
     if (!parse_result.has_value())
     {
         ADD_FAILURE() << "Failed to parse test JSON input: " << json_text;
         return {};
     }
-    auto object_result = parse_result.value().As<json::Object>();
+    auto object_result = parse_result.value().As<score::json::Object>();
     if (!object_result.has_value())
     {
         ADD_FAILURE() << "Test JSON input did not parse to a JSON object: " << json_text;
@@ -120,7 +120,7 @@ std::string SerializeSingleValue(const ParameterSetJsonSerializerImpl& serialize
     const std::string output{ToStdString(result.value())};
     if ((output.size() <= prefix.size()) || (output.compare(0U, prefix.size(), prefix) != 0) || (output.back() != '}'))
     {
-        ADD_FAILURE() << "Unexpected output framing: " << output;
+        ADD_FAILURE() << "score::Unexpected output framing: " << output;
         return {};
     }
     return output.substr(prefix.size(), output.size() - prefix.size() - 1U);
@@ -200,9 +200,9 @@ TEST_F(ParameterSetJsonSerializerImplFixture, SerializesEmptyParametersWithQuali
     RecordProperty("TestType", "Interface test");
     RecordProperty("Verifies", kVerifiesBoth);
 
-    const auto parameters_result = serializer_.SerializeParameters(json::Object{});
-    const auto min_qualifier_result = serializer_.SerializeParameterSet(json::Object{}, 0U);
-    const auto max_qualifier_result = serializer_.SerializeParameterSet(json::Object{}, kMaxQualifier);
+    const auto parameters_result = serializer_.SerializeParameters(score::json::Object{});
+    const auto min_qualifier_result = serializer_.SerializeParameterSet(score::json::Object{}, 0U);
+    const auto max_qualifier_result = serializer_.SerializeParameterSet(score::json::Object{}, kMaxQualifier);
 
     ASSERT_TRUE(parameters_result.has_value());
     ASSERT_TRUE(min_qualifier_result.has_value());
@@ -229,7 +229,7 @@ TEST_F(ParameterSetJsonSerializerImplFixture, FailsToSerializeQualifierThatIsNot
     {
         SCOPED_TRACE(static_cast<std::uint32_t>(qualifier));
 
-        const auto result = serializer_.SerializeParameterSet(json::Object{}, qualifier);
+        const auto result = serializer_.SerializeParameterSet(score::json::Object{}, qualifier);
 
         ASSERT_FALSE(result.has_value());
         EXPECT_EQ(result.error(), MakeError(ParameterSetJsonSerializerError::kQualifierOutOfRange));
@@ -370,8 +370,8 @@ TEST_F(ParameterSetJsonSerializerImplFixture, EscapesExactlyTheCharactersOfTheEs
     {
         name.push_back(static_cast<char>(code));
     }
-    json::Object parameters{};
-    parameters.emplace(std::move(name), json::Any{std::uint8_t{1U}});
+    score::json::Object parameters{};
+    parameters.emplace(std::move(name), score::json::Any{std::uint8_t{1U}});
 
     const auto result = serializer_.SerializeParameters(parameters);
 
@@ -493,8 +493,8 @@ TEST_F(ParameterSetJsonSerializerImplFixture, FailsToSerializeNonFiniteFloatingP
                                -std::numeric_limits<double>::infinity()})
     {
         SCOPED_TRACE(value);
-        json::Object parameters{};
-        parameters.emplace("v", json::Any{value});
+        score::json::Object parameters{};
+        parameters.emplace("v", score::json::Any{value});
 
         EXPECT_FALSE(serializer_.SerializeParameters(parameters).has_value());
         EXPECT_FALSE(serializer_.SerializeParameterSet(parameters, 0U).has_value());

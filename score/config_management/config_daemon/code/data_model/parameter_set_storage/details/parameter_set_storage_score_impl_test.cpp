@@ -43,12 +43,12 @@ class ParameterSetStorageScoreImplTest : public ::testing::Test
   protected:
     void SetUp() override
     {
-        auto kvs = std::make_unique<score::mw::per::kvs::MockKvs>();
+        auto kvs = std::make_unique<score::kvs::MockKvs>();
         kvs_mock_ = kvs.get();
         sut_ = std::make_unique<ParameterSetStorageScoreImpl>(std::move(kvs));
     }
 
-    score::mw::per::kvs::MockKvs* kvs_mock_{nullptr};
+    score::kvs::MockKvs* kvs_mock_{nullptr};
     std::unique_ptr<ParameterSetStorageScoreImpl> sut_;
 };
 
@@ -67,8 +67,8 @@ TEST_F(ParameterSetStorageScoreImplTest, StoreParameterSetCollection_EmptyCollec
             return score::json::Object{};
         });
 
-    EXPECT_CALL(*kvs_mock_, set_value(kParameterSetHashKvsKey, ::testing::_)).WillOnce(Return(score::Result<void>{}));
-    EXPECT_CALL(*kvs_mock_, flush()).WillOnce(Return(score::Result<void>{}));
+    EXPECT_CALL(*kvs_mock_, SetValue(kParameterSetHashKvsKey, ::testing::_)).WillOnce(Return(score::Result<void>{}));
+    EXPECT_CALL(*kvs_mock_, Flush()).WillOnce(Return(score::Result<void>{}));
 
     EXPECT_TRUE(sut_->StoreParameterSetCollection(collection_mock).has_value());
 }
@@ -88,9 +88,9 @@ TEST_F(ParameterSetStorageScoreImplTest, StoreParameterSetCollection_KvsSetValue
             return score::json::Object{};
         });
 
-    EXPECT_CALL(*kvs_mock_, set_value(kParameterSetHashKvsKey, ::testing::_))
+    EXPECT_CALL(*kvs_mock_, SetValue(kParameterSetHashKvsKey, ::testing::_))
         .WillOnce(Return(score::MakeUnexpected(ParameterSetStorageError::kUnableToSaveToPersistency)));
-    EXPECT_CALL(*kvs_mock_, flush()).Times(0);
+    EXPECT_CALL(*kvs_mock_, Flush()).Times(0);
 
     EXPECT_FALSE(sut_->StoreParameterSetCollection(collection_mock).has_value());
 }
@@ -110,8 +110,8 @@ TEST_F(ParameterSetStorageScoreImplTest, StoreParameterSetCollection_KvsFlushFai
             return score::json::Object{};
         });
 
-    EXPECT_CALL(*kvs_mock_, set_value(kParameterSetHashKvsKey, ::testing::_)).WillOnce(Return(score::Result<void>{}));
-    EXPECT_CALL(*kvs_mock_, flush())
+    EXPECT_CALL(*kvs_mock_, SetValue(kParameterSetHashKvsKey, ::testing::_)).WillOnce(Return(score::Result<void>{}));
+    EXPECT_CALL(*kvs_mock_, Flush())
         .WillOnce(Return(score::MakeUnexpected(ParameterSetStorageError::kUnableToSaveToPersistency)));
 
     EXPECT_FALSE(sut_->StoreParameterSetCollection(collection_mock).has_value());

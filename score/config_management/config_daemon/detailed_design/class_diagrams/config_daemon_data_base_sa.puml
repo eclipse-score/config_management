@@ -1,0 +1,18 @@
+@startuml
+
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!IParameterSetCollection
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSetCollection
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSet
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!ParameterSetQualifier
+!includesub ../assets/data_model/parameterset_collection/parameterset_collection.puml!Parameter
+
+
+!startsub ConfigDaemonStaticArchitecture
+
+title "Data Base Static Architecture"
+
+skinparam linetype ortho
+
+!endsub
+
+@enduml

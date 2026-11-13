@@ -33,7 +33,7 @@ enum class ParameterSetJsonSerializerError : score::result::ErrorCode
 };
 
 score::result::Error MakeError(const ParameterSetJsonSerializerError code,
-                             const std::string_view user_message = "") noexcept;
+                               const std::string_view user_message = "") noexcept;
 
 }  // namespace config_management
 }  // namespace score
