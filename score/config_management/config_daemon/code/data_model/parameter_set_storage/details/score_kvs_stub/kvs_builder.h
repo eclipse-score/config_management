@@ -11,45 +11,44 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-// Stub replacing score-persistency's kvsbuilder.hpp for SPP compilation.
-// Only the subset of the API used by factory_mw_com_impl.cpp is provided.
+// Stub replacing score-persistency's kvs_builder.h for builds without the real library.
 
-#ifndef SCORE_LIB_KVS_KVSBUILDER_HPP
-#define SCORE_LIB_KVS_KVSBUILDER_HPP
+#ifndef SCORE_LIB_KVS_KVS_BUILDER_H
+#define SCORE_LIB_KVS_KVS_BUILDER_H
 
-#include "kvs.hpp"
+#include "score/kvs/kvs.h"
 
 #include <memory>
 #include <string>
 
-namespace score::mw::per::kvs
+namespace score::kvs
 {
 
-/// @brief Stub KvsBuilder — build() always returns an empty (failure) Result.
+/// @brief Stub KvsBuilder — Build() always returns an empty (failure) Result.
 class KvsBuilder final
 {
   public:
     explicit KvsBuilder(const InstanceId& /*instance_id*/) {}
 
-    KvsBuilder& need_defaults_flag(bool /*flag*/) noexcept
+    KvsBuilder& Defaults(KvsDefaults /*mode*/) noexcept
     {
         return *this;
     }
-    KvsBuilder& need_kvs_flag(bool /*flag*/) noexcept
+    KvsBuilder& KvsLoad(score::kvs::KvsLoad /*mode*/) noexcept
     {
         return *this;
     }
-    KvsBuilder& dir(std::string&& /*dir_path*/) noexcept
+    KvsBuilder& WorkingDir(const std::string& /*working_dir*/) noexcept
     {
         return *this;
     }
 
-    score::Result<std::unique_ptr<Kvs>> build() noexcept
+    score::Result<std::unique_ptr<Kvs>> Build() noexcept
     {
         return score::Result<std::unique_ptr<Kvs>>{std::make_unique<Kvs>()};
     }
 };
 
-}  // namespace score::mw::per::kvs
+}  // namespace score::kvs
 
-#endif  // SCORE_LIB_KVS_KVSBUILDER_HPP
+#endif  // SCORE_LIB_KVS_KVS_BUILDER_H

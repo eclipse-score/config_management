@@ -16,9 +16,10 @@
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
+#include "score/mw/log/logger.h"
+
 #include "score/json/internal/model/any.h"
 #include "score/result/result.h"
-#include "score/mw/log/logger.h"
 
 #include <score/memory_resource.hpp>
 #include <score/vector.hpp>
@@ -74,7 +75,7 @@ class ParameterSet final
         {
             return ConvertJsonAnyToType<T>(value_json.value().get());
         }
-        return MakeUnexpected<T>(value_json.error());
+        return score::MakeUnexpected<T>(value_json.error());
     }
 
     template <typename T,
@@ -93,14 +94,15 @@ class ParameterSet final
     }
     score::Result<std::string> FormatAsKeyValuePairs() const;
     score::Result<std::string> GetParametersAsString() const;
-    Result<std::reference_wrapper<const json::Any>> GetParameterAsJsonAny(const std::string_view& parameter_name) const;
+    score::Result<std::reference_wrapper<const score::json::Any>> GetParameterAsJsonAny(
+        const std::string_view& parameter_name) const;
 
   private:
-    Result<std::reference_wrapper<const score::json::Any>> GetParameters() const;
+    score::Result<std::reference_wrapper<const score::json::Any>> GetParameters() const;
 
     template <typename PrimitiveType>
     score::Result<Array<PrimitiveType>> ConvertJsonListToAmpVector(const score::json::List& list_result,
-                                                                 const std::string_view& parameter_name) const
+                                                                   const std::string_view& parameter_name) const
     {
         const auto& list = list_result;
         Array<PrimitiveType> result(list.size(), memory_resource_);
@@ -116,7 +118,7 @@ class ParameterSet final
             {
                 logger_.LogError() << "ParameterSet::" << __func__ << " [" << parameter_name
                                    << "]: Failed to cast object instance to given C++ type";
-                return MakeUnexpected(ConfigProviderError::kValueCastingError);
+                return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
             }
         }
         return result;
@@ -128,17 +130,17 @@ class ParameterSet final
         const auto value_json = GetParameterAsJsonAny(parameter_name);
         if (value_json.has_value() == true)
         {
-            const auto list_result = value_json.value().get().As<json::List>();
+            const auto list_result = value_json.value().get().As<score::json::List>();
             if (list_result.has_value() == true)
             {
                 return ConvertJsonListToAmpVector<PrimitiveType>(list_result.value().get(), parameter_name);
             }
             logger_.LogError() << "ParameterSet::" << __func__ << " [" << parameter_name
                                << "]: Failed to cast object instance to JSON list";
-            return MakeUnexpected(ConfigProviderError::kValueCastingError);
+            return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
         }
         const auto error_code = static_cast<ConfigProviderError>(*value_json.error());
-        return MakeUnexpected(error_code);
+        return score::MakeUnexpected(error_code);
     }
 
     template <typename PrimitiveType>
@@ -149,7 +151,7 @@ class ParameterSet final
 
         if (value_json.has_value() == true)
         {
-            const auto list_outer_result = value_json.value().get().As<json::List>();
+            const auto list_outer_result = value_json.value().get().As<score::json::List>();
             if (list_outer_result.has_value() == true)
             {
                 const auto& list_outer = list_outer_result.value().get();
@@ -158,8 +160,8 @@ class ParameterSet final
                 for (const auto zipped : score::cpp::make_zip_range(list_outer, result_outer))
                 // LCOV_EXCL_BR_STOP
                 {
-                    const json::Any& list_element_outer = std::get<0>(zipped);
-                    const auto& list_inner_result = list_element_outer.As<json::List>();
+                    const score::json::Any& list_element_outer = std::get<0>(zipped);
+                    const auto& list_inner_result = list_element_outer.As<score::json::List>();
                     if (list_inner_result.has_value() == true)
                     {
                         // LCOV_EXCL_START, already covered in unit test
@@ -172,24 +174,24 @@ class ParameterSet final
                         }
                         else
                         {
-                            return MakeUnexpected(ConfigProviderError::kValueCastingError);
+                            return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
                         }
                     }
                     else
                     {
                         logger_.LogError() << "ParameterSet::" << __func__ << " [" << parameter_name
                                            << "]: Failed to cast object instance to JSON list";
-                        return MakeUnexpected(ConfigProviderError::kValueCastingError);
+                        return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
                     }
                 }
                 return result_outer;
             }
             logger_.LogError() << "ParameterSet::" << __func__ << " [" << parameter_name
                                << "]: Failed to cast object instance to JSON list";
-            return MakeUnexpected(ConfigProviderError::kValueCastingError);
+            return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
         }
         const auto error_code = static_cast<ConfigProviderError>(*value_json.error());
-        return MakeUnexpected(error_code);
+        return score::MakeUnexpected(error_code);
     }
 
     template <typename T, typename std::enable_if_t<std::is_floating_point<T>::value, bool> = true>
@@ -211,7 +213,7 @@ class ParameterSet final
                 return static_cast<T>(int_result.value());
             }
         }
-        return MakeUnexpected(ConfigProviderError::kValueCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
     }
 
     template <typename T, typename std::enable_if_t<!std::is_floating_point<T>::value, bool> = true>
@@ -231,7 +233,7 @@ class ParameterSet final
             logger_.LogError() << "ParameterSet::" << __func__ << ": Conversion to type "
                                << std::string_view(typeid(T).name()) << " failed";
         }
-        return MakeUnexpected(ConfigProviderError::kValueCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
     }
 
     score::Result<std::string> ConvertJsonToString(const score::json::Any& json) const;

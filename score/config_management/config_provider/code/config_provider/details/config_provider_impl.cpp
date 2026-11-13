@@ -12,10 +12,11 @@
 // *******************************************************************************
 #include "score/config_management/config_provider/code/config_provider/details/config_provider_impl.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
-#include "score/json/json_parser.h"
-#include "score/concurrency/future/interruptible_promise.h"
-
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
+
+#include "score/concurrency/future/interruptible_promise.h"
+#include "score/json/json_parser.h"
+
 #include <score/memory.hpp>
 #include <score/memory_resource.hpp>
 #include <score/utility.hpp>
@@ -200,12 +201,12 @@ void ConfigProviderImpl::CacheInitialQualifierState(const InitialQualifierState 
     }
 }
 
-Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(const std::string_view set_name)
+score::Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(const std::string_view set_name)
 {
     return GetParameterSet(set_name, std::nullopt);
 }
 
-Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(
+score::Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(
     const std::string_view set_name,
     const std::optional<std::chrono::milliseconds> timeout)
 {
@@ -229,7 +230,7 @@ Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSet(
         if (internal_config_provider_ == nullptr)
         {
             logger_.LogError() << __func__ << "Proxy is not ready";
-            return MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready");
+            return score::MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready");
         }
 
         // Copy the shared_ptr to use outside the lock
@@ -301,7 +302,7 @@ ParameterSetMap ConfigProviderImpl::GetParameterSetsByNameList(const score::cpp:
         {
             logger_.LogDebug() << __func__ << " [" << set_name_key << "]: Proxy is not ready";
             score::cpp::ignore = parameter_set_map.try_emplace(
-                set_name_key, MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready"));
+                set_name_key, score::MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready"));
             continue;
         }
 
@@ -326,14 +327,15 @@ ParameterSetMap ConfigProviderImpl::GetParameterSetsByNameList(const score::cpp:
             logger_.LogError() << __func__ << " [" << set_name_key
                                << "]: Failed to get parameter set from internal config provider: " << param_set.error();
             score::cpp::ignore = parameter_set_map.try_emplace(
-                set_name_key, MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found"));
+                set_name_key,
+                score::MakeUnexpected(ConfigProviderError::kParameterSetNotFound, "Parameter set not found"));
         }
     }
 
     return parameter_set_map;
 }
 
-Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSetFromInternalConfigProvider(
+score::Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSetFromInternalConfigProvider(
     const std::string_view set_name,
     const IInternalConfigProvider& internal_config_provider,
     const std::chrono::milliseconds timeout)
@@ -347,7 +349,7 @@ Result<std::shared_ptr<const ParameterSet>> ConfigProviderImpl::GetParameterSetF
         logger_.LogError() << __func__ << " [" << set_name
                            << "]: Failed to get ParameterSet from InternalConfigProvider proxy: "
                            << parameter_set_result.error();
-        return Unexpected{parameter_set_result.error()};
+        return score::Unexpected{parameter_set_result.error()};
     }
 
     return {score::cpp::pmr::make_shared<const ParameterSet>(
@@ -433,8 +435,8 @@ void ConfigProviderImpl::LastUpdatedParameterSetReceiveHandler(const std::string
     }
 }
 
-Result<void> ConfigProviderImpl::OnChangedParameterSet(const std::string& set_name,
-                                                       OnChangedParameterSetCallback&& callback) noexcept
+score::Result<void> ConfigProviderImpl::OnChangedParameterSet(const std::string& set_name,
+                                                              OnChangedParameterSetCallback&& callback) noexcept
 {
     logger_.LogDebug() << __func__ << " [" << set_name << "]";
 
@@ -442,20 +444,21 @@ Result<void> ConfigProviderImpl::OnChangedParameterSet(const std::string& set_na
     if (on_changed_parameter_set_callback.empty())
     {
         logger_.LogError() << __func__ << " [" << set_name << "]: Empty callback provided.";
-        return MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided, "Empty callback provided.");
+        return score::MakeUnexpected(ConfigProviderError::kEmptyCallbackProvided, "Empty callback provided.");
     }
     std::lock_guard<std::mutex> lock{mutex_};
     return RegisterUpdateHandlerForParameterSetName(set_name, std::move(on_changed_parameter_set_callback));
 }
 
-Result<void> ConfigProviderImpl::OnChangedParameterSetCbk(std::string_view set_name,
-                                                          OnChangedParameterSetCallback&& callback) noexcept
+score::Result<void> ConfigProviderImpl::OnChangedParameterSetCbk(std::string_view set_name,
+                                                                 OnChangedParameterSetCallback&& callback) noexcept
 {
     return OnChangedParameterSet(std::string{set_name}, std::move(callback));
 }
 
-Result<void> ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName(const std::string_view set_name,
-                                                                          OnChangedParameterSetCallback&& callback)
+score::Result<void> ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName(
+    const std::string_view set_name,
+    OnChangedParameterSetCallback&& callback)
 {
     // NOTE: we assume here that `mutex_` got already acquired by the caller!
     logger_.LogDebug() << __func__ << " [" << set_name << "]";
@@ -473,13 +476,13 @@ Result<void> ConfigProviderImpl::RegisterUpdateHandlerForParameterSetName(const 
     else if (not on_changed_parameter_set_callback.empty())
     {
         logger_.LogError() << __func__ << " [" << set_name << "]: callback is already set";
-        return MakeUnexpected(ConfigProviderError::kCallbackAlreadySet);
+        return score::MakeUnexpected(ConfigProviderError::kCallbackAlreadySet);
     }
 
     return {};
 }
 
-Result<void> ConfigProviderImpl::CheckParameterSetUpdates() const noexcept
+score::Result<void> ConfigProviderImpl::CheckParameterSetUpdates() const noexcept
 {
     logger_.LogDebug() << __func__;
 
@@ -487,7 +490,7 @@ Result<void> ConfigProviderImpl::CheckParameterSetUpdates() const noexcept
     if (internal_config_provider_ == nullptr)
     {
         logger_.LogError() << __func__ << ": Proxy is not ready";
-        return MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready");
+        return score::MakeUnexpected(ConfigProviderError::kProxyNotReady, "Proxy is not ready");
     }
     internal_config_provider_->CheckParameterSetUpdates();
     return {};

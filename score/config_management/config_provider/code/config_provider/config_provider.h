@@ -33,7 +33,7 @@ namespace config_provider
 {
 
 using OnChangedParameterSetCallback = score::cpp::callback<void(std::shared_ptr<const ParameterSet>)>;
-using ParameterSetMap = score::cpp::pmr::unordered_map<score::cpp::pmr::string, Result<std::shared_ptr<const ParameterSet>>>;
+using ParameterSetMap = score::cpp::pmr::unordered_map<score::cpp::pmr::string, score::Result<std::shared_ptr<const ParameterSet>>>;
 
 class ConfigProvider
 {
@@ -52,28 +52,28 @@ class ConfigProvider
      * Gets the parameter set by the set's name
      */
     [[deprecated(
-        "SPP_DEPRECATION: This method should be called in "
-        "conjunction with a timeout value instead.")]] virtual Result<std::shared_ptr<const ParameterSet>>
+        "DEPRECATION: This method should be called in "
+        "conjunction with a timeout value instead.")]] virtual score::Result<std::shared_ptr<const ParameterSet>>
     GetParameterSet(const std::string_view set_name) = 0;
-    virtual Result<std::shared_ptr<const ParameterSet>> GetParameterSet(
+    virtual score::Result<std::shared_ptr<const ParameterSet>> GetParameterSet(
         const std::string_view set_name,
         const std::optional<std::chrono::milliseconds> timeout) = 0;
 
     virtual ParameterSetMap GetParameterSetsByNameList(const score::cpp::pmr::vector<std::string_view>& set_names,
                                                        const std::optional<std::chrono::milliseconds> timeout) = 0;
 
-    virtual Result<void> OnChangedParameterSet(const std::string& set_name,
-                                               OnChangedParameterSetCallback&& callback) noexcept = 0;
+    virtual score::Result<void> OnChangedParameterSet(const std::string& set_name,
+                                                      OnChangedParameterSetCallback&& callback) noexcept = 0;
 
-    virtual Result<void> OnChangedParameterSetCbk(std::string_view set_name,
-                                                  OnChangedParameterSetCallback&& callback) noexcept = 0;
+    virtual score::Result<void> OnChangedParameterSetCbk(std::string_view set_name,
+                                                         OnChangedParameterSetCallback&& callback) noexcept = 0;
 
     virtual InitialQualifierState GetInitialQualifierState(
         const std::optional<std::chrono::milliseconds> timeout) noexcept = 0;
 
     virtual bool WaitUntilConnected(const std::chrono::milliseconds timeout,
                                     const score::cpp::stop_token& stop_token) noexcept = 0;
-    [[nodiscard]] virtual Result<void> CheckParameterSetUpdates() const noexcept = 0;
+    [[nodiscard]] virtual score::Result<void> CheckParameterSetUpdates() const noexcept = 0;
     virtual std::size_t GetCachedParameterSetsCount() const noexcept = 0;
 };
 

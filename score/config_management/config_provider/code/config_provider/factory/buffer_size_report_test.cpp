@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_provider/code/config_provider/factory/buffer_size_report.h"
-
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
+
 #include "score/json/i_json_parser_mock.h"
 
 #include <score/memory_resource.hpp>
@@ -20,7 +20,6 @@
 #include <score/vector.hpp>
 
 #include <gtest/gtest.h>
-
 #include <memory>
 
 namespace score
@@ -32,16 +31,16 @@ namespace config_provider
 namespace
 {
 
-json::Any MakeReport(const std::initializer_list<std::pair<const char*, std::uint64_t>> buffer_size_mapping)
+score::json::Any MakeReport(const std::initializer_list<std::pair<const char*, std::uint64_t>> buffer_size_mapping)
 {
-    json::Object mapping{};
+    score::json::Object mapping{};
     for (const auto& entry : buffer_size_mapping)
     {
-        mapping[entry.first] = json::Any{entry.second};
+        mapping[entry.first] = score::json::Any{entry.second};
     }
-    json::Object root{};
-    root["buffer_size_mapping"] = json::Any{std::move(mapping)};
-    return json::Any{std::move(root)};
+    score::json::Object root{};
+    root["buffer_size_mapping"] = score::json::Any{std::move(mapping)};
+    return score::json::Any{std::move(root)};
 }
 
 TEST(BufferSizeReportTest, GetMaxBufferSizeInfoFailsWhenJsonParserIsNull)
@@ -69,10 +68,10 @@ TEST(BufferSizeReportTest, GetMaxBufferSizeInfoFailsWhenFileCannotBeRead)
                    "Verifies that GetMaxBufferSizeInfo() returns kBufferSizeReportNotFound when "
                    "buffer_size_report.json is missing or unreadable.");
 
-    auto json_parser_mock = std::make_shared<json::IJsonParserMock>();
+    auto json_parser_mock = std::make_shared<score::json::IJsonParserMock>();
     EXPECT_CALL(*json_parser_mock, FromFile(std::string_view{kDefaultBufferSizeReportPath}))
-        .WillOnce([](std::string_view) -> score::Result<json::Any> {
-            return score::MakeUnexpected<json::Any>(ConfigProviderError::kBufferSizeReportNotFound);
+        .WillOnce([](std::string_view) -> score::Result<score::json::Any> {
+            return score::MakeUnexpected<score::json::Any>(ConfigProviderError::kBufferSizeReportNotFound);
         });
 
     const auto result =
@@ -91,12 +90,12 @@ TEST(BufferSizeReportTest, GetMaxBufferSizeInfoFailsForMalformedReport)
                    "Verifies that GetMaxBufferSizeInfo() returns kBufferSizeReportParsingFailed when "
                    "buffer_size_report.json does not conform to buffer_size_report.schema.json.");
 
-    auto json_parser_mock = std::make_shared<json::IJsonParserMock>();
+    auto json_parser_mock = std::make_shared<score::json::IJsonParserMock>();
     EXPECT_CALL(*json_parser_mock, FromFile(std::string_view{kDefaultBufferSizeReportPath}))
-        .WillOnce([](std::string_view) -> score::Result<json::Any> {
-            json::Object root{};
-            root["unexpected_key"] = json::Any{std::int64_t{1}};
-            return json::Any{std::move(root)};
+        .WillOnce([](std::string_view) -> score::Result<score::json::Any> {
+            score::json::Object root{};
+            root["unexpected_key"] = score::json::Any{std::int64_t{1}};
+            return score::json::Any{std::move(root)};
         });
 
     const auto result =
@@ -115,9 +114,9 @@ TEST(BufferSizeReportTest, GetMaxBufferSizeInfoReturnsLargestOfRequestedSets)
                    "Verifies that GetMaxBufferSizeInfo() returns the largest buffer size and longest parameter set "
                    "name length among the requested parameter sets, ignoring sets that were not requested.");
 
-    auto json_parser_mock = std::make_shared<json::IJsonParserMock>();
+    auto json_parser_mock = std::make_shared<score::json::IJsonParserMock>();
     EXPECT_CALL(*json_parser_mock, FromFile(std::string_view{kDefaultBufferSizeReportPath}))
-        .WillOnce([](std::string_view) -> score::Result<json::Any> {
+        .WillOnce([](std::string_view) -> score::Result<score::json::Any> {
             return MakeReport({{"SmallSet", 100U}, {"MediumSet", 500U}, {"LargeSet", 16425U}});
         });
 
@@ -143,9 +142,9 @@ TEST(BufferSizeReportTest, GetMaxBufferSizeInfoIgnoresUnknownParameterSet)
                    "stale name should not disable the whole ConfigProvider; GetParameterSet() for it will fail on "
                    "its own at call time anyway.");
 
-    auto json_parser_mock = std::make_shared<json::IJsonParserMock>();
+    auto json_parser_mock = std::make_shared<score::json::IJsonParserMock>();
     EXPECT_CALL(*json_parser_mock, FromFile(std::string_view{kDefaultBufferSizeReportPath}))
-        .WillOnce([](std::string_view) -> score::Result<json::Any> {
+        .WillOnce([](std::string_view) -> score::Result<score::json::Any> {
             return MakeReport({{"SmallSet", 100U}, {"MediumSet", 500U}, {"LargeSet", 16425U}});
         });
 
@@ -171,9 +170,9 @@ TEST(BufferSizeReportTest, GetMaxBufferSizeInfoForEmptyListReturnsOverallMaximum
                    "for the deprecated Create() overloads that do not provide an explicit list of parameter set "
                    "names.");
 
-    auto json_parser_mock = std::make_shared<json::IJsonParserMock>();
+    auto json_parser_mock = std::make_shared<score::json::IJsonParserMock>();
     EXPECT_CALL(*json_parser_mock, FromFile(std::string_view{kDefaultBufferSizeReportPath}))
-        .WillOnce([](std::string_view) -> score::Result<json::Any> {
+        .WillOnce([](std::string_view) -> score::Result<score::json::Any> {
             return MakeReport({{"SmallSet", 100U}, {"MediumSet", 500U}, {"LargeSet", 16425U}});
         });
 

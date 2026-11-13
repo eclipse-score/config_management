@@ -67,13 +67,13 @@ ParameterSet::ParameterSet(score::json::Any set_json, score::cpp::pmr::memory_re
 {
 }
 
-Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParameters() const
+score::Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParameters() const
 {
     const auto& set_result = set_json_.As<score::json::Object>();
     if (!set_result.has_value())
     {
         logger_.LogError() << "ParameterSet::" << __func__ << ": Failed to cast JSON set to object instance";
-        return MakeUnexpected(ConfigProviderError::kObjectCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kObjectCastingError);
     }
     const auto& set_obj = set_result.value().get();  // Got Set Object!
 
@@ -82,7 +82,7 @@ Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParamete
     if (parameters_it == set_obj.end())
     {
         logger_.LogError() << "ParameterSet::" << __func__ << ": Failed to find parameters";
-        return MakeUnexpected(ConfigProviderError::kParsingFailed);
+        return score::MakeUnexpected(ConfigProviderError::kParsingFailed);
     }
     return std::cref(parameters_it->second);  // Got Parameters Json!
 }
@@ -109,7 +109,7 @@ bool ParameterSet::ContainsSameContent(const ParameterSet& target_parameter_set)
     }
 }
 
-Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParameterAsJsonAny(
+score::Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParameterAsJsonAny(
     const std::string_view& parameter_name) const
 {
     // Acquiring set Object
@@ -118,7 +118,7 @@ Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParamete
     {
         logger_.LogError() << "ParameterSet::" << __func__ << " [" << parameter_name << "]: "
                            << "Failed to cast JSON set to object instance";
-        return MakeUnexpected(ConfigProviderError::kObjectCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kObjectCastingError);
     }
     const auto& set_obj = set_result.value().get();  // Got Set Object!
 
@@ -128,17 +128,17 @@ Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParamete
     {
         logger_.LogError() << "ParameterSet::" << __func__ << " [" << parameter_name << "]: "
                            << "Failed to find parameters";
-        return MakeUnexpected(ConfigProviderError::kParsingFailed);
+        return score::MakeUnexpected(ConfigProviderError::kParsingFailed);
     }
     const auto& parameters_json = parameters_it->second;  // Got Parameters Json!
 
     // Acquiring Parameters Object
-    const auto& parameters_result = parameters_json.As<json::Object>();
+    const auto& parameters_result = parameters_json.As<score::json::Object>();
     if (!parameters_result.has_value())
     {
         logger_.LogError() << "ParameterSet::" << __func__ << " [" << parameter_name << "]: "
                            << "Failed to cast JSON parameters to object instance";
-        return MakeUnexpected(ConfigProviderError::kObjectCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kObjectCastingError);
     }
     const auto& parameters_obj = parameters_result.value().get();  // Got Parameters Object!
 
@@ -148,7 +148,7 @@ Result<std::reference_wrapper<const score::json::Any>> ParameterSet::GetParamete
     {
         logger_.LogError() << "ParameterSet::" << __func__ << " [" << parameter_name << "]: "
                            << "Failed to find parameter in set";
-        return MakeUnexpected(ConfigProviderError::kParameterNotFound);
+        return score::MakeUnexpected(ConfigProviderError::kParameterNotFound);
     }
     return std::cref(set_it->second);
 }
@@ -166,7 +166,7 @@ score::Result<std::string> ParameterSet::GetParametersAsString() const
     {
         logger_.LogError() << "ParameterSet::" << __func__ << ": Failed to cast JSON set to object instance";
 
-        return MakeUnexpected(ConfigProviderError::kObjectCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kObjectCastingError);
     }
     const auto& set_obj = set_result.value().get();  // Got Set Object!
 
@@ -175,7 +175,7 @@ score::Result<std::string> ParameterSet::GetParametersAsString() const
     if (parameters_it == set_obj.end())
     {
         logger_.LogError() << "ParameterSet::" << __func__ << ": Failed to find parameters";
-        return MakeUnexpected(ConfigProviderError::kParsingFailed);
+        return score::MakeUnexpected(ConfigProviderError::kParsingFailed);
     }
     const auto& parameters_json = parameters_it->second;  // Got Parameters Json!
 
@@ -189,7 +189,7 @@ score::Result<std::string> ParameterSet::ConvertJsonToString(const score::json::
     if (!json_object_result.has_value())
     {
         logger_.LogError() << "ParameterSet::" << __func__ << ": Failed to cast JSON to object instance";
-        return MakeUnexpected(ConfigProviderError::kObjectCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kObjectCastingError);
     }
     const auto& object_data = json_object_result.value().get();  // Got object data!
 
@@ -199,7 +199,7 @@ score::Result<std::string> ParameterSet::ConvertJsonToString(const score::json::
     if (!write_result.has_value())  // LCOV_EXCL_BR_LINE (see comment below)
     {
         logger_.LogError() << "ParameterSet::" << __func__ << ": Failed to cast JSON to object instance";
-        return MakeUnexpected(ConfigProviderError::kObjectCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kObjectCastingError);
     }
     // LCOV_EXCL_STOP
 
@@ -213,7 +213,7 @@ score::Result<score::config_management::config_daemon::ParameterSetQualifier> Pa
     if (!set_result.has_value())
     {
         logger_.LogError() << "ParameterSet::" << __func__ << ": Failed to cast JSON set to object instance";
-        return MakeUnexpected(ConfigProviderError::kObjectCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kObjectCastingError);
     }
     const auto& set_obj = set_result.value().get();
 
@@ -222,7 +222,7 @@ score::Result<score::config_management::config_daemon::ParameterSetQualifier> Pa
     if (qualifier_it == set_obj.end())
     {
         logger_.LogError() << "ParameterSet::" << __func__ << ": Failed to find qualifier";
-        return MakeUnexpected(ConfigProviderError::kParsingFailed);
+        return score::MakeUnexpected(ConfigProviderError::kParsingFailed);
     }
 
     const auto string_value_result = qualifier_it->second.As<std::string>();
@@ -233,7 +233,7 @@ score::Result<score::config_management::config_daemon::ParameterSetQualifier> Pa
         {
             return qualifier_from_string.value();
         }
-        return MakeUnexpected(ConfigProviderError::kValueCastingError);
+        return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
     }
 
     const auto value_result = qualifier_it->second.As<std::uint8_t>();
@@ -245,7 +245,7 @@ score::Result<score::config_management::config_daemon::ParameterSetQualifier> Pa
             return static_cast<score::config_management::config_daemon::ParameterSetQualifier>(qualifier);
         }
     }
-    return MakeUnexpected(ConfigProviderError::kValueCastingError);
+    return score::MakeUnexpected(ConfigProviderError::kValueCastingError);
 }
 
 }  // namespace config_provider

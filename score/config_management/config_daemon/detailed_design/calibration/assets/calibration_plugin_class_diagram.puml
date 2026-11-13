@@ -1,0 +1,335 @@
+@startuml calibration_plugin_class_diagram
+
+skinparam linetype ortho
+
+' ========== Calibration Plugin ==========
+
+package score.config_management.config_daemon {
+
+class ConfigDaemon {
+  --
+  - calibration_plugin_: IPlugin
+}
+
+interface IPlugin {
+  --
+  + {abstract} Initialize(): Result<void>
+  + {abstract} Deinitialize()
+  + {abstract} Run(parameterset_collection: data_model::IParameterSetCollection,
+    cbk_send_last_updated_parameter_set: LastUpdatedParameterSetSender,
+    cbk_update_initial_qualifier_state: InitialQualifierStateSender,
+    stop_token: score::cpp::stop_token,
+    fault_event_reporter: fault_event_reporter::IFaultEventReporter): std::int32_t
+}
+
+interface ISecureDebug {
+  --
+  + {abstract} SetCalibrationEnabledCallback(score::cpp::callback<void(bool)>)
+  + {abstract} GetCalibrationEnabled(): score::Result<bool>
+}
+
+class SecureDebug {
+  --
+  - proxy_: std::unique_ptr<AdaptiveProxy>
+  - calibration_enabled_callback_: score::cpp::callback<void(bool)>
+  - mutex_: std::mutex
+  --
+  + SetCalibrationEnabledCallback(calibration_enabled_callback: score::cpp::callback<void(bool)>)
+  + GetCalibrationEnabled(): score::Result<bool>
+}
+
+}
+
+package score.config_management.config_daemon.calibration {
+
+class CalibrationImpl {
+  --
+  - parameter_loader_: ParameterLoader
+  - parameterset_collection_: data_model::IParameterSetCollection
+  - last_updated_parameter_set_sender_: LastUpdatedParameterSetSender
+  - secure_debug_future_: mw::service::ProxyFuture<std::unique_ptr<ISecureDebug>>
+  - dtc_handler_: DtcHandler
+  - factory_: std::unique_ptr<Factory>
+  - calibration_proxies_: CalibrationProxies
+  - scope_: score::safecpp::Scope<>
+  --
+  + CalibrationImpl(factory: std::unique_ptr<calibration::Factory>)
+  + Initialize(): Result<void>
+  + Deinitialize()
+  + Run(parameterset_collection: data_model::IParameterSetCollection,
+    cbk_send_last_updated_parameter_set: LastUpdatedParameterSetSender,
+    cbk_update_initial_qualifier_state: InitialQualifierStateSender,
+    stop_token: score::cpp::stop_token,
+    fault_event_reporter: fault_event_reporter::IFaultEventReporter): std::int32_t
+}
+
+class "CalibrationImpl::ServiceTogglerHandler" as ServiceTogglerHandler {
+  --
+  - calibration_service_toggler_: ServiceToggler
+  --
+  + ServiceTogglerHandler(calibration_service_toggler: ServiceToggler)
+  + operator()(secure_debug: score::Result<std::unique_ptr<ISecureDebug>>)
+}
+
+class "CalibrationImpl::CalibrationEnabledHandler" as CalibrationEnabledHandler {
+  --
+  - calibration_service_toggler_: ServiceToggler
+  --
+  + CalibrationEnabledHandler(calibration_service_toggler: ServiceToggler)
+  + operator()(enabled: bool)
+}
+
+interface ParameterLoader {
+  --
+  + {abstract} LoadParameterData(parameter_data: data_model::IParameterSetCollection,
+    dtc_handler: DtcHandler): bool
+}
+
+class ParameterLoaderImpl {
+  --
+  - calibration_data_: std::unique_ptr<score::Result<json::Any>>
+  - parameter_data_: data_model::IParameterSetCollection
+  - parameter_set_mapping_: coding::IParamSetMapping
+  - dtc_handler_: DtcHandler
+  - parameter_sets_default_in_use_error_: bool
+  - parameter_sets_integrity_error_: bool
+  --
+  + ParameterLoaderImpl(calibration_data: std::unique_ptr<score::Result<json::Any>>,
+    parameter_set_mapping: coding::IParamSetMapping)
+  + LoadParameterData(parameter_data: data_model::IParameterSetCollection,
+    dtc_handler: DtcHandler): bool
+  - LoadCodingDependentParameterFromJson(
+    param_set_name: std::string,
+    param_name: std::string,
+    param_coding_dependency: json::Object,
+    set_qualifier: ParameterSetQualifier
+  ): Result<void>
+  - LoadParameterFromJson(
+    param_set_name: std::string,
+    param_name: std::string,
+    parameter_obj: json::Object
+  ): bool
+  - SetDtcs()
+}
+
+
+interface DtcHandler {
+  --
+  + {abstract} SetTemporarySwErrorPrimaryDtc(state: DTCState): bool
+  + {abstract} SetCalibrationIntegrityErrorSecondaryDtc(state: DTCState): bool
+  + {abstract} SetCalibrationDefaultValueInUseSecondaryDtc(state: DTCState): bool
+  + {abstract} SetCalibrationValuesChangedPrimaryDtc(state: DTCState): bool
+}
+
+enum DTCState <<std::uint8_t>> {
+  kPassed
+  kFailed
+  kFailedPermanent
+}
+
+class DtcHandlerImpl {
+  --
+  - secondary_dtc_calibration_integrity_error_: score::mw::diag::dtc::DTC
+  - dtc_calibration_default_value_in_use_: score::mw::diag::dtc::DTC
+  - dtc_calibration_values_changed_: score::mw::diag::dtc::DTC
+  - fault_event_reporter_: fault_event_reporter::IFaultEventReporter
+  --
+  + DtcHandlerImpl(secondary_dtc_calibration_integrity_error: score::mw::diag::dtc::DTC,
+    dtc_calibration_default_value_in_use: score::mw::diag::dtc::DTC,
+    dtc_calibration_values_changed: score::mw::diag::dtc::DTC,
+    fault_event_reporter: fault_event_reporter::IFaultEventReporter)
+  + SetTemporarySwErrorPrimaryDtc(state: DTCState): bool
+  + SetCalibrationIntegrityErrorSecondaryDtc(state: DTCState): bool
+  + SetCalibrationDefaultValueInUseSecondaryDtc(state: DTCState): bool
+  + SetCalibrationValuesChangedPrimaryDtc(state: DTCState): bool
+  --
+  Responsibilities: Handle the ConfigDaemon DTCs.
+  Mutex is used to guard shared resource - DTC monitor.
+}
+
+interface Factory {
+  --
+  + {abstract} CreateCalibrationProxies(): CalibrationProxies
+  + {abstract} CreateCalibrationService(
+    parameter_data: data_model::IParameterSetCollection,
+    last_updated_parameter_set_sender: LastUpdatedParameterSetSender,
+    dtc_handler: DtcHandler): std::unique_ptr<score::mw::service::ProvidedServicesContainer>
+  + {abstract} CreateServiceToggler(
+    calibration_service_creator: ConfigCalibrationServiceCreator): std::shared_ptr<ServiceToggler>
+  + {abstract} CreateDtcHandler(
+    fault_event_reporter: fault_event_reporter::IFaultEventReporter): DtcHandler
+  + {abstract} CreateParameterLoader(
+    calibration_data: std::unique_ptr<score::Result<json::Any>>,
+    parameter_set_mapping: coding::IParamSetMapping): ParameterLoader
+  + {abstract} CreateSecureDebugFuture(
+    proxy_container: CalibrationProxies::Container): mw::service::ProxyFuture<std::unique_ptr<ISecureDebug>>
+  + {abstract} CreateParamSetMapping(): coding::IParamSetMapping
+}
+
+class FactoryImpl {
+  --
+  + FactoryImpl()
+  + CreateCalibrationProxies(): CalibrationProxies
+  + CreateCalibrationService(
+    parameter_data: data_model::IParameterSetCollection,
+    last_updated_parameter_set_sender: LastUpdatedParameterSetSender,
+    dtc_handler: DtcHandler): std::unique_ptr<score::mw::service::ProvidedServicesContainer>
+  + CreateServiceToggler(calibration_service_creator: ConfigCalibrationServiceCreator): std::shared_ptr<ServiceToggler>
+  + CreateDtcHandler(fault_event_reporter: fault_event_reporter::IFaultEventReporter): DtcHandler
+  + CreateParameterLoader(
+    calibration_data: std::unique_ptr<score::Result<json::Any>>,
+    parameter_set_mapping: coding::IParamSetMapping): ParameterLoader
+  + CreateSecureDebugFuture(proxy_container: CalibrationProxies::Container): mw::service::ProxyFuture<std::unique_ptr<ISecureDebug>>
+  + CreateParamSetMapping(): coding::IParamSetMapping
+}
+
+interface ServiceToggler {
+  --
+  + {abstract} ToggleInterface(calibration_enabled: bool)
+}
+
+class ServiceTogglerImpl {
+  --
+  - calibration_enabled_previous_: bool
+  - calibration_service_creator_: ConfigCalibrationServiceCreator
+  - calibration_service_: std::unique_ptr<score::mw::service::ManagedService>
+  --
+  + ServiceTogglerImpl(calibration_service_creator: ConfigCalibrationServiceCreator)
+  + ToggleInterface(calibration_enabled: bool)
+}
+
+class ConfigCalibrationServiceCreator <<typedef>> {
+  --
+  score::cpp::callback<std::unique_ptr<score::mw::service::ProvidedServicesContainer>(), 64U>
+}
+
+' ========== ConfigD ==========
+
+interface ConfigCalibrationServiceReactor {
+  --
+  + {abstract} UpdateParameterSet(parameter_set_name: score::cpp::string_view,
+    parameter_set: score::cpp::string_view): Result<void>
+}
+
+class ConfigCalibrationServiceReactorImpl {
+  --
+  - parameter_data_: data_model::IParameterSetCollection
+  - last_updated_parameter_set_sender_: LastUpdatedParameterSetSender
+  - dtc_handler_: DtcHandler
+  - dtc_already_set_to_failed_: bool
+  --
+  + ConfigCalibrationServiceReactorImpl(
+   parameter_data: data_model::IParameterSetCollection,
+   last_updated_parameter_set_sender: LastUpdatedParameterSetSender,
+   dtc_handler: DtcHandler)
+  + UpdateParameterSet(parameter_set_name: score::cpp::string_view,
+    parameter_set: score::cpp::string_view): Result<void>
+}
+
+class ConfigCalibrationService {
+  --
+  - config_calibration_service_reactor_: ConfigCalibrationServiceReactor
+  --
+  + ConfigCalibrationService(
+    token: ConfigCalibrationSkeleton::ConstructionToken,
+    config_calibration_service_reactor: ConfigCalibrationServiceReactor)
+  + UpdateParameterSet(parameter_set_name: ::mw::diag::string,
+    parameter_set: ::mw::diag::string): ::mw::core::Future<Output>
+}
+
+}
+
+package score.config_management.config_daemon.portinterfaces.configcalibration.skeleton {
+  interface ConfigCalibrationSkeleton <<generated>> {
+  }
+}
+
+package score.json {
+  class "Any" as score_json_Any {
+  }
+}
+
+package score.mw.diag {
+  class "DTC" as mw_diag_DTC {
+  }
+}
+
+package score.config_management.config_daemon.data_model {
+
+interface IParameterSetCollection {
+  --
+  + {abstract} Insert(set_name: score::cpp::string_view, parameter_name: score::cpp::string_view, parameter_value: json::Any): Result<void>
+  + {abstract} UpdateParameterSet(set_name: score::cpp::string_view, set: score::cpp::string_view): Result<void>
+  + {abstract} SetCalibratable(set_name: score::cpp::string_view, is_calibratable: bool): bool
+  + {abstract} GetParameterSetQualifier(set_name: score::cpp::string_view): score::Result<ParameterSetQualifier>
+  + {abstract} SetParameterSetQualifier(set_name: score::cpp::string_view, qualifier: ParameterSetQualifier): Result<void>
+}
+
+package score.config_management.config_daemon.coding {
+
+interface IParamSetMapping {
+  --
+  + {abstract} GetNamesOfParametersInSet(param_set_name: score::cpp::pmr::string): score::Result<score::cpp::pmr::vector<score::cpp::string_view>>
+  + {abstract} GetParameterSetForParameter(parameter_name: score::cpp::pmr::string): score::cpp::string_view
+  + {abstract} LoadParameterSetConfig(): Result<void>
+}
+
+package score.config_management.config_daemon.services {
+
+class LastUpdatedParameterSetSender <<typedef>> {
+  --
+  score::cpp::callback<bool(std::string_view), 64U>
+}
+
+class InitialQualifierStateSender <<typedef>> {
+  --
+  score::cpp::callback<void(InitialQualifierState), 64U>
+}
+
+interface IInternalConfigProviderService {
+  --
+  + SetInitialQualifierState(initial_qualifier_state: InitialQualifierState)
+  + SendLastUpdatedParameterSet(parameter_set_name: std::string_view): bool
+}
+}
+
+
+' Relationships - Inheritance
+ConfigDaemon *-down- IPlugin
+CalibrationImpl -up-|> IPlugin
+CalibrationImpl +-- ServiceTogglerHandler
+CalibrationImpl +-- CalibrationEnabledHandler
+ParameterLoaderImpl -up-|> ParameterLoader
+DtcHandlerImpl -up-|> DtcHandler
+FactoryImpl -up-|> Factory
+ServiceTogglerImpl -up-|> ServiceToggler
+ConfigCalibrationServiceReactorImpl -up-|> ConfigCalibrationServiceReactor
+ConfigCalibrationService -right-|> ConfigCalibrationSkeleton
+SecureDebug -up-|> ISecureDebug
+
+' Relationships - Composition/Aggregation
+CalibrationImpl *-- ParameterLoader
+CalibrationImpl o-- IParameterSetCollection
+CalibrationImpl *-left- ISecureDebug
+CalibrationImpl *-right- DtcHandler
+CalibrationImpl *-left- Factory
+DtcHandlerImpl *-right- mw_diag_DTC
+ConfigCalibrationService *-up- ConfigCalibrationServiceReactor
+ServiceTogglerImpl *-up- ConfigCalibrationService
+ServiceTogglerImpl o-- ConfigCalibrationServiceCreator
+ParameterLoaderImpl --> score_json_Any
+ParameterLoaderImpl o-- IParamSetMapping
+ParameterLoaderImpl --> IParameterSetCollection
+ConfigCalibrationServiceReactorImpl --> IParameterSetCollection
+ConfigCalibrationServiceReactorImpl --> DtcHandler
+ServiceTogglerHandler --> ServiceToggler
+CalibrationEnabledHandler --> ServiceToggler
+DtcHandler --> DTCState
+ConfigCalibrationServiceReactorImpl --> LastUpdatedParameterSetSender
+CalibrationImpl --> InitialQualifierStateSender
+IInternalConfigProviderService o-- LastUpdatedParameterSetSender
+IInternalConfigProviderService o-- InitialQualifierStateSender
+Factory ..> LastUpdatedParameterSetSender : creates
+Factory ..> InitialQualifierStateSender : creates
+
+@enduml

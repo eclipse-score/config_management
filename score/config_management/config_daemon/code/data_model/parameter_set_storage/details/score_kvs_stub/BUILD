@@ -13,24 +13,23 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
-# Stub replacements for score-persistency headers (kvs.hpp / kvsbuilder.hpp / kvsvalue.hpp).
-# Used when compiling score-variant source files (e.g. factory_mw_com_impl.cpp,
-# parameter_set_storage_score_impl.cpp) under the SPP toolchain where the real
+# Stub replacements for score-persistency headers (score/kvs/kvs.h / kvs_builder.h / kvs_value.h).
+# Used when compiling score-variant source files (e.g. parameter_set_storage_score_impl.cpp)
+# in builds where the real
 # score-baselibs / score-persistency headers would cause namespace clashes.
 #
 # The stubs expose exactly the same types and method signatures used by those files
 # but have no real implementation — every operation is a no-op / returns failure.
-# On the actual score build, the real @score-persistency//:kvs_cpp is used instead.
+# On the actual score build, the real @score_persistency//score/kvs is used instead.
 cc_library(
     name = "score_kvs_stub",
     hdrs = [
-        "kvs.hpp",
-        "kvsbuilder.hpp",
-        "kvsvalue.hpp",
+        "kvs.h",
+        "kvs_builder.h",
+        "kvs_value.h",
     ],
-    # Expose the directory itself as a system include path so that
-    # `#include "kvs.hpp"` resolves here, mirroring how score-persistency does it.
-    includes = ["."],
+    # Mirror score-persistency's `#include "score/kvs/kvs.h"` include paths.
+    include_prefix = "score/kvs",
     tags = ["FUSA"],
     visibility = [
         "//score/config_management/config_daemon/code:__subpackages__",

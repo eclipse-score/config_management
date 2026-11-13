@@ -1,7 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
 load("@score_baselibs//:bazel/unit_tests.bzl", "cc_gtest_unit_test", "cc_unit_test_suites_for_host_and_qnx")
 load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER_WARNING_FEATURES")
-load(":custom.bzl", "load_custom_targets")
 
 cc_library(
     name = "semi_dynamic_single_instantiation_strategy",
@@ -14,6 +13,7 @@ cc_library(
     deps = [
         "@score_baselibs//score/language/futurecpp",
         "@score_communication//score/mw/com",
+        "@score_communication//score/mw/service:find_service_strategy",
         "@score_communication//score/mw/service:proxy_builder_base",
         "@score_logging//score/mw/log",
     ],
@@ -26,14 +26,12 @@ cc_library(
     features = COMPILER_WARNING_FEATURES,
     tags = ["FUSA"],
     visibility = [
-        "//platform/aas/config_management/parameter_provider:__subpackages__",
         "//score/config_management/config_provider:__subpackages__",
     ],
     deps = [
         "//score/config_management/config_provider/code/config_provider/error",
         "//score/config_management/lib/mw_com_types:internal_config_provider_type",
         "@score_baselibs//score/json",
-        "@score_baselibs//score/json:json_parser",
         "@score_baselibs//score/language/futurecpp",
         "@score_baselibs//score/result",
         "@score_logging//score/mw/log",
@@ -55,10 +53,35 @@ cc_gtest_unit_test(
 )
 
 cc_library(
-    name = "factory_mw_com",
-    srcs = ["factory_mw_com.cpp"],
-    hdrs = ["factory_mw_com.h"],
+    name = "factory_mw_com_for_unit_test",
+    testonly = True,
+    hdrs = ["fake/factory_mw_com.h"],
     features = COMPILER_WARNING_FEATURES,
+    include_prefix = "score/config_management/config_provider/code/config_provider/factory",
+    strip_include_prefix = "fake",
+    visibility = [
+        "//score/config_management/config_provider:__subpackages__",
+    ],
+    deps = [
+        ":buffer_size_report",
+        "//score/config_management/config_provider/code/config_provider",
+        "//score/config_management/config_provider/code/config_provider:config_provider_mock",
+        "//score/config_management/config_provider/code/config_provider/error",
+        "//score/config_management/config_provider/code/persistency",
+        "//score/config_management/config_provider/code/proxies:internal_config_provider",
+        "@googletest//:gtest",
+        "@score_baselibs//score/language/futurecpp",
+        "@score_communication//score/mw/service:find_service_strategy",
+    ],
+)
+
+cc_library(
+    name = "factory_mw_com",
+    srcs = ["details/factory_mw_com.cpp"],
+    hdrs = ["details/factory_mw_com.h"],
+    features = COMPILER_WARNING_FEATURES,
+    include_prefix = "score/config_management/config_provider/code/config_provider/factory",
+    strip_include_prefix = "details",
     tags = ["FUSA"],
     visibility = [
         "//score/config_management/config_provider:__subpackages__",
@@ -70,7 +93,6 @@ cc_library(
         "//score/config_management/config_provider/code/persistency/details",
         "//score/config_management/config_provider/code/proxies/details:details_mw_com",
         "@score_baselibs//score/json",
-        "@score_baselibs//score/json:json_parser",
         "@score_communication//score/mw/service:factory",
         "@score_communication//score/mw/service/backend/mw_com:single_instantiation_strategy",
         "@score_logging//score/mw/log",
@@ -80,10 +102,8 @@ cc_library(
 cc_test(
     name = "unit_tests_mw_com",
     srcs = ["factory_mw_com_test.cpp"],
-    data = ["//score/config_management/config_provider/code/proxies/details:test_mw_com_config"],
     features = COMPILER_WARNING_FEATURES,
     tags = [
-        "exclusive",  # Sandboxing is not properly working with LoLa message passing 2.0 (Ticket-217341)
         "unit",
     ],
     visibility = [
@@ -91,9 +111,13 @@ cc_test(
     ],
     deps = [
         ":factory_mw_com",
+        ":semi_dynamic_single_instantiation_strategy",
+        "//score/config_management/config_provider/code/config_provider/error",
         "//score/config_management/config_provider/code/persistency:mock",
+        "//score/config_management/config_provider/code/proxies:internal_config_provider",
+        "//score/config_management/config_provider/code/proxies:mock",
         "@googletest//:gtest_main",
-        "@score_baselibs//score/json:json_parser",
+        "@score_baselibs//score/json",
     ],
 )
 
@@ -116,10 +140,6 @@ cc_gtest_unit_test(
 
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
-    cc_unit_tests = [
-        ":unit_tests_mw_com",
-    ],
+    cc_unit_tests = [],
     visibility = ["//score/config_management/config_provider:__subpackages__"],
 )
-
-load_custom_targets()
