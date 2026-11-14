@@ -15,6 +15,9 @@
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service_reactor_mock.h"
 #include "score/mw/com/runtime.h"
 #include "score/mw/com/runtime_configuration.h"
+
+#include "rules_cc/cc/runfiles/runfiles.h"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
@@ -38,8 +41,13 @@ class InternalConfigProviderServiceMwComTest : public ::testing::Test
   protected:
     static void SetUpTestSuite()
     {
+        std::string error;
+        // Resolves correctly whether config_management is the root module or an external bzlmod dependency.
+        const std::unique_ptr<rules_cc::cc::runfiles::Runfiles> runfiles{
+            rules_cc::cc::runfiles::Runfiles::CreateForTest(BAZEL_CURRENT_REPOSITORY, &error)};
+        ASSERT_NE(runfiles, nullptr) << error;
         score::mw::com::runtime::RuntimeConfiguration runtime_configuration{
-            "./score/config_management/config_daemon/config/mw_com_config.json"};
+            runfiles->Rlocation("score_config_management/score/config_management/config_daemon/config/mw_com_config.json")};
         score::mw::com::runtime::InitializeRuntime(runtime_configuration);
     }
     void SetUp() override
