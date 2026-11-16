@@ -10,11 +10,11 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
-#include "score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl.h"
+#include "score/config_management/config_provider/code/proxies/details/internal_config_provider_impl.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
-#include "score/json/json_parser.h"
 #include "score/concurrency/future/interruptible_promise.h"
+#include "score/json/json_parser.h"
 
 #include <sstream>
 
@@ -90,9 +90,9 @@ InternalConfigProvider::~InternalConfigProvider() noexcept
     }
 }
 
-Result<json::Any> InternalConfigProvider::GetParameterSet(const std::string_view set_name,
-                                                          const std::chrono::milliseconds timeout,
-                                                          const AdditionalShmSizing& sizing) const
+score::Result<score::json::Any> InternalConfigProvider::GetParameterSet(const std::string_view set_name,
+                                                                        const std::chrono::milliseconds timeout,
+                                                                        const AdditionalShmSizing& sizing) const
 {
     logger_.LogDebug() << "InternalConfigProvider::" << __func__ << "[" << set_name << "]: timeout: " << timeout;
 
@@ -103,7 +103,7 @@ Result<json::Any> InternalConfigProvider::GetParameterSet(const std::string_view
     {
         logger_.LogError() << "InternalConfigProvider::" << __func__ << ": set_name too long (" << set_name.size()
                            << " > " << sizing.max_name_length << ")";
-        return MakeUnexpected(ConfigProviderError::kParameterSetNameTooLong);
+        return score::MakeUnexpected(ConfigProviderError::kParameterSetNameTooLong);
     }
 
     std::unique_lock<std::mutex> lock{mutex_};
@@ -111,7 +111,7 @@ Result<json::Any> InternalConfigProvider::GetParameterSet(const std::string_view
     if (!allocated_args.has_value())
     {
         logger_.LogError() << "InternalConfigProvider::" << __func__ << ": Could not allocate method args";
-        return MakeUnexpected(ConfigProviderError::kMethodArgumentAllocationFailed);
+        return score::MakeUnexpected(ConfigProviderError::kMethodArgumentAllocationFailed);
     }
 
     auto& [param_set_name_buffer, max_payload_size] = allocated_args.value();
@@ -137,7 +137,7 @@ Result<json::Any> InternalConfigProvider::GetParameterSet(const std::string_view
     if (!get_result.has_value())
     {
         logger_.LogError() << "InternalConfigProvider::" << __func__ << ": get_parameter_set call failed";
-        return MakeUnexpected(ConfigProviderError::kGetParameterSetCallFailed);
+        return score::MakeUnexpected(ConfigProviderError::kGetParameterSetCallFailed);
     }
 
     // No nullptr check needed here: get_result.value() is a MethodReturnTypePtr referencing the return-value
@@ -150,17 +150,17 @@ Result<json::Any> InternalConfigProvider::GetParameterSet(const std::string_view
 
     if (result == score::config_management::config_daemon::mw_com_icp_types::kParameterSetNotFoundContent)
     {
-        return MakeUnexpected(ConfigProviderError::kParameterSetNotFound);
+        return score::MakeUnexpected(ConfigProviderError::kParameterSetNotFound);
     }
 
     if (result == score::config_management::config_daemon::mw_com_icp_types::kParameterSetPayloadTooLargeContent)
     {
         logger_.LogError() << "InternalConfigProvider::" << __func__ << ": parameter set '" << set_name
                            << "' payload exceeds the allocated call_max_payload_size";
-        return MakeUnexpected(ConfigProviderError::kParameterSetPayloadTooLarge);
+        return score::MakeUnexpected(ConfigProviderError::kParameterSetPayloadTooLarge);
     }
 
-    const json::JsonParser json_parser{};
+    const score::json::JsonParser json_parser{};
     return json_parser.FromBuffer(result);
 }
 

@@ -28,10 +28,10 @@ class ParameterSetJsonSerializerMock final : public ParameterSetJsonSerializer
   public:
     ~ParameterSetJsonSerializerMock() override = default;
 
-    MOCK_METHOD(Result<score::cpp::pmr::string>, SerializeParameters, (const json::Object&), (const, override));
-    MOCK_METHOD(Result<score::cpp::pmr::string>,
+    MOCK_METHOD(score::Result<score::cpp::pmr::string>, SerializeParameters, (const score::json::Object&), (const, override));
+    MOCK_METHOD(score::Result<score::cpp::pmr::string>,
                 SerializeParameterSet,
-                (const json::Object&, std::uint8_t),
+                (const score::json::Object&, std::uint8_t),
                 (const, override));
 };
 

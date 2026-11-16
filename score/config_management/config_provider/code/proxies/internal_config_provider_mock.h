@@ -31,7 +31,7 @@ class InternalConfigProviderMock final : public IInternalConfigProvider
   public:
     ~InternalConfigProviderMock() noexcept override = default;
 
-    MOCK_METHOD(Result<json::Any>,
+    MOCK_METHOD(score::Result<score::json::Any>,
                 GetParameterSet,
                 (const std::string_view, const std::chrono::milliseconds, const AdditionalShmSizing&),
                 (const, override));

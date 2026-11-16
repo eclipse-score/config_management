@@ -1,0 +1,25 @@
+@startuml
+
+skinparam SequenceMessageAlignment center
+title ConfigDaemon InternalConfigProviderService Subscribe
+
+participant ClientApplication
+!includesub ../sequence_diagrams/cfgd_icp_get_sequence_diagram.puml!GetParameterSetParticipant
+participant Plugin
+
+
+activate ClientApplication
+ClientApplication -> ConfigProvider : OnChangedParameterSet(parameter_set_name, callback)
+activate ConfigProvider
+ConfigProvider -> ConfigProvider: RegisterUpdateHandlerForParameterSetName(parameter_set_name, callback)
+
+Plugin -> InternalConfigProviderService: SendLastUpdatedParameterSet(parameter_set_name)
+InternalConfigProviderService -> com : Update(parameter_set_name)
+com -> InternalConfigProviderProxy: trigger callback
+InternalConfigProviderProxy -> ConfigProvider: LastUpdatedParameterSetReceiveHandler
+!includesub ../sequence_diagrams/cfgd_icp_get_sequence_diagram.puml!GetParameterSet
+
+ConfigProvider -> ClientApplication : callback
+deactivate ConfigProvider
+
+@enduml

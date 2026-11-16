@@ -34,7 +34,7 @@ cc_test(
         "//score/config_management/config_daemon/code/data_model:parameter_set_qualifier",
         "//score/config_management/config_provider:config_provider_mock",
         "@googletest//:gtest_main",
-        "@score_baselibs//score/json:json_parser",
+        "@score_baselibs//score/json",
         "@score_logging//score/mw/log/test/console_logging_environment",
     ],
 )

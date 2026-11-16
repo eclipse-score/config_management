@@ -1,0 +1,50 @@
+@startuml
+
+skinparam SequenceMessageAlignment center
+title ConfigDaemon InternalConfigProviderService GetParameterSet Method
+
+participant ClientApplication
+!startsub GetParameterSetParticipant
+participant ConfigProvider
+participant InternalConfigProviderProxy
+participant "mw::com" as com
+participant InternalConfigProviderService
+participant InternalConfigProviderServiceReactor
+participant ParameterSetCollection
+!endsub
+
+activate ClientApplication
+ClientApplication -> ConfigProvider : GetParameterSet(parameter_set_name)
+activate ConfigProvider
+alt parameterset is cached
+ConfigProvider --> ClientApplication: parameter_set
+else
+
+!startsub GetParameterSet
+ConfigProvider -> InternalConfigProviderProxy : GetParameterSet(parameter_set_name)
+activate InternalConfigProviderProxy
+InternalConfigProviderProxy -> com : GetParameterSet(parameter_set_name)
+activate com
+com -> InternalConfigProviderService : GetParameterSet(parameter_set_name)
+activate InternalConfigProviderService
+InternalConfigProviderService -> InternalConfigProviderServiceReactor : GetParameterSet(parameter_set_name)
+activate InternalConfigProviderServiceReactor
+InternalConfigProviderServiceReactor -> ParameterSetCollection : GetParameterSet(parameter_set_name)
+activate ParameterSetCollection
+ParameterSetCollection --> InternalConfigProviderServiceReactor : parameter_set
+deactivate ParameterSetCollection
+InternalConfigProviderServiceReactor --> InternalConfigProviderService : parameter_set
+deactivate InternalConfigProviderServiceReactor
+InternalConfigProviderService --> com : parameter_set
+com --> InternalConfigProviderProxy : parameter_set
+deactivate com
+InternalConfigProviderProxy --> ConfigProvider : parameter_set
+deactivate InternalConfigProviderProxy
+note left: Cache the parameter_set for future requests
+!endsub
+
+ConfigProvider --> ClientApplication : parameter_set
+deactivate ConfigProvider
+end
+
+@enduml

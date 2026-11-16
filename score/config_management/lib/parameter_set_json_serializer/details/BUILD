@@ -29,7 +29,6 @@ cc_library(
         "//score/config_management/lib/parameter_set_json_serializer/error",
         "@score_baselibs//score/json",
         "@score_baselibs//score/language/futurecpp",
-        "@score_baselibs//score/result",
     ],
 )
 

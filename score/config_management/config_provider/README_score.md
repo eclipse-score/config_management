@@ -88,7 +88,7 @@ else
     - `score/config_management/config_provider/code/config_provider/details/config_provider_impl_test.cpp`
     - `score/config_management/config_provider/code/config_provider/factory/factory_mw_com_test.cpp`
     - `score/config_management/config_provider/code/parameter_set/parameter_set_test.cpp`
-    - `score/config_management/config_provider/code/proxies/details/mw_com/internal_config_provider_impl_test.cpp`
+    - `score/config_management/config_provider/code/proxies/details/internal_config_provider_impl_test.cpp`
   - Cmd: `bazel test //score/config_management/config_provider:unit_tests_host`
 
 #### Bazel

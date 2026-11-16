@@ -1,0 +1,32 @@
+@startuml
+
+!includesub ../assets/app/config_daemon.puml!ConfigDaemon
+!includesub ../assets/factory/factory.puml!IFactory
+!includesub ../assets/plugins/plugin.puml!IPlugin
+
+!includesub ../assets/plugins/plugin_collector/plugin_collector.puml!IPluginCollector
+!includesub ../assets/plugins/coding/coding.puml!ICodingPlugin
+!includesub ../assets/plugins/calibration/calibration.puml!ICalibrationPlugin
+!includesub ../assets/plugins/plugin_collector/plugin_collector.puml!PluginCollector
+
+!includesub ../assets/plugins/plugin_creator.puml!IPluginCreator
+!includesub ../assets/plugins/coding/plugin_creator/coding_plugin_creator.puml!CalibrationPluginCreator
+!includesub ../assets/plugins/coding/plugin_creator/coding_plugin_creator.puml!CodingPluginCreator
+
+!startsub ConfigDaemonStaticArchitecture
+
+title "Plugin Static Architecture"
+
+skinparam linetype ortho
+
+ConfigDaemon o-right- IFactory
+ConfigDaemon o-down- IPlugin
+CalibrationPluginCreator -up-|> IPluginCreator
+CodingPluginCreator -up-|> IPluginCreator
+IFactory --> PluginCollector
+PluginCollector o-- IPluginCreator
+CalibrationPluginCreator -up-> ICalibrationPlugin:Create
+CodingPluginCreator -up-> ICodingPlugin:Create
+!endsub
+
+@enduml

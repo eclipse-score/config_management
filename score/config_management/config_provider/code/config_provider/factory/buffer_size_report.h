@@ -67,10 +67,10 @@ class BufferSizeReport
     /// @param buffer_size_report_path Defaults to the production path (kDefaultBufferSizeReportPath). Callers that
     /// run outside of production deployment (e.g. in-process SCT test bindings that aren't relocated into sctf's
     /// sandboxed mount namespace) may override this to point at their own, differently-located copy of the file.
-    static Result<AdditionalShmSizing> GetMaxBufferSizeInfo(
+    static score::Result<AdditionalShmSizing> GetMaxBufferSizeInfo(
         const score::cpp::optional<score::cpp::pmr::vector<std::string_view>>& initial_parameter_set_name_list,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        std::shared_ptr<json::IJsonParser> json_parser = nullptr,
+        std::shared_ptr<score::json::IJsonParser> json_parser = nullptr,
         std::string_view buffer_size_report_path = kDefaultBufferSizeReportPath);
 };
 

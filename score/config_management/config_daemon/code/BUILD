@@ -25,10 +25,7 @@ bool_flag(
 config_setting(
     name = "is_score_variant",
     flag_values = {":score_variant": "true"},
-    visibility = [
-        "//score/config_management/config_daemon:__subpackages__",
-        "//score/config_management/config_provider:__subpackages__",
-    ],
+    visibility = ["//score/config_management/config_daemon:__subpackages__"],
 )
 
 cc_test(
