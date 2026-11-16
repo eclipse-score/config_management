@@ -4,7 +4,7 @@ Software Architectural Level
 .. toctree::
    :maxdepth: 1
 
-   feature_requirements/feature_requirements/feature_requirements
+   feature_requirements/_main/requirements/feature_requirements/feature_requirements/feature_requirements/feature_requirements
 
 Static Design
 ~~~~~~~~~~~~~
@@ -12,4 +12,12 @@ Static Design
 .. toctree::
    :maxdepth: 1
 
-   architectural_design/static_design
+   architectural_design/_main/score/config_management/dependability/software_architectural_design/software_architectural_design/static/static_design
+
+Dependability Analysis
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. toctree::
+   :maxdepth: 1
+
+   dependability_analysis/_main/requirements/safety_analysis/dependability_analysis/safety_analysis

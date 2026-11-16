@@ -18,5 +18,5 @@ Components
 .. toctree::
    :maxdepth: 1
 
-   components/config_daemon_component
-   components/config_provider_component
+   components/_main/score/config_management/dependability/config_daemon_component/index
+   components/_main/score/config_management/dependability/config_provider_component/index
