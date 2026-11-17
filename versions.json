@@ -4,16 +4,8 @@
     "url": "https://eclipse-score.github.io/config_management/main/"
   },
   {
-    "version": "pr-103",
-    "url": "https://eclipse-score.github.io/config_management/pr-103/"
-  },
-  {
     "version": "pr-110",
     "url": "https://eclipse-score.github.io/config_management/pr-110/"
-  },
-  {
-    "version": "pr-112",
-    "url": "https://eclipse-score.github.io/config_management/pr-112/"
   },
   {
     "version": "pr-19",
@@ -46,10 +38,6 @@
   {
     "version": "pr-84",
     "url": "https://eclipse-score.github.io/config_management/pr-84/"
-  },
-  {
-    "version": "pr-86",
-    "url": "https://eclipse-score.github.io/config_management/pr-86/"
   },
   {
     "version": "pr-87",
