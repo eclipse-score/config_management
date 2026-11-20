@@ -74,7 +74,7 @@ cc_test(
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 
@@ -91,9 +91,9 @@ cc_test(
     deps = [
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
         "@googletest//:gtest",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log:console",
     ] + [
         ":details_score_for_unit_test",
-        "@googletest//:gtest_main",
     ],
 )

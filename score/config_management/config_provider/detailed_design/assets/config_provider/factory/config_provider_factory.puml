@@ -9,24 +9,24 @@ class ConfigProviderFactory {
     max_samples_limit : score::cpp::optional<std::size_t>,\n\
     polling_cycle_interval : score::cpp::optional<std::chrono::milliseconds>,\n\
     memory_resource : score::cpp::pmr::memory_resource* const,\n\
-    callback : IsAvailableNotificationCallback&&) : score::cpp::pmr::unique_ptr<ConfigProvider>
+    callback : AvailabilityNotificationCallback &&) : score::cpp::pmr::unique_ptr<ConfigProvider>
     + Create(\n\
     token : score::cpp::stop_token,\n\
     persistency : score::cpp::pmr::unique_ptr<Persistency>,\n\
     max_samples_limit : score::cpp::optional<std::size_t>,\n\
     polling_cycle_interval : score::cpp::optional<std::chrono::milliseconds>,\n\
     memory_resource : score::cpp::pmr::memory_resource* const,\n\
-    callback : IsAvailableNotificationCallback&&) : score::cpp::pmr::unique_ptr<ConfigProvider>
+    callback : AvailabilityNotificationCallback &&) : score::cpp::pmr::unique_ptr<ConfigProvider>
     + Create(\n\
     token : score::cpp::stop_token ,\n\
     timeout : std::chrono::milliseconds ,\n\
     memory_resource : score::cpp::pmr::memory_resource* const ,\n\
-    callback : IsAvailableNotificationCallback&&) : score::cpp::pmr::unique_ptr<ConfigProvider>
+    callback : AvailabilityNotificationCallback &&) : score::cpp::pmr::unique_ptr<ConfigProvider>
     + Create(\n\
     token : score::cpp::stop_token,\n\
     persistency : score::cpp::pmr::unique_ptr<Persistency>,\n\
     memory_resource : score::cpp::pmr::memory_resource* const,\n\
-    callback : IsAvailableNotificationCallback&&) : score::cpp::pmr::unique_ptr<ConfigProvider>
+    callback : AvailabilityNotificationCallback &&) : score::cpp::pmr::unique_ptr<ConfigProvider>
     --
     - logger_ : mw::log::Logger&
     --

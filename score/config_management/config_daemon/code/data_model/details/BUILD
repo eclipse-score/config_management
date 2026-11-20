@@ -42,7 +42,7 @@ cc_library(
         "@score_baselibs//score/filesystem",
         "@score_baselibs//score/json",
         "@score_baselibs//score/language/futurecpp",
-        "@score_logging//score/mw/log",
+        "@score_baselibs//score/mw/log:frontend",
     ],
 )
 
@@ -61,7 +61,7 @@ cc_library(
         "//score/config_management/config_daemon/code/data_model/error",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage",
         "//score/config_management/config_daemon/code/plugins:plugin",
-        "@score_logging//score/mw/log",
+        "@score_baselibs//score/mw/log:frontend",
     ],
 )
 
@@ -79,6 +79,7 @@ cc_test(
         "@googletest//:gtest_main",
         "@score_baselibs//score/json",
         "@score_baselibs//score/json:mock",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 
@@ -90,11 +91,12 @@ cc_test(
     visibility = ["//score/config_management/config_daemon/code/data_model:__pkg__"],
     deps = [
         ":parameterset_collection_manager_impl",
+        "//score/config_management/config_daemon/code/data_model:parameterset_collection_manager_mock",
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage:mock",
         "//score/config_management/config_daemon/code/plugins:mock",
         "//score/config_management/config_daemon/code/types/initial_qualifier_state",
         "@googletest//:gtest_main",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/mw/log:console",
     ],
 )

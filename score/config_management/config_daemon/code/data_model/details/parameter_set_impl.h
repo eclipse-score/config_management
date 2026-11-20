@@ -18,8 +18,8 @@
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
 #include "score/config_management/lib/parameter_set_json_serializer/parameter_set_json_serializer.h"
 
-#include "score/mw/log/logger.h"
 #include "score/json/internal/model/any.h"
+#include "score/mw/log/logger.h"
 
 #include <score/optional.hpp>
 #include <score/string.hpp>
@@ -68,7 +68,7 @@ class ParameterSet final
   private:
     score::json::Object GetParametersAsJson() const;
 
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
     std::unordered_map<score::cpp::pmr::string, Parameter> data_;
     std::unique_ptr<score::config_management::ParameterSetJsonSerializer> json_serializer_;
     score::config_management::config_daemon::ParameterSetQualifier qualifier_;

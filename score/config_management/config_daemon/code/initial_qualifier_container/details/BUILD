@@ -13,7 +13,7 @@ cc_library(
     deps = [
         "//score/config_management/config_daemon/code/initial_qualifier_container",
         "@score_baselibs//score/language/futurecpp",
-        "@score_logging//score/mw/log",
+        "@score_baselibs//score/mw/log:frontend",
     ],
 )
 
@@ -29,5 +29,6 @@ cc_test(
         ":details",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log:minimal",
     ],
 )

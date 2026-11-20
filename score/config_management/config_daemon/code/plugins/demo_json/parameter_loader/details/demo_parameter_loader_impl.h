@@ -14,10 +14,10 @@
 #define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_PLUGINS_DEMO_JSON_PARAMETER_LOADER_DETAILS_DEMO_PARAMETER_LOADER_IMPL_H
 
 #include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/demo_parameter_loader.h"
-#include "score/mw/log/logger.h"
-#include "score/result/result.h"
 
 #include "score/json/internal/model/any.h"
+#include "score/mw/log/logger.h"
+#include "score/result/result.h"
 
 #include <memory>
 
@@ -48,7 +48,7 @@ class DemoParameterLoaderImpl final : public DemoParameterLoader
 
   private:
     score::Result<score::json::Any> demo_parameters_data_;
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
 };
 
 }  // namespace demo_json

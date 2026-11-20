@@ -52,7 +52,7 @@ ConfigProviderImpl::ConfigProviderImpl(
     score::cpp::pmr::memory_resource* const memory_resource,
     score::cpp::optional<std::size_t> max_samples_limit,
     score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
-    IsAvailableNotificationCallback callback,
+    AvailabilityNotificationCallback callback,
     score::cpp::pmr::unique_ptr<Persistency> persistency,
     score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list,
     AdditionalShmSizing sizing)
@@ -150,9 +150,10 @@ ConfigProviderImpl::~ConfigProviderImpl()
     internal_config_provider_.reset();
 }
 
-void ConfigProviderImpl::SetupInternalConfigProvider(std::shared_ptr<IInternalConfigProvider> internal_config_provider,
-                                                     IsAvailableNotificationCallback is_available_notification_callback,
-                                                     const score::cpp::stop_token& stop_token)
+void ConfigProviderImpl::SetupInternalConfigProvider(
+    std::shared_ptr<IInternalConfigProvider> internal_config_provider,
+    AvailabilityNotificationCallback is_available_notification_callback,
+    const score::cpp::stop_token& stop_token)
 {
     if (not(internal_config_provider->TrySubscribeToLastUpdatedParameterSetEvent(
             stop_token, [this](const std::string_view set) {

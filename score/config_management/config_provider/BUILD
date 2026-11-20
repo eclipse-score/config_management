@@ -19,15 +19,34 @@ alias(
 )
 
 cc_library(
+    name = "config_provider_builder_impl",
+    tags = ["FUSA"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//score/config_management/config_provider/code/config_provider/builder:config_provider_builder",
+        "//score/config_management/config_provider/code/config_provider/builder/details",
+    ],
+)
+
+cc_library(
     name = "config_provider_factory_impl",
+    deprecation = "DEPRECATION: Use //score/config_management/config_provider:config_provider_builder_impl and ConfigProviderBuilder instead.",
     tags = ["FUSA"],
     visibility = ["//visibility:public"],
     deps = ["//score/config_management/config_provider/code/config_provider/factory:factory_mw_com"],
 )
 
 alias(
+    name = "config_provider_builder_mock",
+    testonly = True,
+    actual = "//score/config_management/config_provider/code/config_provider/builder:mock",
+    visibility = ["//visibility:public"],
+)
+
+alias(
     name = "config_provider_factory_for_unit_test",
     actual = "//score/config_management/config_provider/code/config_provider/factory:factory_mw_com_for_unit_test",
+    deprecation = "DEPRECATION: Use //score/config_management/config_provider:config_provider_builder_mock and ConfigProviderBuilder instead.",
     visibility = ["//visibility:public"],
 )
 

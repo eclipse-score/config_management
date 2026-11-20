@@ -25,6 +25,8 @@ namespace config_daemon
 namespace data_model
 {
 
+using ::score::config_management::config_daemon::data_model::DataModelError;
+
 ParameterSetCollectionManager::ParameterSetCollectionManager(
     std::shared_ptr<IParameterSetCollection> primary_collection,
     const std::vector<std::shared_ptr<IPlugin>>& plugins,
@@ -33,7 +35,7 @@ ParameterSetCollectionManager::ParameterSetCollectionManager(
       primary_collection_{std::move(primary_collection)},
       plugins_{plugins.begin(), plugins.end()},
       storage_{std::move(storage)},
-      logger_{mw::log::CreateLogger(std::string_view{"CmMg"})}
+      logger_{score::mw::log::CreateLogger(std::string_view{"CmMg"})}
 {
 }
 

@@ -14,7 +14,7 @@ class ConfigDaemon {
   + Initialize(context : const ApplicationContext&) : std::int32_t
   + Run(token : const score::cpp::stop_token&) : std::int32_t
   --
-  - logger_ : mw::log::Logger&
+  - logger_ : score::mw::log::Logger&
   - parameterset_collection_ : std::shared_ptr<data_model::IParameterSetCollection>
   - provided_services_container_ : mw::service::ProvidedServicesContainer
   - factory_ : std::unique_ptr<IFactory>

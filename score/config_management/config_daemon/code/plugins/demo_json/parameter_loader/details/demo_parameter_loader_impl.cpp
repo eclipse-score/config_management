@@ -11,8 +11,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details/demo_parameter_loader_impl.h"
-
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
+
 #include "score/json/internal/model/any.h"
 
 #include <score/string_view.hpp>
@@ -37,7 +37,8 @@ constexpr auto kInitValueKey = "initValue";
 }  // namespace
 
 DemoParameterLoaderImpl::DemoParameterLoaderImpl(score::Result<score::json::Any>&& demo_parameters_data)
-    : demo_parameters_data_{std::move(demo_parameters_data)}, logger_{mw::log::CreateLogger(std::string_view{"DemP"})}
+    : demo_parameters_data_{std::move(demo_parameters_data)},
+      logger_{score::mw::log::CreateLogger(std::string_view{"DemP"})}
 {
 }
 

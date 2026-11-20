@@ -16,6 +16,7 @@
 
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection.h"
 #include "score/config_management/config_daemon/code/types/initial_qualifier_state/initial_qualifier_state.h"
+
 #include "score/result/result.h"
 
 #include <memory>

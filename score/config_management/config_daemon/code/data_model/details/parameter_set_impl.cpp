@@ -13,8 +13,8 @@
 
 #include "score/config_management/config_daemon/code/data_model/details/parameter_set_impl.h"
 #include "score/config_management/config_daemon/code/data_model/details/common.h"
-#include "score/config_management/config_daemon/code/data_model/error/error.h"
 #include "score/config_management/lib/parameter_set_json_serializer/details/parameter_set_json_serializer_impl.h"
+#include "score/config_management/config_daemon/code/data_model/error/error.h"
 
 namespace score
 {
@@ -25,8 +25,10 @@ namespace config_daemon
 namespace data_model
 {
 
+using ::score::config_management::config_daemon::data_model::DataModelError;
+
 ParameterSet::ParameterSet()
-    : logger_{mw::log::CreateLogger(std::string_view("DtMd"))},
+    : logger_{score::mw::log::CreateLogger(std::string_view("DtMd"))},
       data_{},
       json_serializer_{std::make_unique<score::config_management::ParameterSetJsonSerializerImpl>()},
       qualifier_{},

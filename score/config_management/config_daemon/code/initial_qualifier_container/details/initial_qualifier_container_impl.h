@@ -39,7 +39,7 @@ class InitialQualifierContainerImpl final : public InitialQualifierContainer
     InitialQualifierState GetInitialQualifierState() const noexcept override;
 
   private:
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
     mutable std::mutex state_mutex_;
     InitialQualifierState state_;
 };

@@ -34,9 +34,9 @@ cc_library(
         "//score/config_management/config_daemon/code/services",
         "@score_baselibs//score/concurrency:interruptible_wait",
         "@score_baselibs//score/json",
+        "@score_baselibs//score/mw/log:frontend",
         "@score_baselibs//score/scope_exit",
         "@score_lifecycle//score/launch_manager:application_cc",
-        "@score_logging//score/mw/log",
     ],
 )
 
@@ -62,7 +62,6 @@ cc_library(
         "@score_baselibs//score/scope_exit",
         "@score_lifecycle//score/launch_manager:application_cc",
         "@score_lifecycle//score/launch_manager:mock_application_context_cc",
-        "@score_logging//score/mw/log",
     ],
 )
 

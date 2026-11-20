@@ -52,6 +52,7 @@ cc_library(
 cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     test_suites_from_sub_packages = [
+        "//score/config_management/config_provider/code/config_provider/builder:unit_tests",
         "//score/config_management/config_provider/code/config_provider/details:unit_tests",
         "//score/config_management/config_provider/code/config_provider/error:unit_tests",
         "//score/config_management/config_provider/code/config_provider/factory:unit_tests",

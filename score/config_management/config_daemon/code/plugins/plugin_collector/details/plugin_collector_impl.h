@@ -44,7 +44,7 @@ class PluginCollector final : public IPluginCollector
 
   private:
     std::vector<std::unique_ptr<IPluginCreator>> plugin_creators_;
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
 };
 
 }  // namespace config_daemon

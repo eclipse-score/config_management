@@ -262,7 +262,7 @@ TEST_F(ConfigProviderFactoryTest, FoundServiceDuringCreation)
     std::atomic<bool> callback_is_called_upon_found{false};
     std::condition_variable callback_cv;
     std::mutex callback_mutex;
-    IsAvailableNotificationCallback callback{
+    AvailabilityNotificationCallback callback{
         [&callback_is_called_upon_found, &callback_cv, &callback_mutex]() noexcept {
             std::unique_lock<std::mutex> ul{callback_mutex};
             callback_is_called_upon_found = true;

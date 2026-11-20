@@ -42,7 +42,7 @@ class InternalConfigProvider {
     - logger_ : mw::log::Logger&
     - proxy_ : std::unique_ptr<AdaptiveProxy>
     - on_changed_parameter_set_callback_ : OnChangedParameterSetCallback
-    - is_available_notification_callback_ : IsAvailableNotificationCallback
+    - is_available_notification_callback_ : AvailabilityNotificationCallback
     - max_samples_limit_ : std::size_t
     - polling_cycle_interval_ : std::chrono::milliseconds
     - polling_routine_cv_ : concurrency::InterruptibleConditionalVariable

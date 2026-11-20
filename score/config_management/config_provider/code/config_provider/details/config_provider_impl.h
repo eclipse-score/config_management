@@ -92,14 +92,14 @@ class ConfigProviderImpl final : public ConfigProvider
                        score::cpp::pmr::memory_resource* const memory_resource,
                        score::cpp::optional<std::size_t> max_samples_limit,
                        score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
-                       IsAvailableNotificationCallback callback,
+                       AvailabilityNotificationCallback callback,
                        score::cpp::pmr::unique_ptr<Persistency> persistency,
                        score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list = score::cpp::nullopt,
                        AdditionalShmSizing sizing = AdditionalShmSizing{});
 
   private:
     void SetupInternalConfigProvider(std::shared_ptr<IInternalConfigProvider> internal_config_provider,
-                                     IsAvailableNotificationCallback is_available_notification_callback,
+                                     AvailabilityNotificationCallback is_available_notification_callback,
                                      const score::cpp::stop_token& stop_token);
     void CacheInitialQualifierState(const InitialQualifierState initial_qualifier_state) noexcept;
     void LastUpdatedParameterSetReceiveHandler(const std::string_view set_name);
