@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 
-#include "score/config_management/config_daemon/code/data_model/error/error.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_mock.h"
 #include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_reactor_impl.h"
+#include "score/config_management/config_daemon/code/data_model/error/error.h"
 
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
@@ -24,6 +24,8 @@ namespace config_management
 {
 namespace config_daemon
 {
+
+using ::score::config_management::config_daemon::data_model::DataModelError;
 
 using testing::Return;
 
@@ -80,13 +82,13 @@ TEST_F(InternalConfigProviderReactorTest, GetParameterSetFailsWithKeyNotFound)
     const std::string param_set_name = "non_existent_parameter_set";
 
     EXPECT_CALL(*parameterset_collection_mock_, GetParameterSet(param_set_name))
-        .WillOnce(Return(score::MakeUnexpected(data_model::DataModelError::kParameterSetNotFound)));
+        .WillOnce(Return(score::MakeUnexpected(DataModelError::kParameterSetNotFound)));
 
     InternalConfigProviderServiceReactorImpl reactor{parameterset_collection_mock_};
     auto result = reactor.GetParameterSet(param_set_name);
 
     EXPECT_FALSE(result.has_value());
-    EXPECT_EQ(result.error(), data_model::DataModelError::kParameterSetNotFound);
+    EXPECT_EQ(result.error(), DataModelError::kParameterSetNotFound);
 }
 
 }  // namespace config_daemon

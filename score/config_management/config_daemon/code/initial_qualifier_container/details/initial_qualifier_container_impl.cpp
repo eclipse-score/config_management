@@ -12,6 +12,8 @@
 // *******************************************************************************
 #include "score/config_management/config_daemon/code/initial_qualifier_container/details/initial_qualifier_container_impl.h"
 
+#include "score/mw/log/logging.h"
+
 #include <score/utility.hpp>
 
 namespace score
@@ -22,7 +24,7 @@ namespace config_daemon
 {
 InitialQualifierContainerImpl::InitialQualifierContainerImpl()
     : InitialQualifierContainer{},
-      logger_{mw::log::CreateLogger(std::string_view{"App"})},
+      logger_{score::mw::log::CreateLogger(std::string_view{"App"})},
       state_mutex_{},
       state_{InitialQualifierState::kUndefined}
 {

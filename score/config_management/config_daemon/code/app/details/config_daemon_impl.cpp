@@ -36,7 +36,7 @@ constexpr const std::int32_t kExitCodeFailure{1};
 
 ConfigDaemon::ConfigDaemon(std::unique_ptr<Factory> factory) noexcept
     : IConfigDaemon{},
-      logger_{mw::log::CreateLogger(std::string_view{"App"})},
+      logger_{score::mw::log::CreateLogger(std::string_view{"App"})},
       factory_{std::move(factory)},
       parameterset_collection_manager_{nullptr},
       fault_event_reporter_{nullptr},

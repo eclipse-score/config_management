@@ -32,7 +32,9 @@ namespace config_management
 {
 namespace config_provider
 {
+
 using IsAvailableNotificationCallback = score::cpp::callback<void()>;
+using AvailabilityNotificationCallback = score::cpp::callback<void()>;
 
 class IInternalConfigProvider
 {

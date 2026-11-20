@@ -25,7 +25,7 @@ class FaultEventReporter {
   - fault_event_proxy_fut_ : mw::service::ProxyFuture<std::unique_ptr<IFaultEventProxy>>
   - fault_event_mutex_ : std::mutex
   - factory_ : std::unique_ptr<IFactory>
-  - logger_ : mw::log::Logger&
+  - logger_ : score::mw::log::Logger&
 }
 }
 IFaultEventReporter <|-down- FaultEventReporter

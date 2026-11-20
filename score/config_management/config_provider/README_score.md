@@ -8,33 +8,54 @@ Below you will see description and short snippet showing how to use the ConfigPr
 
 ### Creation of ConfigProvider
 
-ConfigProvider talks to the ConfigDaemon over the `InternalConfigProvider` service, which is based on mw::com. A ConfigProvider instance is created by `ConfigProviderFactory`, located at `score/config_management/config_provider/code/config_provider/factory/details/factory_mw_com.h`, with the following method.
+Create a `ConfigProvider` with either `ConfigProviderFactory` or `ConfigProviderBuilder`. The factory remains available for existing callers. The builder provides a fluent alternative for new code.
 
-- `ConfigProviderFactory::Create<Port>(token, timeout, initial_parameter_set_name_list, memory_resource, callback, buffer_size_report_path)`
+#### ConfigProviderFactory
 
-`Port` is the mw::com instance specifier port of the `InternalConfigProvider` proxy, as configured in the client's deployment.
+Existing applications can continue to create a `ConfigProvider` with `ConfigProviderFactory::Create()`. For example:
+
+```c++
+#include "score/config_management/config_provider/code/config_provider/factory/factory_socal_r20_11.h"
+
+score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
+auto config_provider = config_provider_factory.Create<Port>(
+    {}, std::chrono::milliseconds(0U), score::cpp::pmr::get_default_resource());
+```
+
+#### ConfigProviderBuilder
+
+Production code can instantiate `ConfigProviderBuilderImpl<Port>` from `score/config_management/config_provider/code/config_provider/builder/details/config_provider_builder_impl.h`, where `Port` is the application's generated `InternalConfigProvider` service port type. Each builder can build one `ConfigProvider`. `Build(token)` returns an `score::cpp::pmr::unique_ptr<ConfigProvider>`.
+
+- `WithConnectionTimeout(timeout)`
+- `WithMemoryResource(memory_resource)`
+- `WithAvailabilityNotificationCallback(callback)`
+- `WithMaxSamplesLimit(max_samples_limit)`
+- `WithPollingCycleInterval(polling_cycle_interval)`
+- `WithRequiredParameterSets(names)`
+- `Build(token)`
 
 Where:
 
 - token: stop token provided by user.
-- timeout: time in ms that the factory waits for the ConfigProvider service to be discovered. The service discovery continues automatically if the service is not discovered within the given timeout. Use 0 if no delay is needed.
-- initial_parameter_set_name_list: names of all ParameterSets the client is going to request. It determines the size of the shared memory buffer, see [Buffer size allocation](#buffer-size-allocation).
-- memory_resource: std::pmr::memory_resource provided by user.
-- callback: called when the ConfigProvider service is created and becomes available.
-- buffer_size_report_path: optional, location of `buffer_size_report.json`. Defaults to `kDefaultBufferSizeReportPath`.
-
-The overloads without `initial_parameter_set_name_list` (including the ones with `max_samples_limit` and `polling_cycle_interval`) are deprecated. They size the buffer for the largest ParameterSet in the report, which wastes shared memory.
+- timeout: maximum time in milliseconds that `Build()` waits for the ConfigProvider service to connect. Service discovery continues after this timeout. Set it to 0 to return without waiting.
+- memory_resource: `score::pmr::memory_resource*` provided by the user.
+- callback: will be called when the ConfigProvider service is created and becomes available.
+- max_samples_limit: Maximum number of ParameterSets which can be retrieved from `ConfigDaemon` during one cycle of PollingRoutine.
+- polling_cycle_interval: Time interval between PollingRoutine cycles in milliseconds.
 
 Example:
 
 ```c++
-score::config_management::config_provider::ConfigProviderFactory config_provider_factory;
+#include "score/config_management/config_provider/code/config_provider/builder/details/config_provider_builder_impl.h"
+
+score::config_management::config_provider::ConfigProviderBuilderImpl<Port> config_provider_builder;
 bool callback_is_called_upon_found{false};
-IsAvailableNotificationCallback callback{
+AvailabilityNotificationCallback callback{
     [&callback_is_called_upon_found]() noexcept { callback_is_called_upon_found = true; }};
-score::cpp::pmr::vector<std::string_view> set_names{"set_name_1", "set_name_2"};
-auto config_provider = config_provider_factory.Create<Port>(
-    {}, std::chrono::milliseconds(0U), set_names, score::cpp::pmr::get_default_resource(), std::move(callback));
+auto config_provider = config_provider_builder.WithConnectionTimeout(std::chrono::milliseconds(0U))
+                           .WithMemoryResource(score::cpp::pmr::get_default_resource())
+                           .WithAvailabilityNotificationCallback(std::move(callback))
+                           .Build({});
 ```
 
 ### Buffer size allocation
@@ -63,7 +84,7 @@ To find out the value of InitialQualifierState can be used:
 Example:
 
 ```c++
-auto initial_qualifier_state = config_provider.GetInitialQualifierState();
+auto initial_qualifier_state = config_provider->GetInitialQualifierState(std::chrono::milliseconds{1000});
 ```
 
 NOTE: Callback method is not supported for InitialQualifierState.
@@ -84,11 +105,11 @@ To get/subcribe ParameterSet can be used:
 Example:
 
 ```c++
-auto parameter_set_result = config_provider.GetParameterSet("set_name");
+auto parameter_set_result = config_provider->GetParameterSet("set_name", std::chrono::milliseconds{1000});
 if (parameter_set_result.has_value())
 {
-    Result<std::shared_ptr<const ParameterSet>> parameter_set = parameter_set_result.value();
-    bool subscription_result = config_provider.OnChangedParameterSet(
+    auto parameter_set = parameter_set_result.value();
+    auto subscription_result = config_provider->OnChangedParameterSet(
         "set_name",
         [&parameter_set](std::shared_ptr<const ParameterSet> value) noexcept
     {

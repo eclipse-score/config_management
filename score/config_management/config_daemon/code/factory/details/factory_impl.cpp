@@ -53,14 +53,14 @@ mw::service::ProvidedServicesContainer FactoryImpl::CreateInternalConfigProvider
             "InternalConfigProviderService", std::move(service_reactor), std::move(skeleton_result).value());
         if (!emplace_result.has_value())
         {
-            mw::log::LogError() << "FactoryImpl::" << __func__
-                                << ": Failed to start InternalConfigProviderService:" << emplace_result.error();
+            score::mw::log::LogError() << "FactoryImpl::" << __func__
+                                       << ": Failed to start InternalConfigProviderService:" << emplace_result.error();
         }
     }
     else
     {
-        mw::log::LogError() << "FactoryImpl::" << __func__
-                            << ": Failed to create InternalConfigProviderSkeleton:" << skeleton_result.error();
+        score::mw::log::LogError() << "FactoryImpl::" << __func__
+                                   << ": Failed to create InternalConfigProviderSkeleton:" << skeleton_result.error();
     }
     return services;
 }

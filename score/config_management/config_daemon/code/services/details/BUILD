@@ -31,7 +31,7 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
         ],
         deps = [
             "//score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces:read_only_parameterset_collection",
-            "@score_logging//score/mw/log",
+            "@score_baselibs//score/mw/log:frontend",
         ] + dependencies,
     )
     for name, testonly, dependencies in [
@@ -68,7 +68,8 @@ cc_test(
         "//score/config_management/config_daemon/code/data_model:parameterset_collection_mock",
         "//score/config_management/config_daemon/code/data_model/error",
         "//score/config_management/config_daemon/code/services/details:for_unit_test",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@googletest//:gtest_main",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 
@@ -89,7 +90,7 @@ cc_test(
             "//score/config_management/config_daemon/code/data_model/error",
             "//score/config_management/config_daemon/code/services",
             "//score/config_management/lib/mw_com_types:internal_config_provider_type",
-            "@score_logging//score/mw/log",
+            "@score_baselibs//score/mw/log:frontend",
         ] + dep,
     )
     for name, dep, test_only in [

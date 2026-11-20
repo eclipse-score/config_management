@@ -72,7 +72,7 @@ class ParameterSetCollection final : public IParameterSetCollection
     /// @brief Returns the set with the given name, creating it if it doesn't exist. Caller must hold mutex_.
     std::shared_ptr<ParameterSet> FindOrCreate(const score::cpp::string_view set_name) noexcept;
 
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
     mutable std::mutex mutex_;
     std::unordered_map<score::cpp::pmr::string, std::shared_ptr<ParameterSet>> parameter_sets_;
 };

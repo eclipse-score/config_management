@@ -29,8 +29,13 @@ namespace config_daemon
 namespace data_model
 {
 
+using ::score::config_management::config_daemon::data_model::DataModelError;
+
 ParameterSetCollection::ParameterSetCollection() noexcept
-    : IParameterSetCollection{}, logger_{mw::log::CreateLogger(std::string_view{"DtMd"})}, mutex_{}, parameter_sets_{}
+    : IParameterSetCollection{},
+      logger_{score::mw::log::CreateLogger(std::string_view{"DtMd"})},
+      mutex_{},
+      parameter_sets_{}
 {
 }
 

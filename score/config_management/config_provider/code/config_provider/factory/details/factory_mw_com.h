@@ -49,7 +49,8 @@ using FactoryStrategy = mw::service::FindServiceStrategy<IInternalConfigProvider
 
 constexpr std::size_t kParameterSetNameNullTerminatorSize{1U};
 constexpr std::size_t kParameterSetPayloadNullTerminatorSize{1U};
-class ConfigProviderFactory final
+class [[deprecated(
+    "DEPRECATION: Use ConfigProviderBuilder (config_provider/builder) instead.")]] ConfigProviderFactory final
 {
   public:
     /// @brief Interface of the strategy used to discover the `IInternalConfigProvider` service. Production code
@@ -83,7 +84,7 @@ class ConfigProviderFactory final
         std::chrono::milliseconds timeout,
         const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& callback = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
         std::string_view buffer_size_report_path = kDefaultBufferSizeReportPath) const
     {
         return CreateInternal<InternalConfigProviderPort>(token,
@@ -109,7 +110,7 @@ class ConfigProviderFactory final
         const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
         StrategyFactory make_strategy = MakeDefaultStrategyFactory<InternalConfigProviderPort>(),
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& callback = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
         std::string_view buffer_size_report_path = kDefaultBufferSizeReportPath) const
     {
         return CreateInternal<InternalConfigProviderPort>(token,
@@ -131,7 +132,7 @@ class ConfigProviderFactory final
         score::cpp::pmr::unique_ptr<Persistency> persistency,
         const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& callback = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
         std::string_view buffer_size_report_path = kDefaultBufferSizeReportPath) const
     {
         return CreateInternal<InternalConfigProviderPort>(token,
@@ -156,7 +157,7 @@ class ConfigProviderFactory final
         score::cpp::optional<std::size_t> max_samples_limit,
         score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
     {
         return CreateInternal<InternalConfigProviderPort>(token,
                                                           timeout,
@@ -180,7 +181,7 @@ class ConfigProviderFactory final
         score::cpp::optional<std::size_t> max_samples_limit,
         score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
     {
         return CreateInternal<InternalConfigProviderPort>(token,
                                                           std::chrono::milliseconds(0U),
@@ -202,7 +203,7 @@ class ConfigProviderFactory final
         score::cpp::stop_token token,
         std::chrono::milliseconds timeout,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
     {
         return CreateInternal<InternalConfigProviderPort>(token,
                                                           timeout,
@@ -224,7 +225,7 @@ class ConfigProviderFactory final
         score::cpp::stop_token token,
         score::cpp::pmr::unique_ptr<Persistency> persistency,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& callback = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
     {
         return CreateInternal<InternalConfigProviderPort>(token,
                                                           std::chrono::milliseconds(0U),
@@ -271,7 +272,7 @@ class ConfigProviderFactory final
         score::cpp::optional<std::size_t> max_samples_limit,
         score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval,
         score::cpp::pmr::memory_resource* const memory_resource,
-        IsAvailableNotificationCallback&& callback,
+        AvailabilityNotificationCallback&& callback,
         score::cpp::pmr::unique_ptr<Persistency> persistency,
         score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list,
         std::string_view buffer_size_report_path,

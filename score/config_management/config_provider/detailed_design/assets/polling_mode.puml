@@ -31,7 +31,7 @@ alt subscription success
   CP -> CP : CacheInitialQualifierState(GetInitialQualifierState())
   CP -> CP : RegisterCallbacksForPersistedParameterSetNames()
   CP -> ICP : StartParameterSetUpdatePollingRoutine(max_samples, interval)
-  CP -> UserBusinessLogic : IsAvailableNotificationCallback()
+  CP -> UserBusinessLogic : AvailabilityNotificationCallback ()
 else subscription failure
   CP -> CP : Abort setup (no polling routine)
 end

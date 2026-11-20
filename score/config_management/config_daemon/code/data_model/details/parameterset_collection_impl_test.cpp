@@ -37,6 +37,8 @@ namespace data_model
 namespace test
 {
 
+using ::score::config_management::config_daemon::data_model::DataModelError;
+
 class ParameterSetCollectionFixture : public ::testing::Test
 {
     void SetUp() override

@@ -46,8 +46,8 @@ InfrastructureFactoryImpl::CreateParameterSetCollectionManager(std::vector<std::
                           .Build();
     if (!kvs_result.has_value())
     {
-        mw::log::LogError() << "InfrastructureFactoryImpl::" << __func__
-                            << ": Failed to open score KVS for parameter set storage";
+        score::mw::log::LogError() << "InfrastructureFactoryImpl::" << __func__
+                                   << ": Failed to open score KVS for parameter set storage";
         return nullptr;
     }
     auto storage = std::make_unique<data_model::ParameterSetStorageScoreImpl>(

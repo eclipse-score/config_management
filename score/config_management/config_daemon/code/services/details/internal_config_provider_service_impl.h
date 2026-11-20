@@ -19,6 +19,7 @@
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service.h"
 #include "score/config_management/config_daemon/code/services/internal_config_provider_service_reactor.h"
 #include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
+
 #include "score/mw/log/logger.h"
 #include <score/string_view.hpp>
 #include <memory>
@@ -56,7 +57,7 @@ class InternalConfigProviderService final : public IInternalConfigProviderServic
     const std::shared_ptr<InternalConfigProviderServiceReactor> internal_config_provider_service_reactor_;
     InternalConfigProviderSkeleton icp_skeleton_;
     config_daemon::InitialQualifierState initial_qualifier_state_;
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
 };
 
 }  // namespace config_daemon

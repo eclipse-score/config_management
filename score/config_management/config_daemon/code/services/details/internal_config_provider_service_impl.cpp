@@ -14,7 +14,6 @@
 #include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_impl.h"
 
 #include "score/mw/log/logging.h"
-
 #include "score/result/result.h"
 
 #include <string_view>
@@ -87,7 +86,7 @@ InternalConfigProviderService::InternalConfigProviderService(
     : internal_config_provider_service_reactor_{std::move(internal_config_provider_service_reactor)},
       icp_skeleton_{std::move(icp_skeleton)},
       initial_qualifier_state_{config_daemon::InitialQualifierState::kUndefined},
-      logger_{mw::log::CreateLogger(std::string_view{"Serv"})}
+      logger_{score::mw::log::CreateLogger(std::string_view{"Serv"})}
 {
     InternalConfigProviderService::SetInitialQualifierState(initial_qualifier_state_);
 }
@@ -99,7 +98,7 @@ score::Result<std::unique_ptr<InternalConfigProviderService>> InternalConfigProv
     auto icp_skeleton_result{InternalConfigProviderSkeleton::Create(instance_specifier)};
     if (!icp_skeleton_result.has_value())
     {
-        mw::log::LogError()
+        score::mw::log::LogError()
             << "InternalConfigProviderService::Create() - Failed to create InternalConfigProviderSkeleton: "
             << icp_skeleton_result.error();
         return score::MakeUnexpected<std::unique_ptr<InternalConfigProviderService>>(icp_skeleton_result.error());
@@ -110,7 +109,7 @@ score::Result<std::unique_ptr<InternalConfigProviderService>> InternalConfigProv
 
 score::Result<void> InternalConfigProviderService::Start()
 {
-    mw::log::LogDebug() << "InternalConfigProviderService::" << __func__;
+    score::mw::log::LogDebug() << "InternalConfigProviderService::" << __func__;
     auto handler = [this](score::config_management::config_daemon::mw_com_icp_types::ParameterSetContent& result,
                           const score::config_management::config_daemon::mw_com_icp_types::ParameterSetName& parameter_set_name,
                           const std::size_t& call_max_payload_size) {
@@ -135,9 +134,9 @@ score::Result<void> InternalConfigProviderService::Start()
 
         if (content.size() > call_max_payload_size)
         {
-            mw::log::LogError() << "InternalConfigProviderService::Start() - Parameter set '" << name
-                                << "' payload size (" << content.size() << ") exceeds call_max_payload_size ("
-                                << call_max_payload_size << ")";
+            score::mw::log::LogError() << "InternalConfigProviderService::Start() - Parameter set '" << name
+                                       << "' payload size (" << content.size() << ") exceeds call_max_payload_size ("
+                                       << call_max_payload_size << ")";
             content = std::string{mw_com_icp_types::kParameterSetPayloadTooLargeContent};
         }
 
@@ -159,7 +158,8 @@ score::Result<void> InternalConfigProviderService::Start()
     const auto offer_service_result = icp_skeleton_.OfferService();
     if (!offer_service_result.has_value())
     {
-        mw::log::LogError() << "Failed to Offer InvocationCount service due to error:" << offer_service_result.error();
+        score::mw::log::LogError() << "Failed to Offer InvocationCount service due to error:"
+                                   << offer_service_result.error();
     }
     return offer_service_result;
 }
@@ -191,7 +191,7 @@ bool InternalConfigProviderService::SendLastUpdatedParameterSet(const std::strin
     auto event_sample_result = icp_skeleton_.last_updated_parameter_set.Allocate();
     if (!event_sample_result.has_value())
     {
-        mw::log::LogError() << "Allocation of event sample failed!";
+        score::mw::log::LogError() << "Allocation of event sample failed!";
         return false;
     }
     auto& event_sample = event_sample_result.value();
@@ -199,8 +199,8 @@ bool InternalConfigProviderService::SendLastUpdatedParameterSet(const std::strin
     std::fill(event_sample->begin(), event_sample->end(), 0);
     score::cpp::ignore = std::copy(std::begin(parameter_set_name), std::end(parameter_set_name), event_sample->begin());
 
-    mw::log::LogDebug() << "InternalConfigProviderService::" << __func__
-                        << "Sending LastUpdatedParameterSet: " << parameter_set_name;
+    score::mw::log::LogDebug() << "InternalConfigProviderService::" << __func__
+                               << "Sending LastUpdatedParameterSet: " << parameter_set_name;
     // TODO: Ticket-153602 fix 'forming reference to void' in unit test for Send() method
     auto send_result = icp_skeleton_.last_updated_parameter_set.Send(std::move(event_sample));
     if (!send_result.has_value())

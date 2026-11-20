@@ -22,7 +22,7 @@ namespace config_daemon
 {
 
 PluginCollector::PluginCollector() noexcept
-    : plugin_creators_{}, logger_{mw::log::CreateLogger(std::string_view{"PCol"})}
+    : plugin_creators_{}, logger_{score::mw::log::CreateLogger(std::string_view{"PCol"})}
 {
     std::ignore = plugin_creators_.emplace_back(std::make_unique<demo_json::DemoJsonPluginCreatorImpl>());
     // Add your plugins creator to plugin_creators_ here.

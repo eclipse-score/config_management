@@ -54,7 +54,8 @@ namespace config_management
 namespace config_provider
 {
 
-class ConfigProviderFactory final
+class [[deprecated(
+    "DEPRECATION: Use ConfigProviderBuilder (config_provider/builder) instead.")]] ConfigProviderFactory final
 {
   public:
     using Strategy = mw::service::FindServiceStrategy<IInternalConfigProvider>;
@@ -75,7 +76,7 @@ class ConfigProviderFactory final
         std::chrono::milliseconds,
         const score::cpp::pmr::vector<std::string_view>&,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
         std::string_view = kDefaultBufferSizeReportPath) const
     {
         return MakeFake(memory_resource);
@@ -89,7 +90,7 @@ class ConfigProviderFactory final
         const score::cpp::pmr::vector<std::string_view>&,
         StrategyFactory = {},
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
         std::string_view = kDefaultBufferSizeReportPath) const
     {
         return MakeFake(memory_resource);
@@ -101,7 +102,7 @@ class ConfigProviderFactory final
         score::cpp::pmr::unique_ptr<Persistency>,
         const score::cpp::pmr::vector<std::string_view>&,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& = []() noexcept {},  // LCOV_EXCL_LINE tooling issue
         std::string_view = kDefaultBufferSizeReportPath) const
     {
         return MakeFake(memory_resource);
@@ -116,7 +117,7 @@ class ConfigProviderFactory final
         score::cpp::optional<std::size_t>,
         score::cpp::optional<std::chrono::milliseconds>,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
     {
         return MakeFake(memory_resource);
     }
@@ -130,7 +131,7 @@ class ConfigProviderFactory final
         score::cpp::optional<std::size_t>,
         score::cpp::optional<std::chrono::milliseconds>,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
     {
         return MakeFake(memory_resource);
     }
@@ -142,7 +143,7 @@ class ConfigProviderFactory final
         score::cpp::stop_token,
         std::chrono::milliseconds,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
     {
         return MakeFake(memory_resource);
     }
@@ -154,7 +155,7 @@ class ConfigProviderFactory final
         score::cpp::stop_token,
         score::cpp::pmr::unique_ptr<Persistency>,
         score::cpp::pmr::memory_resource* const memory_resource = score::cpp::pmr::get_default_resource(),
-        IsAvailableNotificationCallback&& = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
+        AvailabilityNotificationCallback&& = []() noexcept {}) const  // LCOV_EXCL_LINE tooling issue
     {
         return MakeFake(memory_resource);
     }

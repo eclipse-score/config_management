@@ -16,7 +16,7 @@ cc_library(
         "//score/config_management/config_daemon/code/plugins:plugin",
         "//score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/details:demo_parameter_loader_impl",
         "@score_baselibs//score/json",
-        "@score_logging//score/mw/log",
+        "@score_baselibs//score/mw/log:frontend",
     ],
 )
 
@@ -34,7 +34,7 @@ cc_gtest_unit_test(
         "//score/config_management/config_daemon/code/initial_qualifier_container:mock",
         "@score_baselibs//score/json",
         "@score_baselibs//score/json:mock",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 

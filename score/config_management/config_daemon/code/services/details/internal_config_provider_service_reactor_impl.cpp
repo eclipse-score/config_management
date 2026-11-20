@@ -12,6 +12,7 @@
 // *******************************************************************************
 
 #include "score/config_management/config_daemon/code/services/details/internal_config_provider_service_reactor_impl.h"
+
 #include "score/mw/log/logging.h"
 
 namespace score
@@ -36,7 +37,7 @@ score::Result<score::cpp::pmr::string> InternalConfigProviderServiceReactorImpl:
 
     if (!param_set_result.has_value())
     {
-        mw::log::LogError() << __func__ << ": Key not found";
+        score::mw::log::LogError() << __func__ << ": Key not found";
         return score::MakeUnexpected<score::cpp::pmr::string>(param_set_result.error());
     }
 

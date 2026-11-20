@@ -76,7 +76,7 @@ class InternalConfigProvider final : public IInternalConfigProvider
     mw::log::Logger& logger_;
     std::unique_ptr<InternalMwComProxy> proxy_;
     OnChangedParameterSetCallback on_changed_parameter_set_callback_;
-    IsAvailableNotificationCallback is_available_notification_callback_;
+    AvailabilityNotificationCallback is_available_notification_callback_;
 
     std::size_t max_samples_limit_;
     std::chrono::milliseconds polling_cycle_interval_;

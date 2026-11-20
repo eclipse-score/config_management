@@ -15,9 +15,10 @@
 
 #include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/demo_parameter_loader.h"
 #include "score/config_management/config_daemon/code/plugins/plugin.h"
-#include "score/mw/log/logger.h"
+
 #include "score/json/i_json_parser.h"
 #include "score/json/json_parser.h"
+#include "score/mw/log/logger.h"
 
 #include <memory>
 
@@ -58,7 +59,7 @@ class DemoJsonPluginImpl final : public IPlugin
 
   private:
     std::unique_ptr<score::json::IJsonParser> json_parser_;
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
 };
 
 }  // namespace demo_json

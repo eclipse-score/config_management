@@ -28,7 +28,7 @@ cc_gtest_unit_test(
     visibility = ["//score/config_management/config_daemon:__subpackages__"],
     deps = [
         ":demo_json_plugin_creator",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 

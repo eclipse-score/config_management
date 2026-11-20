@@ -14,11 +14,11 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_MANAGER_IMPL_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETERSET_COLLECTION_MANAGER_IMPL_H
 
-#include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
-
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_impl.h"
 #include "score/config_management/config_daemon/code/data_model/parameter_set_storage/parameter_set_storage.h"
+#include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager.h"
 #include "score/config_management/config_daemon/code/plugins/plugin.h"
+
 #include "score/mw/log/logger.h"
 #include "score/result/result.h"
 
@@ -69,7 +69,7 @@ class ParameterSetCollectionManager final : public IParameterSetCollectionManage
     std::shared_ptr<IParameterSetCollection> primary_collection_;
     std::vector<std::weak_ptr<IPlugin>> plugins_;
     std::unique_ptr<IParameterSetStorage> storage_;
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
 };
 
 }  // namespace data_model

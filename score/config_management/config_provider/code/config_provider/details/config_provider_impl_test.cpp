@@ -178,7 +178,7 @@ class ConfigProviderTest : public ::testing::Test
         EXPECT_CALL(*icp_mock_, StopParameterSetUpdatePollingRoutine()).Times(1);
         promise_.SetValue(std::move(internal_config_provider));
     }
-    auto CreateConfigProviderWithAvailableCallback(IsAvailableNotificationCallback callback)
+    auto CreateConfigProviderWithAvailableCallback(AvailabilityNotificationCallback callback)
     {
         return std::make_unique<ConfigProviderImpl>(
             mw::service::OptionalProxyData<IInternalConfigProvider>{promise_.GetInterruptibleFuture().value()},
@@ -192,7 +192,7 @@ class ConfigProviderTest : public ::testing::Test
 
     auto CreateConfigProviderWithInitialParameterSetNameList(
         const score::cpp::pmr::vector<std::string_view>& initial_parameter_set_name_list,
-        IsAvailableNotificationCallback callback)
+        AvailabilityNotificationCallback callback)
     {
         return std::make_unique<ConfigProviderImpl>(
             mw::service::OptionalProxyData<IInternalConfigProvider>{promise_.GetInterruptibleFuture().value()},

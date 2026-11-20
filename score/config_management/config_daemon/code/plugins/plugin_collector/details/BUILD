@@ -30,7 +30,7 @@ load("@score_baselibs//score/language/safecpp:toolchain_features.bzl", "COMPILER
         deps = [
             "//score/config_management/config_daemon/code/plugins:plugin",
             "//score/config_management/config_daemon/code/plugins/plugin_collector:interface",
-            "@score_logging//score/mw/log",
+            "@score_baselibs//score/mw/log:frontend",
         ] + dependencies,
     )
     for name, testonly, dependencies in [
@@ -66,6 +66,6 @@ cc_test(
         ":details_for_unit_test",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/mw/log:console",
     ],
 )

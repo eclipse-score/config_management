@@ -17,7 +17,7 @@ cc_library(
         "//score/config_management/config_daemon/code/plugins/demo_json/parameter_loader:demo_parameter_loader",
         "@score_baselibs//score/json:json_serializer",
         "@score_baselibs//score/language/futurecpp",
-        "@score_logging//score/mw/log",
+        "@score_baselibs//score/mw/log:frontend",
     ],
 )
 
@@ -34,7 +34,7 @@ cc_gtest_unit_test(
         "//score/config_management/config_daemon/code/data_model/details:parameterset_collection_impl",
         "//score/config_management/config_daemon/code/data_model/error",
         "@score_baselibs//score/json",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 
