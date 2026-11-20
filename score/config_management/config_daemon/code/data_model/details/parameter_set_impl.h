@@ -25,6 +25,7 @@
 #include <score/string.hpp>
 #include <score/string_view.hpp>
 
+#include <cstddef>
 #include <memory>
 #include <mutex>
 #include <unordered_map>
@@ -53,6 +54,11 @@ class ParameterSet final
     score::Result<score::cpp::pmr::string> GetParameterSetAsString() const;
     score::json::Object GetParameterSetAsJson() const;
     score::Result<void> Add(const score::cpp::string_view parameter_name, score::json::Any&& parameter_value);
+    /// @brief Inserts the parameter if it doesn't exist, otherwise replaces the complete stored parameter entry.
+    /// @return true if the parameter was inserted, false if an existing parameter was assigned.
+    bool InsertOrAssign(const score::cpp::string_view parameter_name, score::json::Any&& parameter_value);
+    /// @brief Returns the number of parameters in this set.
+    std::size_t GetParameterCount() const noexcept;
     score::Result<void> Update(score::json::Object&& parameters);
     void SetCalibratable(const bool is_calibratable);
     void SetQualifier(const score::config_management::config_daemon::ParameterSetQualifier qualifier);

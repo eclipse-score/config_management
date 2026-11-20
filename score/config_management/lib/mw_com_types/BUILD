@@ -53,3 +53,23 @@ cc_library(
         "@score_communication//score/mw/com",
     ],
 )
+
+cc_library(
+    name = "config_calibration_type",
+    srcs = [
+        "config_calibration_type.cpp",
+    ],
+    hdrs = [
+        "config_calibration_type.h",
+    ],
+    features = COMPILER_WARNING_FEATURES,
+    tags = ["FFI"],
+    visibility = [
+        "//score/config_management/config_daemon:__subpackages__",
+    ],
+    deps = [
+        ":runtime_sized_array",
+        "@score_communication//score/memory/shared:polymorphic_offset_ptr_allocator",
+        "@score_communication//score/mw/com",
+    ],
+)

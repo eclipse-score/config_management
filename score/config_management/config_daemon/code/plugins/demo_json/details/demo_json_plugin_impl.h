@@ -49,7 +49,7 @@ class DemoJsonPluginImpl final : public IPlugin
 
     std::int32_t Run(std::shared_ptr<data_model::IParameterSetCollectionManager> parameterset_collection_manager,
                      LastUpdatedParameterSetSender cbk_send_last_updated_parameter_set,
-                     InitialQualifierStateSender cbk_update_initial_qualifier_state,
+                     InitialQualifierContainer& initial_qualifier_container,
                      score::cpp::stop_token stop_token,
                      std::shared_ptr<fault_event_reporter::IFaultEventReporter> fault_event_reporter) override;
 

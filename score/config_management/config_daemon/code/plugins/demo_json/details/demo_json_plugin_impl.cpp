@@ -49,7 +49,7 @@ void DemoJsonPluginImpl::Deinitialize() noexcept {}
 std::int32_t DemoJsonPluginImpl::Run(
     std::shared_ptr<data_model::IParameterSetCollectionManager> parameterset_collection_manager,
     [[maybe_unused]] LastUpdatedParameterSetSender,
-    [[maybe_unused]] InitialQualifierStateSender,
+    [[maybe_unused]] InitialQualifierContainer& initial_qualifier_container,
     [[maybe_unused]] score::cpp::stop_token,
     [[maybe_unused]] std::shared_ptr<fault_event_reporter::IFaultEventReporter>)
 {

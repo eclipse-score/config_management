@@ -54,6 +54,22 @@ score::Result<void> ParameterSet::Add(const score::cpp::string_view parameter_na
     return score::Result<void>{};
 }
 
+bool ParameterSet::InsertOrAssign(const score::cpp::string_view parameter_name, score::json::Any&& parameter_value)
+{
+    Parameter parameter;
+    parameter.SetValue(std::move(parameter_value));
+
+    const bool inserted = data_.insert_or_assign(AsString(parameter_name), std::move(parameter)).second;
+    logger_.LogDebug() << "ParameterSet::" << __func__ << "parameter with name:" << parameter_name
+                       << (inserted ? "inserted" : "assigned");
+    return inserted;
+}
+
+std::size_t ParameterSet::GetParameterCount() const noexcept
+{
+    return data_.size();
+}
+
 score::Result<void> ParameterSet::Update(score::json::Object&& parameters)
 {
     // check if the parameter set is calibratable

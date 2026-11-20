@@ -11,6 +11,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_daemon/code/app/details/config_daemon_impl.h"
+#include "score/config_management/config_daemon/code/services/internal_config_provider_service.h"
 #include "score/concurrency/interruptible_wait.h"
 #include "score/filesystem/error.h"
 #include "score/json/json_parser.h"
@@ -133,11 +134,7 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
     logger_.LogInfo() << "ConfigDaemon::" << __func__ << "InternalConfigProviderService offered.";
     if (load_result.has_value())
     {
-        auto initial_qualifier_state_sender = factory_->CreateInitialQualifierStateSender(provided_services_container_);
-        if (!initial_qualifier_state_sender.empty())
-        {
-            initial_qualifier_state_sender(load_result.value());
-        }
+        initial_qualifier_container_.SetInitialQualifierState(load_result.value());
     }
 
     for (const auto& plugin : plugins_)
@@ -151,13 +148,6 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
         }
         // LCOV_EXCL_STOP
 
-        auto initial_qualifier_state_sender = factory_->CreateInitialQualifierStateSender(provided_services_container_);
-        if (initial_qualifier_state_sender.empty())
-        {
-            logger_.LogError() << "ConfigDaemon::" << __func__
-                               << "Failed to create InitialQualifierStateSender callback";
-            return kExitCodeFailure;
-        }
         auto last_updated_parameter_set_sender =
             factory_->CreateLastUpdatedParameterSetSender(provided_services_container_);
 
@@ -170,7 +160,7 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
 
         const auto plugin_run_result = plugin->Run(parameterset_collection_manager_,
                                                    std::move(last_updated_parameter_set_sender),
-                                                   std::move(initial_qualifier_state_sender),
+                                                   initial_qualifier_container_,
                                                    token,
                                                    fault_event_reporter_);
         if (plugin_run_result == kExitCodeFailure)
@@ -179,6 +169,14 @@ std::int32_t ConfigDaemon::Run(const score::cpp::stop_token& token)
             return kExitCodeFailure;
         }
     }
+
+    auto* const internal_config_provider_service = provided_services_container_.Get<IInternalConfigProviderService>();
+    if (internal_config_provider_service == nullptr)
+    {
+        logger_.LogError() << "ConfigDaemon::" << __func__ << "InternalConfigProviderService is not available";
+        return kExitCodeFailure;
+    }
+    internal_config_provider_service->SetInitialQualifierState(initial_qualifier_container_.GetInitialQualifierState());
 
     score::concurrency::wait_until_stop_requested(token);
 

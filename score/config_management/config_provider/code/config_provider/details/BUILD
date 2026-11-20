@@ -42,7 +42,6 @@ cc_test(
         ":details",
         "//score/config_management/config_provider/code/config_provider/error",
         "//score/config_management/config_provider/code/persistency:mock",
-        "//score/config_management/config_provider/code/persistency/error",
         "//score/config_management/config_provider/code/proxies:mock",
         "@googletest//:gtest_main",
         "@score_baselibs//score/concurrency:interruptible_wait",

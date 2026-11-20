@@ -27,7 +27,6 @@ namespace config_daemon
 {
 
 using LastUpdatedParameterSetSender = score::cpp::callback<bool(const std::string_view), 64U>;
-using InitialQualifierStateSender = score::cpp::callback<void(const InitialQualifierState), 64U>;
 
 class IInternalConfigProviderService : public ::score::mw::service::ManagedService
 {

@@ -41,8 +41,6 @@ class FactoryImpl final : public Factory
         const std::shared_ptr<data_model::IParameterSetCollection> read_only_parameter_data_interface) const override;
     LastUpdatedParameterSetSender CreateLastUpdatedParameterSetSender(
         mw::service::ProvidedServicesContainer& services) override;
-    InitialQualifierStateSender CreateInitialQualifierStateSender(
-        mw::service::ProvidedServicesContainer& services) override;
 
     std::shared_ptr<data_model::IParameterSetCollectionManager> CreateParameterSetCollectionManager(
         std::vector<std::shared_ptr<IPlugin>>& plugins) const override;

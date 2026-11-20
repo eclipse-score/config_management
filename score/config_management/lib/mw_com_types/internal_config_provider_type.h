@@ -32,6 +32,8 @@ namespace config_daemon
 namespace mw_com_icp_types
 {
 
+using config_management::mw_com_types::RuntimeSizedArray;
+
 /// Maximum parameter set name length for the event (including null terminator).
 /// This is a fixed size for the ParameterSetNameEvent array used by the
 /// last_updated_parameter_set event.

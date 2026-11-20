@@ -14,7 +14,6 @@
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
 #include "score/config_management/config_provider/code/parameter_set/parameter_set.h"
-#include "score/config_management/config_provider/code/persistency/error/persistency_error.h"
 #include "score/config_management/config_provider/code/persistency/persistency_mock.h"
 #include "score/config_management/config_provider/code/proxies/internal_config_provider_mock.h"
 

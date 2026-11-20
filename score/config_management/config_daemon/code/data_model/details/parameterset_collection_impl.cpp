@@ -43,20 +43,44 @@ score::Result<void> ParameterSetCollection::Insert(const score::cpp::string_view
 
     const std::lock_guard<std::mutex> lock{mutex_};
 
-    std::shared_ptr<ParameterSet> parameter_set;
-    auto result = parameter_sets_.find(AsString(set_name));
+    return FindOrCreate(set_name)->Add(parameter_name, std::move(parameter_value));
+}
 
+bool ParameterSetCollection::InsertOrAssign(const score::cpp::string_view set_name,
+                                            const score::cpp::string_view parameter_name,
+                                            score::json::Any&& parameter_value) noexcept
+{
+    logger_.LogDebug() << "ParameterSetCollection::" << __func__ << "set_name:" << set_name
+                       << "parameter_name:" << parameter_name;
+
+    const std::lock_guard<std::mutex> lock{mutex_};
+
+    return FindOrCreate(set_name)->InsertOrAssign(parameter_name, std::move(parameter_value));
+}
+
+score::Result<std::size_t> ParameterSetCollection::GetParameterCount(const score::cpp::string_view set_name) const noexcept
+{
+    const std::lock_guard<std::mutex> lock{mutex_};
+
+    const auto parameter_set = Find(set_name);
+    if (parameter_set.has_value() == true)
+    {
+        return parameter_set.value()->GetParameterCount();
+    }
+    return score::MakeUnexpected<std::size_t>(parameter_set.error());
+}
+
+std::shared_ptr<ParameterSet> ParameterSetCollection::FindOrCreate(const score::cpp::string_view set_name) noexcept
+{
+    const auto result = parameter_sets_.find(AsString(set_name));
     if (result != parameter_sets_.end())
     {
-        parameter_set = result->second;
-    }
-    else
-    {
-        parameter_set = std::make_shared<ParameterSet>();
-        score::cpp::ignore = parameter_sets_.emplace(AsString(set_name), parameter_set);
+        return result->second;
     }
 
-    return parameter_set->Add(parameter_name, std::move(parameter_value));
+    auto parameter_set = std::make_shared<ParameterSet>();
+    score::cpp::ignore = parameter_sets_.emplace(AsString(set_name), parameter_set);
+    return parameter_set;
 }
 
 score::Result<score::cpp::pmr::string> ParameterSetCollection::GetParameterSet(const std::string_view set_name) const

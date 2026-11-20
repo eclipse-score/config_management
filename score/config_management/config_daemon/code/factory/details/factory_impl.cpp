@@ -79,18 +79,6 @@ LastUpdatedParameterSetSender FactoryImpl::CreateLastUpdatedParameterSetSender(
     };
 }
 
-InitialQualifierStateSender FactoryImpl::CreateInitialQualifierStateSender(
-    mw::service::ProvidedServicesContainer& services)
-{
-    if (auto* const service = services.Get<IInternalConfigProviderService>(); service != nullptr)
-    {
-        return [service](const config_daemon::InitialQualifierState initial_qualifier_state) noexcept -> void {
-            service->SetInitialQualifierState(initial_qualifier_state);
-        };
-    }
-    return [](const config_daemon::InitialQualifierState) noexcept -> void {};
-}
-
 std::shared_ptr<data_model::IParameterSetCollectionManager> FactoryImpl::CreateParameterSetCollectionManager(
     std::vector<std::shared_ptr<IPlugin>>& plugins) const
 {
