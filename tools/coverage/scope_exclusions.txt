@@ -20,3 +20,7 @@
 # exist to support unit tests of their real counterparts (already in scope).
 //score/config_management/config_provider/code/config_provider:config_provider_mock
 //score/config_management/config_provider/code/proxies:mock
+
+# Shared type for the calibration plugins, which are not part of this
+# repository. It has no consumer and no tests here.
+//score/config_management/lib/mw_com_types:config_calibration_type
