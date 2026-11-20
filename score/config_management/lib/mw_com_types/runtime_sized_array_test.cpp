@@ -16,7 +16,7 @@
 
 #include <memory>
 
-namespace score::config_management::config_daemon::mw_com_icp_types
+namespace score::config_management::mw_com_types
 {
 namespace
 {
@@ -76,4 +76,4 @@ TEST(RuntimeSizedArrayTest, ConstAccessReadsElements)
 }
 
 }  // namespace
-}  // namespace score::config_management::config_daemon::mw_com_icp_types
+}  // namespace score::config_management::mw_com_types

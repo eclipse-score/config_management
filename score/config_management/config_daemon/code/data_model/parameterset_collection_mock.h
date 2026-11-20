@@ -34,6 +34,14 @@ class ParameterSetCollectionMock final : public IParameterSetCollection
                 Insert,
                 (const score::cpp::string_view, const score::cpp::string_view, score::json::Any&&),
                 (noexcept, override));
+    MOCK_METHOD(bool,
+                InsertOrAssign,
+                (const score::cpp::string_view, const score::cpp::string_view, score::json::Any&&),
+                (noexcept, override));
+    MOCK_METHOD(score::Result<std::size_t>,
+                GetParameterCount,
+                (const score::cpp::string_view set_name),
+                (const, noexcept, override));
     MOCK_METHOD(score::Result<void>,
                 UpdateParameterSet,
                 (const score::cpp::string_view, const score::cpp::string_view set),

@@ -18,7 +18,7 @@
 #include <memory>
 #include <type_traits>
 
-namespace score::config_management::config_daemon::mw_com_icp_types
+namespace score::config_management::mw_com_types
 {
 
 namespace detail
@@ -167,6 +167,6 @@ inline const ElementType& RuntimeSizedArray<ElementType, Allocator>::at(const si
     return *(std::next(data_, static_cast<difference_type>(index)));
 }
 
-}  // namespace score::config_management::config_daemon::mw_com_icp_types
+}  // namespace score::config_management::mw_com_types
 
 #endif  // SCORE_CONFIG_MANAGEMENT_LIB_MW_COM_TYPES_RUNTIME_SIZED_ARRAY_H

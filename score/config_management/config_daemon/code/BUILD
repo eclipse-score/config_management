@@ -55,6 +55,7 @@ cc_unit_test_suites_for_host_and_qnx(
         "//score/config_management/config_daemon/code/app:unit_tests",
         "//score/config_management/config_daemon/code/factory:unit_tests",
         "//score/config_management/config_daemon/code/fault_event_reporter:unit_tests",
+        "//score/config_management/config_daemon/code/initial_qualifier_container:unit_tests",
         "//score/config_management/config_daemon/code/data_model:unit_tests",
         "//score/config_management/config_daemon/code/data_model/parameter_set_storage:unit_tests",
         "//score/config_management/config_daemon/code/services:unit_tests",

@@ -43,10 +43,6 @@ class FactoryMock final : public Factory
                 CreateLastUpdatedParameterSetSender,
                 (mw::service::ProvidedServicesContainer & services),
                 (override));
-    MOCK_METHOD(InitialQualifierStateSender,
-                CreateInitialQualifierStateSender,
-                (mw::service::ProvidedServicesContainer & services),
-                (override));
 
     MOCK_METHOD(std::shared_ptr<data_model::IParameterSetCollectionManager>,
                 CreateParameterSetCollectionManager,

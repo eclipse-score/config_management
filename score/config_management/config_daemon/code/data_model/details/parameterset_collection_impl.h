@@ -49,6 +49,10 @@ class ParameterSetCollection final : public IParameterSetCollection
     score::Result<void> Insert(const score::cpp::string_view set_name,
                                const score::cpp::string_view parameter_name,
                                score::json::Any&& parameter_value) noexcept override;
+    bool InsertOrAssign(const score::cpp::string_view set_name,
+                        const score::cpp::string_view parameter_name,
+                        score::json::Any&& parameter_value) noexcept override;
+    score::Result<std::size_t> GetParameterCount(const score::cpp::string_view set_name) const noexcept override;
     score::Result<score::json::Any> GetParameterFromSet(const score::cpp::string_view set_name,
                                                         const score::cpp::string_view parameter_name) const override;
     score::Result<score::cpp::pmr::string> GetParameterSet(const std::string_view set_name) const override;
@@ -65,6 +69,8 @@ class ParameterSetCollection final : public IParameterSetCollection
 
   private:
     score::Result<std::shared_ptr<ParameterSet>> Find(const std::string_view set_name) const noexcept;
+    /// @brief Returns the set with the given name, creating it if it doesn't exist. Caller must hold mutex_.
+    std::shared_ptr<ParameterSet> FindOrCreate(const score::cpp::string_view set_name) noexcept;
 
     mw::log::Logger& logger_;
     mutable std::mutex mutex_;

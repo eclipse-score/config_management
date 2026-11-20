@@ -109,6 +109,11 @@ class ParameterLoaderImpl {
     param_name: std::string,
     parameter_obj: json::Object
   ): bool
+  - CheckParameterCount(
+    param_set_name: std::string,
+    expected_parameter_count: std::size_t,
+    set_qualifier: ParameterSetQualifier
+  )
   - SetDtcs()
 }
 
@@ -259,6 +264,8 @@ package score.config_management.config_daemon.data_model {
 interface IParameterSetCollection {
   --
   + {abstract} Insert(set_name: score::cpp::string_view, parameter_name: score::cpp::string_view, parameter_value: json::Any): Result<void>
+  + {abstract} InsertOrAssign(set_name: score::cpp::string_view, parameter_name: score::cpp::string_view, parameter_value: json::Any): bool
+  + {abstract} GetParameterCount(set_name: score::cpp::string_view): Result<std::size_t>
   + {abstract} UpdateParameterSet(set_name: score::cpp::string_view, set: score::cpp::string_view): Result<void>
   + {abstract} SetCalibratable(set_name: score::cpp::string_view, is_calibratable: bool): bool
   + {abstract} GetParameterSetQualifier(set_name: score::cpp::string_view): score::Result<ParameterSetQualifier>

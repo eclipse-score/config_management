@@ -624,6 +624,171 @@ TEST_F(ParameterSetCollectionFixture, GetParameterSetCollectionAsJson_MultiplePa
               second_parameters_object_result.value().get().end());
 }
 
+TEST_F(ParameterSetCollectionFixture, InsertOrAssign_CreatesMissingSetAsUnqualified)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("ASIL", "B");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::data_model::ParameterSetCollection::InsertOrAssign");
+    RecordProperty("Description",
+                   "Verifies that InsertOrAssign creates a missing parameter set, that the "
+                   "new set has the qualifier UNQUALIFIED and that the parameter is reported as inserted.");
+
+    const std::string new_set_name{"new_set"};
+
+    const auto result = parameter_data_->InsertOrAssign(new_set_name, "param", score::json::Any{std::int64_t{7}});
+    EXPECT_TRUE(result);
+
+    const auto qualifier = parameter_data_->GetParameterSetQualifier(new_set_name);
+    ASSERT_TRUE(qualifier.has_value());
+    EXPECT_EQ(qualifier.value(), ParameterSetQualifier::kUnqualified);
+
+    const auto set = parameter_data_->GetParameterSet(new_set_name);
+    ASSERT_TRUE(set.has_value());
+    EXPECT_EQ(set.value(), score::cpp::pmr::string{R"({"parameters":{"param":7},"qualifier":0})"});
+}
+
+TEST_F(ParameterSetCollectionFixture, InsertOrAssign_InsertsNewParameterIntoExistingSet)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("ASIL", "B");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::data_model::ParameterSetCollection::InsertOrAssign");
+    RecordProperty("Description",
+                   "Verifies that InsertOrAssign inserts a new parameter into an existing parameter set and reports "
+                   "it as inserted.");
+
+    const auto result =
+        parameter_data_->InsertOrAssign(set_name_for_update_tests_, "new_param", score::json::Any{std::int64_t{5}});
+    EXPECT_TRUE(result);
+
+    const auto set = parameter_data_->GetParameterSet(set_name_for_update_tests_);
+    ASSERT_TRUE(set.has_value());
+    EXPECT_EQ(set.value(),
+              score::cpp::pmr::string{R"({"parameters":{"new_param":5,"parameter_name":[1,2,3]},"qualifier":0})"});
+}
+
+TEST_F(ParameterSetCollectionFixture, InsertOrAssign_ReplacesExistingParameterCompletely)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("ASIL", "B");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::data_model::ParameterSetCollection::InsertOrAssign");
+    RecordProperty("Description",
+                   "Verifies that InsertOrAssign replaces the complete stored entry of an existing parameter, "
+                   "including a change of its JSON type, and reports it as assigned.");
+
+    // list -> nested list
+    auto nested_list_value = score::json::JsonParser{}.FromBuffer(R"([[1], [2, 3]])");
+    ASSERT_TRUE(nested_list_value.has_value());
+    auto result = parameter_data_->InsertOrAssign(
+        set_name_for_update_tests_, "parameter_name", std::move(nested_list_value.value()));
+    EXPECT_FALSE(result);
+
+    auto set = parameter_data_->GetParameterSet(set_name_for_update_tests_);
+    ASSERT_TRUE(set.has_value());
+    EXPECT_EQ(set.value(), score::cpp::pmr::string{R"({"parameters":{"parameter_name":[[1],[2,3]]},"qualifier":0})"});
+
+    // nested list -> floating-point
+    result = parameter_data_->InsertOrAssign(set_name_for_update_tests_, "parameter_name", score::json::Any{2.5});
+    EXPECT_FALSE(result);
+
+    set = parameter_data_->GetParameterSet(set_name_for_update_tests_);
+    ASSERT_TRUE(set.has_value());
+    EXPECT_EQ(set.value(), score::cpp::pmr::string{R"({"parameters":{"parameter_name":2.5},"qualifier":0})"});
+}
+
+TEST_F(ParameterSetCollectionFixture, InsertOrAssign_KeepsQualifierAndCalibratableFlagOfExistingSet)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("ASIL", "B");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::data_model::ParameterSetCollection::InsertOrAssign");
+    RecordProperty("Description",
+                   "Verifies that InsertOrAssign doesn't change the qualifier or the calibratable flag of an existing "
+                   "parameter set.");
+
+    ASSERT_TRUE(
+        parameter_data_->SetParameterSetQualifier(set_name_for_update_tests_, ParameterSetQualifier::kQualifying)
+            .has_value());
+
+    EXPECT_FALSE(parameter_data_->InsertOrAssign(
+        set_name_for_update_tests_, "parameter_name", score::json::Any{std::int64_t{1}}));
+    EXPECT_TRUE(
+        parameter_data_->InsertOrAssign(set_name_for_update_tests_, "new_param", score::json::Any{std::int64_t{2}}));
+
+    const auto qualifier = parameter_data_->GetParameterSetQualifier(set_name_for_update_tests_);
+    ASSERT_TRUE(qualifier.has_value());
+    EXPECT_EQ(qualifier.value(), ParameterSetQualifier::kQualifying);
+
+    // The set is still calibratable: UpdateParameterSet is still accepted
+    EXPECT_TRUE(parameter_data_->UpdateParameterSet(set_name_for_update_tests_, R"({"new_param": 3})").has_value());
+}
+
+TEST_F(ParameterSetCollectionFixture, InsertOrAssign_WorksOnNotCalibratableSet)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("ASIL", "B");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::data_model::ParameterSetCollection::InsertOrAssign");
+    RecordProperty("Description",
+                   "Verifies that InsertOrAssign doesn't depend on the calibratable flag of the parameter set.");
+
+    ASSERT_TRUE(parameter_data_->SetCalibratable(set_name_for_update_tests_, false));
+
+    const auto result = parameter_data_->InsertOrAssign(
+        set_name_for_update_tests_, "parameter_name", score::json::Any{std::int64_t{1}});
+    EXPECT_FALSE(result);
+
+    const auto set = parameter_data_->GetParameterSet(set_name_for_update_tests_);
+    ASSERT_TRUE(set.has_value());
+    EXPECT_EQ(set.value(), score::cpp::pmr::string{R"({"parameters":{"parameter_name":1},"qualifier":0})"});
+}
+
+TEST_F(ParameterSetCollectionFixture, GetParameterCount_ExistingSet)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("ASIL", "B");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::data_model::ParameterSetCollection::GetParameterCount");
+    RecordProperty("Description", "Verifies that GetParameterCount returns the number of parameters in a set.");
+
+    auto count = parameter_data_->GetParameterCount(set_name_for_update_tests_);
+    ASSERT_TRUE(count.has_value());
+    EXPECT_EQ(count.value(), 1U);
+
+    ASSERT_TRUE(parameter_data_->Insert(set_name_for_update_tests_, "second_param", score::json::Any{std::int64_t{1}})
+                    .has_value());
+    // Assigning an existing parameter doesn't change the count
+    EXPECT_FALSE(
+        parameter_data_->InsertOrAssign(set_name_for_update_tests_, "second_param", score::json::Any{std::int64_t{2}}));
+
+    count = parameter_data_->GetParameterCount(set_name_for_update_tests_);
+    ASSERT_TRUE(count.has_value());
+    EXPECT_EQ(count.value(), 2U);
+}
+
+TEST_F(ParameterSetCollectionFixture, GetParameterCount_SetNotFound)
+{
+    RecordProperty("Priority", "2");
+    RecordProperty("ASIL", "B");
+    RecordProperty("TestType", "Interface test");
+    RecordProperty("DerivationTechnique", "Analysis of equivalence classes and boundary values");
+    RecordProperty("Verifies", "::score::config_management::config_daemon::data_model::ParameterSetCollection::GetParameterCount");
+    RecordProperty("Description",
+                   "Verifies that GetParameterCount returns kParameterSetNotFound for a set that doesn't exist.");
+
+    const auto count = parameter_data_->GetParameterCount("not_existing_set");
+    ASSERT_FALSE(count.has_value());
+    EXPECT_EQ(count.error(), DataModelError::kParameterSetNotFound);
+}
+
 }  // namespace test
 }  // namespace data_model
 }  // namespace config_daemon

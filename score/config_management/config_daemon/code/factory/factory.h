@@ -49,8 +49,6 @@ class Factory
         const std::shared_ptr<data_model::IParameterSetCollection> read_only_parameter_data_interface) const = 0;
     virtual LastUpdatedParameterSetSender CreateLastUpdatedParameterSetSender(
         mw::service::ProvidedServicesContainer& services) = 0;
-    virtual InitialQualifierStateSender CreateInitialQualifierStateSender(
-        mw::service::ProvidedServicesContainer& services) = 0;
 
     virtual std::shared_ptr<data_model::IParameterSetCollectionManager> CreateParameterSetCollectionManager(
         std::vector<std::shared_ptr<IPlugin>>& plugins) const = 0;

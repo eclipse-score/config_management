@@ -14,6 +14,7 @@
 
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_impl.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_manager_mock.h"
+#include "score/config_management/config_daemon/code/initial_qualifier_container/initial_qualifier_container_mock.h"
 
 #include "score/json/i_json_parser_mock.h"
 #include "score/json/json_parser.h"
@@ -48,9 +49,10 @@ TEST(DemoJsonPluginImplTest, RunWithoutInitializeReturnsFailure)
     auto parameter_set_collection_manager = std::make_shared<data_model::ParameterSetCollectionManagerMock>();
     ON_CALL(*parameter_set_collection_manager, GetParameterSetCollection()).WillByDefault(Return(collection));
 
+    InitialQualifierContainerMock initial_qualifier_container;
     const std::int32_t run_result = plugin.Run(parameter_set_collection_manager,
                                                LastUpdatedParameterSetSender{},
-                                               InitialQualifierStateSender{},
+                                               initial_qualifier_container,
                                                score::cpp::stop_token{},
                                                nullptr);
     EXPECT_EQ(run_result, EXIT_FAILURE);
@@ -75,9 +77,10 @@ TEST(DemoJsonPluginImplTest, InitializeThenRunLoadsParameters)
     auto collection = std::make_shared<data_model::ParameterSetCollection>();
     auto parameter_set_collection_manager = std::make_shared<data_model::ParameterSetCollectionManagerMock>();
     ON_CALL(*parameter_set_collection_manager, GetParameterSetCollection()).WillByDefault(Return(collection));
+    InitialQualifierContainerMock initial_qualifier_container;
     const std::int32_t run_result = plugin.Run(parameter_set_collection_manager,
                                                LastUpdatedParameterSetSender{},
-                                               InitialQualifierStateSender{},
+                                               initial_qualifier_container,
                                                score::cpp::stop_token{},
                                                nullptr);
 
@@ -103,9 +106,10 @@ TEST(DemoJsonPluginImplTest, InitializeThenRunFailsOnInvalidJsonFile)
     auto collection = std::make_shared<data_model::ParameterSetCollection>();
     auto parameter_set_collection_manager = std::make_shared<data_model::ParameterSetCollectionManagerMock>();
     ON_CALL(*parameter_set_collection_manager, GetParameterSetCollection()).WillByDefault(Return(collection));
+    InitialQualifierContainerMock initial_qualifier_container;
     const std::int32_t run_result = plugin.Run(parameter_set_collection_manager,
                                                LastUpdatedParameterSetSender{},
-                                               InitialQualifierStateSender{},
+                                               initial_qualifier_container,
                                                score::cpp::stop_token{},
                                                nullptr);
 

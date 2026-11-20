@@ -51,6 +51,13 @@ auto gDummyContext = score::mw::lifecycle::ApplicationContext(1, gArgs);
 constexpr const std::int32_t kExitCodeSuccess{0};
 constexpr const std::int32_t kExitCodeFailure{1};
 
+class UnrelatedServiceMock : public mw::service::ManagedService
+{
+  public:
+    MOCK_METHOD(score::Result<void>, Start, (), (override));
+    MOCK_METHOD(void, Stop, (), (noexcept, override));
+};
+
 }  // namespace
 
 template <typename T>
@@ -115,9 +122,6 @@ void ConfigDaemonFixture::FactoryDefaultSetup()
         return [](const std::string_view) noexcept {
             return true;
         };
-    }));
-    ON_CALL(*factory_mock_, CreateInitialQualifierStateSender(_)).WillByDefault(Invoke([](auto&&) {
-        return [](const InitialQualifierState) noexcept {};
     }));
     ON_CALL(*factory_mock_, CreateInternalConfigProviderService(_)).WillByDefault(Invoke([this](auto&&) {
         return CreateInternalConfigProviderService();
@@ -255,6 +259,123 @@ TEST_F(ConfigDaemonFixture, ConfigDaemonAppRunSucceed)
     // Then the both functions would fail
     ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeSuccess);
     ASSERT_EQ(config_daemon_app_->Run(source.get_token()), kExitCodeSuccess);
+}
+
+TEST_F(ConfigDaemonFixture, PublishesInitialQualifierStateOnlyAfterAllPluginsRun)
+{
+    FactoryDefaultSetup();
+    auto services = CreateInternalConfigProviderService();
+    auto* const service = services.Get<InternalConfigProviderServiceMock>();
+    ASSERT_NE(service, nullptr);
+    EXPECT_CALL(*factory_mock_, CreateInternalConfigProviderService(_)).WillOnce(Return(ByMove(std::move(services))));
+    {
+        testing::InSequence sequence;
+        EXPECT_CALL(*first_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
+        EXPECT_CALL(*second_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
+        EXPECT_CALL(*service, SetInitialQualifierState(InitialQualifierState::kDefault)).Times(1);
+    }
+
+    config_daemon_app_ = std::make_unique<ConfigDaemon>(std::move(factory_mock_));
+    score::cpp::stop_source source;
+    source.request_stop();
+    ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeSuccess);
+    EXPECT_EQ(config_daemon_app_->Run(source.get_token()), kExitCodeSuccess);
+}
+
+TEST_F(ConfigDaemonFixture, PublishesTheLatestStateSharedByPlugins)
+{
+    FactoryDefaultSetup();
+    auto services = CreateInternalConfigProviderService();
+    auto* const service = services.Get<InternalConfigProviderServiceMock>();
+    ASSERT_NE(service, nullptr);
+    EXPECT_CALL(*factory_mock_, CreateInternalConfigProviderService(_)).WillOnce(Return(ByMove(std::move(services))));
+    {
+        testing::InSequence sequence;
+        EXPECT_CALL(*first_plugin_mock_, Run(_, _, _, _, _))
+            .WillOnce(Invoke([](auto, auto, InitialQualifierContainer& container, auto, auto) {
+                EXPECT_EQ(container.GetInitialQualifierState(), InitialQualifierState::kDefault);
+                container.SetInitialQualifierState(InitialQualifierState::kQualifying);
+                container.SetInitialQualifierState(InitialQualifierState::kQualified);
+                return kExitCodeSuccess;
+            }));
+        EXPECT_CALL(*second_plugin_mock_, Run(_, _, _, _, _))
+            .WillOnce(Invoke([](auto, auto, InitialQualifierContainer& container, auto, auto) {
+                EXPECT_EQ(container.GetInitialQualifierState(), InitialQualifierState::kQualified);
+                container.SetInitialQualifierState(InitialQualifierState::kUnqualified);
+                return kExitCodeSuccess;
+            }));
+        EXPECT_CALL(*service, SetInitialQualifierState(InitialQualifierState::kUnqualified)).Times(1);
+    }
+
+    config_daemon_app_ = std::make_unique<ConfigDaemon>(std::move(factory_mock_));
+    score::cpp::stop_source source;
+    source.request_stop();
+    ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeSuccess);
+    EXPECT_EQ(config_daemon_app_->Run(source.get_token()), kExitCodeSuccess);
+}
+
+TEST_F(ConfigDaemonFixture, PublishesUndefinedWhenStorageLoadingFailsAndPluginsDoNotSetAState)
+{
+    FactoryDefaultSetup();
+    auto collection_manager = std::make_shared<data_model::ParameterSetCollectionManagerMock>();
+    EXPECT_CALL(*collection_manager, LoadParameterSetCollectionFromStorage())
+        .WillOnce(Return(score::MakeUnexpected(score::json::Error::kParsingError, "")));
+    EXPECT_CALL(*factory_mock_, CreateParameterSetCollectionManager(_)).WillOnce(Return(collection_manager));
+    auto services = CreateInternalConfigProviderService();
+    auto* const service = services.Get<InternalConfigProviderServiceMock>();
+    ASSERT_NE(service, nullptr);
+    EXPECT_CALL(*factory_mock_, CreateInternalConfigProviderService(_)).WillOnce(Return(ByMove(std::move(services))));
+    {
+        testing::InSequence sequence;
+        EXPECT_CALL(*first_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
+        EXPECT_CALL(*second_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
+        EXPECT_CALL(*service, SetInitialQualifierState(InitialQualifierState::kUndefined)).Times(1);
+    }
+
+    config_daemon_app_ = std::make_unique<ConfigDaemon>(std::move(factory_mock_));
+    score::cpp::stop_source source;
+    source.request_stop();
+    ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeSuccess);
+    EXPECT_EQ(config_daemon_app_->Run(source.get_token()), kExitCodeSuccess);
+}
+
+TEST_F(ConfigDaemonFixture, FailsWhenTheContainerDoesNotContainAnInternalConfigProviderService)
+{
+    FactoryDefaultSetup();
+    mw::service::ProvidedServicesContainer services;
+    ASSERT_TRUE(services.Emplace<testing::NiceMock<UnrelatedServiceMock>>().has_value());
+    EXPECT_CALL(*factory_mock_, CreateInternalConfigProviderService(_)).WillOnce(Return(ByMove(std::move(services))));
+    {
+        testing::InSequence sequence;
+        EXPECT_CALL(*first_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
+        EXPECT_CALL(*second_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
+    }
+    EXPECT_CALL(*first_plugin_mock_, Deinitialize());
+    EXPECT_CALL(*second_plugin_mock_, Deinitialize());
+
+    config_daemon_app_ = std::make_unique<ConfigDaemon>(std::move(factory_mock_));
+    score::cpp::stop_source source;
+    source.request_stop();
+    ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeSuccess);
+    EXPECT_EQ(config_daemon_app_->Run(source.get_token()), kExitCodeFailure);
+}
+
+TEST_F(ConfigDaemonFixture, DoesNotPublishInitialQualifierStateWhenAPluginFails)
+{
+    FactoryDefaultSetup();
+    auto services = CreateInternalConfigProviderService();
+    auto* const service = services.Get<InternalConfigProviderServiceMock>();
+    ASSERT_NE(service, nullptr);
+    EXPECT_CALL(*factory_mock_, CreateInternalConfigProviderService(_)).WillOnce(Return(ByMove(std::move(services))));
+    EXPECT_CALL(*service, SetInitialQualifierState(_)).Times(0);
+    EXPECT_CALL(*first_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeSuccess));
+    EXPECT_CALL(*second_plugin_mock_, Run(_, _, _, _, _)).WillOnce(Return(kExitCodeFailure));
+
+    config_daemon_app_ = std::make_unique<ConfigDaemon>(std::move(factory_mock_));
+    score::cpp::stop_source source;
+    source.request_stop();
+    ASSERT_EQ(config_daemon_app_->Initialize(gDummyContext), kExitCodeSuccess);
+    EXPECT_EQ(config_daemon_app_->Run(source.get_token()), kExitCodeFailure);
 }
 
 // ToDo: Update this within CleanUp task(Ticket-192926)

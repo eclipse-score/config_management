@@ -21,6 +21,8 @@
 
 #include <score/string_view.hpp>
 
+#include <cstddef>
+
 namespace score
 {
 namespace config_management
@@ -43,6 +45,20 @@ class IParameterSetCollection : public IReadOnlyParameterSetCollection
     virtual score::Result<void> Insert(const score::cpp::string_view set_name,
                                        const score::cpp::string_view parameter_name,
                                        score::json::Any&& parameter_value) noexcept = 0;
+
+    /// @brief Inserts the parameter into the set, or replaces the complete stored parameter entry if it already exists.
+    ///
+    /// Creates the set if it doesn't exist. A newly created set has the qualifier UNQUALIFIED.
+    ///
+    /// @return true if the parameter was inserted, false if an existing parameter was assigned.
+    virtual bool InsertOrAssign(const score::cpp::string_view set_name,
+                                const score::cpp::string_view parameter_name,
+                                score::json::Any&& parameter_value) noexcept = 0;
+
+    /// @brief Returns the number of parameters in the set.
+    /// @return kParameterSetNotFound if the set doesn't exist.
+    virtual score::Result<std::size_t> GetParameterCount(const score::cpp::string_view set_name) const noexcept = 0;
+
     virtual score::Result<void> UpdateParameterSet(const score::cpp::string_view set_name, const score::cpp::string_view set) = 0;
     virtual bool SetCalibratable(const score::cpp::string_view set_name, const bool is_calibratable) const noexcept = 0;
 
