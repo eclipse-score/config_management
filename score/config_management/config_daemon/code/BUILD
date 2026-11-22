@@ -75,5 +75,7 @@ cc_binary(
         "//score/config_management/config_daemon/code/factory/details:factory_impl",
         "@score_lifecycle//score/launch_manager:lifecyclemanager_cc",
         "@score_lifecycle//score/launch_manager:runapplication_cc",
+        # Links the mw::log backends (incl. DLT/remote); the libraries only depend on the frontend.
+        "@score_logging//score/mw/log",
     ],
 )
