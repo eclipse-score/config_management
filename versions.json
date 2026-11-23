@@ -94,5 +94,9 @@
   {
     "version": "pr-118",
     "url": "https://eclipse-score.github.io/config_management/pr-118/"
+  },
+  {
+    "version": "pr-119",
+    "url": "https://eclipse-score.github.io/config_management/pr-119/"
   }
 ]
