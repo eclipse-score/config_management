@@ -1,0 +1,20 @@
+Assumptions of Use
+==================
+
+**Coverage:** 100.0% (1 of 1 items OK)
+
+.. _lobster-item-4eb5118205d869a208f62520b84710090d6c3c82:
+
+.. dropdown:: [OK] TRLC Aou ConfigDaemon.SampleAoU
+   :class-title: sd-bg-success sd-text-white
+
+   .. pull-quote::
+
+      It shall be made sure that this SampleAoU never ends up anywhere
+
+   .. raw:: html
+
+      <hr>
+
+   **Source:** `requirements/safety\_analysis/aou.trlc:17:14 <https://github.com/eclipse-score/config_management/blob/main/requirements/safety_analysis/aou.trlc#L17>`__
+
