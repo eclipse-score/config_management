@@ -37,7 +37,10 @@ class InternalConfigProviderServiceMock : public IInternalConfigProviderService
     MOCK_METHOD(score::Result<void>, Start, (), (override));
     MOCK_METHOD(void, Stop, (), (noexcept, override));
 
-    MOCK_METHOD(void, SetInitialQualifierState, (const InitialQualifierState), (noexcept, override));
+    MOCK_METHOD(void,
+                SetInitialQualifierState,
+                (const ::score::config_management::config_daemon::InitialQualifierState),
+                (noexcept, override));
     MOCK_METHOD(bool, SendLastUpdatedParameterSet, (const std::string_view), (noexcept, override));
 };
 

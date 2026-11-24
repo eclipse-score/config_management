@@ -29,6 +29,8 @@ namespace config_daemon
 namespace test
 {
 
+using ::score::config_management::config_daemon::InitialQualifierState;
+
 const auto kICPServiceInstanceSpecifierName =
     score::mw::com::InstanceSpecifier::Create(
         std::string("ConfigDaemon/ConfigDaemon_RootSwc/InternalConfigProviderAppPPort"))

@@ -36,6 +36,8 @@ namespace config_daemon
 namespace test
 {
 
+using ::score::config_management::config_daemon::InitialQualifierState;
+
 namespace
 {
 

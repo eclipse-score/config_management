@@ -16,8 +16,8 @@
 
 #include "score/mw/service/find_service_strategy.h"
 #include "score/mw/service/proxy_builder_base.h"
-#include "score/mw/com/types.h"
 
+#include "score/mw/com/types.h"
 #include "score/mw/log/logging.h"
 
 #include <score/assert.hpp>
@@ -146,9 +146,9 @@ class SemiDynamicSingleInstantiationStrategy final : public mw::service::FindSer
                     handle, callback_state_ptr->additional_shm_size_bytes);
                 if (not(proxy_result.has_value()))
                 {
-                    mw::log::LogError() << "Failed to create proxy with additional_shm_size="
-                                        << callback_state_ptr->additional_shm_size_bytes
-                                        << " error:" << proxy_result.error();
+                    score::mw::log::LogError()
+                        << "Failed to create proxy with additional_shm_size="
+                        << callback_state_ptr->additional_shm_size_bytes << " error:" << proxy_result.error();
                     continue;
                 }
 
@@ -164,7 +164,7 @@ class SemiDynamicSingleInstantiationStrategy final : public mw::service::FindSer
 
         if (not(start_result.has_value()))
         {
-            mw::log::LogError() << "StartFindService failed for '" << port_identifier_ << "'";
+            score::mw::log::LogError() << "StartFindService failed for '" << port_identifier_ << "'";
             return;
         }
 

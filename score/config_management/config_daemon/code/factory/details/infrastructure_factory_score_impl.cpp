@@ -50,8 +50,7 @@ InfrastructureFactoryImpl::CreateParameterSetCollectionManager(std::vector<std::
                                    << ": Failed to open score KVS for parameter set storage";
         return nullptr;
     }
-    auto storage = std::make_unique<data_model::ParameterSetStorageScoreImpl>(
-        std::make_unique<score::kvs::Kvs>(std::move(kvs_result).value()));
+    auto storage = std::make_unique<data_model::ParameterSetStorageScoreImpl>(std::move(kvs_result).value());
 
     auto primary_collection = std::make_shared<data_model::ParameterSetCollection>();
     return std::make_shared<data_model::ParameterSetCollectionManager>(

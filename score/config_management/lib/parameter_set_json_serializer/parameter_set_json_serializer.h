@@ -14,7 +14,7 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_LIB_PARAMETER_SET_JSON_SERIALIZER_PARAMETER_SET_JSON_SERIALIZER_H
 #define SCORE_CONFIG_MANAGEMENT_LIB_PARAMETER_SET_JSON_SERIALIZER_PARAMETER_SET_JSON_SERIALIZER_H
 
-#include "score/json/internal/model/object.h"
+#include "score/json/object.h"
 #include "score/result/result.h"
 
 #include <score/string.hpp>

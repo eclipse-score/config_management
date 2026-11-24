@@ -18,7 +18,7 @@
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
 #include "score/config_management/lib/parameter_set_json_serializer/parameter_set_json_serializer.h"
 
-#include "score/json/internal/model/any.h"
+#include "score/json/any.h"
 #include "score/mw/log/logger.h"
 
 #include <score/optional.hpp>

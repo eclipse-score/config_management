@@ -32,9 +32,9 @@ namespace
 {
 // Helper function to get parameter set value string only, if Debug log level is enabled, as getting the value as string
 // might be computationally expensive
-std::string GetParameterSetValue(mw::log::Logger& logger, const ParameterSet& param_set)
+std::string GetParameterSetValue(score::mw::log::Logger& logger, const ParameterSet& param_set)
 {
-    if (logger.IsEnabled(mw::log::LogLevel::kDebug))
+    if (logger.IsEnabled(score::mw::log::LogLevel::kDebug))
     {
         if (auto param_set_str_result = param_set.GetParametersAsString(); param_set_str_result.has_value())
         {
@@ -57,7 +57,7 @@ ConfigProviderImpl::ConfigProviderImpl(
     score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list,
     AdditionalShmSizing sizing)
     : ConfigProvider(),
-      logger_{mw::log::CreateLogger(std::string_view{"CfgP"})},
+      logger_{score::mw::log::CreateLogger(std::string_view{"CfgP"})},
       parameter_sets_{ParameterMap::allocator_type{memory_resource}},  // LCOV_EXCL_LINE optimized by compiler
       initial_qualifier_state_{InitialQualifierState::kUndefined},
       memory_resource_{memory_resource},

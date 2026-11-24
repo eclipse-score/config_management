@@ -18,9 +18,9 @@ cc_library(
         "//score/config_management/config_provider/code/persistency/details",
         "//score/config_management/config_provider/code/proxies/details:details_mw_com",
         "@score_baselibs//score/json",
+        "@score_baselibs//score/mw/log:frontend",
         "@score_communication//score/mw/service:factory",
         "@score_communication//score/mw/service/backend/mw_com:single_instantiation_strategy",
-        "@score_logging//score/mw/log",
     ],
 )
 

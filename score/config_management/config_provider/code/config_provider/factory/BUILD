@@ -12,10 +12,10 @@ cc_library(
     ],
     deps = [
         "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/mw/log:frontend",
         "@score_communication//score/mw/com",
         "@score_communication//score/mw/service:find_service_strategy",
         "@score_communication//score/mw/service:proxy_builder_base",
-        "@score_logging//score/mw/log",
     ],
 )
 
@@ -33,8 +33,8 @@ cc_library(
         "//score/config_management/lib/mw_com_types:internal_config_provider_type",
         "@score_baselibs//score/json",
         "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/mw/log:frontend",
         "@score_baselibs//score/result",
-        "@score_logging//score/mw/log",
     ],
 )
 
@@ -49,6 +49,7 @@ cc_gtest_unit_test(
         ":buffer_size_report",
         "@score_baselibs//score/json:mock",
         "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 
@@ -56,7 +57,7 @@ cc_library(
     name = "factory_mw_com_for_unit_test",
     testonly = True,
     hdrs = ["fake/factory_mw_com.h"],
-    deprecation = "DEPRECATION: Use ConfigProviderBuilder (config_provider/builder) instead.",
+    deprecation = "SPP_DEPRECATION: Use ConfigProviderBuilder (config_provider/builder) instead.",
     features = COMPILER_WARNING_FEATURES,
     include_prefix = "score/config_management/config_provider/code/config_provider/factory",
     strip_include_prefix = "fake",
@@ -80,7 +81,7 @@ cc_library(
     name = "factory_mw_com",
     srcs = ["details/factory_mw_com.cpp"],
     hdrs = ["details/factory_mw_com.h"],
-    deprecation = "DEPRECATION: Use ConfigProviderBuilder (config_provider/builder) instead.",
+    deprecation = "SPP_DEPRECATION: Use ConfigProviderBuilder (config_provider/builder) instead.",
     features = COMPILER_WARNING_FEATURES,
     include_prefix = "score/config_management/config_provider/code/config_provider/factory",
     strip_include_prefix = "details",
@@ -95,9 +96,9 @@ cc_library(
         "//score/config_management/config_provider/code/persistency/details",
         "//score/config_management/config_provider/code/proxies/details:details_mw_com",
         "@score_baselibs//score/json",
+        "@score_baselibs//score/mw/log:frontend",
         "@score_communication//score/mw/service:factory",
         "@score_communication//score/mw/service/backend/mw_com:single_instantiation_strategy",
-        "@score_logging//score/mw/log",
     ],
 )
 
@@ -120,6 +121,7 @@ cc_test(
         "//score/config_management/config_provider/code/proxies:mock",
         "@googletest//:gtest_main",
         "@score_baselibs//score/json",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 
@@ -133,6 +135,7 @@ cc_gtest_unit_test(
     deps = [
         ":semi_dynamic_single_instantiation_strategy",
         "@score_baselibs//score/concurrency/future",
+        "@score_baselibs//score/mw/log:console",
         "@score_baselibs//score/result",
         "@score_communication//score/mw/com",
         "@score_communication//score/mw/service:proxy_builder_base",

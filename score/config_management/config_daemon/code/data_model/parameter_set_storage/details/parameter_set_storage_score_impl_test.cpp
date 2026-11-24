@@ -43,7 +43,7 @@ class ParameterSetStorageScoreImplTest : public ::testing::Test
   protected:
     void SetUp() override
     {
-        auto kvs = std::make_unique<score::kvs::MockKvs>();
+        auto kvs = std::make_shared<score::kvs::MockKvs>();
         kvs_mock_ = kvs.get();
         sut_ = std::make_unique<ParameterSetStorageScoreImpl>(std::move(kvs));
     }

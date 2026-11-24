@@ -15,7 +15,7 @@
 
 #include "score/config_management/config_daemon/code/plugins/demo_json/parameter_loader/demo_parameter_loader.h"
 
-#include "score/json/internal/model/any.h"
+#include "score/json/any.h"
 #include "score/mw/log/logger.h"
 #include "score/result/result.h"
 

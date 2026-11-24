@@ -71,7 +71,7 @@ class ConfigProviderImpl {
     + GetInitialQualifierState() : InitialQualifierState
     + GetInitialQualifierState(timeout : const std::optional<std::chrono::milliseconds>) : InitialQualifierState
     --
-    - logger_ : mw::log::Logger&
+    - logger_ : score::mw::log::Logger&
     - parameter_sets_ : ParameterMap
     - initial_qualifier_state_ : InitialQualifierState
     - memory_resource_ : score::cpp::pmr::memory_resource* const

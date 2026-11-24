@@ -22,9 +22,9 @@ cc_library(
         "@score_baselibs//score/concurrency/future",
         "@score_baselibs//score/json",
         "@score_baselibs//score/language/futurecpp",
+        "@score_baselibs//score/mw/log:frontend",
         "@score_baselibs//score/string_manipulation:string_comparison_adaptor",
         "@score_communication//score/mw/service:proxy_data",
-        "@score_logging//score/mw/log",
     ],
 )
 
@@ -48,6 +48,7 @@ cc_test(
         "@score_baselibs//score/concurrency:notification",
         "@score_baselibs//score/concurrency/future",
         "@score_baselibs//score/json",
+        "@score_baselibs//score/mw/log:console",
         "@score_baselibs//score/mw/log:recorder_mock",
     ],
 )

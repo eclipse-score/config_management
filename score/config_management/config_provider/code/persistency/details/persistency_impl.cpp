@@ -19,7 +19,7 @@ namespace config_management
 namespace config_provider
 {
 
-PersistencyImpl::PersistencyImpl() : Persistency{}, logger_{mw::log::CreateLogger(std::string_view("CfgP"))} {}
+PersistencyImpl::PersistencyImpl() : Persistency{}, logger_{score::mw::log::CreateLogger(std::string_view("CfgP"))} {}
 
 void PersistencyImpl::ReadParameterSetsByNameListFromFile(ParameterMap&,
                                                            const score::cpp::pmr::vector<std::string_view>&,

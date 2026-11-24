@@ -28,7 +28,7 @@ class ConfigProviderFactory {
     memory_resource : score::cpp::pmr::memory_resource* const,\n\
     callback : AvailabilityNotificationCallback &&) : score::cpp::pmr::unique_ptr<ConfigProvider>
     --
-    - logger_ : mw::log::Logger&
+    - logger_ : score::mw::log::Logger&
     --
     Responsibility: This class is responsible to create ConfigProvider class
 }

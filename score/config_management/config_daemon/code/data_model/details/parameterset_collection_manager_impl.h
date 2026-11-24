@@ -56,7 +56,8 @@ class ParameterSetCollectionManager final : public IParameterSetCollectionManage
     ParameterSetCollectionManager& operator=(ParameterSetCollectionManager&&) = delete;
     ParameterSetCollectionManager& operator=(const ParameterSetCollectionManager&) = delete;
 
-    score::Result<InitialQualifierState> LoadParameterSetCollectionFromStorage() noexcept override;
+    score::Result<::score::config_management::config_daemon::InitialQualifierState>
+    LoadParameterSetCollectionFromStorage() noexcept override;
 
     std::shared_ptr<IParameterSetCollection> GetParameterSetCollection() override;
 

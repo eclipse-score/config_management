@@ -14,8 +14,8 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_SERVICES_INTERNAL_CONFIG_PROVIDER_SERVICE_H
 
-#include "score/config_management/config_daemon/code/types/initial_qualifier_state/initial_qualifier_state.h"
 #include "score/mw/service/managed_service.h"
+#include "score/config_management/config_daemon/code/types/initial_qualifier_state/initial_qualifier_state.h"
 #include <score/callback.hpp>
 #include <string>
 
@@ -34,7 +34,8 @@ class IInternalConfigProviderService : public ::score::mw::service::ManagedServi
     IInternalConfigProviderService() noexcept = default;
     virtual ~IInternalConfigProviderService() noexcept = default;
 
-    virtual void SetInitialQualifierState(const InitialQualifierState initial_qualifier_state) noexcept = 0;
+    virtual void SetInitialQualifierState(
+        const ::score::config_management::config_daemon::InitialQualifierState initial_qualifier_state) noexcept = 0;
     virtual bool SendLastUpdatedParameterSet(const std::string_view parameter_set_name) noexcept = 0;
 };
 

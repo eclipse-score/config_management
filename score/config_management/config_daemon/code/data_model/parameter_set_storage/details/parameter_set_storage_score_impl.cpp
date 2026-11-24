@@ -38,7 +38,7 @@ namespace
 constexpr std::string_view kParameterSetHashKvsKey{"ActualParameterHashKey"};
 }  // namespace
 
-ParameterSetStorageScoreImpl::ParameterSetStorageScoreImpl(std::unique_ptr<score::kvs::Kvs> kvs) noexcept
+ParameterSetStorageScoreImpl::ParameterSetStorageScoreImpl(std::shared_ptr<score::kvs::Kvs> kvs) noexcept
     : IParameterSetStorage{}, kvs_{std::move(kvs)}
 {
 }

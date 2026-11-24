@@ -39,7 +39,7 @@ class InternalConfigProvider {
     + StopParameterSetUpdatePollingRoutine() : void
     + CheckParameterSetUpdates() : void
     --
-    - logger_ : mw::log::Logger&
+    - logger_ : score::mw::log::Logger&
     - proxy_ : std::unique_ptr<AdaptiveProxy>
     - on_changed_parameter_set_callback_ : OnChangedParameterSetCallback
     - is_available_notification_callback_ : AvailabilityNotificationCallback

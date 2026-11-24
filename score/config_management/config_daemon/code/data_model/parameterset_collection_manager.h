@@ -52,7 +52,8 @@ class IParameterSetCollectionManager
     /// or kDefault if only default data is available. Must be called in Run() before
     /// the services are offered to ensure data is ready when they get offered.
     /// @return The initial qualifier state applied to all entries on success, or an error.
-    virtual score::Result<InitialQualifierState> LoadParameterSetCollectionFromStorage() noexcept = 0;
+    virtual score::Result<::score::config_management::config_daemon::InitialQualifierState>
+    LoadParameterSetCollectionFromStorage() noexcept = 0;
 
     /// @brief Returns the primary ParameterSetCollection owned by this manager.
     virtual std::shared_ptr<IParameterSetCollection> GetParameterSetCollection() = 0;

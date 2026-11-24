@@ -18,10 +18,9 @@
 #include "score/config_management/config_provider/code/proxies/internal_config_provider.h"
 #include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
 
-#include "score/mw/log/logger.h"
-
 #include "score/concurrency/condition_variable.h"
 #include "score/json/i_json_parser.h"
+#include "score/mw/log/logger.h"
 
 #include <score/jthread.hpp>
 #include <score/optional.hpp>
@@ -73,7 +72,7 @@ class InternalConfigProvider final : public IInternalConfigProvider
     /// last_updated_parameter_set_names_mutex_ should be locked before call.
     bool GetLastUpdatedParameterSetNewSamples();
 
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
     std::unique_ptr<InternalMwComProxy> proxy_;
     OnChangedParameterSetCallback on_changed_parameter_set_callback_;
     AvailabilityNotificationCallback is_available_notification_callback_;

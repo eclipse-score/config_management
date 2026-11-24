@@ -35,13 +35,14 @@ class InitialQualifierContainerImpl final : public InitialQualifierContainer
     InitialQualifierContainerImpl& operator=(const InitialQualifierContainerImpl&) = delete;
     InitialQualifierContainerImpl& operator=(InitialQualifierContainerImpl&&) = delete;
 
-    void SetInitialQualifierState(const InitialQualifierState state) noexcept override;
-    InitialQualifierState GetInitialQualifierState() const noexcept override;
+    void SetInitialQualifierState(
+        const ::score::config_management::config_daemon::InitialQualifierState state) noexcept override;
+    ::score::config_management::config_daemon::InitialQualifierState GetInitialQualifierState() const noexcept override;
 
   private:
     score::mw::log::Logger& logger_;
     mutable std::mutex state_mutex_;
-    InitialQualifierState state_;
+    ::score::config_management::config_daemon::InitialQualifierState state_;
 };
 
 }  // namespace config_daemon

@@ -25,6 +25,8 @@ namespace config_management
 namespace config_daemon
 {
 
+using ::score::config_management::config_daemon::InitialQualifierState;
+
 namespace
 {
 mw_com_icp_types::InitialQualifierState Convert(const InitialQualifierState& value)
@@ -85,7 +87,7 @@ InternalConfigProviderService::InternalConfigProviderService(
     InternalConfigProviderSkeleton icp_skeleton)
     : internal_config_provider_service_reactor_{std::move(internal_config_provider_service_reactor)},
       icp_skeleton_{std::move(icp_skeleton)},
-      initial_qualifier_state_{config_daemon::InitialQualifierState::kUndefined},
+      initial_qualifier_state_{InitialQualifierState::kUndefined},
       logger_{score::mw::log::CreateLogger(std::string_view{"Serv"})}
 {
     InternalConfigProviderService::SetInitialQualifierState(initial_qualifier_state_);
@@ -171,7 +173,7 @@ void InternalConfigProviderService::Stop() noexcept
 }
 
 void InternalConfigProviderService::SetInitialQualifierState(
-    const config_daemon::InitialQualifierState initial_qualifier_state) noexcept
+    const InitialQualifierState initial_qualifier_state) noexcept
 {
     initial_qualifier_state_ = initial_qualifier_state;
     const auto state = Convert(initial_qualifier_state_);

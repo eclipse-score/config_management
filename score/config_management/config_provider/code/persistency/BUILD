@@ -47,7 +47,6 @@ cc_unit_test_suites_for_host_and_qnx(
     name = "unit_tests",
     cc_unit_tests = [
         "//score/config_management/config_provider/code/persistency/details:unit_test",
-        "//score/config_management/config_provider/code/persistency/error:unit_test",
     ] + load_custom_test_suites(),
     visibility = ["//score/config_management/config_provider:__subpackages__"],
 )

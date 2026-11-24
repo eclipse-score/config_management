@@ -234,7 +234,7 @@ Following sequence diagram describes the principle of GetParameterAs() method of
 |Dependency|Type|Components|Purpose|
 |----------|----|----------|-------|
 |//score/config_management/config_daemon/code/data_model:parameter_set_qualifier|Static library|//score/config_management/config_provider/code/parameter_set:parameter_set|Qualification of parameters|
-|//platform/aas/mw/log:log|Static library|multiple|Logging framework|
+|@score_baselibs//score/mw/log:frontend|Static library|multiple|Logging framework|
 |//platform/aas/mw/service|Static library|multiple|Framework for handling mw::com service discovery|
 |@score_baselibs//score/json:json|Static library|multiple|Framework allowing to use json parser and to perform various attribute parsing and writing operations|
 |@score_baselibs//score/result:result|Static library|multiple|Enhance error handling with [result type](https://en.wikipedia.org/wiki/Result_type)|

@@ -30,7 +30,7 @@ cc_library(
 
 cc_library(
     name = "config_provider_factory_impl",
-    deprecation = "DEPRECATION: Use //score/config_management/config_provider:config_provider_builder_impl and ConfigProviderBuilder instead.",
+    deprecation = "SPP_DEPRECATION: Use //score/config_management/config_provider:config_provider_builder_impl and ConfigProviderBuilder instead.",
     tags = ["FUSA"],
     visibility = ["//visibility:public"],
     deps = ["//score/config_management/config_provider/code/config_provider/factory:factory_mw_com"],
@@ -46,7 +46,7 @@ alias(
 alias(
     name = "config_provider_factory_for_unit_test",
     actual = "//score/config_management/config_provider/code/config_provider/factory:factory_mw_com_for_unit_test",
-    deprecation = "DEPRECATION: Use //score/config_management/config_provider:config_provider_builder_mock and ConfigProviderBuilder instead.",
+    deprecation = "SPP_DEPRECATION: Use //score/config_management/config_provider:config_provider_builder_mock and ConfigProviderBuilder instead.",
     visibility = ["//visibility:public"],
 )
 

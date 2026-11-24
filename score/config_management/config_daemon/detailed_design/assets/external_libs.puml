@@ -1,7 +1,7 @@
 @startuml
 
 !startsub Logger
-package mw::log <<frame>> {
+package score::mw::log <<frame>> {
     class Logger {
     }
 

@@ -34,6 +34,9 @@ namespace config_daemon
 {
 namespace data_model
 {
+
+using ::score::config_management::config_daemon::InitialQualifierState;
+
 namespace
 {
 
