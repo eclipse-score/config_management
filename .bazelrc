@@ -10,7 +10,6 @@ common --action_env=ANDROID_HOME=""
 
 test --test_output=errors
 
-common --@score_baselibs//score/json:base_library=nlohmann
 common --@score_baselibs//score/analysis/tracing/generic_trace_library:implementation=@score_baselibs//score/analysis/tracing/generic_trace_library/stub_implementation
 common --//score/config_management/config_daemon/code:score_variant=True
 common --registry=https://raw.githubusercontent.com/eclipse-score/bazel_registry/main/
