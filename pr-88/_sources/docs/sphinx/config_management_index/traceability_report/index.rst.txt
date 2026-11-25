@@ -2,7 +2,7 @@
 L.O.B.S.T.E.R. Traceability Report
 ##################################
 
-| Generated: 2026-11-03 07:27 UTC
+| Generated: 2026-11-25 07:58 UTC
 | LOBSTER Version: 1.0.6
 
 .. rubric:: Tracing Policy
@@ -43,9 +43,9 @@ L.O.B.S.T.E.R. Traceability Report
      - 2
      - 47
    * - :doc:`Unit Test <unit_test>`
-     - 15.4%
+     - 11.1%
      - 2
-     - 13
+     - 18
    * - :doc:`Architecture <architecture>`
      - 100.0%
      - 2
@@ -109,6 +109,11 @@ L.O.B.S.T.E.R. Traceability Report
 * [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppSettingUmaskFailed <lobster-item-07a98f0d4f2df8ef3fe621aff3165d00e37f38c3>`
 * [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppRunFailsWhenInternalConfigProviderServiceContainerIsEmpty <lobster-item-40765f9a9487e9edbcf066c9e29aa72cf916e5d5>`
 * [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppRunSucceed <lobster-item-83c0b5d982056ae09eb4ca09ba62cbc768d7bd7d>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:PublishesInitialQualifierStateOnlyAfterAllPluginsRun <lobster-item-703c329ff6514b76779fea288f9940631569bf5f>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:PublishesTheLatestStateSharedByPlugins <lobster-item-cc6042a084175184b0f6c207bb077b0fb854e87d>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:PublishesUndefinedWhenStorageLoadingFailsAndPluginsDoNotSetAState <lobster-item-911bf93d10fee2d491bb972825902c3b694af533>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:FailsWhenTheContainerDoesNotContainAnInternalConfigProviderService <lobster-item-e7934e70dc6766c88591546a1cf17196b821c5a1>`
+* [MISSING — no upward trace] :ref:`ConfigDaemonFixture:DoesNotPublishInitialQualifierStateWhenAPluginFails <lobster-item-880f604958befc42c2a77eafcc76fa08b64966d3>`
 * [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToCreatePluginCollector <lobster-item-221deabdd065cf1a393a29467668c104bd4e2677>`
 * [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToInitializeSecondPlugin <lobster-item-fbd27fb1a761d97926a3f0762833c242f82c7c49>`
 * [MISSING — no upward trace] :ref:`ConfigDaemonFixture:ConfigDaemonAppFailedToRunFirstPlugin <lobster-item-f7f5a4900991f4736f590d54048db5a01085f5bc>`
