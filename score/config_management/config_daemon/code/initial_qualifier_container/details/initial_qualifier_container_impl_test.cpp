@@ -22,6 +22,9 @@ namespace config_management
 {
 namespace config_daemon
 {
+
+using ::score::config_management::config_daemon::InitialQualifierState;
+
 namespace
 {
 

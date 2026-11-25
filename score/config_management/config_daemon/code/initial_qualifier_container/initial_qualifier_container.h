@@ -24,8 +24,10 @@ namespace config_daemon
 class InitialQualifierContainer
 {
   public:
-    virtual void SetInitialQualifierState(const InitialQualifierState state) noexcept = 0;
-    virtual InitialQualifierState GetInitialQualifierState() const noexcept = 0;
+    virtual void SetInitialQualifierState(
+        const ::score::config_management::config_daemon::InitialQualifierState state) noexcept = 0;
+    virtual ::score::config_management::config_daemon::InitialQualifierState GetInitialQualifierState()
+        const noexcept = 0;
 
     virtual ~InitialQualifierContainer() = default;
     InitialQualifierContainer() = default;

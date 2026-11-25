@@ -16,9 +16,8 @@
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 
+#include "score/json/any.h"
 #include "score/mw/log/logger.h"
-
-#include "score/json/internal/model/any.h"
 #include "score/result/result.h"
 
 #include <score/memory_resource.hpp>
@@ -238,7 +237,7 @@ class ParameterSet final
 
     score::Result<std::string> ConvertJsonToString(const score::json::Any& json) const;
 
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
     score::json::Any set_json_;
     score::cpp::pmr::memory_resource* const memory_resource_;
 };

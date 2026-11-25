@@ -21,15 +21,15 @@
 #include "score/config_management/config_provider/code/proxies/details/internal_config_provider_impl.h"
 #include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
 
-#include "score/mw/log/logger.h"
 #include "score/mw/service/backend/mw_com/single_instantiation_strategy.h"
 #include "score/mw/service/proxy_needs.h"
 #include "score/mw/service/proxy_needs_factory.h"
 
 #include "score/json/json_parser.h"
+#include "score/mw/log/logger.h"
+
 #include <score/assert.hpp>
 #include <score/callback.hpp>
-
 #include <score/memory.hpp>
 #include <score/memory_resource.hpp>
 #include <score/optional.hpp>
@@ -64,7 +64,7 @@ template <typename InternalConfigProviderPort>
 class ConfigProviderBuilderImpl final : public ConfigProviderBuilder
 {
   public:
-    ConfigProviderBuilderImpl() : logger_{mw::log::CreateLogger(std::string_view("CfgP"))} {}
+    ConfigProviderBuilderImpl() : logger_{score::mw::log::CreateLogger(std::string_view("CfgP"))} {}
 
     ~ConfigProviderBuilderImpl() noexcept override = default;
 
@@ -246,7 +246,7 @@ class ConfigProviderBuilderImpl final : public ConfigProviderBuilder
         return config_provider;
     }
 
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
     score::cpp::optional<score::cpp::pmr::vector<std::string_view>> initial_parameter_set_name_list_{};
     score::cpp::optional<std::size_t> max_samples_limit_{};
     score::cpp::optional<std::chrono::milliseconds> polling_cycle_interval_{};

@@ -17,7 +17,7 @@
 #include "score/config_management/config_daemon/code/data_model/parameter_set_qualifier.h"
 #include "score/config_management/config_daemon/code/data_model/parameterset_collection_interfaces/read_only_parameterset_collection.h"
 
-#include "score/json/internal/model/any.h"
+#include "score/json/any.h"
 #include "score/result/result.h"
 
 #include <score/string_view.hpp>

@@ -132,7 +132,7 @@ imagefs.toolchain(
 use_repo(imagefs, "score_qnx_aarch64_ifs_toolchain", "score_qnx_x86_64_ifs_toolchain")
 
 # Ferrocene (safety-certified Rust) — needed for Rust targets on QNX
-bazel_dep(name = "score_toolchains_rust", version = "0.10.0", dev_dependency = True)
+bazel_dep(name = "score_toolchains_rust", version = "0.10.1", dev_dependency = True)
 
 # tooling
 # 2.2.1 contains the sphinx_module/docs_library_deps/dependable_element
@@ -163,7 +163,7 @@ bazel_dep(name = "score_logging", version = "0.2.4")
 bazel_dep(name = "score_lifecycle", version = "0.7.0")
 
 # s-core persistency
-bazel_dep(name = "score_persistency", version = "0.4.1")
+bazel_dep(name = "score_persistency", version = "0.5.0")
 
 # TRLC / lobster: versions matching score_tooling 3.0.2
 bazel_dep(name = "trlc", version = "3.1.1", dev_dependency = True)

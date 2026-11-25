@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // *******************************************************************************
 #include "score/config_management/config_provider/code/config_provider/factory/buffer_size_report.h"
-
 #include "score/config_management/config_provider/code/config_provider/error/error.h"
 #include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
+
 #include "score/mw/log/logging.h"
 
 #include <algorithm>
@@ -39,7 +39,7 @@ score::Result<AdditionalShmSizing> BufferSizeReport::GetMaxBufferSizeInfo(
 {
     if (json_parser == nullptr)
     {
-        mw::log::LogError() << "BufferSizeReport::" << __func__ << ": No JSON parser was provided";
+        score::mw::log::LogError() << "BufferSizeReport::" << __func__ << ": No JSON parser was provided";
         return score::MakeUnexpected(ConfigProviderError::kJsonParserNotProvided);
     }
 
@@ -56,16 +56,16 @@ score::Result<AdditionalShmSizing> BufferSizeReport::GetMaxBufferSizeInfo(
     auto report_result = json_parser->FromFile(buffer_size_report_path);
     if (!report_result.has_value())
     {
-        mw::log::LogError() << "BufferSizeReport::" << __func__ << ": Failed to load" << buffer_size_report_path << ":"
-                            << report_result.error().UserMessage();
+        score::mw::log::LogError() << "BufferSizeReport::" << __func__ << ": Failed to load" << buffer_size_report_path
+                                   << ":" << report_result.error().UserMessage();
         return score::MakeUnexpected(ConfigProviderError::kBufferSizeReportNotFound, buffer_size_report_path);
     }
 
     const auto root_object_result = report_result.value().As<score::json::Object>();
     if (!root_object_result.has_value())
     {
-        mw::log::LogError() << "BufferSizeReport::" << __func__ << ": Expected" << buffer_size_report_path
-                            << "to contain a JSON object";
+        score::mw::log::LogError() << "BufferSizeReport::" << __func__ << ": Expected" << buffer_size_report_path
+                                   << "to contain a JSON object";
         return score::MakeUnexpected(ConfigProviderError::kBufferSizeReportParsingFailed, buffer_size_report_path);
     }
 
@@ -73,16 +73,16 @@ score::Result<AdditionalShmSizing> BufferSizeReport::GetMaxBufferSizeInfo(
     const auto mapping_it = root_object.find(kBufferSizeMappingKey);
     if (mapping_it == root_object.end())
     {
-        mw::log::LogError() << "BufferSizeReport::" << __func__ << ":" << buffer_size_report_path << "is missing the"
-                            << kBufferSizeMappingKey << "key";
+        score::mw::log::LogError() << "BufferSizeReport::" << __func__ << ":" << buffer_size_report_path
+                                   << "is missing the" << kBufferSizeMappingKey << "key";
         return score::MakeUnexpected(ConfigProviderError::kBufferSizeReportParsingFailed, buffer_size_report_path);
     }
 
     const auto mapping_object_result = mapping_it->second.As<score::json::Object>();
     if (!mapping_object_result.has_value())
     {
-        mw::log::LogError() << "BufferSizeReport::" << __func__ << ":" << kBufferSizeMappingKey << "in"
-                            << buffer_size_report_path << "is not a JSON object";
+        score::mw::log::LogError() << "BufferSizeReport::" << __func__ << ":" << kBufferSizeMappingKey << "in"
+                                   << buffer_size_report_path << "is not a JSON object";
         return score::MakeUnexpected(ConfigProviderError::kBufferSizeReportParsingFailed, buffer_size_report_path);
     }
 
@@ -99,9 +99,9 @@ score::Result<AdditionalShmSizing> BufferSizeReport::GetMaxBufferSizeInfo(
         const auto size_result = entry.second.As<std::uint64_t>();
         if (!size_result.has_value())
         {
-            mw::log::LogError() << "BufferSizeReport::" << __func__ << ": Buffer size for parameter set"
-                                << entry.first.GetAsStringView() << "in" << buffer_size_report_path
-                                << "is not an unsigned integer";
+            score::mw::log::LogError() << "BufferSizeReport::" << __func__ << ": Buffer size for parameter set"
+                                       << entry.first.GetAsStringView() << "in" << buffer_size_report_path
+                                       << "is not an unsigned integer";
             return score::MakeUnexpected(ConfigProviderError::kBufferSizeReportParsingFailed, buffer_size_report_path);
         }
         const auto entry_name = entry.first.GetAsStringView();
@@ -118,8 +118,8 @@ score::Result<AdditionalShmSizing> BufferSizeReport::GetMaxBufferSizeInfo(
     // the whole ConfigProvider: GetParameterSet() for it will fail on its own at call time anyway.
     for (const auto& not_found : pending)
     {
-        mw::log::LogError() << "BufferSizeReport::" << __func__ << ": Parameter set" << not_found << "was not found in"
-                            << buffer_size_report_path << "- ignoring it";
+        score::mw::log::LogError() << "BufferSizeReport::" << __func__ << ": Parameter set" << not_found
+                                   << "was not found in" << buffer_size_report_path << "- ignoring it";
     }
     return AdditionalShmSizing{max_payload_size, max_name_length};
 }

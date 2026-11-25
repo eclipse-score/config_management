@@ -14,8 +14,8 @@
 #include "score/config_management/lib/parameter_set_json_serializer/details/parameter_set_json_serializer_impl.h"
 #include "score/config_management/lib/parameter_set_json_serializer/error/error.h"
 
-#include "score/json/internal/model/any.h"
-#include "score/json/internal/model/number.h"
+#include "score/json/any.h"
+#include "score/json/number.h"
 
 #include <cmath>
 #include <cstddef>

@@ -16,7 +16,7 @@
 #include "score/config_management/config_provider/code/config_provider/factory/buffer_size_report.h"
 #include "score/config_management/config_provider/code/config_provider/initial_qualifier_state_types.h"
 
-#include "score/json/internal/model/any.h"
+#include "score/json/any.h"
 
 #include <score/callback.hpp>
 #include <score/optional.hpp>

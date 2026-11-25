@@ -61,7 +61,7 @@ std::optional<score::config_management::config_daemon::ParameterSetQualifier> Qu
 }  // namespace
 
 ParameterSet::ParameterSet(score::json::Any set_json, score::cpp::pmr::memory_resource* const memory_resource)
-    : logger_{mw::log::CreateLogger(std::string_view("CfgP"))},
+    : logger_{score::mw::log::CreateLogger(std::string_view("CfgP"))},
       set_json_(std::move(set_json)),
       memory_resource_{memory_resource}
 {

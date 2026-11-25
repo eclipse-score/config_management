@@ -67,7 +67,7 @@ InitialQualifierState Convert(const score::config_management::config_daemon::mw_
 
 InternalConfigProvider::InternalConfigProvider(std::unique_ptr<InternalMwComProxy> proxy)
     : IInternalConfigProvider{},
-      logger_{mw::log::CreateLogger(std::string_view{"CfgP"})},
+      logger_{score::mw::log::CreateLogger(std::string_view{"CfgP"})},
       proxy_{std::move(proxy)},
       is_available_notification_callback_{},
       max_samples_limit_{kDefaultMaxSamplesLimit},
@@ -146,7 +146,10 @@ score::Result<score::json::Any> InternalConfigProvider::GetParameterSet(const st
     // guarantees this storage was successfully populated by the skeleton side, so dereferencing it is always safe on
     // the success path.
     const auto& result_array = *get_result.value();
-    const std::string_view result{reinterpret_cast<const char*>(result_array.Data()), result_array.size()};
+    const std::string_view result{
+        reinterpret_cast<const char*>(result_array.Data()),
+        result_array.size(),
+    };
 
     if (result == score::config_management::config_daemon::mw_com_icp_types::kParameterSetNotFoundContent)
     {

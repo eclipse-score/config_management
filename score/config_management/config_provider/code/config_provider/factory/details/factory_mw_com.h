@@ -20,14 +20,14 @@
 #include "score/config_management/config_provider/code/proxies/details/internal_config_provider_impl.h"
 #include "score/config_management/lib/mw_com_types/internal_config_provider_type.h"
 
-#include "score/mw/log/logger.h"
 #include "score/mw/service/backend/mw_com/single_instantiation_strategy.h"
 #include "score/mw/service/proxy_needs.h"
 #include "score/mw/service/proxy_needs_factory.h"
 
 #include "score/json/json_parser.h"
-#include <score/callback.hpp>
+#include "score/mw/log/logger.h"
 
+#include <score/callback.hpp>
 #include <score/memory.hpp>
 #include <score/memory_resource.hpp>
 #include <score/optional.hpp>
@@ -344,7 +344,7 @@ class [[deprecated(
         return config_provider;
     }
 
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
 };
 
 }  // namespace config_provider

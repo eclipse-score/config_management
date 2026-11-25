@@ -25,6 +25,7 @@ namespace config_daemon
 namespace data_model
 {
 
+using ::score::config_management::config_daemon::InitialQualifierState;
 using ::score::config_management::config_daemon::data_model::DataModelError;
 
 ParameterSetCollectionManager::ParameterSetCollectionManager(

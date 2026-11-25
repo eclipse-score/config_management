@@ -17,13 +17,12 @@
 #include "score/config_management/config_provider/code/persistency/persistency_mock.h"
 #include "score/config_management/config_provider/code/proxies/internal_config_provider_mock.h"
 
-#include "score/mw/log/logging.h"
-#include "score/mw/log/recorder_mock.h"
-
 #include "score/concurrency/future/interruptible_promise.h"
 #include "score/concurrency/interruptible_wait.h"
 #include "score/concurrency/notification.h"
 #include "score/json/json_parser.h"
+#include "score/mw/log/logging.h"
+#include "score/mw/log/recorder_mock.h"
 
 #include <gtest/gtest.h>
 #include <future>

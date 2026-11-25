@@ -43,7 +43,8 @@ class InternalConfigProviderService final : public IInternalConfigProviderServic
     InternalConfigProviderService& operator=(const InternalConfigProviderService&) noexcept = delete;
     ~InternalConfigProviderService() noexcept override = default;
 
-    void SetInitialQualifierState(const config_daemon::InitialQualifierState initial_qualifier_state) noexcept override;
+    void SetInitialQualifierState(const ::score::config_management::config_daemon::InitialQualifierState
+                                      initial_qualifier_state) noexcept override;
     bool SendLastUpdatedParameterSet(const std::string_view parameter_set_name) noexcept override;
 
     score::Result<void> Start() override;
@@ -56,7 +57,7 @@ class InternalConfigProviderService final : public IInternalConfigProviderServic
   private:
     const std::shared_ptr<InternalConfigProviderServiceReactor> internal_config_provider_service_reactor_;
     InternalConfigProviderSkeleton icp_skeleton_;
-    config_daemon::InitialQualifierState initial_qualifier_state_;
+    ::score::config_management::config_daemon::InitialQualifierState initial_qualifier_state_;
     score::mw::log::Logger& logger_;
 };
 

@@ -19,7 +19,7 @@ namespace config_management
 namespace config_provider
 {
 
-ConfigProviderFactory::ConfigProviderFactory() : logger_{mw::log::CreateLogger(std::string_view("CfgP"))} {}
+ConfigProviderFactory::ConfigProviderFactory() : logger_{score::mw::log::CreateLogger(std::string_view("CfgP"))} {}
 
 }  // namespace config_provider
 }  // namespace config_management

@@ -43,9 +43,9 @@ class KvsBuilder final
         return *this;
     }
 
-    score::Result<std::unique_ptr<Kvs>> Build() noexcept
+    score::Result<std::shared_ptr<Kvs>> Build() noexcept
     {
-        return score::Result<std::unique_ptr<Kvs>>{std::make_unique<Kvs>()};
+        return score::Result<std::shared_ptr<Kvs>>{std::make_shared<Kvs>()};
     }
 };
 

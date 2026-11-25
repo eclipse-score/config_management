@@ -37,7 +37,7 @@ class PersistencyImpl final : public Persistency
                                              score::cpp::pmr::memory_resource* memory_resource) noexcept override;
 
   private:
-    mw::log::Logger& logger_;
+    score::mw::log::Logger& logger_;
 };
 
 }  // namespace config_provider

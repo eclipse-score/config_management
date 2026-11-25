@@ -17,7 +17,7 @@ class ParameterSet {
     + GetParameterAsJsonAny(\n\
     parameter_name : const score::cpp::string_view&) : Result<std::reference_wrapper<const json::Any>>
     --
-    - logger_ : mw::log::Logger&
+    - logger_ : score::mw::log::Logger&
     - set_json_ : score::json::Any
     - memory_resource_ : score::cpp::pmr::memory_resource* const
     --

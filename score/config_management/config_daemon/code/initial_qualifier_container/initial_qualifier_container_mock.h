@@ -26,8 +26,14 @@ namespace config_daemon
 class InitialQualifierContainerMock : public InitialQualifierContainer
 {
   public:
-    MOCK_METHOD(void, SetInitialQualifierState, (const InitialQualifierState), (noexcept, override));
-    MOCK_METHOD(InitialQualifierState, GetInitialQualifierState, (), (const, noexcept, override));
+    MOCK_METHOD(void,
+                SetInitialQualifierState,
+                (const ::score::config_management::config_daemon::InitialQualifierState),
+                (noexcept, override));
+    MOCK_METHOD(::score::config_management::config_daemon::InitialQualifierState,
+                GetInitialQualifierState,
+                (),
+                (const, noexcept, override));
 
     ~InitialQualifierContainerMock() override = default;
 };

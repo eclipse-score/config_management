@@ -50,8 +50,6 @@ class Kvs
 {
   public:
     Kvs() = default;
-    // Accepts a unique_ptr<Kvs> to match the real score-persistency API used in factory_mw_com_impl.cpp.
-    explicit Kvs(std::unique_ptr<Kvs> /*inner*/) noexcept {}
     virtual ~Kvs() = default;
     Kvs(const Kvs&) = delete;
     Kvs& operator=(const Kvs&) = delete;

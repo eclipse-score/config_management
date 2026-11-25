@@ -14,7 +14,7 @@ cc_library(
     deps = [
         "//score/config_management/config_provider/code/persistency",
         "@score_baselibs//score/language/futurecpp",
-        "@score_logging//score/mw/log",
+        "@score_baselibs//score/mw/log:frontend",
     ],
 )
 
@@ -30,7 +30,7 @@ cc_gtest_unit_test(
     deps = [
         ":details",
         "@score_baselibs//score/filesystem:mock",
-        "@score_logging//score/mw/log/test/console_logging_environment",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
 

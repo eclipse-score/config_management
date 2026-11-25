@@ -14,7 +14,7 @@
 #ifndef SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_IMPL_H
 #define SCORE_CONFIG_MANAGEMENT_CONFIG_DAEMON_CODE_DATA_MODEL_DETAILS_PARAMETER_IMPL_H
 
-#include "score/json/internal/model/any.h"
+#include "score/json/any.h"
 
 #include <score/optional.hpp>
 #include <score/string.hpp>

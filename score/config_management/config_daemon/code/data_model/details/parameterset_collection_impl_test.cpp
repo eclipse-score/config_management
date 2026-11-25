@@ -14,7 +14,7 @@
 #include "score/config_management/config_daemon/code/data_model/details/parameterset_collection_impl.h"
 #include "score/config_management/config_daemon/code/data_model/error/error.h"
 
-#include "score/json/internal/model/any.h"
+#include "score/json/any.h"
 #include "score/json/json_parser.h"
 
 #include <score/vector.hpp>

@@ -48,7 +48,7 @@ cc_library(
             "@score_baselibs//score/concurrency:condition_variable",
             "@score_baselibs//score/concurrency/future",
             "@score_baselibs//score/json",
-            "@score_logging//score/mw/log",
+            "@score_baselibs//score/mw/log:frontend",
         ],
     )
     for suffix, test_only, proxy_dep in [
@@ -70,5 +70,6 @@ cc_test(
         "@googletest//:gtest",
         "@googletest//:gtest_main",
         "@score_baselibs//score/concurrency:notification",
+        "@score_baselibs//score/mw/log:console",
     ],
 )
