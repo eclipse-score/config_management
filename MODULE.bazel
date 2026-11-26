@@ -150,7 +150,7 @@ bazel_dep(name = "grpc-java", version = "1.70.0")
 bazel_dep(name = "score_baselibs", version = "0.2.19")
 
 # s-core communication
-bazel_dep(name = "score_communication", version = "0.5.0")
+bazel_dep(name = "score_communication", version = "0.6.0")
 
 # New mw::com / mw::service APIs are not in a published release yet; pinned to communication main.
 git_override(
