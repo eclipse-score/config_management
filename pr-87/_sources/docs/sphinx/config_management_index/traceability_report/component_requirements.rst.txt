@@ -49,9 +49,9 @@ Component Requirements
    .. pull-quote::
 
       The {{ConfigDaemon}} shall setup {{Plugins}} during the execution of {{ConfigDaemon::Initialize()}}. The setup consists of the following steps:
-      \* Create {{Plugins}} by using {{PluginCollector}}.
-      \* Store created {{Plugins}} in internall collection.
-      \* Call the {{Initialize()}} function exactly once for each {{Plugin}} in the collection.
+      * Create {{Plugins}} by using {{PluginCollector}}.
+      * Store created {{Plugins}} in internall collection.
+      * Call the {{Initialize()}} function exactly once for each {{Plugin}} in the collection.
 
    .. raw:: html
 
@@ -203,7 +203,7 @@ Component Requirements
 
    .. pull-quote::
 
-      Following Run activity finalization, {{ConfigDaemon}} shall remain locked in an idle state until {{stop\_token}} is modified.
+      Following Run activity finalization, {{ConfigDaemon}} shall remain locked in an idle state until {{stop_token}} is modified.
 
    .. raw:: html
 
@@ -240,7 +240,7 @@ Component Requirements
 
    .. pull-quote::
 
-      {{ConfigDaemon}} shall process {{stop\_token}} to interrupt any waiting and initiate the application shutdown.
+      {{ConfigDaemon}} shall process {{stop_token}} to interrupt any waiting and initiate the application shutdown.
 
    .. raw:: html
 
@@ -765,17 +765,17 @@ Component Requirements
    .. pull-quote::
 
       Following primitive parameter types shall be supported:
-      \* {{bool}}
-      \* {{sint8}}
-      \* {{sint16}}
-      \* {{sint32}}
-      \* {{sint64}}
-      \* {{uint8}}
-      \* {{uint16}}
-      \* {{uint32}}
-      \* {{uint64}}
-      \* {{float32}}
-      \* {{float64}}
+      * {{bool}}
+      * {{sint8}}
+      * {{sint16}}
+      * {{sint32}}
+      * {{sint64}}
+      * {{uint8}}
+      * {{uint16}}
+      * {{uint32}}
+      * {{uint64}}
+      * {{float32}}
+      * {{float64}}
 
       Note: This only applies to the Daemon Application. Plugins may also only support a subset of the types.
 
@@ -816,8 +816,8 @@ Component Requirements
    .. pull-quote::
 
       Following complex parameter types shall be supported:
-      \* One dimensional arrays of {{SupportedParameterTypes::PrimitiveTypes}}
-      \* Two dimensional arrays of {{SupportedParameterTypes::PrimitiveTypes}}
+      * One dimensional arrays of {{SupportedParameterTypes::PrimitiveTypes}}
+      * Two dimensional arrays of {{SupportedParameterTypes::PrimitiveTypes}}
 
       Note: This only applies to the Daemon Application. Plugins may also only support a subset of the types.
 
@@ -1085,8 +1085,8 @@ Component Requirements
 
       Note:
       The callback indicates that:
-      \* The service has been found
-      \* ConfigProvider is ready to access ParameterSets
+      * The service has been found
+      * ConfigProvider is ready to access ParameterSets
 
    .. raw:: html
 
@@ -1506,7 +1506,7 @@ Component Requirements
 
    .. pull-quote::
 
-      User specific maximal parameter set name length to be used as method argument shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration \`buffer\_size\_needs.json\`. If there is no valid input for parameter set list provided, maximal length shall be the one of the overall longest parameter set name from the buffer needs configuration.
+      User specific maximal parameter set name length to be used as method argument shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration `buffer_size_needs.json`. If there is no valid input for parameter set list provided, maximal length shall be the one of the overall longest parameter set name from the buffer needs configuration.
 
    .. raw:: html
 
@@ -1543,7 +1543,7 @@ Component Requirements
 
    .. pull-quote::
 
-      User specific largest parameter set payload to be used as maximal method return value shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration \`buffer\_size\_needs.json\`. If there is no valid input for parameter set list provided, largest parameter set payload size shall be the one of the overall largest parameter set payload from the buffer needs configuration.
+      User specific largest parameter set payload to be used as maximal method return value shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it's contained in the buffer needs configuration `buffer_size_needs.json`. If there is no valid input for parameter set list provided, largest parameter set payload size shall be the one of the overall largest parameter set payload from the buffer needs configuration.
 
    .. raw:: html
 
@@ -1580,9 +1580,9 @@ Component Requirements
 
    .. pull-quote::
 
-      Memory buffer needs shall be passed as \`additional\_shm\_size\` argument to proxy construction method. The needs are equal to the sum of:
-      \* User specific maximal parameter set name length, and
-      \* User specific largest parameter set payload size.
+      Memory buffer needs shall be passed as `additional_shm_size` argument to proxy construction method. The needs are equal to the sum of:
+      * User specific maximal parameter set name length, and
+      * User specific largest parameter set payload size.
 
    .. raw:: html
 
@@ -1619,7 +1619,7 @@ Component Requirements
 
    .. pull-quote::
 
-      User specific maximal parameter set name length shall be reserved exactly once as memory buffer for the \`parameter set name\` method's argument.
+      User specific maximal parameter set name length shall be reserved exactly once as memory buffer for the `parameter set name` method's argument.
 
    .. raw:: html
 
