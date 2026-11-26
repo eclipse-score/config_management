@@ -56,3 +56,6 @@ __pycache__/
 
 # LLVM coverage report outputs
 /coverage*/
+
+# Dependency compatibility checker output
+/matrix-results/

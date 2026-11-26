@@ -1,0 +1,9 @@
+diff --git a/MODULE.bazel b/MODULE.bazel
+index 0249d2f..5a4f509 100644
+--- a/MODULE.bazel
++++ b/MODULE.bazel
+@@ -192,3 +192,3 @@ bazel_dep(name = "score_process_description", version = "2.2.5")
+ 
+-bazel_dep(name = "score_tooling", version = "3.1.0", dev_dependency = True)
++bazel_dep(name = "score_tooling", version = "3.1.0")
+ 

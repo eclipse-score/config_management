@@ -1,0 +1,70 @@
+# *******************************************************************************
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# SPDX-License-Identifier: Apache-2.0
+# *******************************************************************************
+
+name: "Test Dependency Version Combinations (Host)"
+
+# Builds and tests config_management against the latest releases (and the main branches) of its
+# dependencies, one dependency at a time, to find breaking API changes before they reach us.
+# One check, one report: the combinations run one after the other inside a single job.
+
+on:
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/test_dependency_version_combinations.yml"
+      - "quality/dependency_compatibility_checker/**"
+  schedule:
+    - cron: "0 0 * * *" # nightly
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  dependency-compatibility:
+    name: Dependency compatibility
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      # Every combination fetches and builds its own dependency set.
+      - uses: eclipse-score/more-disk-space@6a3b48901846bf7f8cc985925157d71a8973e61f # v1
+        with:
+          level: 4
+
+      - uses: actions/checkout@v4
+
+      - name: Setup Bazel
+        uses: bazel-contrib/setup-bazel@0.18.0
+        with:
+          bazelisk-cache: true
+          repository-cache: true
+
+      # Builds and tests every combination one after the other and renders a single report.
+      # A red combination fails this step, after all combinations have run.
+      - name: Build and test all combinations
+        run: |
+          python3 quality/dependency_compatibility_checker/run_combinations.py \
+            --output-dir "$PWD/matrix-results"
+
+      - name: Upload report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: compatibility-report
+          path: matrix-results/
+          if-no-files-found: error
