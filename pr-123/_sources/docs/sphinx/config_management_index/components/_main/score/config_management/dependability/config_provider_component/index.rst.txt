@@ -1,0 +1,13 @@
+
+
+``//score/config_management/dependability:config_provider_component``
+=====================================================================
+
+
+Component Requirements
+----------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   requirements/component_requirements
