@@ -1,0 +1,8 @@
+module(name = "root", version = "0.0.1")
+bazel_dep(name = "score_baselibs", version = "0.2.9")
+git_override(
+    module_name = "score_baselibs",
+    commit = "abc123",
+    # keep this comment out of the way
+    remote = "https://example.com/x.git",
+)

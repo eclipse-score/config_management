@@ -1,0 +1,69 @@
+# *******************************************************************************
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# SPDX-License-Identifier: Apache-2.0
+# *******************************************************************************
+
+# Single source of truth for the dependency compatibility matrix.
+# Two version keywords are resolved on every run (resolve_config), so nothing here has to be
+# edited when a dependency releases:
+#   current - what the root MODULE.bazel uses today (no rewrite), or .bazelversion for bazel.
+#             It is the baseline and has to be the first entry of a dependency.
+#   latest  - the newest stable release in the Bazel registries. It is dropped unless it is
+#             newer than `current`, e.g. when MODULE.bazel already uses the latest release.
+# `branch: "main"` tests the head of that branch (early warning for unreleased changes).
+# The candidates are tried one at a time, so the matrix grows linearly.
+# Each version entry may carry its own patches/flags, applied whenever it is selected.
+# Disable a version by adding `skip: "<reason with ticket>"` (keep it for traceability).
+strategy: one_at_a_time
+dependencies:
+  bazel: # special: drives USE_BAZEL_VERSION, not a MODULE dep
+    versions:
+      - version: "current" # .bazelversion
+  score_baselibs:
+    remote: "https://github.com/eclipse-score/baselibs.git"
+    versions:
+      - version: "current"
+      - version: "latest"
+      # baselibs main loads @score_tooling in score/mw/log/BUILD, but declares score_tooling as a
+      # dev_dependency, which is not visible when baselibs is a dependency. Orange until fixed upstream.
+      - version: "main"
+        branch: "main"
+        patches: ["//quality/dependency_compatibility_checker/patches:baselibs_main_score_tooling_not_dev.patch"]
+        patch_strip: 1
+  score_logging:
+    remote: "https://github.com/eclipse-score/logging.git"
+    versions:
+      - version: "current"
+      - version: "latest"
+      - version: "main"
+        branch: "main"
+  score_communication:
+    # MODULE.bazel pins a commit newer than the latest release, so `latest` would only test an
+    # older API. The baseline is that pin, the candidate is the head of main.
+    remote: "https://github.com/eclipse-score/communication.git"
+    versions:
+      - version: "current"
+      - version: "main"
+        branch: "main"
+  score_lifecycle:
+    remote: "https://github.com/eclipse-score/lifecycle.git"
+    versions:
+      - version: "current"
+      - version: "latest"
+      - version: "main"
+        branch: "main"
+  score_persistency:
+    remote: "https://github.com/eclipse-score/persistency.git"
+    versions:
+      - version: "current"
+      - version: "latest"
+      - version: "main"
+        branch: "main"

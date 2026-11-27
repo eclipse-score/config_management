@@ -26,6 +26,15 @@ python.toolchain(
 )
 use_repo(python)
 
+# Python dependencies of the dependency compatibility checker (quality/)
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip", dev_dependency = True)
+pip.parse(
+    hub_name = "config_management_pip",
+    python_version = PYTHON_VERSION,
+    requirements_lock = "//quality/dependency_compatibility_checker:requirements_lock.txt",
+)
+use_repo(pip, "config_management_pip")
+
 # Add GoogleTest dependency
 bazel_dep(name = "googletest", version = "1.17.0.bcr.2")
 

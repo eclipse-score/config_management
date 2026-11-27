@@ -1,0 +1,52 @@
+{#
+Copyright (c) 2026 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0
+
+SPDX-License-Identifier: Apache-2.0
+#}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Dependency Compatibility Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f3f3f3; }
+    .green { background: #d5f5d5; }
+    .orange { background: #ffe6bf; }
+    .red { background: #f8d0d0; }
+  </style>
+</head>
+<body>
+  <h1>Dependency Compatibility Report</h1>
+  <p>Green: {{ totals.green }} | Orange: {{ totals.orange }} | Red: {{ totals.red }}</p>
+  <table>
+    <thead>
+      <tr><th>Index</th>{% for dep in dependencies %}<th>{{ dep }}</th>{% endfor %}<th>Result</th></tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr class="{{ row.result }}">
+        <td>{{ row.index }}</td>
+        {% for dep in dependencies %}<td>{{ row.versions.get(dep, "") }}</td>{% endfor %}
+        <td>{{ row.result }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if skipped %}
+  <h2>Skipped versions</h2>
+  <ul>
+    {% for s in skipped %}<li>{{ s.dependency }} {{ s.version }} — {{ s.reason }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+</body>
+</html>
