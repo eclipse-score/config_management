@@ -13,7 +13,7 @@ Feature Requirements
 
       The SW-platform shall support safe configuration.
 
-      Note: This is part of 0.5 release and therefore can only support ASIL\_B. Goal is ASIL\_D.
+      Note: This is part of 0.5 release and therefore can only support ASIL_B. Goal is ASIL_D.
 
    .. raw:: html
 
@@ -479,17 +479,17 @@ Feature Requirements
    .. pull-quote::
 
       The following primitive parameter types shall be supported for parameters:
-      \* {{bool}}
-      \* {{sint8}}
-      \* {{sint16}}
-      \* {{sint32}}
-      \* {{sint64}}
-      \* {{uint8}}
-      \* {{uint16}}
-      \* {{uint32}}
-      \* {{uint64}}
-      \* {{float32}}
-      \* {{float64}}
+      * {{bool}}
+      * {{sint8}}
+      * {{sint16}}
+      * {{sint32}}
+      * {{sint64}}
+      * {{uint8}}
+      * {{uint16}}
+      * {{uint32}}
+      * {{uint64}}
+      * {{float32}}
+      * {{float64}}
 
    .. raw:: html
 
@@ -514,8 +514,8 @@ Feature Requirements
    .. pull-quote::
 
       The following complex parameter types shall be supported for parameters:
-      \* One dimensional array of {{SupportedPrimitiveParameterTypes}}
-      \* Two dimensional array of {{SupportedPrimitiveParameterTypes}}
+      * One dimensional array of {{SupportedPrimitiveParameterTypes}}
+      * Two dimensional array of {{SupportedPrimitiveParameterTypes}}
 
    .. raw:: html
 

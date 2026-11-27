@@ -11,11 +11,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing based on knowledge or experience
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Initialize()
-      :Description: This test ensures that Initialize would fail, when FaultEventReporter cannot be created
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing based on knowledge or experience
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Initialize()
+      | :Description: This test ensures that Initialize would fail, when FaultEventReporter cannot be created
 
    .. raw:: html
 
@@ -42,11 +42,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing based on knowledge or experience
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::ConfigDaemon()
-      :Description: This test ensures that constructor would not fail, when setting umask failed
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing based on knowledge or experience
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::ConfigDaemon()
+      | :Description: This test ensures that constructor would not fail, when setting umask failed
 
    .. raw:: html
 
@@ -73,11 +73,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Run()
-      :Description: This test ensures that Run() fails when the InternalConfigProviderService container is empty.
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Run()
+      | :Description: This test ensures that Run() fails when the InternalConfigProviderService container is empty.
 
    .. raw:: html
 
@@ -104,12 +104,12 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Analysis of requirements
-      :Testtype: Requirements-based test
-      :Verifies: 6950665, 75561092
-      :Asil: B
-      :Description: This test ensures that Initialize and Run would succeed, when factory can create necessary components as well as Initialize() and Run() was successfully executed for all plugins.
+      | :Priority: 3
+      | :Derivationtechnique: Analysis of requirements
+      | :Testtype: Requirements-based test
+      | :Verifies: 6950665, 75561092
+      | :Asil: B
+      | :Description: This test ensures that Initialize and Run would succeed, when factory can create necessary components as well as Initialize() and Run() was successfully executed for all plugins.
 
    .. raw:: html
 
@@ -231,11 +231,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing based on knowledge or experience
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Initialize()
-      :Description: This test ensures that Initialize would fail, when creation of PluginCollector failed
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing based on knowledge or experience
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Initialize()
+      | :Description: This test ensures that Initialize would fail, when creation of PluginCollector failed
 
    .. raw:: html
 
@@ -262,11 +262,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing based on knowledge or experience
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Initialize()
-      :Description: This test ensures that Initialize would fail, when one of Plugin cannot be initialized
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing based on knowledge or experience
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Initialize()
+      | :Description: This test ensures that Initialize would fail, when one of Plugin cannot be initialized
 
    .. raw:: html
 
@@ -293,11 +293,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing based on knowledge or experience
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Run()
-      :Description: This test ensures that Run would fail, when Plugin->Run return error
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing based on knowledge or experience
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Run()
+      | :Description: This test ensures that Run would fail, when Plugin->Run return error
 
    .. raw:: html
 
@@ -324,11 +324,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing based on knowledge or experience
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Run()
-      :Description: This test ensures that Run would fail, when Plugin->Run return error
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing based on knowledge or experience
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Run()
+      | :Description: This test ensures that Run would fail, when Plugin->Run return error
 
    .. raw:: html
 
@@ -355,11 +355,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing based on knowledge or experience
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Initialize()
-      :Description: This test ensures that Initialize would fail, if Plugin is null
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing based on knowledge or experience
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Initialize()
+      | :Description: This test ensures that Initialize would fail, if Plugin is null
 
    .. raw:: html
 
@@ -386,11 +386,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Run()
-      :Description: This test ensures that Run would return fail, when LastUpdatedParamaterSetSender Callback cannot be created
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Run()
+      | :Description: This test ensures that Run would return fail, when LastUpdatedParamaterSetSender Callback cannot be created
 
    .. raw:: html
 
@@ -417,11 +417,11 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Error guessing based on knowledge or experience
-      :Testtype: Interface test
-      :Verifies: ::score::config_management::config_daemon::ConfigDaemon::Initialize()
-      :Description: This test ensures that Initialize would fail, when ParameterSetCollection cannot be created
+      | :Priority: 3
+      | :Derivationtechnique: Error guessing based on knowledge or experience
+      | :Testtype: Interface test
+      | :Verifies: ::score::config\_management::config\_daemon::ConfigDaemon::Initialize()
+      | :Description: This test ensures that Initialize would fail, when ParameterSetCollection cannot be created
 
    .. raw:: html
 
@@ -447,10 +447,10 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Derivationtechnique: Analysis of equivalence classes and boundary values
-      :Testtype: Interface test
-      :Description: This test ensures that Initialize would return success, when factory can create all necessary components, and that umask is set to 0177, which should restrict the permission of files created to 0600
+      | :Priority: 3
+      | :Derivationtechnique: Analysis of equivalence classes and boundary values
+      | :Testtype: Interface test
+      | :Description: This test ensures that Initialize would return success, when factory can create all necessary components, and that umask is set to 0177, which should restrict the permission of files created to 0600
 
    .. raw:: html
 
@@ -473,12 +473,12 @@ Unit Test
 
    .. pull-quote::
 
-      :Priority: 3
-      :Testtype: Requirements-based test
-      :Derivationtechnique: Analysis of requirements
-      :Verifies: 14351696
-      :Asil: B
-      :Description: This test ensures that Initialize would fail, when one of Plugin cannot be initialized
+      | :Priority: 3
+      | :Testtype: Requirements-based test
+      | :Derivationtechnique: Analysis of requirements
+      | :Verifies: 14351696
+      | :Asil: B
+      | :Description: This test ensures that Initialize would fail, when one of Plugin cannot be initialized
 
    .. raw:: html
 

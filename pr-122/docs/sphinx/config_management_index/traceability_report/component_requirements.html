@@ -1037,7 +1037,7 @@ The callback indicates that:
 <summary class="sd-summary-title sd-card-header sd-bg-warning">
 <span class="sd-summary-text">[PARTIAL] TRLC Compreq ConfigProvider.DefinitionMaxArgument</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <blockquote class="pull-quote">
-<div><p class="sd-card-text">User specific maximal parameter set name length to be used as method argument shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it’s contained in the buffer needs configuration `buffer_size_needs.json`. If there is no valid input for parameter set list provided, maximal length shall be the one of the overall longest parameter set name from the buffer needs configuration.</p>
+<div><p class="sd-card-text">User specific maximal parameter set name length to be used as method argument shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it’s contained in the buffer needs configuration <cite>buffer_size_needs.json</cite>. If there is no valid input for parameter set list provided, maximal length shall be the one of the overall longest parameter set name from the buffer needs configuration.</p>
 </div></blockquote>
 <hr><p class="sd-card-text"><strong>Traces to:</strong></p>
 <ul class="simple">
@@ -1060,7 +1060,7 @@ The callback indicates that:
 <summary class="sd-summary-title sd-card-header sd-bg-warning">
 <span class="sd-summary-text">[PARTIAL] TRLC Compreq ConfigProvider.DefinitionUserSpecificMaxRetValue</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <blockquote class="pull-quote">
-<div><p class="sd-card-text">User specific largest parameter set payload to be used as maximal method return value shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it’s contained in the buffer needs configuration `buffer_size_needs.json`. If there is no valid input for parameter set list provided, largest parameter set payload size shall be the one of the overall largest parameter set payload from the buffer needs configuration.</p>
+<div><p class="sd-card-text">User specific largest parameter set payload to be used as maximal method return value shall be determined according to the parameter set list provided by user application. A parameter set name shall only be considered if it’s contained in the buffer needs configuration <cite>buffer_size_needs.json</cite>. If there is no valid input for parameter set list provided, largest parameter set payload size shall be the one of the overall largest parameter set payload from the buffer needs configuration.</p>
 </div></blockquote>
 <hr><p class="sd-card-text"><strong>Traces to:</strong></p>
 <ul class="simple">
@@ -1083,7 +1083,7 @@ The callback indicates that:
 <summary class="sd-summary-title sd-card-header sd-bg-warning">
 <span class="sd-summary-text">[PARTIAL] TRLC Compreq ConfigProvider.AdditionalProxyNeedsRegistration</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <blockquote class="pull-quote">
-<div><p class="sd-card-text">Memory buffer needs shall be passed as `additional_shm_size` argument to proxy construction method. The needs are equal to the sum of:
+<div><p class="sd-card-text">Memory buffer needs shall be passed as <cite>additional_shm_size</cite> argument to proxy construction method. The needs are equal to the sum of:
 * User specific maximal parameter set name length, and
 * User specific largest parameter set payload size.</p>
 </div></blockquote>
@@ -1108,7 +1108,7 @@ The callback indicates that:
 <summary class="sd-summary-title sd-card-header sd-bg-warning">
 <span class="sd-summary-text">[PARTIAL] TRLC Compreq ConfigProvider.ReservePsNameArgumentBuffer</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <blockquote class="pull-quote">
-<div><p class="sd-card-text">User specific maximal parameter set name length shall be reserved exactly once as memory buffer for the `parameter set name` method’s argument.</p>
+<div><p class="sd-card-text">User specific maximal parameter set name length shall be reserved exactly once as memory buffer for the <cite>parameter set name</cite> method’s argument.</p>
 </div></blockquote>
 <hr><p class="sd-card-text"><strong>Traces to:</strong></p>
 <ul class="simple">
